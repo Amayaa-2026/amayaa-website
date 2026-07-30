@@ -452,7 +452,7 @@ margin-right:14px;}
 .ct:hover .cov{opacity:1;}
 .cn{font-size:12px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:#3A2A1A;}
 .ck{font-size:11px;color:#9A8070;margin-top:2px;}
-.ti{max-width:1380px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+.ti{align-items:center;max-width:1380px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
 .tc{padding:24px 18px;text-align:center;border-radius:16px;
   background:rgba(255,255,255,.60);backdrop-filter:blur(16px);
   border:1px solid rgba(255,255,255,.88);box-shadow:0 4px 16px rgba(0,0,0,.06);
@@ -549,11 +549,11 @@ margin-right:14px;}
 
 /* Section-specific backgrounds */
 
-.section-trust{padding:28px 36px;
-  background:rgba(255,255,255,.72);
-  border-top:1px solid rgba(255,255,255,.7);
-  border-bottom:1px solid rgba(255,255,255,.7);
-  box-shadow:0 2px 24px rgba(0,0,0,.04);
+.section-trust{
+  padding:40px 36px;
+  background:linear-gradient(135deg,#FFF8F0 0%,#FFE8D0 50%,#F5D5B0 100%);
+  border-top:2px solid rgba(196,98,45,.12);
+  border-bottom:2px solid rgba(196,98,45,.12);
 }
 
 
@@ -570,17 +570,17 @@ margin-right:14px;}
 }
 .section-arrivals{
   background:
-    radial-gradient(ellipse at 15% 50%, rgba(196,98,45,.22) 0%, transparent 55%),
-    radial-gradient(ellipse at 85% 30%, rgba(139,26,74,.18) 0%, transparent 50%),
-    radial-gradient(ellipse at 55% 85%, rgba(232,160,32,.14) 0%, transparent 45%),
-    #F0E8E0;
+    radial-gradient(ellipse at 8% 30%, rgba(196,98,45,.25) 0%, transparent 50%),
+    radial-gradient(ellipse at 92% 70%, rgba(139,26,74,.20) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 100%, rgba(232,160,32,.15) 0%, transparent 40%),
+    #F2EBE0;
 }
 .section-blog{
   background:
-    radial-gradient(ellipse at 80% 20%, rgba(27,74,106,.18) 0%, transparent 55%),
-    radial-gradient(ellipse at 20% 70%, rgba(26,122,58,.16) 0%, transparent 50%),
-    radial-gradient(ellipse at 60% 85%, rgba(139,26,74,.12) 0%, transparent 45%),
-    #E4EEE0;
+    radial-gradient(ellipse at 90% 20%, rgba(139,26,74,.22) 0%, transparent 50%),
+    radial-gradient(ellipse at 10% 80%, rgba(196,98,45,.20) 0%, transparent 50%),
+    radial-gradient(ellipse at 60% 50%, rgba(232,160,32,.12) 0%, transparent 45%),
+    #F2EBE0;
 }
 /* Footer gets warm terracotta spill */
 .ft{
@@ -757,12 +757,13 @@ margin-right:14px;}
 
 <!-- TRUST -->
 <div class="section-trust">
-<div style="padding:0 36px 52px;"><div class="ti">
+<div class="ti">
   <div class="tc"><div class="ticon">&#127994;</div><div class="ttitle">Master Weavers</div><div class="tdesc">Sourced directly from India&apos;s finest handloom artisan communities</div></div>
   <div class="tc"><div class="ticon">&#129525;</div><div class="ttitle">Authentic Weaves</div><div class="tdesc">GI-tagged sarees with verified origin and genuine handloom craft</div></div>
   <div class="tc"><div class="ticon">&#128230;</div><div class="ttitle">Pan-India Shipping</div><div class="tdesc">Free shipping above &#8377;2,000 &mdash; delivered with care and tradition</div></div>
   <div class="tc"><div class="ticon">&#128172;</div><div class="ttitle">Personal Service</div><div class="tdesc">Order and enquire directly via WhatsApp &mdash; always available</div></div>
-</div></div></div>
+</div>
+</div>
 
 <!-- NEW ARRIVALS -->
 <div class="section-arrivals">
@@ -775,6 +776,7 @@ margin-right:14px;}
 </div>
 
 <!-- BLOG -->
+<div class="section-blog">
 <div class="page">
   <p class="sec-lbl">Stories from the Loom</p>
   <h2 class="sec-ttl">Weaves, Weavers &amp; the Wisdom of Indian Textiles</h2>
@@ -785,6 +787,8 @@ margin-right:14px;}
   </div>
   <a href="amayaa_blog.html" class="va">Read All Stories <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
 </div>
+
+</div><!-- /section-blog -->
 
 <!-- VISITOR -->
 <div class="vs"><div class="vp">

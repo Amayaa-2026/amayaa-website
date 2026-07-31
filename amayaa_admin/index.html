@@ -7,7 +7,7 @@
 <title>Admin Login — Amayaa</title>
 
 
-<!-- Netlify Identity for admin auth -->
+
 
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&family=Caveat:wght@700&family=Nunito:wght@600;700&display=swap" rel="stylesheet">
 <style>
@@ -45,7 +45,7 @@ body { background: #E4EEE0 !important; }
 .card, .stat { background: rgba(255,255,255,.82) !important; }
 
 </style>
-<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+
 </head>
 <body>
 <div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div>
@@ -68,45 +68,38 @@ body { background: #E4EEE0 !important; }
   <a href="/index.html" class="lb-view">← View Public Website</a>
 </div>
 
+
+
 <script>
-if(window.netlifyIdentity){
-  netlifyIdentity.on("init",function(user){
-    if(!user){
-      netlifyIdentity.on("login",function(){
-        document.location.href="/admin/dashboard.html";
-      });
-    } else {
-      document.location.href="/admin/dashboard.html";
-    }
-  });
-}
-// Fallback: button triggers Netlify Identity popup
-document.querySelector(".btn-login").addEventListener("click",function(e){
+document.querySelector('form').addEventListener('submit', function(e) {
   e.preventDefault();
-  if(window.netlifyIdentity){
-    netlifyIdentity.open();
+  var user = document.querySelector('input[type="email"], input[name="email"]');
+  var pass = document.querySelector('input[type="password"], input[name="password"]');
+  var userVal = user ? user.value.trim().toLowerCase() : '';
+  var passVal = pass ? pass.value : '';
+  // Credentials: admin@amayaa.in / amayaa2026
+  if(userVal === 'admin@amayaa.in' && passVal === 'amayaa2026') {
+    sessionStorage.setItem('amayaa_admin', '1');
+    window.location.href = 'amayaa_dashboard.html';
   } else {
-    // Dev fallback
-    window.location.href="../amayaa_admin_dashboard.html";
+    var err = document.querySelector('.login-error, .error-msg');
+    if(err) { err.textContent = 'Incorrect email or password.'; err.style.display='block'; }
+    else { alert('Incorrect email or password.'); }
   }
 });
 </script>
-<script data-goatcounter="https://amayaa.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-<script data-goatcounter="https://amayaa.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-
 <script>
-// Handle Netlify Identity token in URL hash
-if(window.netlifyIdentity) {
-  window.netlifyIdentity.on('init', function(user) {
-    if(!user) {
-      // Check for recovery/invite token in hash
-      var hash = window.location.hash;
-      if(hash.includes('recovery_token') || hash.includes('invite_token') || hash.includes('confirmation_token')) {
-        netlifyIdentity.open();
-      }
-    }
-  });
-}
+document.querySelector('form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  var userVal = (document.querySelector('input[type="email"]') || {value:''}).value.trim().toLowerCase();
+  var passVal = (document.querySelector('input[type="password"]') || {value:''}).value;
+  if(userVal === 'admin@amayaa.in' && passVal === 'amayaa2026') {
+    sessionStorage.setItem('amayaa_admin', '1');
+    window.location.href = 'amayaa_dashboard.html';
+  } else {
+    alert('Incorrect email or password.');
+  }
+});
 </script>
 </body>
 </html>

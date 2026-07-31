@@ -70,34 +70,18 @@ body { background: #E4EEE0 !important; }
 
 
 
+
+
 <script>
 document.querySelector('form').addEventListener('submit', function(e) {
   e.preventDefault();
-  var user = document.querySelector('input[type="email"], input[name="email"]');
-  var pass = document.querySelector('input[type="password"], input[name="password"]');
-  var userVal = user ? user.value.trim().toLowerCase() : '';
-  var passVal = pass ? pass.value : '';
-  // Credentials: admin@amayaa.in / amayaa2026
-  if(userVal === 'admin@amayaa.in' && passVal === 'amayaa2026') {
+  var usr = document.getElementById('usr').value.trim();
+  var pwd = document.getElementById('pwd').value;
+  if(usr === 'admin' && pwd === 'amayaa2026') {
     sessionStorage.setItem('amayaa_admin', '1');
     window.location.href = 'amayaa_dashboard.html';
   } else {
-    var err = document.querySelector('.login-error, .error-msg');
-    if(err) { err.textContent = 'Incorrect email or password.'; err.style.display='block'; }
-    else { alert('Incorrect email or password.'); }
-  }
-});
-</script>
-<script>
-document.querySelector('form').addEventListener('submit', function(e) {
-  e.preventDefault();
-  var userVal = (document.querySelector('input[type="email"]') || {value:''}).value.trim().toLowerCase();
-  var passVal = (document.querySelector('input[type="password"]') || {value:''}).value;
-  if(userVal === 'admin@amayaa.in' && passVal === 'amayaa2026') {
-    sessionStorage.setItem('amayaa_admin', '1');
-    window.location.href = 'amayaa_dashboard.html';
-  } else {
-    alert('Incorrect email or password.');
+    alert('Invalid username or password.');
   }
 });
 </script>

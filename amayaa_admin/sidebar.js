@@ -29,7 +29,7 @@ function active(href){
 
 function build(){
   var h='<div class="sb-brand">';
-  h+='<img class="sb-logo-img" src="'+L+'" alt="Amayaa logo">';
+  h+='<img class="sb-logo-img" src="'+L+'" alt="Amayaa logo" style=\"width:44px;height:44px;flex-shrink:0;\">';
   h+='<div class="sb-text"><div class="sb-name">Amayaa</div>';
   h+='<div class="sb-sub">Admin Panel</div></div></div>';
   h+='<nav class="sb-nav">';

@@ -6,24 +6,43 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&family=Caveat:wght@700&family=Nunito:wght@600;700&display=swap" rel="stylesheet">
 <style>
+/* ── AMAYAA ADMIN SHARED SIDEBAR CSS ── */
+aside.sidebar{position:fixed;top:0;left:0;width:240px;height:100vh;background:radial-gradient(ellipse at 15% 25%,rgba(240,67,147,.55) 0%,transparent 55%),radial-gradient(ellipse at 85% 75%,rgba(240,67,147,.45) 0%,transparent 50%),radial-gradient(ellipse at 50% 10%,rgba(200,30,110,.40) 0%,transparent 45%),#2A0A1A;color:white;overflow-y:auto;z-index:100;display:flex;flex-direction:column;}
+.sb-brand{padding:20px 18px 16px;border-bottom:1px solid rgba(255,255,255,.1);display:flex;align-items:center;gap:12px;flex-shrink:0;}
+.sb-logo-img{width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,.2);flex-shrink:0;}
+.sb-text{display:flex;flex-direction:column;gap:2px;min-width:0;}
+.sb-name{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:white;letter-spacing:.3px;line-height:1.1;white-space:nowrap;}
+.sb-sub{font-size:10px;opacity:.55;letter-spacing:2.5px;text-transform:uppercase;color:white;white-space:nowrap;}
+.sb-nav{flex:1;padding:8px 0;overflow-y:auto;}
+.sb-section{font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;opacity:.45;padding:16px 20px 5px;color:white;}
+.sb-link{display:flex;align-items:center;gap:10px;padding:10px 20px;color:rgba(255,255,255,.72);text-decoration:none;font-size:14px;font-weight:500;transition:all .2s;border-left:3px solid transparent;white-space:nowrap;}
+.sb-link:hover{background:rgba(255,255,255,.08);color:white;border-left-color:rgba(196,98,45,.5);}
+.sb-link.active{background:rgba(196,98,45,.18);color:white;border-left-color:#C4622D;}
+.sb-icon{width:18px;text-align:center;font-size:15px;flex-shrink:0;}
+.sb-footer{padding:14px 18px;border-top:1px solid rgba(255,255,255,.1);flex-shrink:0;}
+.sb-logout{width:100%;padding:9px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:8px;color:rgba(255,255,255,.7);font-family:'Jost',sans-serif;font-size:13px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;}
+.sb-logout:hover{background:rgba(255,255,255,.15);color:white;}
+
+
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:'Jost',sans-serif;background:linear-gradient(135deg,#E4DFD9 0%,#D8D2CB 100%);color:#1A1208;font-size:14px;min-height:100vh;}
 
 /* SIDEBAR — warm dark */
-.sidebar{background:radial-gradient(ellipse at 15% 25%, rgba(240,67,147,.55) 0%, transparent 55%),radial-gradient(ellipse at 85% 75%, rgba(240,67,147,.45) 0%, transparent 50%),radial-gradient(ellipse at 50% 10%, rgba(200,30,110,.40) 0%, transparent 45%),#2A0A1A;position:fixed;top:0;left:0;width:240px;height:100vh;;;border-right:1px solid rgba(0,0,0,.1);display:flex;flex-direction:column;z-index:100;overflow-y:auto;}
-.sb-brand{padding:22px 18px;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:12px;}
+
+
+
 .sb-brand img{height:42px;width:auto;}
-.sb-name{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:white;}
-.sb-sub{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.35);}
-.sb-nav{padding:14px 0;flex:1;}
-.sb-section{font-weight:700;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.25);padding:12px 18px 5px;}
-.sb-link{display:flex;align-items:center;gap:10px;padding:9px 18px;text-decoration:none;color:rgba(255,255,255,.6);font-size:14px;font-weight:500;transition:all .2s;border-left:3px solid transparent;}
-.sb-link:hover{color:white;background:rgba(255,255,255,.85);border-left-color:rgba(196,98,45,.5);}
-.sb-link.active{color:white;background:rgba(196,98,45,.18);border-left-color:#C4622D;}
+
+
+
+
+
+
+
 .sb-link .ic{width:18px;text-align:center;font-size:14px;}
-.sb-footer{padding:14px 18px;border-top:1px solid rgba(255,255,255,.07);}
-.sb-logout{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;background:rgba(255,255,255,.78);color:rgba(255,255,255,.5);border:none;cursor:pointer;font-size:13px;width:100%;font-family:'Jost',sans-serif;transition:all .2s;}
-.sb-logout:hover{background:rgba(220,50,50,.2);color:#FF9999;}
+
+
+
 
 /* MAIN */
 .main{margin-left:240px;min-height:100vh;display:flex;flex-direction:column;}
@@ -189,31 +208,7 @@ if(!sessionStorage.getItem('amayaa_admin')){
   window.location.href='index.html';
 }
 </script>
-<aside class="sidebar">
-  <div class="sb-brand">
-    <div class="sb-logo">🪡</div>
-    <div><div class="sb-name">Amayaa</div><div class="sb-sub">Admin Panel</div></div>
-  </div>
-  <nav class="sb-nav">
-    <div class="sb-section">Catalogue</div>
-    <a href="amayaa_dashboard.html" class="sb-link"><span class="sb-icon">📊</span>Dashboard</a>
-    <a href="amayaa_products.html" class="sb-link active"><span class="sb-icon">🧣</span>Products</a>
-    <a href="amayaa_categories.html" class="sb-link"><span class="sb-icon">🏷</span>Categories</a>
-    <a href="amayaa_products.html?filter=offers" class="sb-link"><span class="sb-icon">🎁</span>Special Offers</a>
-    <div class="sb-section">Content</div>
-    <a href="amayaa_banners.html" class="sb-link"><span class="sb-icon">🖼</span>Banner</a>
-    <a href="amayaa_blog.html" class="sb-link"><span class="sb-icon">📝</span>Blog Posts</a>
-    <a href="amayaa_about.html" class="sb-link"><span class="sb-icon">📖</span>Our Story</a>
-    <div class="sb-section">System</div>
-    <a href="amayaa_settings.html" class="sb-link"><span class="sb-icon">⚙</span>Site Settings</a>
-    <a href="amayaa_typography.html" class="sb-link"><span class="sb-icon">🔤</span>Typography</a>
-    <a href="https://amayaa.goatcounter.com" target="_blank" class="sb-link"><span class="sb-icon">📈</span>Analytics</a>
-    <a href="/index.html" target="_blank" class="sb-link"><span class="sb-icon">🌐</span>View Website</a>
-  </nav>
-  <div class="sb-footer">
-    <button class="sb-logout" onclick="sessionStorage.removeItem('amayaa_admin');window.location.href='index.html'">🚪 Log Out</button>
-  </div>
-</aside>
+<aside class="sidebar"></aside>
 <div class="main">
   <div class="topbar">
     <div>
@@ -566,5 +561,6 @@ function toggleOffer(){
 </script>
 <script data-goatcounter="https://amayaa.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 <script data-goatcounter="https://amayaa.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<script src="sidebar.js"></script>
 </body>
 </html>

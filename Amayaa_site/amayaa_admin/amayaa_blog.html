@@ -1,0 +1,262 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="stylesheet" href="admin.css">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet"><style>
+/* ── AMAYAA ADMIN SHARED SIDEBAR CSS ── */
+aside.sidebar{position:fixed;top:0;left:0;width:240px;height:100vh;background:radial-gradient(ellipse at 15% 25%,rgba(240,67,147,.55) 0%,transparent 55%),radial-gradient(ellipse at 85% 75%,rgba(240,67,147,.45) 0%,transparent 50%),radial-gradient(ellipse at 50% 10%,rgba(200,30,110,.40) 0%,transparent 45%),#2A0A1A;color:white;overflow-y:auto;z-index:100;display:flex;flex-direction:column;}
+.sb-brand{padding:20px 18px 16px;border-bottom:1px solid rgba(255,255,255,.1);display:flex;align-items:center;gap:12px;flex-shrink:0;}
+.sb-logo-img{width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,.2);flex-shrink:0;}
+.sb-text{display:flex;flex-direction:column;gap:2px;min-width:0;}
+.sb-name{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:white;letter-spacing:.3px;line-height:1.1;white-space:nowrap;}
+.sb-sub{font-size:10px;opacity:.55;letter-spacing:2.5px;text-transform:uppercase;color:white;white-space:nowrap;}
+.sb-nav{flex:1;padding:8px 0;overflow-y:auto;}
+.sb-section{font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;opacity:.45;padding:16px 20px 5px;color:white;}
+.sb-link{display:flex;align-items:center;gap:10px;padding:10px 20px;color:rgba(255,255,255,.72);text-decoration:none;font-size:14px;font-weight:500;transition:all .2s;border-left:3px solid transparent;white-space:nowrap;}
+.sb-link:hover{background:rgba(255,255,255,.08);color:white;border-left-color:rgba(196,98,45,.5);}
+.sb-link.active{background:rgba(196,98,45,.18);color:white;border-left-color:#C4622D;}
+.sb-icon{width:18px;text-align:center;font-size:15px;flex-shrink:0;}
+.sb-footer{padding:14px 18px;border-top:1px solid rgba(255,255,255,.1);flex-shrink:0;}
+.sb-logout{width:100%;padding:9px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:8px;color:rgba(255,255,255,.7);font-family:'Jost',sans-serif;font-size:13px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;}
+.sb-logout:hover{background:rgba(255,255,255,.15);color:white;}
+
+
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Jost',sans-serif;background:linear-gradient(135deg,#E4DFD9 0%,#D8D2CB 100%);color:#1A1208;font-size:14px;min-height:100vh;}
+
+/* SIDEBAR — warm dark */
+
+
+
+.sb-brand img{height:42px;width:auto;}
+
+
+
+
+
+
+
+.sb-link .ic{width:18px;text-align:center;font-size:14px;}
+
+
+
+
+/* MAIN */
+.main{margin-left:240px;flex:1;display:flex;flex-direction:column;min-height:100vh;}
+.topbar{padding:18px 30px;border-bottom:1px solid rgba(0,0,0,.08);background:rgba(255,255,255,.7);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;}
+.topbar-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:#1A0A04;}
+.topbar-sub{font-size:13px;color:#9A8070;margin-top:2px;}
+.topbar-actions{display:flex;gap:10px;}
+.content{padding:24px 30px;flex:1;}
+
+/* CARDS */
+.card{background:white;border:1px solid rgba(0,0,0,.07);border-radius:16px;padding:22px;box-shadow:0 2px 12px rgba(0,0,0,.05);}
+.card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid rgba(0,0,0,.06);}
+.card-title{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:400;color:#1A0A04;}
+.card-sub{font-size:12px;color:#9A8070;margin-top:2px;}
+
+/* STAT CARDS */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px;}
+.stat{background:white;border:1px solid rgba(0,0,0,.07);border-radius:14px;padding:18px;position:relative;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.04);}
+.stat::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.stat.s1::before{background:linear-gradient(90deg,#C4622D,#E8A020);}
+.stat.s2::before{background:linear-gradient(90deg,#7B2D8B,#B44FD0);}
+.stat.s3::before{background:linear-gradient(90deg,#25D366,#128C7E);}
+.stat.s4::before{background:linear-gradient(90deg,#1A6AAA,#2A9ADD);}
+.stat-val{font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:300;color:#1A0A04;line-height:1;}
+.stat-label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#9A8070;margin-top:6px;}
+.stat-sub{font-size:11px;color:#B0967E;margin-top:4px;}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:9px;border:none;cursor:pointer;font-family:'Jost',sans-serif;font-size:13px;font-weight:600;letter-spacing:1px;text-transform:uppercase;transition:all .2s;text-decoration:none;}
+.btn-primary{background:linear-gradient(135deg,#C4622D,#E8843D);color:white;}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 5px 14px rgba(196,98,45,.35);}
+.btn-success{background:linear-gradient(135deg,#25D366,#128C7E);color:white;}
+.btn-success:hover{transform:translateY(-1px);}
+.btn-ghost{background:transparent;color:#5A4030;border:1.5px solid rgba(0,0,0,.14);}
+.btn-ghost:hover{background:rgba(0,0,0,.04);}
+.btn-danger{background:rgba(220,50,50,.08);color:#CC3333;border:1px solid rgba(220,50,50,.2);}
+.btn-danger:hover{background:rgba(220,50,50,.15);}
+.btn-edit{background:rgba(196,98,45,.1);color:#C4622D;border:1px solid rgba(196,98,45,.25);}
+.btn-edit:hover{background:rgba(196,98,45,.18);}
+.btn-save{background:linear-gradient(135deg,#25D366,#128C7E);color:white;}
+.btn-sm{padding:5px 11px;font-size:12px;}
+
+/* TABLES */
+.tbl{width:100%;border-collapse:collapse;}
+.tbl th{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#9A8070;padding:9px 13px;text-align:left;border-bottom:1.5px solid rgba(0,0,0,.07);background:rgba(240,230,216,.5);}
+.tbl td{padding:11px 13px;border-bottom:1px solid rgba(0,0,0,.05);font-size:13px;color:#3A2A1A;vertical-align:middle;}
+.tbl tr:hover td{background:rgba(196,98,45,.03);}
+.tbl tr:last-child td{border-bottom:none;}
+
+/* BADGES */
+.badge{display:inline-block;padding:3px 9px;border-radius:10px;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;}
+.badge-offer{background:rgba(123,45,139,.1);color:#7B2D8B;border:1px solid rgba(123,45,139,.2);}
+.badge-sold{background:rgba(80,80,80,.1);color:#666;border:1px solid rgba(0,0,0,.12);}
+.badge-active{background:rgba(37,211,102,.1);color:#1A7A40;border:1px solid rgba(37,211,102,.25);}
+.badge-hidden{background:rgba(0,0,0,.06);color:#9A8070;border:1px solid rgba(0,0,0,.1);}
+.badge-new{background:rgba(196,98,45,.12);color:#A04010;border:1px solid rgba(196,98,45,.25);}
+.badge-draft{background:rgba(200,150,0,.1);color:#7A5A00;border:1px solid rgba(200,150,0,.25);}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+.form-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+.fg{margin-bottom:16px;}
+.fg label{display:block;font-size:12px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#7A6050;margin-bottom:6px;}
+.fi,.fta,.fse{width:100%;padding:10px 13px;border-radius:9px;border:1.5px solid rgba(0,0,0,.1);background:rgba(240,230,216,.5);font-family:'Jost',sans-serif;font-size:13px;color:#1A1208;outline:none;transition:border-color .2s;}
+.fi:focus,.fta:focus,.fse:focus{border-color:#C4622D;background:white;}
+.fi::placeholder,.fta::placeholder{color:#C0A888;}
+.fi:disabled,.fta:disabled,.fse:disabled{background:#F5F0EA;color:#B0967E;cursor:not-allowed;}
+.fse{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23C4622D' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 13px center;padding-right:34px;background-color:#FAFAF8;}
+.fse:disabled{background-color:#F5F0EA;}
+
+/* AUTOCOMPLETE */
+.toggle-wrap{display:flex;align-items:center;gap:10px;}
+.toggle{position:relative;width:42px;height:22px;}
+.toggle input{opacity:0;width:0;height:0;}
+.toggle-slider{position:absolute;inset:0;background:rgba(0,0,0,.15);border-radius:22px;cursor:pointer;transition:.3s;}
+.toggle-slider:before{content:'';position:absolute;width:16px;height:16px;left:3px;top:3px;background:white;border-radius:50%;transition:.3s;box-shadow:0 1px 4px rgba(0,0,0,.2);}
+.toggle input:checked+.toggle-slider{background:#C4622D;}
+.toggle input:checked+.toggle-slider:before{transform:translateX(20px);}
+.toggle-label{font-size:13px;color:#5A4030;}
+
+/* SEARCH BAR */
+.search-bar{position:relative;margin-bottom:18px;}
+.search-bar input{width:100%;padding:10px 13px 10px 40px;border-radius:9px;border:1.5px solid rgba(0,0,0,.1);background:white;font-family:'Jost',sans-serif;font-size:13px;color:#1A1208;outline:none;transition:all .2s;}
+.search-bar input:focus{border-color:#C4622D;}
+.search-bar input::placeholder{color:#C0A888;}
+.search-bar svg{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:#C0A888;}
+
+/* QUICK ACTIONS */
+.qa-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:24px;}
+.qa{padding:16px 12px;border-radius:13px;background:white;border:1px solid rgba(0,0,0,.07);text-align:center;cursor:pointer;transition:all .2s;text-decoration:none;display:block;box-shadow:0 2px 8px rgba(0,0,0,.04);}
+.qa:hover{border-color:rgba(196,98,45,.35);transform:translateY(-2px);box-shadow:0 6px 18px rgba(196,98,45,.1);}
+.qa-icon{font-size:22px;margin-bottom:7px;}
+.qa-label{font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:#7A6050;}
+
+/* FILTER PILLS */
+.filter-row{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;}
+.filter-pill{padding:5px 13px;border-radius:18px;border:1.5px solid rgba(0,0,0,.1);background:white;color:#7A6050;font-size:12px;font-weight:500;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:all .2s;}
+.filter-pill:hover,.filter-pill.active{background:rgba(196,98,45,.12);border-color:rgba(196,98,45,.4);color:#A04010;}
+
+/* PAGINATION */
+.pag{display:flex;gap:5px;align-items:center;margin-top:16px;}
+.pag-btn{width:30px;height:30px;border-radius:7px;border:1px solid rgba(0,0,0,.1);background:white;color:#7A6050;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.pag-btn:hover,.pag-btn.active{background:rgba(196,98,45,.15);border-color:rgba(196,98,45,.4);color:#A04010;}
+
+/* PRODUCT THUMB */
+.prod-thumb{width:42px;height:50px;border-radius:8px;flex-shrink:0;}
+
+/* ALERT */
+.alert{padding:11px 15px;border-radius:9px;font-size:14px;margin-bottom:15px;display:flex;align-items:center;gap:9px;}
+.alert-success{background:rgba(37,211,102,.08);border:1px solid rgba(37,211,102,.2);color:#1A7A40;}
+.alert-info{background:rgba(196,98,45,.08);border:1px solid rgba(196,98,45,.2);color:#A04010;}
+
+/* RTE */
+.rte-toolbar{display:flex;gap:3px;padding:7px;background:#F5F0EA;border-radius:8px 8px 0 0;border:1.5px solid rgba(0,0,0,.1);border-bottom:none;flex-wrap:wrap;}
+.rte-btn{padding:4px 8px;border-radius:5px;border:none;background:transparent;color:#7A6050;cursor:pointer;font-size:13px;font-weight:600;transition:all .2s;}
+.rte-btn:hover{background:rgba(0,0,0,.07);}
+.rte-area{min-height:140px;padding:13px;background:white;border:1.5px solid rgba(0,0,0,.1);border-radius:0 0 8px 8px;color:#3A2A1A;font-size:14px;line-height:1.7;outline:none;}
+.rte-area:focus{border-color:#C4622D;}
+
+/* SECTION LOCK STATE */
+.section-locked .fi,.section-locked .fta,.section-locked .fse{background:#F5F0EA;pointer-events:none;color:#9A8070;}
+.section-locked .fi:focus,.section-locked .fta:focus{border-color:rgba(0,0,0,.1);}
+
+/* BANNER */
+.banner-card{border-radius:12px;overflow:hidden;border:2px solid rgba(0,0,0,.08);transition:all .2s;cursor:pointer;background:white;}
+.banner-card.active-slide{border-color:#C4622D;box-shadow:0 0 0 3px rgba(196,98,45,.15);}
+.banner-preview{height:90px;display:flex;align-items:center;justify-content:center;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.6);}
+.banner-num{padding:7px 11px;font-size:12px;font-weight:600;letter-spacing:1px;color:#7A6050;background:rgba(240,230,216,.5);border-top:1px solid rgba(0,0,0,.06);}
+
+/* SWATCH */
+.swatch-row{display:flex;flex-wrap:wrap;gap:7px;margin-top:5px;}
+.swatch{width:26px;height:26px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:all .2s;position:relative;}
+.swatch.selected{border-color:#C4622D;transform:scale(1.15);}
+.swatch.selected::after{content:"✓";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:white;text-shadow:0 1px 3px rgba(0,0,0,.6);}
+
+/* BC */
+.bc{display:flex;align-items:center;gap:6px;font-size:13px;color:#B0967E;margin-bottom:18px;}
+.bc a{color:#C4622D;text-decoration:none;}
+.bc span{color:#D0C0B0;}
+
+
+/* Page-specific */
+</style><title>Blog Manager — Amayaa Admin</title></head><body>
+<script>if(!sessionStorage.getItem('amayaa_admin')){window.location.href='index.html';}</script>
+<script>
+if(!sessionStorage.getItem('amayaa_admin')){
+  window.location.href='index.html';
+}
+</script><aside class="sidebar"></aside>
+<div class="main">
+  <div class="topbar">
+    <div><div class="topbar-title">Blog Manager</div><div class="topbar-sub">6 published · 1 draft</div></div>
+    <div class="topbar-actions">
+      <button class="btn btn-primary" onclick="document.getElementById('blogForm').style.display='block'">+ Write New Post</button>
+    </div>
+  </div>
+  <div class="content">
+
+    <!-- BLOG LIST -->
+    <div class="card" style="margin-bottom:20px;padding:0;overflow:hidden;">
+      <table class="tbl">
+        <thead><tr><th>Title</th><th>Category</th><th>Date</th><th>Read Time</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody>
+          <tr><td style="font-weight:500;color:#1A0A04;">The Art of Banarasi Weaving — 15 Centuries of Brocade</td><td>Weaves</td><td>Jun 12, 2026</td><td>8 min</td><td><span class="badge badge-active">Published</span> <span class="badge badge-new">Featured</span></td><td><div style="display:flex;gap:6px;"><button class="btn btn-ghost btn-sm">✏ Edit</button><button class="btn btn-danger btn-sm">🗑</button></div></td></tr>
+          <tr><td style="font-weight:500;color:#1A0A04;">Tussar vs Kosa Silk — Understanding India's Wild Silks</td><td>Threads</td><td>May 28, 2026</td><td>5 min</td><td><span class="badge badge-active">Published</span></td><td><div style="display:flex;gap:6px;"><button class="btn btn-ghost btn-sm">✏ Edit</button><button class="btn btn-danger btn-sm">🗑</button></div></td></tr>
+          <tr><td style="font-weight:500;color:#1A0A04;">The Weavers of Bishnupur — Keepers of Baluchari</td><td>Heritage</td><td>May 14, 2026</td><td>6 min</td><td><span class="badge badge-active">Published</span></td><td><div style="display:flex;gap:6px;"><button class="btn btn-ghost btn-sm">✏ Edit</button><button class="btn btn-danger btn-sm">🗑</button></div></td></tr>
+          <tr><td style="font-weight:500;color:#1A0A04;">How to Store and Care for Your Silk Sarees</td><td>Care Tips</td><td>Apr 30, 2026</td><td>4 min</td><td><span class="badge badge-active">Published</span></td><td><div style="display:flex;gap:6px;"><button class="btn btn-ghost btn-sm">✏ Edit</button><button class="btn btn-danger btn-sm">🗑</button></div></td></tr>
+          <tr><td style="font-weight:500;color:#1A0A04;">Kanjivaram vs Mysore Silk — A Weaver's Perspective</td><td>Weaves</td><td>Apr 15, 2026</td><td>7 min</td><td><span class="badge badge-draft">Draft</span></td><td><div style="display:flex;gap:6px;"><button class="btn btn-ghost btn-sm">✏ Edit</button><button class="btn btn-success btn-sm">Publish</button></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- WRITE POST FORM -->
+    <div id="blogForm" class="card">
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:#1A0A04;margin-bottom:20px;">Write New Blog Post</h3>
+      <div style="display:grid;grid-template-columns:2fr 1fr;gap:24px;">
+        <div>
+          <div class="fg"><label>Post Title *</label><input class="fi" placeholder="e.g. The Art of Banarasi Weaving"></div>
+          <div class="form-grid">
+            <div class="fg"><label>Category *</label>
+              <select class="fse"><option>Weaves</option><option>Threads</option><option>Heritage</option><option>Care Tips</option><option>Styling</option></select>
+            </div>
+            <div class="fg"><label>Publish Date</label><input class="fi" type="date"></div>
+          </div>
+          <div class="fg"><label>Thumbnail Image</label>
+            <div style="height:80px;border:2px dashed rgba(255,255,255,.15);border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;margin-bottom:8px;">
+              <span style="font-size:12px;color:#B0967E;">📁 Click to upload thumbnail image</span>
+            </div>
+          </div>
+          <div class="fg">
+            <label>Article Body *</label>
+            <div class="rte-toolbar">
+              <button class="rte-btn"><b>B</b></button><button class="rte-btn"><i>I</i></button>
+              <button class="rte-btn">H2</button><button class="rte-btn">H3</button>
+              <button class="rte-btn">• List</button><button class="rte-btn">1. List</button>
+              <button class="rte-btn">🔗 Link</button><button class="rte-btn">🖼 Image</button>
+              <button class="rte-btn">— Divider</button>
+            </div>
+            <div class="rte-area" contenteditable="true" style="min-height:280px;">Start writing your article here. Use the toolbar above to format text, add headings, images, and links.</div>
+          </div>
+        </div>
+        <div>
+          <div class="fg"><label>SEO Title (optional)</label><input class="fi" placeholder="Defaults to post title"></div>
+          <div class="fg"><label>SEO Description (150 chars)</label><textarea class="fta" style="min-height:70px;" placeholder="Short description for Google"></textarea></div>
+          <div class="fg"><label>Estimated Read Time</label><input class="fi" placeholder="e.g. 8 min read"></div>
+          <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:18px;">
+            <div class="toggle-wrap">
+              <label class="toggle"><input type="checkbox"><div class="toggle-slider"></div></label>
+              <span class="toggle-label">Feature on Homepage</span>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <button class="btn btn-primary" style="justify-content:center;" onclick="alert('Post published!')">🌐 Publish Now</button>
+            <button class="btn btn-ghost" style="justify-content:center;" onclick="alert('Saved as draft!')">💾 Save as Draft</button>
+            <button class="btn btn-ghost" style="justify-content:center;">👁 Preview</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+<script data-goatcounter="https://amayaa.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<script src="sidebar.js"></script>
+</body></html>

@@ -95,28 +95,28 @@
   <p class="srch-sub">Search by name, region, fabric, colour, occasion or price</p>
 
   <div class="srch-bar">
-    <input type="search" id="srchInput" placeholder="e.g. Banarasi silk, red saree, wedding, under ₹5000..." 
-           oninput="runSearch(this.value)" onkeydown="if(event.key==='Escape')document.getElementById('srchOverlay').classList.remove('open')">
-    <button onclick="runSearch(document.getElementById('srchInput').value)" aria-label="Search">
+    <input type="search" id="srchInput" placeholder="e.g. Banarasi silk, red saree, wedding, under ₹5000..."
+           oninput="runSearch(this.value)" onkeydown="if(event.key==='Escape')document.getElementById('srchOverlay').classList.remove('open');else if(event.key==='Enter'){event.preventDefault();_amayaaNavSearch(this.value);}">
+    <button onclick="_amayaaNavSearch(document.getElementById('srchInput').value)" aria-label="Search">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
     </button>
   </div>
 
   <!-- Quick filter chips -->
   <div class="srch-chips">
-    <a href="amayaa_sarees.html?region=Banarasi" class="srch-chip">Banarasi</a>
-    <a href="amayaa_sarees.html?region=Kanjivaram" class="srch-chip">Kanjivaram</a>
-    <a href="amayaa_sarees.html?region=Baluchari" class="srch-chip">Baluchari</a>
-    <a href="amayaa_sarees.html?region=Chanderi" class="srch-chip">Chanderi</a>
-    <a href="amayaa_sarees.html?region=Sambalpuri" class="srch-chip">Sambalpuri</a>
-    <a href="amayaa_sarees.html?occasion=wedding" class="srch-chip">Wedding</a>
-    <a href="amayaa_sarees.html?occasion=festive" class="srch-chip">Festive</a>
-    <a href="amayaa_sarees.html?fabric=silk" class="srch-chip">Silk</a>
-    <a href="amayaa_sarees.html?fabric=cotton" class="srch-chip">Cotton</a>
-    <a href="amayaa_sarees.html?fabric=tussar" class="srch-chip">Tussar</a>
-    <a href="amayaa_sarees.html?price=under5000" class="srch-chip">Under ₹5,000</a>
-    <a href="amayaa_sarees.html?price=under10000" class="srch-chip">Under ₹10,000</a>
-    <a href="amayaa_sarees.html?filter=new" class="srch-chip">New Arrivals</a>
+    <a href="amayaa_search.html?type=Banarasi" class="srch-chip">Banarasi</a>
+    <a href="amayaa_search.html?type=Kanjivaram" class="srch-chip">Kanjivaram</a>
+    <a href="amayaa_search.html?type=Baluchari" class="srch-chip">Baluchari</a>
+    <a href="amayaa_search.html?type=Chanderi" class="srch-chip">Chanderi</a>
+    <a href="amayaa_search.html?type=Sambalpuri" class="srch-chip">Sambalpuri</a>
+    <a href="amayaa_search.html?occasion=wedding" class="srch-chip">Wedding</a>
+    <a href="amayaa_search.html?occasion=festive" class="srch-chip">Festive</a>
+    <a href="amayaa_search.html?fabric=silk" class="srch-chip">Silk</a>
+    <a href="amayaa_search.html?fabric=cotton" class="srch-chip">Cotton</a>
+    <a href="amayaa_search.html?fabric=tussar" class="srch-chip">Tussar</a>
+    <a href="amayaa_search.html?price=0-5000" class="srch-chip">Under ₹5,000</a>
+    <a href="amayaa_search.html?price=0-10000" class="srch-chip">Under ₹10,000</a>
+    <a href="amayaa_search.html?new=1" class="srch-chip">New Arrivals</a>
     <a href="amayaa_offers.html" class="srch-chip">Special Offers</a>
   </div>
 
@@ -145,3 +145,29 @@
   _parent.removeChild(_wrap);
 
 }());
+
+/* ── Search navigation helper ─────────────────────────────────────────────────
+ * Called by the nav search bar on Enter or button click.
+ * - On amayaa_search.html: updates filters in-place (delegates to page JS)
+ * - Elsewhere: navigates to amayaa_search.html?q=...
+ * ─────────────────────────────────────────────────────────────────────────── */
+window._amayaaNavSearch = function(query) {
+  query = (query || '').trim();
+  var onSearchPage = window.location.pathname.endsWith('amayaa_search.html');
+  if (onSearchPage) {
+    // Close overlay and update filters in-place if the page has exposed updateSearchQuery
+    document.getElementById('srchOverlay').classList.remove('open');
+    if (typeof window._amayaaUpdateQuery === 'function') {
+      window._amayaaUpdateQuery(query);
+    } else {
+      // Fallback: reload with new q param
+      var url = new URL(window.location.href);
+      if (query) url.searchParams.set('q', query); else url.searchParams.delete('q');
+      window.location.href = url.toString();
+    }
+  } else {
+    var dest = 'amayaa_search.html';
+    if (query) dest += '?q=' + encodeURIComponent(query);
+    window.location.href = dest;
+  }
+};

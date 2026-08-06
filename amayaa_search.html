@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Search Sarees — Amayaa by Polka Dots | Kolkata</title>
+<meta name="description" content="Search our collection of authentic handloom sarees. Filter by weave, colour, occasion, fabric and price. Amayaa by Polka Dots, Kolkata.">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="public.css">
+<link rel="stylesheet" href="product-drawer.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15px;}
+/* ── Orbs ── */
+.orbs{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;}
+.orb{position:absolute;border-radius:50%;filter:blur(90px);opacity:.6;animation:fl 20s ease-in-out infinite;}
+.o1{width:500px;height:500px;background:#F4C2A1;top:-100px;left:-80px;}
+.o2{width:420px;height:420px;background:#E8A882;top:25%;right:-80px;animation-delay:-7s;}
+.o3{width:380px;height:380px;background:#DDB887;bottom:15%;left:8%;animation-delay:-13s;}
+.o4{width:320px;height:320px;background:#F2C4B0;bottom:-80px;right:15%;animation-delay:-5s;}
+.o5{width:260px;height:260px;background:#E6C88A;top:50%;left:40%;animation-delay:-10s;}
+@keyframes fl{0%,100%{transform:translate(0,0);}50%{transform:translate(20px,-30px);}}
+/* ── Hero band ── */
+.srch-hero{
+  position:relative;z-index:1;
+  background:linear-gradient(135deg,#8B1A4A 0%,#C4622D 100%);
+  padding:22px 36px 18px;
+}
+.srch-hero-eyebrow{
+  font-size:10px;letter-spacing:3px;text-transform:uppercase;
+  color:rgba(251,245,237,.65);margin-bottom:4px;
+}
+.srch-hero-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(22px,3vw,34px);font-weight:400;
+  color:#FBF5ED;margin-bottom:12px;line-height:1.2;
+}
+.srch-hero-title em{color:#F4C2A1;font-style:italic;}
+.srch-hero-title .srch-q{color:#F4C2A1;font-style:italic;}
+/* Active filter pills */
+.srch-active-pills{display:flex;flex-wrap:wrap;gap:8px;align-items:center;min-height:28px;}
+.srch-pill{
+  display:inline-flex;align-items:center;gap:5px;
+  background:rgba(251,245,237,.18);
+  border:1px solid rgba(251,245,237,.4);
+  border-radius:20px;padding:4px 11px;
+  font-size:11px;color:#FBF5ED;
+}
+.srch-pill-rm{
+  cursor:pointer;color:rgba(251,245,237,.65);
+  font-size:15px;line-height:1;border:none;
+  background:none;padding:0;margin-left:2px;
+}
+.srch-pill-rm:hover{color:#FBF5ED;}
+.srch-clear-all{
+  background:transparent;
+  border:1px solid rgba(251,245,237,.35);
+  border-radius:20px;padding:4px 12px;
+  font-size:11px;color:rgba(251,245,237,.7);
+  cursor:pointer;font-family:'Jost',sans-serif;
+  transition:border-color .2s,color .2s;
+}
+.srch-clear-all:hover{border-color:rgba(251,245,237,.7);color:#FBF5ED;}
+/* ── Filter toolbar ── */
+.srch-toolbar{
+  position:relative;z-index:2;
+  background:#FBF5ED;
+  border-bottom:1px solid #d4c8b8;
+  padding:10px 36px;
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+}
+.srch-count{font-size:12px;color:#9A8070;white-space:nowrap;flex-shrink:0;}
+.srch-count strong{color:#3A2A1A;}
+.srch-toolbar-div{width:1px;height:20px;background:#d4c8b8;flex-shrink:0;}
+.srch-filters{display:flex;gap:7px;flex-wrap:wrap;align-items:center;flex:1;}
+/* Dropdown filter pills */
+.srch-fselect{
+  font-family:'Jost',sans-serif;font-size:12px;
+  color:#3A2A1A;border:1px solid #d4c8b8;
+  border-radius:20px;padding:5px 12px;
+  background:white;cursor:pointer;
+  appearance:none;-webkit-appearance:none;
+  transition:border-color .2s,color .2s,background .2s;
+}
+.srch-fselect:hover,.srch-fselect:focus{border-color:#C4622D;outline:none;}
+.srch-fselect.active{border-color:#C4622D;color:#C4622D;background:#FFF0E8;}
+/* Toggle pills */
+.srch-toggle{
+  font-size:12px;color:#3A2A1A;
+  border:1px solid #d4c8b8;border-radius:20px;
+  padding:5px 12px;background:white;
+  cursor:pointer;font-family:'Jost',sans-serif;
+  white-space:nowrap;
+  transition:border-color .2s,color .2s,background .2s;
+}
+.srch-toggle:hover{border-color:#8B1A4A;}
+.srch-toggle.active{border-color:#8B1A4A;color:#8B1A4A;background:#F9EFF4;}
+/* Sort */
+.srch-sort-wrap{display:flex;align-items:center;gap:7px;margin-left:auto;}
+.srch-sort-label{font-size:11px;color:#9A8070;white-space:nowrap;}
+.srch-sort{
+  font-family:'Jost',sans-serif;font-size:12px;color:#3A2A1A;
+  border:1px solid #d4c8b8;border-radius:6px;
+  padding:5px 8px;background:white;
+}
+/* ── Grid ── */
+.srch-main{position:relative;z-index:1;padding:28px 36px 60px;}
+.srch-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:20px;
+}
+/* ── Product card (matching amayaa_sarees.html style) ── */
+.pc{
+  background:rgba(255,255,255,.68);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,.88);
+  border-radius:20px;overflow:hidden;
+  box-shadow:0 4px 18px rgba(0,0,0,.07);
+  cursor:pointer;
+  transition:transform .3s,box-shadow .3s;
+  position:relative;
+}
+.pc:hover{transform:translateY(-6px);box-shadow:0 12px 36px rgba(0,0,0,.13);}
+.pi{position:relative;overflow:hidden;}
+.gf{border-radius:0;transition:transform .4s;}
+.pc:hover .gf{transform:scale(1.04);}
+.pbadges{
+  position:absolute;top:10px;left:10px;
+  display:flex;gap:5px;
+}
+.badge{
+  font-size:9px;font-weight:700;padding:3px 8px;
+  border-radius:10px;letter-spacing:.5px;text-transform:uppercase;
+}
+.b-new{background:#1A4A6A;color:white;}
+.b-offer{background:#C4622D;color:white;}
+.b-featured{background:#8B1A4A;color:white;}
+.b-sold{background:#666;color:white;}
+/* Wishlist heart on card */
+.pc-wish{
+  position:absolute;top:10px;right:10px;
+  width:28px;height:28px;border-radius:50%;
+  background:rgba(255,255,255,.85);
+  border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  color:#9A8070;font-size:14px;
+  transition:color .2s,background .2s;
+  z-index:2;
+}
+.pc-wish:hover,.pc-wish.wished{color:#8B1A4A;}
+.pinfo{padding:14px 16px 16px;}
+.preg{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#9A8070;margin-bottom:3px;}
+.pname{
+  font-family:'Cormorant Garamond',serif;
+  font-size:18px;font-weight:600;
+  color:#1A0A04;margin-bottom:4px;line-height:1.25;
+}
+.pfab{font-size:12px;color:#9A8070;margin-bottom:10px;}
+.ppr{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;margin-bottom:10px;}
+.pnew{font-size:16px;font-weight:700;color:#C4622D;}
+.pold{font-size:12px;color:#9A8070;text-decoration:line-through;}
+.psave{font-size:10px;color:#1A4A6A;background:#dde8f2;padding:2px 7px;border-radius:8px;font-weight:600;}
+/* GI tag */
+.pc-gi{
+  font-size:9px;color:#8B1A4A;
+  letter-spacing:1px;text-transform:uppercase;
+  margin-bottom:6px;
+}
+/* ── No results state ── */
+.srch-no-results{
+  grid-column:1/-1;text-align:center;
+  padding:60px 20px;
+}
+.srch-no-results h3{
+  font-family:'Cormorant Garamond',serif;
+  font-size:28px;font-weight:400;color:#1A0A04;margin-bottom:8px;
+}
+.srch-no-results p{font-size:14px;color:#9A8070;margin-bottom:18px;}
+.srch-broaden{
+  display:inline-block;
+  padding:10px 24px;border-radius:24px;
+  background:linear-gradient(135deg,#8B1A4A,#C4622D);
+  color:#FBF5ED;text-decoration:none;
+  font-size:13px;font-weight:600;
+  cursor:pointer;border:none;font-family:'Jost',sans-serif;
+}
+/* ── Infinite scroll indicator ── */
+.srch-scroll-status{
+  text-align:center;padding:20px 0 0;
+  grid-column:1/-1;
+  font-size:12px;color:#9A8070;
+}
+.srch-scroll-status .count{color:#3A2A1A;font-weight:600;}
+.srch-loading-spinner{
+  display:flex;justify-content:center;align-items:center;gap:6px;
+  padding:12px 0;
+}
+.srch-dot{
+  width:7px;height:7px;border-radius:50%;background:#C4622D;
+  animation:srch-pulse 1.2s ease-in-out infinite;opacity:.4;
+}
+.srch-dot:nth-child(2){animation-delay:.2s;}
+.srch-dot:nth-child(3){animation-delay:.4s;}
+@keyframes srch-pulse{0%,100%{opacity:.4;transform:scale(1);}50%{opacity:1;transform:scale(1.3);}}
+/* ── Responsive ── */
+@media(max-width:1024px){.srch-grid{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:768px){
+  .srch-grid{grid-template-columns:repeat(2,1fr);}
+  .srch-hero,.srch-toolbar,.srch-main{padding-left:18px;padding-right:18px;}
+  .srch-toolbar{flex-wrap:wrap;}
+  .srch-sort-wrap{margin-left:0;}
+}
+@media(max-width:480px){.srch-grid{grid-template-columns:1fr;}}
+/* ── Visually hidden ── */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
+</style>
+</head>
+<body>
+<div class="orbs" aria-hidden="true">
+  <div class="orb o1"></div><div class="orb o2"></div>
+  <div class="orb o3"></div><div class="orb o4"></div><div class="orb o5"></div>
+</div>
+
+<!-- Nav injected by nav.js -->
+<div id="nav-wrap"></div>
+
+<!-- ── Hero band ── -->
+<section class="srch-hero" id="srch-hero" aria-label="Search results">
+  <div class="srch-hero-eyebrow">Search results</div>
+  <h1 class="srch-hero-title" id="srch-hero-title">
+    <span id="srch-title-text">All sarees</span>
+  </h1>
+  <div class="srch-active-pills" id="srch-active-pills" role="list" aria-label="Active filters"></div>
+</section>
+
+<!-- ── Filter toolbar ── -->
+<div class="srch-toolbar" role="search" aria-label="Filter sarees">
+  <span class="srch-count"><strong id="srch-count-num">—</strong> sarees found</span>
+  <div class="srch-toolbar-div" aria-hidden="true"></div>
+  <div class="srch-filters">
+    <select class="srch-fselect" id="flt-type" aria-label="Filter by weave">
+      <option value="">Weave</option>
+      <option value="Banarasi">Banarasi</option>
+      <option value="Kanjivaram">Kanjivaram</option>
+      <option value="Baluchari">Baluchari</option>
+      <option value="Chanderi">Chanderi</option>
+      <option value="Sambalpuri">Sambalpuri</option>
+      <option value="Ikat">Ikat</option>
+      <option value="Paithani">Paithani</option>
+      <option value="Tussar">Tussar</option>
+      <option value="Maheshwari">Maheshwari</option>
+      <option value="Mysore">Mysore</option>
+      <option value="Jamdani">Jamdani</option>
+      <option value="Tant">Tant</option>
+    </select>
+    <select class="srch-fselect" id="flt-colour" aria-label="Filter by colour">
+      <option value="">Colour</option>
+      <option value="red">Red</option>
+      <option value="cream">Cream</option>
+      <option value="navy">Navy</option>
+      <option value="green">Green</option>
+      <option value="gold">Gold</option>
+      <option value="purple">Purple</option>
+      <option value="teal">Teal</option>
+      <option value="pink">Pink</option>
+      <option value="black">Black</option>
+      <option value="white">White</option>
+    </select>
+    <select class="srch-fselect" id="flt-fabric" aria-label="Filter by fabric">
+      <option value="">Fabric</option>
+      <option value="silk">Pure silk</option>
+      <option value="cotton silk">Cotton silk</option>
+      <option value="cotton">Cotton</option>
+      <option value="muslin">Muslin</option>
+      <option value="tussar silk">Tussar silk</option>
+    </select>
+    <select class="srch-fselect" id="flt-occasion" aria-label="Filter by occasion">
+      <option value="">Occasion</option>
+      <option value="wedding">Wedding</option>
+      <option value="festive">Festive</option>
+      <option value="puja">Puja</option>
+      <option value="casual">Casual</option>
+      <option value="daily">Daily</option>
+    </select>
+    <select class="srch-fselect" id="flt-price" aria-label="Filter by price">
+      <option value="">Price</option>
+      <option value="0-3000">Under ₹3,000</option>
+      <option value="3000-8000">₹3,000 – ₹8,000</option>
+      <option value="8000-15000">₹8,000 – ₹15,000</option>
+      <option value="15000-999999">Above ₹15,000</option>
+    </select>
+    <button class="srch-toggle" id="tog-new"  data-filter="new">New arrivals</button>
+    <button class="srch-toggle" id="tog-offer" data-filter="offer">On offer</button>
+    <button class="srch-toggle" id="tog-gi"   data-filter="gi">GI tagged</button>
+  </div>
+  <div class="srch-sort-wrap">
+    <span class="srch-sort-label">Sort</span>
+    <select class="srch-sort" id="srch-sort" aria-label="Sort results">
+      <option value="relevance">Relevance</option>
+      <option value="price-asc">Price: Low to High</option>
+      <option value="price-desc">Price: High to Low</option>
+      <option value="new">Newest first</option>
+    </select>
+  </div>
+</div>
+
+<!-- ── Product grid ── -->
+<main class="srch-main">
+  <div class="srch-grid" id="srch-grid" role="list" aria-label="Search results"></div>
+  <div id="srch-scroll-sentinel" style="height:1px;"></div>
+</main>
+
+<!-- Footer injected by footer.js -->
+<div id="footer-wrap"></div>
+
+<script src="nav.js"></script>
+<script src="footer.js"></script>
+<script src="product-drawer.js"></script>
+<script>
+(function(){
+'use strict';
+
+/* ── Config ─────────────────────────────────────────── */
+const PAGE_SIZE   = 12;
+const STORAGE_KEY = 'amayaa_search_state';
+const WISHLIST_KEY= 'amayaa_wishlist';
+
+/* ── State ───────────────────────────────────────────── */
+let allProducts   = [];   // all products from index
+let filtered      = [];   // after applying current filters
+let displayed     = 0;    // how many currently in DOM
+let loading       = false;
+let wishlist      = [];
+
+/* ── Filter state ────────────────────────────────────── */
+let filters = {
+  q:       '',
+  type:    '',
+  colour:  '',
+  fabric:  '',
+  occasion:'',
+  price:   '',
+  new:     false,
+  offer:   false,
+  gi:      false,
+  sort:    'relevance'
+};
+
+/* ── Load wishlist ───────────────────────────────────── */
+try { wishlist = JSON.parse(localStorage.getItem(WISHLIST_KEY)||'[]'); } catch(e){}
+
+/* ── Read URL params (first priority) ───────────────── */
+function _readUrlParams() {
+  const p = new URLSearchParams(location.search);
+  if (p.get('id')) return; // drawer deep-link, don't overwrite filters
+  if (p.get('q'))        filters.q        = p.get('q');
+  if (p.get('type'))     filters.type     = p.get('type');
+  if (p.get('colour'))   filters.colour   = p.get('colour');
+  if (p.get('fabric'))   filters.fabric   = p.get('fabric');
+  if (p.get('occasion')) filters.occasion = p.get('occasion');
+  if (p.get('price'))    filters.price    = p.get('price');
+  if (p.get('new'))      filters.new      = true;
+  if (p.get('offer'))    filters.offer    = true;
+  if (p.get('gi'))       filters.gi       = true;
+}
+
+/* ── Read localStorage (second priority if no URL params) ── */
+function _readStorage() {
+  const p = new URLSearchParams(location.search);
+  if (p.toString() && !p.has('id')) return; // URL params take priority
+  try {
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}');
+    if (saved.q)        filters.q        = saved.q;
+    if (saved.type)     filters.type     = saved.type;
+    if (saved.colour)   filters.colour   = saved.colour;
+    if (saved.fabric)   filters.fabric   = saved.fabric;
+    if (saved.occasion) filters.occasion = saved.occasion;
+    if (saved.price)    filters.price    = saved.price;
+    if (saved.new)      filters.new      = true;
+    if (saved.offer)    filters.offer    = true;
+    if (saved.gi)       filters.gi       = true;
+  } catch(e){}
+}
+
+/* ── Save filters to storage ─────────────────────────── */
+function _saveState() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(filters)); } catch(e){}
+}
+
+/* ── Apply filters to allProducts ─────────────────────── */
+function _applyFilters() {
+  let res = allProducts.slice();
+
+  /* Quick-exits for active-only */
+  res = res.filter(p => p.status !== 'draft');
+
+  /* Keyword (q) — match name, type, region, shortDescription, tags */
+  if (filters.q) {
+    const q = filters.q.toLowerCase();
+    res = res.filter(p => {
+      const hay = [p.name, p.type, p.region, p.shortDescription||'', ...(p.tags||[])].join(' ').toLowerCase();
+      return hay.includes(q);
+    });
+  }
+
+  /* Type / weave */
+  if (filters.type) {
+    const t = filters.type.toLowerCase();
+    res = res.filter(p => (p.type||'').toLowerCase().includes(t));
+  }
+
+  /* Colour — matches tags */
+  if (filters.colour) {
+    const c = filters.colour.toLowerCase();
+    res = res.filter(p => {
+      const tags = (p.tags||[]).map(t=>t.toLowerCase());
+      const col  = (p.colour||'').toLowerCase();
+      return tags.some(t=>t.includes(c)) || col.includes(c);
+    });
+  }
+
+  /* Fabric */
+  if (filters.fabric) {
+    const f = filters.fabric.toLowerCase();
+    res = res.filter(p => (p.fabric||'').toLowerCase().includes(f));
+  }
+
+  /* Occasion */
+  if (filters.occasion) {
+    const o = filters.occasion.toLowerCase();
+    res = res.filter(p => {
+      const occ = Array.isArray(p.occasion) ? p.occasion.join(' ') : (p.occasion||'');
+      return occ.toLowerCase().includes(o);
+    });
+  }
+
+  /* Price range */
+  if (filters.price) {
+    const [min, max] = filters.price.split('-').map(Number);
+    res = res.filter(p => p.price >= min && p.price <= max);
+  }
+
+  /* Toggles */
+  if (filters.new)   res = res.filter(p => (p.badges||[]).includes('new'));
+  if (filters.offer) res = res.filter(p => (p.badges||[]).includes('offer'));
+  if (filters.gi)    res = res.filter(p => (p.tags||[]).some(t=>t.toLowerCase().includes('gi')));
+
+  /* Sort */
+  if (filters.sort === 'price-asc')  res.sort((a,b)=>a.price-b.price);
+  if (filters.sort === 'price-desc') res.sort((a,b)=>b.price-a.price);
+  if (filters.sort === 'new')        res.sort((a,b)=>{
+    const an = (a.badges||[]).includes('new');
+    const bn = (b.badges||[]).includes('new');
+    return (bn?1:0)-(an?1:0);
+  });
+
+  filtered = res;
+}
+
+/* ── Update hero title ────────────────────────────────── */
+function _updateHero() {
+  const titleEl = document.getElementById('srch-title-text');
+  if (filters.q) {
+    titleEl.innerHTML = `Results for <em class="srch-q">&ldquo;${_esc(filters.q)}&rdquo;</em>`;
+  } else {
+    const parts = [];
+    if (filters.type)    parts.push(filters.type);
+    if (filters.colour)  parts.push(filters.colour);
+    if (filters.occasion)parts.push(filters.occasion);
+    if (parts.length)    titleEl.innerHTML = `Results for <em class="srch-q">${_esc(parts.join(', '))}</em>`;
+    else                 titleEl.textContent = 'All sarees';
+  }
+
+  /* Active pills */
+  const pillsEl = document.getElementById('srch-active-pills');
+  pillsEl.innerHTML = '';
+  const active = _getActivePillDefs();
+  active.forEach(({label, key}) => {
+    const pill = document.createElement('span');
+    pill.className = 'srch-pill';
+    pill.setAttribute('role','listitem');
+    pill.innerHTML = `${_esc(label)} <button class="srch-pill-rm" aria-label="Remove ${_esc(label)} filter" data-key="${key}">&times;</button>`;
+    pillsEl.appendChild(pill);
+  });
+  if (active.length) {
+    const clr = document.createElement('button');
+    clr.className = 'srch-clear-all';
+    clr.textContent = 'Clear all';
+    clr.addEventListener('click', _clearAll);
+    pillsEl.appendChild(clr);
+  }
+
+  pillsEl.querySelectorAll('.srch-pill-rm').forEach(btn => {
+    btn.addEventListener('click', () => _removeFilter(btn.dataset.key));
+  });
+}
+
+function _getActivePillDefs() {
+  const res = [];
+  if (filters.q)        res.push({label:`"${filters.q}"`,     key:'q'});
+  if (filters.type)     res.push({label:filters.type,         key:'type'});
+  if (filters.colour)   res.push({label:filters.colour,       key:'colour'});
+  if (filters.fabric)   res.push({label:filters.fabric,       key:'fabric'});
+  if (filters.occasion) res.push({label:filters.occasion,     key:'occasion'});
+  if (filters.price) {
+    const labels = {'0-3000':'Under ₹3k','3000-8000':'₹3k–₹8k','8000-15000':'₹8k–₹15k','15000-999999':'Above ₹15k'};
+    res.push({label:labels[filters.price]||filters.price, key:'price'});
+  }
+  if (filters.new)      res.push({label:'New arrivals', key:'new'});
+  if (filters.offer)    res.push({label:'On offer',     key:'offer'});
+  if (filters.gi)       res.push({label:'GI tagged',    key:'gi'});
+  return res;
+}
+
+/* ── Update count ─────────────────────────────────────── */
+function _updateCount() {
+  document.getElementById('srch-count-num').textContent = filtered.length;
+}
+
+/* ── Render a batch of cards ──────────────────────────── */
+function _renderBatch(startIdx) {
+  const grid    = document.getElementById('srch-grid');
+  const batch   = filtered.slice(startIdx, startIdx + PAGE_SIZE);
+
+  if (startIdx === 0) {
+    grid.innerHTML = '';
+    displayed = 0;
+  }
+
+  if (filtered.length === 0) {
+    grid.innerHTML = `
+      <div class="srch-no-results">
+        <h3>No sarees match your search</h3>
+        <p>Try adjusting or clearing some filters.</p>
+        <button class="srch-broaden" onclick="document.getElementById('flt-type').value='';_clearAll && _clearAll()">Broaden search</button>
+      </div>`;
+    return;
+  }
+
+  batch.forEach(p => {
+    const card = _buildCard(p);
+    grid.appendChild(card);
+    displayed++;
+  });
+
+  /* Scroll status */
+  let status = grid.querySelector('.srch-scroll-status');
+  if (status) status.remove();
+  status = document.createElement('div');
+  status.className = 'srch-scroll-status';
+  status.setAttribute('role','status');
+  status.setAttribute('aria-live','polite');
+  const total = filtered.length;
+  if (displayed >= total) {
+    status.innerHTML = `Showing all <span class="count">${total}</span> sarees`;
+  } else {
+    status.innerHTML = `Showing <span class="count">${displayed}</span> of <span class="count">${total}</span> sarees`;
+  }
+  grid.appendChild(status);
+}
+
+/* ── Build a single product card ──────────────────────── */
+function _buildCard(p) {
+  const wished = wishlist.includes(p.id);
+  const div    = document.createElement('div');
+  div.className = 'pc';
+  div.setAttribute('role','listitem');
+  div.setAttribute('tabindex','0');
+  div.setAttribute('aria-label', p.name);
+
+  const badges = (p.badges||[]).map(b => {
+    if (b==='new')      return `<span class="badge b-new">New</span>`;
+    if (b==='offer')    return `<span class="badge b-offer">Offer</span>`;
+    if (b==='featured') return `<span class="badge b-featured">Featured</span>`;
+    return '';
+  }).join('');
+
+  const priceHtml = p.originalPrice
+    ? `<span class="pnew">₹${p.price.toLocaleString('en-IN')}</span>
+       <span class="pold">₹${p.originalPrice.toLocaleString('en-IN')}</span>
+       <span class="psave">Save ₹${(p.originalPrice-p.price).toLocaleString('en-IN')}</span>`
+    : `<span class="pnew">₹${p.price.toLocaleString('en-IN')}</span>`;
+
+  const giLine = (p.tags||[]).some(t=>t.toLowerCase().includes('gi'))
+    ? `<div class="pc-gi">✦ GI tagged</div>` : '';
+
+  div.innerHTML = `
+    <div class="pi">
+      <div class="gf" style="height:200px;background:linear-gradient(160deg,${p.gradientFrom||'#8B1A4A'},${p.gradientTo||'#C4622D'});"></div>
+      <div class="pbadges">${badges}</div>
+      <button class="pc-wish${wished?' wished':''}" data-id="${p.id}" aria-label="${wished?'Remove from':'Add to'} wishlist">
+        ${wished ? `<svg width="14" height="14" viewBox="0 0 24 24" fill="#8B1A4A" stroke="#8B1A4A" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>`
+          : `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>`}
+      </button>
+    </div>
+    <div class="pinfo">
+      <div class="preg">${_esc(p.region||'')}</div>
+      <div class="pname">${_esc(p.name)}</div>
+      <div class="pfab">${_esc(p.fabric||'')}${p.colour?' &middot; '+_esc(p.colour):''}</div>
+      ${giLine}
+      <div class="ppr">${priceHtml}</div>
+    </div>`;
+
+  /* Click card → open drawer */
+  div.addEventListener('click', e => {
+    if (e.target.closest('.pc-wish')) return; // wishlist btn handled separately
+    ProductDrawer.open(p.id);
+  });
+  div.addEventListener('keydown', e => {
+    if (e.key==='Enter'||e.key===' ') { e.preventDefault(); ProductDrawer.open(p.id); }
+  });
+
+  /* Wishlist button */
+  div.querySelector('.pc-wish').addEventListener('click', e => {
+    e.stopPropagation();
+    _toggleWishlist(p.id, div.querySelector('.pc-wish'));
+  });
+
+  return div;
+}
+
+/* ── Wishlist toggle ──────────────────────────────────── */
+function _toggleWishlist(id, btn) {
+  const idx = wishlist.indexOf(id);
+  if (idx === -1) {
+    wishlist.push(id);
+    btn.classList.add('wished');
+    btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="#8B1A4A" stroke="#8B1A4A" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>`;
+  } else {
+    wishlist.splice(idx,1);
+    btn.classList.remove('wished');
+    btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>`;
+  }
+  try { localStorage.setItem(WISHLIST_KEY, JSON.stringify(wishlist)); } catch(e){}
+}
+
+/* ── Sync toolbar controls to filter state ─────────────── */
+function _syncToolbarToFilters() {
+  const sel = (id, val) => { const el=document.getElementById(id); if(el) el.value=val||''; };
+  sel('flt-type',    filters.type);
+  sel('flt-colour',  filters.colour);
+  sel('flt-fabric',  filters.fabric);
+  sel('flt-occasion',filters.occasion);
+  sel('flt-price',   filters.price);
+  sel('srch-sort',   filters.sort);
+
+  const tog = (id, active) => {
+    const el = document.getElementById(id);
+    if (el) el.classList.toggle('active', !!active);
+  };
+  tog('tog-new',   filters.new);
+  tog('tog-offer', filters.offer);
+  tog('tog-gi',    filters.gi);
+
+  /* Mark active dropdowns */
+  ['flt-type','flt-colour','flt-fabric','flt-occasion','flt-price'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.toggle('active', !!el.value);
+  });
+}
+
+/* ── Remove one filter ────────────────────────────────── */
+function _removeFilter(key) {
+  if (key === 'new' || key === 'offer' || key === 'gi') filters[key] = false;
+  else filters[key] = '';
+  _syncToolbarToFilters();
+  _refresh();
+}
+
+/* ── Clear all filters ────────────────────────────────── */
+function _clearAll() {
+  filters = {q:'',type:'',colour:'',fabric:'',occasion:'',price:'',new:false,offer:false,gi:false,sort:'relevance'};
+  try { localStorage.removeItem(STORAGE_KEY); } catch(e){}
+  _syncToolbarToFilters();
+  _refresh();
+}
+window._clearAll = _clearAll; // allow inline use in no-results button
+
+/* ── Full refresh ─────────────────────────────────────── */
+function _refresh() {
+  _applyFilters();
+  _updateHero();
+  _updateCount();
+  _saveState();
+  _renderBatch(0);
+  _updateUrlSilently();
+}
+
+/* ── Update URL silently ──────────────────────────────── */
+function _updateUrlSilently() {
+  const url = new URL(location.href);
+  const keys = ['q','type','colour','fabric','occasion','price'];
+  keys.forEach(k => { if (filters[k]) url.searchParams.set(k, filters[k]); else url.searchParams.delete(k); });
+  ['new','offer','gi'].forEach(k => { if (filters[k]) url.searchParams.set(k,'1'); else url.searchParams.delete(k); });
+  history.replaceState({}, '', url.toString());
+}
+
+/* ── Infinite scroll via IntersectionObserver ─────────── */
+function _setupInfiniteScroll() {
+  const sentinel = document.getElementById('srch-scroll-sentinel');
+  const obs = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting && !loading && displayed < filtered.length) {
+      loading = true;
+      /* Brief spinner */
+      const grid    = document.getElementById('srch-grid');
+      const spinner = document.createElement('div');
+      spinner.className = 'srch-scroll-status';
+      spinner.innerHTML = `<div class="srch-loading-spinner"><div class="srch-dot"></div><div class="srch-dot"></div><div class="srch-dot"></div></div>`;
+      grid.appendChild(spinner);
+
+      setTimeout(() => {
+        spinner.remove();
+        _renderBatch(displayed);
+        loading = false;
+      }, 380);
+    }
+  }, {rootMargin:'200px'});
+  obs.observe(sentinel);
+}
+
+/* ── Bind toolbar events ──────────────────────────────── */
+function _bindToolbar() {
+  const map = {
+    'flt-type':    k => { filters.type     = k; },
+    'flt-colour':  k => { filters.colour   = k; },
+    'flt-fabric':  k => { filters.fabric   = k; },
+    'flt-occasion':k => { filters.occasion = k; },
+    'flt-price':   k => { filters.price    = k; },
+    'srch-sort':   k => { filters.sort     = k; },
+  };
+  Object.entries(map).forEach(([id, fn]) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener('change', () => { fn(el.value); el.classList.toggle('active',!!el.value); _refresh(); });
+  });
+
+  document.querySelectorAll('.srch-toggle').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const key = btn.dataset.filter;
+      filters[key] = !filters[key];
+      btn.classList.toggle('active', filters[key]);
+      _refresh();
+    });
+  });
+}
+
+/* ── Escape HTML ──────────────────────────────────────── */
+function _esc(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+/* ── Bootstrap ────────────────────────────────────────── */
+function _init() {
+  _readUrlParams();
+  _readStorage();
+  _syncToolbarToFilters();
+  _bindToolbar();
+  _setupInfiniteScroll();
+
+  /* Fetch products index */
+  fetch('data/products_index.json')
+    .then(r => { if (!r.ok) throw new Error('failed'); return r.json(); })
+    .then(data => {
+      allProducts = Array.isArray(data) ? data : [];
+      _refresh();
+    })
+    .catch(() => {
+      document.getElementById('srch-grid').innerHTML =
+        `<div class="srch-no-results"><h3>Couldn't load products</h3><p>Please try refreshing the page.</p></div>`;
+    });
+}
+
+/* Exposed for nav.js _amayaaNavSearch to update query in-place */
+window._amayaaUpdateQuery = function(q) {
+  filters.q = q || '';
+  _syncToolbarToFilters();
+  _refresh();
+  window.scrollTo({top:0, behavior:'smooth'});
+};
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', _init);
+} else {
+  _init();
+}
+
+})();
+</script>
+
+<!-- GoatCounter analytics -->
+<script data-goatcounter="https://amayaa.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

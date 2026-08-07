@@ -840,6 +840,7 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
 .page-explore.hidden{opacity:0;pointer-events:none;}
 
 </style>
+<link rel="stylesheet" href="product-drawer.css">
 </head>
 <body>
 <div class="orbs" aria-hidden="true">
@@ -1321,6 +1322,34 @@ function slowScrollTo(targetId){
   }, {passive:true});
 })();
 </script>
+<script src="product-drawer.js"></script>
 <script src="nav.js"></script>
+<script>
+(function(){
+  var nameToId = {"Katan Silk Banarasi Saree": "AMY-BAN-001", "Pure Kanjivaram Silk Saree": "AMY-KAN-001", "Baluchari Silk Saree": "AMY-BAL-001", "Chanderi Cotton Silk Saree": "AMY-CHA-001", "Sambalpuri Ikat Silk": "AMY-SAM-001", "Paithani Pure Silk Saree": "AMY-PAI-001", "Bhagalpuri Tussar Silk": "AMY-TUS-001", "Pochampally Double Ikat": "AMY-IKA-001", "Maheshwari Silk Cotton": "AMY-MAH-001", "Mysore Pure Silk Saree": "AMY-MYS-001", "Jamdani Muslin Saree": "AMY-JAM-001", "Tant Cotton Saree": "AMY-TAN-001"};
+  document.querySelectorAll('.pc').forEach(function(card){
+    var nameEl = card.querySelector('.pname');
+    if(!nameEl) return;
+    var pid = nameToId[nameEl.textContent.trim()];
+    if(!pid) return;
+    card.setAttribute('data-pid', pid);
+    var pi = card.querySelector('.pi');
+    if(pi){
+      pi.style.cursor = 'pointer';
+      pi.setAttribute('title', 'View details');
+      pi.addEventListener('click', function(){ 
+        if(window.ProductDrawer) window.ProductDrawer.open(pid);
+      });
+    }
+    var pname = card.querySelector('.pname');
+    if(pname){
+      pname.style.cursor = 'pointer';
+      pname.addEventListener('click', function(){ 
+        if(window.ProductDrawer) window.ProductDrawer.open(pid);
+      });
+    }
+  });
+})();
+</script>
 </body>
 </html>

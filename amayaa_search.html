@@ -9,7 +9,6 @@
 <link rel="stylesheet" href="public.css">
 <link rel="stylesheet" href="product-drawer.css">
 <style>
-*{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15px;}
 /* ── Orbs ── */
 .orbs{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;}
@@ -20,47 +19,31 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
 .o4{width:320px;height:320px;background:#F2C4B0;bottom:-80px;right:15%;animation-delay:-5s;}
 .o5{width:260px;height:260px;background:#E6C88A;top:50%;left:40%;animation-delay:-10s;}
 @keyframes fl{0%,100%{transform:translate(0,0);}50%{transform:translate(20px,-30px);}}
-/* ── Hero band ── */
-.srch-hero{
+/* ── Compact title bar ── */
+.srch-titlebar{
   position:relative;z-index:1;
-  background:linear-gradient(135deg,#8B1A4A 0%,#C4622D 100%);
-  padding:22px 36px 18px;
+  background:#FBF5ED;
+  border-bottom:1px solid #d4c8b8;
+  padding:14px 36px 10px;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:8px;
 }
-.srch-hero-eyebrow{
-  font-size:10px;letter-spacing:3px;text-transform:uppercase;
-  color:rgba(251,245,237,.65);margin-bottom:4px;
-}
-.srch-hero-title{
+.srch-titlebar-left{display:flex;align-items:center;gap:14px;flex-wrap:wrap;flex:1;}
+.srch-page-title{
   font-family:'Cormorant Garamond',serif;
-  font-size:clamp(22px,3vw,34px);font-weight:400;
-  color:#FBF5ED;margin-bottom:12px;line-height:1.2;
+  font-size:clamp(16px,2vw,22px);font-weight:400;
+  color:#5A1830;white-space:nowrap;
 }
-.srch-hero-title em{color:#F4C2A1;font-style:italic;}
-.srch-hero-title .srch-q{color:#F4C2A1;font-style:italic;}
-/* Active filter pills */
-.srch-active-pills{display:flex;flex-wrap:wrap;gap:8px;align-items:center;min-height:28px;}
+/* Active filter pills (now in title bar) */
 .srch-pill{
   display:inline-flex;align-items:center;gap:5px;
-  background:rgba(251,245,237,.18);
-  border:1px solid rgba(251,245,237,.4);
-  border-radius:20px;padding:4px 11px;
-  font-size:11px;color:#FBF5ED;
+  background:rgba(139,26,74,.08);border:1px solid rgba(139,26,74,.2);
+  border-radius:20px;padding:4px 11px;font-size:11px;color:#5A1830;
 }
-.srch-pill-rm{
-  cursor:pointer;color:rgba(251,245,237,.65);
-  font-size:15px;line-height:1;border:none;
-  background:none;padding:0;margin-left:2px;
-}
-.srch-pill-rm:hover{color:#FBF5ED;}
-.srch-clear-all{
-  background:transparent;
-  border:1px solid rgba(251,245,237,.35);
-  border-radius:20px;padding:4px 12px;
-  font-size:11px;color:rgba(251,245,237,.7);
-  cursor:pointer;font-family:'Jost',sans-serif;
-  transition:border-color .2s,color .2s;
-}
-.srch-clear-all:hover{border-color:rgba(251,245,237,.7);color:#FBF5ED;}
+.srch-pill-rm{cursor:pointer;color:#8B4A6A;font-size:15px;line-height:1;border:none;background:none;padding:0;margin-left:2px;}
+.srch-pill-rm:hover{color:#8B1A4A;}
+.srch-clear-all{background:transparent;border:1px solid rgba(139,26,74,.25);border-radius:20px;padding:4px 12px;font-size:11px;color:#8B4A6A;cursor:pointer;font-family:'Jost',sans-serif;transition:border-color .2s,color .2s;}
+.srch-clear-all:hover{border-color:#8B1A4A;color:#5A1830;}
 /* ── Filter toolbar ── */
 .srch-toolbar{
   position:relative;z-index:2;
@@ -225,14 +208,13 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
 <!-- Nav injected by nav.js -->
 <div id="nav-wrap"></div>
 
-<!-- ── Hero band ── -->
-<section class="srch-hero" id="srch-hero" aria-label="Search results">
-  <div class="srch-hero-eyebrow">Search results</div>
-  <h1 class="srch-hero-title" id="srch-hero-title">
-    <span id="srch-title-text">All sarees</span>
-  </h1>
-  <div class="srch-active-pills" id="srch-active-pills" role="list" aria-label="Active filters"></div>
-</section>
+<!-- ── Compact title bar ── -->
+<div class="srch-titlebar" id="srch-hero" aria-label="Search results">
+  <div class="srch-titlebar-left">
+    <h1 class="srch-page-title" id="srch-hero-title"><span id="srch-title-text">All sarees</span></h1>
+    <div class="srch-active-pills" id="srch-active-pills" role="list" aria-label="Active filters"></div>
+  </div>
+</div>
 
 <!-- ── Filter toolbar ── -->
 <div class="srch-toolbar" role="search" aria-label="Filter sarees">

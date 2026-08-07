@@ -30,7 +30,7 @@
       <li><a href="amayaa_offers.html" class="offer-a"><span class="gi">&#127873;</span>Special Offers</a></li>
       <li><a href="amayaa_contact.html">Contact</a></li>
       </ul>
-    <button class="nav-srch-btn" onclick="(function(){document.getElementById('srchOverlay').classList.add('open');setTimeout(function(){document.getElementById('srchInput').focus();},100);})()" aria-label="Search sarees">
+    <button class="nav-srch-btn" onclick="(function(){if(window.location.pathname.endsWith('amayaa_search.html')){document.getElementById('srchOverlay').classList.add('open');setTimeout(function(){document.getElementById('srchInput').focus();},100);}else{window.location.href='amayaa_search.html';}})()" aria-label="Search sarees">
       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
     </button>
     <a href="https://wa.me/919583946000" class="nav-wa" target="_blank" rel="noopener">
@@ -88,17 +88,45 @@
       WhatsApp Us
     </a>
   </div>
-</div>`; // end nav-only HTML
+</div>
+<div class="srch-overlay" id="srchOverlay">
+  <button class="srch-close" onclick="document.getElementById('srchOverlay').classList.remove('open')" aria-label="Close search">&times;</button>
+  <h2 class="srch-title">Find Your Perfect Saree</h2>
+  <p class="srch-sub">Search by name, region, fabric, colour, occasion or price</p>
 
-  // ── Always inject srchOverlay to body ──────────────────────────────────────
-  // This runs on ALL pages (even those with inline nav) so search works everywhere
-  if (!document.getElementById('srchOverlay')) {
-    var _ovEl = document.createElement('div');
-    _ovEl.innerHTML = '<div class="srch-overlay" id="srchOverlay">\n  <div class="srch-panel">\n    <div class="srch-panel-hdr">\n      <div class="srch-logo">Amayaa <span>by Polka Dots</span></div>\n      <button class="srch-close" onclick="document.getElementById(\'srchOverlay\').classList.remove(\'open\')" aria-label="Close search">&times;</button>\n    </div>\n    <div class="srch-panel-body">\n      <div class="srch-bar">\n        <input type="search" id="srchInput" placeholder="Search by weave, colour, occasion, price…"\n               onkeydown="if(event.key===\'Escape\')document.getElementById(\'srchOverlay\').classList.remove(\'open\');else if(event.key===\'Enter\'){event.preventDefault();_amayaaNavSearch(this.value);}">\n        <button onclick="_amayaaNavSearch(document.getElementById(\'srchInput\').value)" aria-label="Search">\n          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>\n        </button>\n      </div>\n      <div class="srch-chips">\n        <a href="amayaa_search.html?type=Banarasi" class="srch-chip">Banarasi</a>\n        <a href="amayaa_search.html?type=Kanjivaram" class="srch-chip">Kanjivaram</a>\n        <a href="amayaa_search.html?type=Baluchari" class="srch-chip">Baluchari</a>\n        <a href="amayaa_search.html?type=Chanderi" class="srch-chip">Chanderi</a>\n        <a href="amayaa_search.html?type=Sambalpuri" class="srch-chip">Sambalpuri</a>\n        <a href="amayaa_search.html?occasion=wedding" class="srch-chip">Wedding</a>\n        <a href="amayaa_search.html?occasion=festive" class="srch-chip">Festive</a>\n        <a href="amayaa_search.html?fabric=silk" class="srch-chip">Silk</a>\n        <a href="amayaa_search.html?fabric=cotton" class="srch-chip">Cotton</a>\n        <a href="amayaa_search.html?fabric=tussar" class="srch-chip">Tussar</a>\n        <a href="amayaa_search.html?price=0-5000" class="srch-chip">Under ₹5,000</a>\n        <a href="amayaa_search.html?price=0-10000" class="srch-chip">Under ₹10,000</a>\n        <a href="amayaa_search.html?new=1" class="srch-chip">New Arrivals</a>\n        <a href="amayaa_offers.html" class="srch-chip">Special Offers</a>\n      </div>\n    </div>\n  </div>\n</div>';
-    while (_ovEl.firstChild) { document.body.appendChild(_ovEl.firstChild); }
-  }
+  <div class="srch-bar">
+    <input type="search" id="srchInput" placeholder="e.g. Banarasi silk, red saree, wedding, under ₹5000..."
+           onkeydown="if(event.key==='Escape')document.getElementById('srchOverlay').classList.remove('open');else if(event.key==='Enter'){event.preventDefault();_amayaaNavSearch(this.value);}">
+    <button onclick="_amayaaNavSearch(document.getElementById('srchInput').value)" aria-label="Search">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    </button>
+  </div>
 
-  // ── Inject nav HTML only when placeholder div#nav-wrap exists ──────────────
+  <!-- Quick filter chips -->
+  <div class="srch-chips">
+    <a href="amayaa_search.html?type=Banarasi" class="srch-chip">Banarasi</a>
+    <a href="amayaa_search.html?type=Kanjivaram" class="srch-chip">Kanjivaram</a>
+    <a href="amayaa_search.html?type=Baluchari" class="srch-chip">Baluchari</a>
+    <a href="amayaa_search.html?type=Chanderi" class="srch-chip">Chanderi</a>
+    <a href="amayaa_search.html?type=Sambalpuri" class="srch-chip">Sambalpuri</a>
+    <a href="amayaa_search.html?occasion=wedding" class="srch-chip">Wedding</a>
+    <a href="amayaa_search.html?occasion=festive" class="srch-chip">Festive</a>
+    <a href="amayaa_search.html?fabric=silk" class="srch-chip">Silk</a>
+    <a href="amayaa_search.html?fabric=cotton" class="srch-chip">Cotton</a>
+    <a href="amayaa_search.html?fabric=tussar" class="srch-chip">Tussar</a>
+    <a href="amayaa_search.html?price=0-5000" class="srch-chip">Under ₹5,000</a>
+    <a href="amayaa_search.html?price=0-10000" class="srch-chip">Under ₹10,000</a>
+    <a href="amayaa_search.html?new=1" class="srch-chip">New Arrivals</a>
+    <a href="amayaa_offers.html" class="srch-chip">Special Offers</a>
+  </div>
+
+  <!-- Live results preview -->
+  <div class="srch-results" id="srchResults">
+    <!-- Populated by JS -->
+  </div>
+</div>`; // end nav+search HTML
+
+  // ── Inject ─────────────────────────────────────────────────────────────────
   var _wrap = document.getElementById('nav-wrap');
   if (!_wrap) return;
 
@@ -117,7 +145,6 @@
   _parent.removeChild(_wrap);
 
 }());
-
 
 /* ── Search navigation helper ─────────────────────────────────────────────────
  * Called by the nav search bar on Enter or button click.

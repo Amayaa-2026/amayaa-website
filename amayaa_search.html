@@ -574,7 +574,7 @@ function _buildCard(p) {
     if (b==='offer')    return `<span class="badge b-offer">Offer</span>`;
     if (b==='featured') return `<span class="badge b-featured">Featured</span>`;
     return '';
-  }).join('');
+  }).join('') + (p.status==='sold_out' ? `<span class="badge b-sold">Sold Out</span>` : '');
 
   const priceHtml = p.originalPrice
     ? `<span class="pnew">₹${p.price.toLocaleString('en-IN')}</span>

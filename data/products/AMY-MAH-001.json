@@ -1,0 +1,43 @@
+{
+  "id": "AMY-MAH-001",
+  "name": "Maheshwari Silk Cotton",
+  "type": "Maheshwari",
+  "region": "Maheshwar, MP",
+  "fabric": "Silk Cotton",
+  "colour": "Pink & Silver",
+  "price": 3800,
+  "originalPrice": null,
+  "status": "active",
+  "featured": false,
+  "badges": [],
+  "occasion": [
+    "casual",
+    "puja",
+    "festive"
+  ],
+  "length": "6.3 metres",
+  "blousePiece": "Included — 0.8 metres",
+  "blouseIncluded": true,
+  "weaveType": "Reversible — Silk Warp, Cotton Weft",
+  "gradientFrom": "#3A1A2A",
+  "gradientTo": "#8A4A6A",
+  "shortDescription": "Reversible Maheshwari silk-cotton from Maheshwar, MP. Fine stripe with delicate silver border.",
+  "tags": [
+    "silk cotton",
+    "maheshwari",
+    "madhya pradesh",
+    "reversible",
+    "casual",
+    "pink",
+    "gi-tagged"
+  ],
+  "photos": [],
+  "description": "Maheshwari sarees from the historic town of Maheshwar on the banks of the Narmada river are known for their distinctive reversible quality and subtle shimmer. This pink and silver silk-cotton Maheshwari has the characteristic fine stripe and check pattern, with a delicate silver border.",
+  "weaveStory": "Maheshwari weaving was revived in the 18th century by Queen Ahilya Bai Holkar of Indore, who established a weaving centre in Maheshwar and brought master weavers from across the country. The tradition continues today, supported by the Rehwa Society.",
+  "weavingDays": "3–5",
+  "careInstructions": "Gentle hand wash in cold water. The silk-cotton blend is more forgiving than pure silk. Iron on medium heat.",
+  "giTagged": true,
+  "seoTitle": "",
+  "seoDescription": "",
+  "offerValidUntil": null
+}

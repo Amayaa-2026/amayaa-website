@@ -1,0 +1,46 @@
+{
+  "id": "AMY-MYS-001",
+  "name": "Mysore Pure Silk Saree",
+  "type": "Mysore",
+  "region": "Mysore, KA",
+  "fabric": "Pure Silk",
+  "colour": "Coral Red",
+  "price": 11200,
+  "originalPrice": 14800,
+  "status": "active",
+  "featured": false,
+  "badges": [
+    "offer",
+    "new"
+  ],
+  "occasion": [
+    "wedding",
+    "festive",
+    "puja"
+  ],
+  "length": "6.3 metres",
+  "blousePiece": "Included — 0.8 metres",
+  "blouseIncluded": true,
+  "weaveType": "Handloom — Crepe Silk",
+  "gradientFrom": "#3A1A0A",
+  "gradientTo": "#C4622D",
+  "shortDescription": "Mysore pure crepe silk — lighter and more fluid than Kanjivaram. Gold zari border on lustrous coral red.",
+  "tags": [
+    "silk",
+    "mysore",
+    "crepe",
+    "karnataka",
+    "festive",
+    "coral",
+    "gi-tagged"
+  ],
+  "photos": [],
+  "description": "Mysore silk is celebrated for its smooth, crepe-like texture and natural lustre. Unlike Kanjivaram, Mysore silk is lighter and more fluid, making it ideal for daily wear alongside festive occasions. This coral red saree features a classic gold zari border and a plain, lustrous body that showcases the silk's natural beauty.",
+  "weaveStory": "Mysore silk weaving has been under the patronage of the Mysore royal family since the 17th century. The Karnataka Silk Industries Corporation (KSIC) continues to produce authentic Mysore silk using traditional techniques and natural mulberry silk.",
+  "weavingDays": "3–7",
+  "careInstructions": "Dry clean recommended. If hand washing, use very mild soap in cold water. The crepe texture requires gentle handling.",
+  "giTagged": true,
+  "seoTitle": "",
+  "seoDescription": "",
+  "offerValidUntil": null
+}

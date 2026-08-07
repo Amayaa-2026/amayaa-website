@@ -114,9 +114,14 @@
       : `<span class="pd-price">₹${p.price.toLocaleString('en-IN')}</span>`;
 
     /* Main photo */
+    const gradFrom = p.gradientFrom || '#8B1A4A';
+    const gradTo   = p.gradientTo   || '#C4622D';
     const mainPhotoHtml = _photos.length
       ? `<img src="${_photos[0]}" alt="${p.name}" loading="lazy">`
       : `<span class="pd-no-photo">Photo coming soon</span>`;
+    const mainPhotoBg = !_photos.length
+      ? `style="background:linear-gradient(160deg,${gradFrom},${gradTo})"`
+      : '';
 
     /* Thumbnails */
     const thumbsHtml = _photos.length > 1
@@ -158,7 +163,7 @@
     const body = _drawer.querySelector('.pd-body');
     body.innerHTML = `
       <div class="pd-photos">
-        <div class="pd-main-photo">
+        <div class="pd-main-photo" ${mainPhotoBg}>
           <div class="pd-badge-row">${badges}${giBadge}</div>
           <button class="pd-arr pd-arr-left" aria-label="Previous photo"${_photos.length < 2 ? ' hidden' : ''}>&#8249;</button>
           ${mainPhotoHtml}

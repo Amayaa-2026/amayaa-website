@@ -1,0 +1,57 @@
+{
+  "storeName": "Amayaa by Polka Dots",
+  "tagline": "Handloom sarees from India's finest weavers. Every saree carries the soul of the artisan who created it and the tradition they preserve.",
+  "address": {
+    "line1": "Block DS IV, Civic Center, Shop No. G5 & G11",
+    "line2": "Uttarapan Market Complex, Scheme No VII (M)",
+    "line3": "CIT Rd, near DVC Tower",
+    "city": "Kolkata",
+    "pincode": "700054",
+    "state": "West Bengal",
+    "country": "India"
+  },
+  "googleMapsLink": "",
+  "contact": {
+    "whatsapp": "919583946000",
+    "phone": "+91 95839 46000",
+    "email": "stylewithpolkadots@gmail.com"
+  },
+  "hours": {
+    "weekdays": "Monday – Saturday",
+    "weekdayHours": "10:00 AM – 8:00 PM",
+    "sunday": "Sunday",
+    "sundayHours": "11:00 AM – 6:00 PM"
+  },
+  "holidayNotice": "",
+  "social": {
+    "instagram": "https://instagram.com/stylewithpolkadots",
+    "facebook": "https://facebook.com/stylewithpolkadots",
+    "youtube": "https://www.youtube.com/@polkadots.617",
+    "whatsapp": "https://wa.me/919583946000",
+    "pinterest": ""
+  },
+  "integrations": {
+    "formspreeId": "xrgvkpdw",
+    "goatcounterSite": "amayaa",
+    "goatcounterScript": "https://gc.zgo.at/count.js",
+    "googleAnalyticsId": "",
+    "razorpay": {
+      "keyId": "",
+      "enabled": false
+    }
+  },
+  "siteControls": {
+    "maintenanceMode": false,
+    "showVisitorCounter": true,
+    "showWhatsAppFab": true,
+    "showSpecialOffersInNav": true
+  },
+  "seo": {
+    "title": "Amayaa by Polka Dots — Handloom Sarees from India's Finest Weavers",
+    "description": "Authentic handloom sarees handpicked from India's finest weaver communities. Banarasi, Kanjivaram, Baluchari, Chanderi and more — delivered to your door from Kolkata.",
+    "keywords": "handloom sarees, Banarasi saree, Kanjivaram silk, Baluchari, Chanderi, Kolkata saree boutique, authentic handloom"
+  },
+  "footerCopyright": "2026 Amayaa by Polka Dots · All Rights Reserved · Kolkata, India",
+  "footerTagline": "Made with ♥ for Indian Handloom",
+  "visitorStripText": "Woven with love for {count} visitors"
+}

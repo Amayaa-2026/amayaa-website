@@ -1,0 +1,46 @@
+{
+  "fonts": {
+    "ff-primary": "Cormorant Garamond",
+    "ff-body": "Jost"
+  },
+  "fontSizes": {
+    "sz-body": "14px",
+    "sz-title": "26px",
+    "sz-heading": "20px",
+    "sz-th": "11px",
+    "sz-td": "13px",
+    "sz-label": "12px",
+    "sz-input": "14px",
+    "sz-btn": "13px",
+    "sz-badge": "11px",
+    "sz-meta": "12px",
+    "sz-brand": "18px",
+    "sz-brandsub": "11px",
+    "sz-seclabel": "10px",
+    "sz-navlink": "14px"
+  },
+  "colours": {
+    "col-body": "#1A1208",
+    "col-title": "#1A0A04",
+    "col-label": "#9A8070",
+    "col-input": "#1A1208",
+    "col-link": "#C4622D",
+    "col-muted": "#9A8070",
+    "col-navlink": "#BFB0A0",
+    "col-active": "#FFFFFF"
+  },
+  "spacing": {
+    "lineHeight": "1.6",
+    "letterSpacing": "1px",
+    "labelTransform": "uppercase"
+  },
+  "orbColours": {
+    "home": "#8EC5C0",
+    "sarees": "#F4C2A1",
+    "product": "#E8C878",
+    "blog": "#8EC5C0",
+    "about": "#C4A8D4",
+    "contact": "#90D4C8",
+    "offers": "#F4A8B8"
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "id": "AMY-IKA-001",
+  "name": "Pochampally Double Ikat",
+  "type": "Ikat",
+  "region": "Pochampally, TG",
+  "fabric": "Pure Silk",
+  "colour": "Teal & Gold",
+  "price": 8400,
+  "originalPrice": 11200,
+  "status": "active",
+  "featured": false,
+  "badges": [
+    "offer"
+  ],
+  "occasion": [
+    "festive",
+    "casual"
+  ],
+  "length": "6.3 metres",
+  "blousePiece": "Included — 0.8 metres",
+  "blouseIncluded": true,
+  "weaveType": "Double Ikat — Telia Rumal Tradition",
+  "gradientFrom": "#0A2A3A",
+  "gradientTo": "#1A7A6A",
+  "shortDescription": "Pochampally double Ikat — warp and weft both dyed before weaving. Geometric patterns in teal and gold silk.",
+  "tags": [
+    "silk",
+    "ikat",
+    "double ikat",
+    "pochampally",
+    "telangana",
+    "geometric",
+    "gi-tagged"
+  ],
+  "photos": [],
+  "description": "Pochampally Double Ikat is one of the most technically demanding weaves in the world — both the warp and weft threads are resist-dyed before weaving, requiring extraordinary precision for the pattern to align perfectly. This teal and gold silk Ikat features traditional geometric patterns with a striking contemporary feel.",
+  "weaveStory": "Pochampally, a village near Hyderabad in Telangana, is the birthplace of Indian double Ikat silk. The Pochampally Ikat received GI protection in 2004 and is one of only a handful of double Ikat traditions in the world.",
+  "weavingDays": "7–14",
+  "careInstructions": "Dry clean only. The double Ikat technique makes this saree susceptible to thread damage if harshly washed. Store in muslin.",
+  "giTagged": true,
+  "seoTitle": "",
+  "seoDescription": "",
+  "offerValidUntil": null
+}

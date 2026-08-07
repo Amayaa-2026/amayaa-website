@@ -1,0 +1,46 @@
+{
+  "id": "AMY-PAI-001",
+  "name": "Paithani Pure Silk Saree",
+  "type": "Paithani",
+  "region": "Paithan, MH",
+  "fabric": "Pure Silk",
+  "colour": "Peacock Green",
+  "price": 18500,
+  "originalPrice": 24500,
+  "status": "active",
+  "featured": true,
+  "badges": [
+    "offer",
+    "featured"
+  ],
+  "occasion": [
+    "wedding",
+    "festive"
+  ],
+  "length": "6.3 metres",
+  "blousePiece": "Included — 0.8 metres",
+  "blouseIncluded": true,
+  "weaveType": "Tapestry Weave — Peacock & Lotus Motifs",
+  "gradientFrom": "#0A3A1A",
+  "gradientTo": "#1A7A3A",
+  "shortDescription": "Maharashtrian Paithani pure silk with peacock pallu in gold zari. Tapestry weave — identical on both sides.",
+  "tags": [
+    "silk",
+    "paithani",
+    "maharashtra",
+    "peacock",
+    "zari",
+    "wedding",
+    "featured",
+    "gi-tagged"
+  ],
+  "photos": [],
+  "description": "The Paithani is the pride of Maharashtra — a saree of extraordinary richness woven in the ancient town of Paithan. This peacock green silk Paithani features the iconic peacock motif in the pallu, woven in vibrant zari. The interlocking tapestry weave technique makes every Paithani reversible and uniquely precious.",
+  "weaveStory": "Paithani weaving dates back over 2,000 years to the Satavahana dynasty. The town of Paithan on the banks of the Godavari river remains the heartland of this tradition. Each saree is woven on a handloom using the interlocking weft technique, where different coloured threads are interlocked rather than carried across — making the saree identical on both sides.",
+  "weavingDays": "30–90",
+  "careInstructions": "Dry clean only. Store flat or loosely rolled in muslin. Never fold on the same crease repeatedly.",
+  "giTagged": true,
+  "seoTitle": "",
+  "seoDescription": "",
+  "offerValidUntil": null
+}

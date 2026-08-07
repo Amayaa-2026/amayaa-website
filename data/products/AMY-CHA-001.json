@@ -1,0 +1,45 @@
+{
+  "id": "AMY-CHA-001",
+  "name": "Chanderi Cotton Silk Saree",
+  "type": "Chanderi",
+  "region": "Chanderi, MP",
+  "fabric": "Cotton Silk",
+  "colour": "Ivory",
+  "price": 4200,
+  "originalPrice": null,
+  "status": "active",
+  "featured": false,
+  "badges": [
+    "new"
+  ],
+  "occasion": [
+    "casual",
+    "festive",
+    "puja"
+  ],
+  "length": "6.3 metres",
+  "blousePiece": "Included — 0.8 metres",
+  "blouseIncluded": true,
+  "weaveType": "Handloom — Sheer Cotton Silk",
+  "gradientFrom": "#3A2A1A",
+  "gradientTo": "#8A6A3A",
+  "shortDescription": "Sheer Chanderi cotton silk with gold bootis. Gossamer-light and breathable — perfect for warm weather.",
+  "tags": [
+    "cotton silk",
+    "chanderi",
+    "sheer",
+    "lightweight",
+    "festive",
+    "ivory",
+    "gi-tagged"
+  ],
+  "photos": [],
+  "description": "Chanderi sarees are celebrated for their sheer, gossamer-light texture and delicate lustre. This ivory cotton silk Chanderi is perfect for warm weather — breathable, elegant, and effortlessly graceful. The subtle gold bootis woven throughout add a quiet opulence to the fabric.",
+  "weaveStory": "Chanderi has been a centre of fine textile weaving since the Vedic period. The town of Chanderi in Madhya Pradesh produces sarees that combine cotton warp with silk weft, creating a fabric that is simultaneously sturdy and sheer.",
+  "weavingDays": "3–5",
+  "careInstructions": "Gentle hand wash in cold water or dry clean. Do not wring. Dry in shade. Iron on low heat.",
+  "giTagged": true,
+  "seoTitle": "",
+  "seoDescription": "",
+  "offerValidUntil": null
+}

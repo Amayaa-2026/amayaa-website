@@ -1,0 +1,42 @@
+{
+  "id": "AMY-TAN-001",
+  "name": "Tant Cotton Saree",
+  "type": "Tant",
+  "region": "Shantipur, WB",
+  "fabric": "Fine Cotton",
+  "colour": "Blue & White",
+  "price": 2200,
+  "originalPrice": null,
+  "status": "active",
+  "featured": false,
+  "badges": [],
+  "occasion": [
+    "casual",
+    "daily"
+  ],
+  "length": "6.3 metres",
+  "blousePiece": "Included — 0.8 metres",
+  "blouseIncluded": true,
+  "weaveType": "Handloom Cotton — Plain Weave",
+  "gradientFrom": "#0A1A3A",
+  "gradientTo": "#1A3A6A",
+  "shortDescription": "Bengal Tant cotton — the everyday handloom saree. Lightweight, breathable, softens with every wash.",
+  "tags": [
+    "cotton",
+    "tant",
+    "bengal",
+    "everyday",
+    "casual",
+    "lightweight",
+    "blue"
+  ],
+  "photos": [],
+  "description": "The Tant is Bengal's everyday saree — lightweight, breathable, and beautifully simple. Woven from fine cotton on handlooms in Shantipur and Fulia, the Tant saree is perfect for warm weather and daily wear. This blue and white Tant features a classic woven check pattern with a fine cotton texture.",
+  "weaveStory": "Tant weaving is the backbone of Bengal's handloom tradition, with thousands of weavers in the Nadia and Murshidabad districts producing these sarees for everyday wear. Despite being the most affordable handloom saree, every Tant is woven by hand.",
+  "weavingDays": "1–2",
+  "careInstructions": "Machine wash gentle or hand wash. Tant cotton softens beautifully with each wash. Iron while slightly damp on medium heat.",
+  "giTagged": false,
+  "seoTitle": "",
+  "seoDescription": "",
+  "offerValidUntil": null
+}

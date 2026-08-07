@@ -1,0 +1,46 @@
+{
+  "id": "AMY-BAN-001",
+  "name": "Katan Silk Banarasi Saree",
+  "type": "Banarasi",
+  "region": "Varanasi, UP",
+  "fabric": "Katan Silk",
+  "colour": "Deep Red with Gold Zari Border",
+  "price": 8500,
+  "originalPrice": null,
+  "status": "active",
+  "featured": false,
+  "badges": [
+    "new"
+  ],
+  "occasion": [
+    "wedding",
+    "festive",
+    "puja"
+  ],
+  "length": "6.3 metres",
+  "blousePiece": "Included — 0.8 metres",
+  "blouseIncluded": true,
+  "weaveType": "Handloom Brocade — Meenakari",
+  "gradientFrom": "#8B1A4A",
+  "gradientTo": "#C4622D",
+  "shortDescription": "Handloom Katan silk Banarasi with Meenakari gold zari brocade. Woven by the Ansari family, Varanasi.",
+  "tags": [
+    "silk",
+    "banarasi",
+    "zari",
+    "brocade",
+    "wedding",
+    "red",
+    "varanasi",
+    "gi-tagged"
+  ],
+  "photos": [],
+  "description": "This exquisite Katan Silk Banarasi saree is a testament to the timeless craft of Varanasi's master weavers. Woven from the finest Katan silk — a tightly twisted, lustrous thread — this saree carries a weight and drape that is unmistakably regal. The deep red body is adorned with intricate Meenakari brocade work in gold zari, featuring floral motifs and a richly worked pallu. The contrast gold border completes this masterpiece, making it the perfect choice for weddings and festive occasions.",
+  "weaveStory": "Banarasi weaving is one of India's most celebrated textile traditions, with roots stretching back over 2,000 years to the ancient city of Varanasi. This saree was handwoven on a traditional pit loom by a master weaver from the Ansari community of Varanasi — a family that has practised this craft for seven generations.",
+  "weavingDays": "15–20",
+  "careInstructions": "Dry clean only. Store in a muslin cloth in a cool, dry place. Avoid direct sunlight. Iron on low heat on the reverse side.",
+  "giTagged": true,
+  "seoTitle": "",
+  "seoDescription": "",
+  "offerValidUntil": null
+}

@@ -1,0 +1,374 @@
+[
+  {
+    "id": "AMY-BAN-001",
+    "name": "Katan Silk Banarasi Saree",
+    "type": "Banarasi",
+    "region": "Varanasi, UP",
+    "fabric": "Katan Silk",
+    "colour": "Deep Red with Gold Zari Border",
+    "price": 8500,
+    "originalPrice": null,
+    "status": "active",
+    "featured": false,
+    "badges": [
+      "new"
+    ],
+    "occasion": [
+      "wedding",
+      "festive",
+      "puja"
+    ],
+    "gradientFrom": "#8B1A4A",
+    "gradientTo": "#C4622D",
+    "shortDescription": "Handloom Katan silk Banarasi with Meenakari gold zari brocade. Woven by the Ansari family, Varanasi.",
+    "tags": [
+      "silk",
+      "banarasi",
+      "zari",
+      "brocade",
+      "wedding",
+      "red",
+      "varanasi",
+      "gi-tagged"
+    ]
+  },
+  {
+    "id": "AMY-KAN-001",
+    "name": "Pure Kanjivaram Silk Saree",
+    "type": "Kanjivaram",
+    "region": "Kanchipuram, TN",
+    "fabric": "Pure Silk",
+    "colour": "Gold Border",
+    "price": 11500,
+    "originalPrice": 14200,
+    "status": "active",
+    "featured": false,
+    "badges": [
+      "offer"
+    ],
+    "occasion": [
+      "wedding",
+      "festive"
+    ],
+    "gradientFrom": "#1A0A4A",
+    "gradientTo": "#8B4A00",
+    "shortDescription": "Pure Kanjivaram silk with iconic temple border and gold zari. Three generations of weaving heritage from Kanchipuram.",
+    "tags": [
+      "silk",
+      "kanjivaram",
+      "temple border",
+      "zari",
+      "wedding",
+      "south india",
+      "gi-tagged"
+    ]
+  },
+  {
+    "id": "AMY-BAL-001",
+    "name": "Baluchari Silk Saree",
+    "type": "Baluchari",
+    "region": "Bishnupur, WB",
+    "fabric": "Pure Silk",
+    "colour": "Navy & Gold",
+    "price": 11800,
+    "originalPrice": null,
+    "status": "sold_out",
+    "featured": false,
+    "badges": [],
+    "occasion": [
+      "wedding",
+      "festive"
+    ],
+    "gradientFrom": "#0A2A4A",
+    "gradientTo": "#1A5A8A",
+    "shortDescription": "Bishnupur Baluchari silk with Puranic narrative scenes woven in the pallu. A rare collector's piece.",
+    "tags": [
+      "silk",
+      "baluchari",
+      "bishnupur",
+      "mythology",
+      "collector",
+      "brocade",
+      "gi-tagged"
+    ]
+  },
+  {
+    "id": "AMY-CHA-001",
+    "name": "Chanderi Cotton Silk Saree",
+    "type": "Chanderi",
+    "region": "Chanderi, MP",
+    "fabric": "Cotton Silk",
+    "colour": "Ivory",
+    "price": 4200,
+    "originalPrice": null,
+    "status": "active",
+    "featured": false,
+    "badges": [
+      "new"
+    ],
+    "occasion": [
+      "casual",
+      "festive",
+      "puja"
+    ],
+    "gradientFrom": "#3A2A1A",
+    "gradientTo": "#8A6A3A",
+    "shortDescription": "Sheer Chanderi cotton silk with gold bootis. Gossamer-light and breathable — perfect for warm weather.",
+    "tags": [
+      "cotton silk",
+      "chanderi",
+      "sheer",
+      "lightweight",
+      "festive",
+      "ivory",
+      "gi-tagged"
+    ]
+  },
+  {
+    "id": "AMY-SAM-001",
+    "name": "Sambalpuri Ikat Silk",
+    "type": "Sambalpuri",
+    "region": "Sambalpur, OD",
+    "fabric": "Pure Silk",
+    "colour": "Red & Black",
+    "price": 7800,
+    "originalPrice": null,
+    "status": "active",
+    "featured": false,
+    "badges": [
+      "new"
+    ],
+    "occasion": [
+      "festive",
+      "casual",
+      "puja"
+    ],
+    "gradientFrom": "#3A0A0A",
+    "gradientTo": "#8A1A1A",
+    "shortDescription": "Sambalpuri Ikat with Bandhakala tie-dye technique. Shankha and Chakra motifs in red and black silk.",
+    "tags": [
+      "silk",
+      "ikat",
+      "sambalpuri",
+      "odisha",
+      "handloom",
+      "geometric",
+      "gi-tagged"
+    ]
+  },
+  {
+    "id": "AMY-PAI-001",
+    "name": "Paithani Pure Silk Saree",
+    "type": "Paithani",
+    "region": "Paithan, MH",
+    "fabric": "Pure Silk",
+    "colour": "Peacock Green",
+    "price": 18500,
+    "originalPrice": 24500,
+    "status": "active",
+    "featured": true,
+    "badges": [
+      "offer",
+      "featured"
+    ],
+    "occasion": [
+      "wedding",
+      "festive"
+    ],
+    "gradientFrom": "#0A3A1A",
+    "gradientTo": "#1A7A3A",
+    "shortDescription": "Maharashtrian Paithani pure silk with peacock pallu in gold zari. Tapestry weave — identical on both sides.",
+    "tags": [
+      "silk",
+      "paithani",
+      "maharashtra",
+      "peacock",
+      "zari",
+      "wedding",
+      "featured",
+      "gi-tagged"
+    ]
+  },
+  {
+    "id": "AMY-TUS-001",
+    "name": "Bhagalpuri Tussar Silk",
+    "type": "Tussar",
+    "region": "Bhagalpur, BR",
+    "fabric": "Tussar Silk",
+    "colour": "Gold & Brown",
+    "price": 5600,
+    "originalPrice": null,
+    "status": "active",
+    "featured": false,
+    "badges": [],
+    "occasion": [
+      "casual",
+      "festive",
+      "puja"
+    ],
+    "gradientFrom": "#3A2A0A",
+    "gradientTo": "#7A5A20",
+    "shortDescription": "Bhagalpuri Tussar 'wild silk' with natural golden sheen and traditional border motifs. Earthy and elegant.",
+    "tags": [
+      "tussar",
+      "wild silk",
+      "bhagalpur",
+      "natural",
+      "gold",
+      "brown",
+      "casual"
+    ]
+  },
+  {
+    "id": "AMY-IKA-001",
+    "name": "Pochampally Double Ikat",
+    "type": "Ikat",
+    "region": "Pochampally, TG",
+    "fabric": "Pure Silk",
+    "colour": "Teal & Gold",
+    "price": 8400,
+    "originalPrice": 11200,
+    "status": "active",
+    "featured": false,
+    "badges": [
+      "offer"
+    ],
+    "occasion": [
+      "festive",
+      "casual"
+    ],
+    "gradientFrom": "#0A2A3A",
+    "gradientTo": "#1A7A6A",
+    "shortDescription": "Pochampally double Ikat — warp and weft both dyed before weaving. Geometric patterns in teal and gold silk.",
+    "tags": [
+      "silk",
+      "ikat",
+      "double ikat",
+      "pochampally",
+      "telangana",
+      "geometric",
+      "gi-tagged"
+    ]
+  },
+  {
+    "id": "AMY-MAH-001",
+    "name": "Maheshwari Silk Cotton",
+    "type": "Maheshwari",
+    "region": "Maheshwar, MP",
+    "fabric": "Silk Cotton",
+    "colour": "Pink & Silver",
+    "price": 3800,
+    "originalPrice": null,
+    "status": "active",
+    "featured": false,
+    "badges": [],
+    "occasion": [
+      "casual",
+      "puja",
+      "festive"
+    ],
+    "gradientFrom": "#3A1A2A",
+    "gradientTo": "#8A4A6A",
+    "shortDescription": "Reversible Maheshwari silk-cotton from Maheshwar, MP. Fine stripe with delicate silver border.",
+    "tags": [
+      "silk cotton",
+      "maheshwari",
+      "madhya pradesh",
+      "reversible",
+      "casual",
+      "pink",
+      "gi-tagged"
+    ]
+  },
+  {
+    "id": "AMY-MYS-001",
+    "name": "Mysore Pure Silk Saree",
+    "type": "Mysore",
+    "region": "Mysore, KA",
+    "fabric": "Pure Silk",
+    "colour": "Coral Red",
+    "price": 11200,
+    "originalPrice": 14800,
+    "status": "active",
+    "featured": false,
+    "badges": [
+      "offer",
+      "new"
+    ],
+    "occasion": [
+      "wedding",
+      "festive",
+      "puja"
+    ],
+    "gradientFrom": "#3A1A0A",
+    "gradientTo": "#C4622D",
+    "shortDescription": "Mysore pure crepe silk — lighter and more fluid than Kanjivaram. Gold zari border on lustrous coral red.",
+    "tags": [
+      "silk",
+      "mysore",
+      "crepe",
+      "karnataka",
+      "festive",
+      "coral",
+      "gi-tagged"
+    ]
+  },
+  {
+    "id": "AMY-JAM-001",
+    "name": "Jamdani Muslin Saree",
+    "type": "Jamdani",
+    "region": "Dhaka, WB",
+    "fabric": "Muslin Cotton",
+    "colour": "White & Gold",
+    "price": 9200,
+    "originalPrice": null,
+    "status": "active",
+    "featured": false,
+    "badges": [],
+    "occasion": [
+      "festive",
+      "casual"
+    ],
+    "gradientFrom": "#2A2A1A",
+    "gradientTo": "#6A6A3A",
+    "shortDescription": "Jamdani muslin with supplementary weft floral motifs. UNESCO heritage weave — impossibly light and sheer.",
+    "tags": [
+      "muslin",
+      "jamdani",
+      "cotton",
+      "unesco",
+      "west bengal",
+      "sheer",
+      "gi-tagged"
+    ]
+  },
+  {
+    "id": "AMY-TAN-001",
+    "name": "Tant Cotton Saree",
+    "type": "Tant",
+    "region": "Shantipur, WB",
+    "fabric": "Fine Cotton",
+    "colour": "Blue & White",
+    "price": 2200,
+    "originalPrice": null,
+    "status": "active",
+    "featured": false,
+    "badges": [],
+    "occasion": [
+      "casual",
+      "daily"
+    ],
+    "gradientFrom": "#0A1A3A",
+    "gradientTo": "#1A3A6A",
+    "shortDescription": "Bengal Tant cotton — the everyday handloom saree. Lightweight, breathable, softens with every wash.",
+    "tags": [
+      "cotton",
+      "tant",
+      "bengal",
+      "everyday",
+      "casual",
+      "lightweight",
+      "blue"
+    ]
+  }
+]

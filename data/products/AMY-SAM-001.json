@@ -1,0 +1,45 @@
+{
+  "id": "AMY-SAM-001",
+  "name": "Sambalpuri Ikat Silk",
+  "type": "Sambalpuri",
+  "region": "Sambalpur, OD",
+  "fabric": "Pure Silk",
+  "colour": "Red & Black",
+  "price": 7800,
+  "originalPrice": null,
+  "status": "active",
+  "featured": false,
+  "badges": [
+    "new"
+  ],
+  "occasion": [
+    "festive",
+    "casual",
+    "puja"
+  ],
+  "length": "6.3 metres",
+  "blousePiece": "Included — 0.8 metres",
+  "blouseIncluded": true,
+  "weaveType": "Ikat — Bandhakala Tie-Dye",
+  "gradientFrom": "#3A0A0A",
+  "gradientTo": "#8A1A1A",
+  "shortDescription": "Sambalpuri Ikat with Bandhakala tie-dye technique. Shankha and Chakra motifs in red and black silk.",
+  "tags": [
+    "silk",
+    "ikat",
+    "sambalpuri",
+    "odisha",
+    "handloom",
+    "geometric",
+    "gi-tagged"
+  ],
+  "photos": [],
+  "description": "The Sambalpuri Ikat is distinguished by its traditional Bandhakala technique — where threads are tie-dyed before weaving to create the pattern. The result is a saree with a distinctive blurred-edge motif that is impossible to replicate by machine. This red and black silk Ikat features traditional Shankha (conch) and Chakra (wheel) motifs.",
+  "weaveStory": "Sambalpuri weaving has been practised in the Sambalpur district of Odisha for centuries. The Meher cooperative — a group of 12 weaver families — produces these sarees using the traditional Bandhakala technique passed down through generations.",
+  "weavingDays": "10–15",
+  "careInstructions": "Dry clean or gentle hand wash in cold water. Colours may bleed slightly in first wash — wash separately. Dry in shade.",
+  "giTagged": true,
+  "seoTitle": "",
+  "seoDescription": "",
+  "offerValidUntil": null
+}

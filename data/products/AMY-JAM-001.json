@@ -1,0 +1,42 @@
+{
+  "id": "AMY-JAM-001",
+  "name": "Jamdani Muslin Saree",
+  "type": "Jamdani",
+  "region": "Dhaka, WB",
+  "fabric": "Muslin Cotton",
+  "colour": "White & Gold",
+  "price": 9200,
+  "originalPrice": null,
+  "status": "active",
+  "featured": false,
+  "badges": [],
+  "occasion": [
+    "festive",
+    "casual"
+  ],
+  "length": "6.3 metres",
+  "blousePiece": "Included — 0.8 metres",
+  "blouseIncluded": true,
+  "weaveType": "Supplementary Weft — Jamdani Motifs",
+  "gradientFrom": "#2A2A1A",
+  "gradientTo": "#6A6A3A",
+  "shortDescription": "Jamdani muslin with supplementary weft floral motifs. UNESCO heritage weave — impossibly light and sheer.",
+  "tags": [
+    "muslin",
+    "jamdani",
+    "cotton",
+    "unesco",
+    "west bengal",
+    "sheer",
+    "gi-tagged"
+  ],
+  "photos": [],
+  "description": "Jamdani is one of the finest muslin weaves in the world — so sheer that historical accounts describe it as 'woven air'. This white and gold Jamdani features traditional floral motifs woven directly into the fabric using the supplementary weft technique, creating a three-dimensional texture on an ethereally light base.",
+  "weaveStory": "Jamdani weaving originated in Dhaka (now Bangladesh) but has a thriving tradition in West Bengal, particularly around Fulia and Shantipur. The Jamdani tradition is inscribed on UNESCO's Intangible Cultural Heritage list.",
+  "weavingDays": "10–20",
+  "careInstructions": "Dry clean only. Muslin is extremely delicate — never machine wash or wring. Store folded in muslin cloth in a dry place.",
+  "giTagged": true,
+  "seoTitle": "",
+  "seoDescription": "",
+  "offerValidUntil": null
+}

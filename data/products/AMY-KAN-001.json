@@ -1,0 +1,44 @@
+{
+  "id": "AMY-KAN-001",
+  "name": "Pure Kanjivaram Silk Saree",
+  "type": "Kanjivaram",
+  "region": "Kanchipuram, TN",
+  "fabric": "Pure Silk",
+  "colour": "Gold Border",
+  "price": 11500,
+  "originalPrice": 14200,
+  "status": "active",
+  "featured": false,
+  "badges": [
+    "offer"
+  ],
+  "occasion": [
+    "wedding",
+    "festive"
+  ],
+  "length": "6.3 metres",
+  "blousePiece": "Included — 0.8 metres",
+  "blouseIncluded": true,
+  "weaveType": "Temple Border — Zari",
+  "gradientFrom": "#1A0A4A",
+  "gradientTo": "#8B4A00",
+  "shortDescription": "Pure Kanjivaram silk with iconic temple border and gold zari. Three generations of weaving heritage from Kanchipuram.",
+  "tags": [
+    "silk",
+    "kanjivaram",
+    "temple border",
+    "zari",
+    "wedding",
+    "south india",
+    "gi-tagged"
+  ],
+  "photos": [],
+  "description": "A masterpiece of South Indian silk weaving, this Pure Kanjivaram saree features the iconic temple border and brilliant gold zari work. Woven by the Devanathan family of Kanchipuram — three generations of master weavers — this saree embodies the grandeur and heritage of Tamil Nadu's most celebrated textile tradition.",
+  "weaveStory": "Kanjivaram sarees are woven with pure mulberry silk threads, with the body and border woven separately and then interlocked together. This ancient technique, unchanged for centuries, gives Kanjivaram sarees their distinctive weight and durability.",
+  "weavingDays": "7–10",
+  "careInstructions": "Dry clean only. Store wrapped in muslin. Keep away from moisture and direct sunlight.",
+  "giTagged": true,
+  "seoTitle": "",
+  "seoDescription": "",
+  "offerValidUntil": null
+}

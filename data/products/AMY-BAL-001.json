@@ -1,0 +1,42 @@
+{
+  "id": "AMY-BAL-001",
+  "name": "Baluchari Silk Saree",
+  "type": "Baluchari",
+  "region": "Bishnupur, WB",
+  "fabric": "Pure Silk",
+  "colour": "Navy & Gold",
+  "price": 11800,
+  "originalPrice": null,
+  "status": "sold_out",
+  "featured": false,
+  "badges": [],
+  "occasion": [
+    "wedding",
+    "festive"
+  ],
+  "length": "6.3 metres",
+  "blousePiece": "Included — 0.8 metres",
+  "blouseIncluded": true,
+  "weaveType": "Narrative Brocade — Puranic Motifs",
+  "gradientFrom": "#0A2A4A",
+  "gradientTo": "#1A5A8A",
+  "shortDescription": "Bishnupur Baluchari silk with Puranic narrative scenes woven in the pallu. A rare collector's piece.",
+  "tags": [
+    "silk",
+    "baluchari",
+    "bishnupur",
+    "mythology",
+    "collector",
+    "brocade",
+    "gi-tagged"
+  ],
+  "photos": [],
+  "description": "The Baluchari saree is a living canvas of mythology. Woven by the Basak family of Bishnupur — master storyteller weavers — the pallu of this saree depicts scenes from the Ramayana and Mahabharata in intricate silk brocade. Each saree takes weeks to complete and is a true collector's piece.",
+  "weaveStory": "Baluchari weaving originated in Murshidabad and later found its home in Bishnupur, West Bengal. The tradition of depicting Puranic narratives in the pallu is unique to this weave and represents one of India's most distinctive textile art forms.",
+  "weavingDays": "21–30",
+  "careInstructions": "Dry clean only. Store in a cool, dark place wrapped in acid-free tissue. Handle the pallu with care to protect the brocade work.",
+  "giTagged": true,
+  "seoTitle": "",
+  "seoDescription": "",
+  "offerValidUntil": null
+}

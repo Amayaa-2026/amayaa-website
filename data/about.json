@@ -1,0 +1,96 @@
+{
+  "story": [
+    {
+      "id": 1,
+      "label": "OUR BEGINNING",
+      "heading": "A Boutique Born from a Love of Handloom",
+      "body": "Polka Dots began as a small boutique in Kolkata, built on the founder's lifelong passion for Indian textiles. What started as a personal collection of handloom sarees grew into a mission — to bring the finest weaves of India directly to women who value authenticity over mass production.\n\nAmayaa, meaning \"one without blemish\" in Sanskrit, reflects our commitment to purity — of craft, of origin, and of purpose. Every saree we carry has been handpicked, verified for authenticity, and sourced with respect for the weaver communities who create them.",
+      "imgPos": "left",
+      "imgGradient": "#8B1A4A,#C4622D"
+    },
+    {
+      "id": 2,
+      "label": "OUR PHILOSOPHY",
+      "heading": "Why Handloom Matters",
+      "body": "India's handloom sector employs over 35 lakh weavers — the second largest workforce in the country after agriculture. Yet handloom sarees account for a shrinking share of the market, displaced by power loom imitations that look similar but carry none of the soul.\n\nAt Amayaa, every purchase directly supports a weaver family. We pay fair prices, make advance purchases to reduce weaver risk, and document the origin story of every saree we sell. When you buy from us, you are not just wearing a saree — you are preserving a living art form.",
+      "imgPos": "right",
+      "imgGradient": "#0A3A1A,#2E7D32"
+    }
+  ],
+  "values": [
+    {
+      "id": 1,
+      "icon": "🌿",
+      "title": "100% Handwoven",
+      "desc": "Every saree is hand-woven on traditional pit looms by master artisans"
+    },
+    {
+      "id": 2,
+      "icon": "🔍",
+      "title": "Verified Authentic",
+      "desc": "GI-tagged and origin-verified from weaver communities directly"
+    },
+    {
+      "id": 3,
+      "icon": "🤝",
+      "title": "Weaver-First",
+      "desc": "Fair prices paid directly to weaver families, no middlemen"
+    },
+    {
+      "id": 4,
+      "icon": "📦",
+      "title": "Pan-India Delivery",
+      "desc": "Free shipping above ₹2,000 — delivered with care and tradition"
+    }
+  ],
+  "weavers": [
+    {
+      "id": 1,
+      "name": "Ansari Family",
+      "region": "Varanasi, UP",
+      "specialty": "Banarasi Silk",
+      "story": "Seven generations of Banarasi brocade weaving. Specialise in Katan silk Meenakari using gold zari, trained under their forefathers from a young age."
+    },
+    {
+      "id": 2,
+      "name": "Basak Family",
+      "region": "Bishnupur, WB",
+      "specialty": "Baluchari Silk",
+      "story": "Master storyteller weavers depicting Puranic narratives in silk brocade. One of the few families keeping this dying craft alive."
+    },
+    {
+      "id": 3,
+      "name": "Devanathan & Sons",
+      "region": "Kanchipuram, TN",
+      "specialty": "Kanjivaram Silk",
+      "story": "Three generations of Kanjivaram weaving. Known for temple border patterns that take weeks per saree to complete."
+    },
+    {
+      "id": 4,
+      "name": "Meher Cooperative",
+      "region": "Sambalpur, Odisha",
+      "specialty": "Sambalpuri Ikat",
+      "story": "A cooperative of 12 weaver families producing Sambalpuri Ikat with the traditional Bandhakala tie-and-dye technique."
+    }
+  ],
+  "promise": [
+    {
+      "id": 1,
+      "icon": "✓",
+      "title": "Authenticity Guaranteed",
+      "desc": "Every saree is handpicked directly from weaver communities. No power loom imitations, ever. GI-tagged weaves are verified at source."
+    },
+    {
+      "id": 2,
+      "icon": "↩",
+      "title": "Easy Returns",
+      "desc": "7-day hassle-free return policy — no questions asked."
+    },
+    {
+      "id": 3,
+      "icon": "💬",
+      "title": "Personal Assistance",
+      "desc": "WhatsApp consultation with our saree experts for any occasion."
+    }
+  ]
+}

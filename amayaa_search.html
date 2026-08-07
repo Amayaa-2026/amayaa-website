@@ -8,22 +8,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="public.css">
 <link rel="stylesheet" href="product-drawer.css">
 <style>
-/* ── Reset & Base ── */
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15px;min-height:100vh;}
-
-/* ── Ambient orbs ── */
-.orbs{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
-.orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:.18;}
-.o1{width:520px;height:520px;background:#8B5E3C;top:-120px;left:-100px;}
-.o2{width:400px;height:400px;background:#3D1A5C;top:10%;right:-80px;}
-.o3{width:350px;height:350px;background:#C4622D;bottom:15%;left:5%;}
-.o4{width:300px;height:300px;background:#6B3FA0;bottom:-60px;right:15%;}
-.o5{width:250px;height:250px;background:#2D6E4E;top:45%;left:40%;}
-
-/* ── Nav placeholder (nav.js injects here) ── */
+/* ── Search-page specific overrides ── */
 #nav-wrap{display:none;}
 
 /* ── Search hero band ── */
@@ -164,16 +152,7 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
 /* ── Scroll sentinel ── */
 #srch-scroll-sentinel{height:1px;grid-column:1/-1;}
 
-/* ── WhatsApp float ── */
-.wa-float{
-  position:fixed;bottom:28px;right:28px;z-index:500;
-  width:52px;height:52px;border-radius:50%;
-  background:#25D366;display:flex;align-items:center;justify-content:center;
-  box-shadow:0 4px 16px rgba(0,0,0,.22);
-  transition:transform .2s,box-shadow .2s;text-decoration:none;
-}
-.wa-float:hover{transform:scale(1.1);box-shadow:0 6px 22px rgba(0,0,0,.3);}
-.wa-float svg{width:28px;height:28px;fill:#fff;}
+/* wa-float styles in public.css */
 
 /* ── Responsive ── */
 @media(max-width:680px){

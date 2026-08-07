@@ -30,7 +30,7 @@
       <li><a href="amayaa_offers.html" class="offer-a"><span class="gi">&#127873;</span>Special Offers</a></li>
       <li><a href="amayaa_contact.html">Contact</a></li>
       </ul>
-    <button class="nav-srch-btn" onclick="document.getElementById('srchOverlay').classList.add('open');setTimeout(()=>document.getElementById('srchInput').focus(),100)" aria-label="Search sarees">
+    <button class="nav-srch-btn" onclick="(function(){if(window.location.pathname.endsWith('amayaa_search.html')){document.getElementById('srchOverlay').classList.add('open');setTimeout(function(){document.getElementById('srchInput').focus();},100);}else{window.location.href='amayaa_search.html';}})()" aria-label="Search sarees">
       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
     </button>
     <a href="https://wa.me/919583946000" class="nav-wa" target="_blank" rel="noopener">

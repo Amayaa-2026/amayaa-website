@@ -371,3 +371,85 @@ Search icon in nav currently opens an inline overlay on the same page. Update:
 4. The drawer must work correctly if the `?id=` URL param is present on page load (deep-link case).
 5. Scroll lock (`document.body.style.overflow = 'hidden'`) must be released on every close path (ESC, ×, backdrop).
 6. On mobile, the drawer takes full screen — no backdrop visible.
+
+---
+
+## REVISION 3 — Agreed Changes (August 2026)
+
+### R3-1 · Product Overlay — Complete Layout Redesign
+
+**Previous spec (R2, SUPERSEDED):** 75vw, 3-column (image 41% | thumbs 28% | details), thumbs in vertical strip, CTA spanning cols 2+3.
+
+**New agreed layout:**
+
+| Zone | Col 1 (50%) | Col 2 (50%) |
+|---|---|---|
+| Header (full width, ~72px) | Deep purple gradient — spans both columns | ← same |
+| Body top (~65% of remaining height) | Main image viewer | Scrollable product details |
+| Body bottom (~90px fixed strip) | 4 gradient swatches side-by-side (25% each of col1) | CTA panel (WhatsApp + Call + WishList/Share) |
+
+**Width:** 60vw (reduced from 75vw)
+
+**Header:**
+- Background: `linear-gradient(135deg, #7B5EA7, #9B7DC4)` — deep/mid purple
+- Height: ~72px (taller than before)
+- Left: breadcrumb text in white, larger font (~15px)
+- Right: Amayaa logo text + × button, both white
+- Bottom border: removed pale yellow; use `2px solid rgba(255,255,255,0.2)` or deep purple shade
+
+**Image viewer (col1 top):**
+- Padding: 15px from top, 10px from left/right sides — maximum image space
+- Floating L/R arrows centered vertically over image
+- 4-second auto-scroll
+- Object-fit: cover, fills available space
+
+**Swatch strip (col1 bottom, ~90px high):**
+- 4 gradient swatches always visible, side by side, each 25% of col1 width
+- Active swatch (= currently shown in main viewer) is **highlighted** with a white border + glow
+- Clicking a swatch loads it into the main viewer and updates highlight
+- Swatches: Deep Plum, Warm Gold, Rose Pink, Indigo Blue
+- When real photos exist: same strip shows photo thumbnails
+
+**Product details (col2 top, independently scrollable):**
+- All font sizes increased (name: 22px, price: 26px, type line: 13px, specs: 14px, accordion labels: 15px)
+- Specs layout: **single column** stack (label + value stacked, not 2-col grid)
+- Short description, Weave Story accordion, Care Instructions accordion
+
+**CTA panel (col2 bottom, fixed height matching swatch strip):**
+- WhatsApp button (full col2 width, green)
+- Call button (full col2 width, bordered)
+- WishList (50%) + Share (50%) row
+
+### R3-2 · Search Page (amayaa_search.html) — Nav/Footer Fix
+
+**Problem:** Page used nav.js injection (`<div id="nav-wrap">`) which relied on public.css for nav styling. No other page uses this approach — all other pages have nav HTML inline with their own nav CSS block. The injected nav was missing sticky positioning, mobile panel styles, and other CSS, causing broken layout.
+
+**Fix:** Completely rewrite amayaa_search.html. Copy nav HTML + nav CSS block verbatim from amayaa_sarees.html. Copy footer HTML verbatim. Keep all search-specific JS and grid content.
+
+### R3-3 · Search Overlay — Fix on index, blog, about, sarees pages
+
+**Problem:** nav.js has an early return (`if (!_wrap) return`) when no `div#nav-wrap` exists. This means on other pages (which use inline nav), nav.js does nothing — the new search overlay and `_amayaaNavSearch` function are never created. Each page had its own OLD inline search overlay (using old CSS, pointing to sarees page, not search page).
+
+**Fix:**
+- Restructure nav.js: srchOverlay injection and `_amayaaNavSearch` registration run ALWAYS, regardless of whether `#nav-wrap` exists
+- Nav HTML injection still only happens when `#nav-wrap` is found
+- Remove old inline `srchOverlay` div from index.html, amayaa_sarees.html, amayaa_blog.html, amayaa_about.html
+- Add `<script src="nav.js"></script>` to each of those pages
+
+### R3-4 · Regression Checklist — What to verify after R3
+
+1. Search icon on index, about, blog, sarees opens NEW overlay (60% panel, logo left, × right)
+2. Submitting search navigates to amayaa_search.html?q=...
+3. amayaa_search.html nav pill is sticky and renders identically to other pages
+4. amayaa_search.html footer renders correctly with logo
+5. Product overlay opens at 60vw with deep purple header
+6. Logo visible in header top-right (white text)
+7. Breadcrumb visible and larger font
+8. Image viewer fills col1 top with minimal padding (15px top, 10px sides)
+9. 4 swatches in col1 bottom strip — active highlighted with border
+10. Clicking swatch swaps main viewer image and moves highlight
+11. Col2 top scrolls independently
+12. All text larger than R2 (name, price, specs)
+13. Specs single-column (not grid)
+14. CTA panel in col2 bottom: WhatsApp, Call, WishList+Share
+15. Mobile: drawer full-screen, swatches stack or wrap

@@ -226,17 +226,17 @@
 
       <!-- RIGHT COLUMN -->
       <div class="pd-col-right">
-        <!-- INFO STRIP: fixed, no scroll — type / title / price / GI / specs -->
+        <!-- INFO STRIP: lean, fixed — type / title / price / GI only -->
         <div class="pd-info-strip">
           <div class="pd-type-line">${_esc(p.type || p.region || '')}</div>
           <div class="pd-title">${_esc(p.name)}</div>
           <div class="pd-price-row">${priceHtml}</div>
           ${giLine}
-          <div class="pd-specs">${specs}</div>
         </div>
 
-        <!-- ACCORDION ZONE: flex:1 scrollable — all 3 headers visible on load -->
+        <!-- ACCORDION ZONE: flex:1 — specs pill grid + 3 accordion headers always visible -->
         <div class="pd-acc-zone" id="pd-col3">
+          <div class="pd-specs">${specs}</div>
           ${p.shortDescription ? `<div class="pd-short-desc">${_esc(p.shortDescription)}</div>` : ''}
           ${p.description ? `<div class="pd-acc" id="pd-acc-desc">
             <div class="pd-acc-header" onclick="this.parentElement.classList.toggle('pd-acc-open')">

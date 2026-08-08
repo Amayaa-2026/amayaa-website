@@ -119,6 +119,29 @@
 }());
 
 
+/* ── Footer injection ─────────────────────────────────────────────────────────
+ * Injects the shared footer into any page that has <div id="footer-wrap"></div>.
+ * Uses img tag (not base64) for logo — requires Amayaa_Logo_-_circle-removebg-preview.png.
+ * ─────────────────────────────────────────────────────────────────────────── */
+(function () {
+  var _FOOTER_HTML = '<footer class="ft" role="contentinfo">\n<div class="fi2">\n  <div class="fg2">\n    <div>\n      <div style="display:flex;align-items:center;gap:14px;margin-bottom:10px;">\n        <div style="width:72px;height:72px;border-radius:50%;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,.15);background:#FCF4E5;"><img src="Amayaa_Logo_-_circle-removebg-preview.png" style="width:100%;height:100%;object-fit:cover;display:block;" alt="Amayaa"></div>\n        <div><span style="font-family:\'Cormorant Garamond\',serif;font-size:22px;font-weight:600;color:#3D1A5C;letter-spacing:.05em;">Amayaa by Polka Dots</span></div>\n      </div>\n      <p class="ftag">Handloom sarees from India’s finest weavers. Every saree carries the<br>soul of the artisan who created it and the tradition they preserve.</p>\n      <div class="fsc">\n        <a href="https://instagram.com/stylewithpolkadots" class="fsb" style="background:linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);color:white;" target="_blank" rel="noopener" aria-label="Instagram"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>\n        <a href="https://facebook.com/stylewithpolkadots" class="fsb" style="background:#1877F2;color:white;" target="_blank" rel="noopener" aria-label="Facebook"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>\n        <a href="https://www.youtube.com/@polkadots.617" class="fsb" style="background:#FF0000;color:white;" target="_blank" rel="noopener" aria-label="YouTube"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>\n      </div>\n    </div>\n    <div class="fc"><h4>Shop</h4><ul><li><a href="amayaa_sarees.html">All Sarees</a></li><li><a href="amayaa_sarees.html?filter=new">New Arrivals</a></li><li><a href="amayaa_offers.html">Special Offers</a></li><li><a href="amayaa_sarees.html?occasion=wedding">Wedding</a></li></ul></div>\n    <div class="fc"><h4>Discover</h4><ul><li><a href="amayaa_about.html">Our Story</a></li><li><a href="amayaa_blog.html">Blog</a></li><li><a href="amayaa_blog.html?cat=care">Care Guide</a></li></ul></div>\n    <div class="fc"><h4>Connect</h4><ul><li><a href="amayaa_contact.html">Contact Us</a></li><li><a href="https://wa.me/919583946000">WhatsApp</a></li><li><a href="mailto:stylewithpolkadots@gmail.com">Email Us</a></li><li><a href="amayaa_contact.html">Visit Store</a></li></ul></div>\n  </div>\n  <div class="fb2"><span>&copy; 2026 Amayaa by Polka Dots &middot; All Rights Reserved &middot; Kolkata, India</span><span>Made with &#9829; for Indian Handloom</span></div>\n</div>\n</footer>';
+
+  function _injectFooter() {
+    var fw = document.getElementById('footer-wrap');
+    if (!fw) return;
+    var el = document.createElement('div');
+    el.innerHTML = _FOOTER_HTML;
+    fw.parentNode.replaceChild(el.firstChild, fw);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', _injectFooter);
+  } else {
+    _injectFooter();
+  }
+}());
+
+
 /* ── Search navigation helper ─────────────────────────────────────────────────
  * Called by the nav search bar on Enter or button click.
  * - On amayaa_search.html: updates filters in-place (delegates to page JS)

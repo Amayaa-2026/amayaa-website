@@ -8,7 +8,7 @@
 .orbs{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;}
 
 /* ── Footer base layout (shared across all pages) ───────────── */
-.ft{position:relative;z-index:1;padding:52px 0 26px;background:var(--footer-bg,#E4EEE0);border-top:1px solid rgba(0,0,0,.07);}
+.ft{position:relative;z-index:1;padding:52px 0 26px;background:transparent;border-top:1px solid rgba(0,0,0,.07);}
 .fi2{padding:0 43px 0 28px;}
 .fg2{display:grid;grid-template-columns:minmax(240px,1fr) auto auto auto;gap:0 104px;margin-bottom:40px;align-items:start;}
 .fb2{padding:20px 28px 0;display:flex;justify-content:space-between;font-size:12px;color:#AAA090;border-top:1px solid rgba(0,0,0,.06);flex-wrap:wrap;gap:8px;}

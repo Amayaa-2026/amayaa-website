@@ -5,7 +5,6 @@
    Logo: Amayaa_Logo_-_circle-removebg-preview.png
    Dummy images: images/1.jpg, 2.jpg, 3.jpg, 4.jpg
    ============================================================ */
-(
 // Accordion toggle: − when open, + when closed; smooth scroll into view
 function _pdAcc(h) {
   var a = h.parentElement;
@@ -16,7 +15,7 @@ function _pdAcc(h) {
   }
 }
 
-function () {
+(function () {
   'use strict';
 
   /* ── Constants ──────────────────────────────────────────── */

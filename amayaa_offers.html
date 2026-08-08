@@ -304,53 +304,11 @@ margin-right:14px;}
 .nav-srch-btn:hover{background:rgba(196,98,45,.12);color:#C4622D;}
 
 /* Search overlay */
-/* ── Search overlay — panel style ── */
-.srch-overlay{display:none;position:fixed;inset:0;z-index:500;background:rgba(26,10,4,.58);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);align-items:center;justify-content:center;}
-.srch-overlay.open{display:flex;}
-.srch-panel{width:60%;max-width:720px;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 16px 56px rgba(0,0,0,.32);animation:srchSlideIn .22s cubic-bezier(.32,0,.16,1);}
-@keyframes srchSlideIn{from{opacity:0;transform:translateY(-14px);}to{opacity:1;transform:translateY(0);}}
-.srch-panel-hdr{display:flex;align-items:center;justify-content:space-between;padding:18px 22px 14px;background:#fff;border-bottom:1px solid #f0e8de;}
-.srch-logo{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:#1A0A04;letter-spacing:.04em;}
-.srch-logo span{color:#C4622D;font-style:italic;}
-.srch-close{background:none;border:none;font-size:22px;cursor:pointer;color:#3A2A1A;line-height:1;padding:0 2px;transition:color .2s;}
-.srch-close:hover{color:#C4622D;}
-.srch-panel-body{padding:18px 22px 24px;}
-.srch-bar{display:flex;gap:8px;margin-bottom:16px;}
-.srch-bar input{flex:1;border:1.5px solid #c8b8a0;border-radius:24px;padding:10px 18px;font-family:'Jost',sans-serif;font-size:14px;outline:none;background:#faf7f4;color:#1A0A04;}
-.srch-bar input:focus{border-color:#6B3FA0;background:#fff;}
-.srch-bar button{width:42px;height:42px;border-radius:50%;background:#C4622D;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#fff;flex-shrink:0;transition:background .2s;}
-.srch-bar button:hover{background:#a8501e;}
-.srch-chips{display:flex;flex-wrap:wrap;gap:7px;}
-.srch-chip{font-family:'Jost',sans-serif;font-size:12px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;padding:5px 14px;border:1.5px solid #c8b8a0;border-radius:20px;color:#3A2A1A;text-decoration:none;transition:all .2s;}
-.srch-chip:hover{background:#C4622D;border-color:#C4622D;color:#fff;}
+/* ── Search overlay — panel style ── */to{opacity:1;transform:translateY(0);}}
 
 /* Quick filter chips */
-.srch-chips{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;max-width:700px;margin-bottom:36px;}
-.srch-chip{
-  padding:7px 18px;border-radius:24px;
-  border:1.5px solid rgba(196,98,45,.25);
-  background:rgba(255,255,255,.7);color:#3A5030;
-  font-family:'Jost',sans-serif;font-size:12px;font-weight:500;
-  letter-spacing:1px;text-transform:uppercase;cursor:pointer;
-  transition:all .2s;text-decoration:none;
-}
-.srch-chip:hover{background:rgba(196,98,45,.12);border-color:#C4622D;color:#C4622D;}
-.srch-chip.active{background:#C4622D;border-color:#C4622D;color:white;}
 
 /* Search results preview */
-.srch-results{
-  width:100%;max-width:700px;
-  display:none;
-}
-.srch-results.show{display:block;}
-.srch-result-item{
-  display:flex;align-items:center;gap:16px;padding:14px 20px;
-  border-radius:14px;background:rgba(255,255,255,.7);
-  border:1px solid rgba(255,255,255,.9);
-  margin-bottom:10px;cursor:pointer;
-  transition:all .2s;text-decoration:none;
-}
-.srch-result-item:hover{background:white;box-shadow:0 4px 16px rgba(0,0,0,.1);}
 .sri-thumb{width:48px;height:56px;border-radius:8px;flex-shrink:0;}
 .sri-info .sri-name{font-family:'Cormorant Garamond',serif;font-size:17px;color:#1A0A04;}
 .sri-info .sri-meta{font-size:12px;color:#9A8070;margin-top:3px;}

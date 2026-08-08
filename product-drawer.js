@@ -3,14 +3,14 @@
    Header 10vh · Image 70vh · Swatches 20vh
    Right: Details 70vh · CTA 20vh
    Logo: Amayaa_Logo_-_circle-removebg-preview.png
-   Dummy images: images/1.png, 2.png, 3.jpg, 4.jpeg
+   Dummy images: images/1.jpg, 2.jpg, 3.jpg, 4.jpg
    ============================================================ */
 (function () {
   'use strict';
 
   /* ── Constants ──────────────────────────────────────────── */
   const LOGO_SRC     = 'Amayaa_Logo_-_circle-removebg-preview.png';
-  const DUMMY_IMGS   = ['images/1.png','images/2.png','images/3.jpg','images/4.jpeg'];
+  const DUMMY_IMGS   = ['images/1.jpg','images/2.jpg','images/3.jpg','images/4.jpg'];
   const DUMMY_LABELS = ['Look 1','Look 2','Look 3','Look 4'];
   const WA_NUMBER    = '919583946000';
   const CALL_NUMBER  = '+91 95839 46000';

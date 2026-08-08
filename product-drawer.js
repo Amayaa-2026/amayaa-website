@@ -106,15 +106,19 @@
     _drawer.innerHTML = `
       <!-- HEADER 10vh -->
       <div class="pd-header">
-        <img class="pd-header-logo" src="${LOGO_SRC}" alt="Amayaa logo">
-        <div class="pd-breadcrumb">
-          <span class="pd-bc-upper">Search results</span>
-          <span class="pd-bc-title" id="pd-bc-name">Product detail</span>
-        </div>
-        <div class="pd-header-right">
+        <!-- LEFT: logo + company name -->
+        <div class="pd-header-brand">
+          <img class="pd-header-logo" src="${LOGO_SRC}" alt="Amayaa logo">
           <div class="pd-wordmark">
             <span class="pd-wordmark-main">Amayaa</span>
             <span class="pd-wordmark-sub">by Polka Dots</span>
+          </div>
+        </div>
+        <!-- RIGHT: breadcrumb (search results / product name) + close -->
+        <div class="pd-header-right">
+          <div class="pd-breadcrumb">
+            <span class="pd-bc-upper">Search results</span>
+            <span class="pd-bc-title" id="pd-bc-name">Product detail</span>
           </div>
           <button class="pd-close-btn" aria-label="Close">&times;</button>
         </div>
@@ -222,13 +226,17 @@
 
       <!-- RIGHT COLUMN -->
       <div class="pd-col-right">
-        <!-- Details 70vh -->
-        <div class="pd-col3" id="pd-col3">
+        <!-- INFO STRIP: fixed, no scroll — type / title / price / GI / specs -->
+        <div class="pd-info-strip">
           <div class="pd-type-line">${_esc(p.type || p.region || '')}</div>
           <div class="pd-title">${_esc(p.name)}</div>
           <div class="pd-price-row">${priceHtml}</div>
           ${giLine}
           <div class="pd-specs">${specs}</div>
+        </div>
+
+        <!-- ACCORDION ZONE: flex:1 scrollable — all 3 headers visible on load -->
+        <div class="pd-acc-zone" id="pd-col3">
           ${p.shortDescription ? `<div class="pd-short-desc">${_esc(p.shortDescription)}</div>` : ''}
           ${p.description ? `<div class="pd-acc" id="pd-acc-desc">
             <div class="pd-acc-header" onclick="this.parentElement.classList.toggle('pd-acc-open')">
@@ -236,21 +244,21 @@
               <span class="pd-acc-icon">+</span>
             </div>
             <div class="pd-acc-body">${_esc(p.description)}</div>
-          </div>` : ''}
+          </div>` : '<div class="pd-acc" id="pd-acc-desc"><div class="pd-acc-header" onclick="this.parentElement.classList.toggle(\'pd-acc-open\')"><span class="pd-acc-label">The Saree</span><span class="pd-acc-icon">+</span></div><div class="pd-acc-body">Details about this saree coming soon.</div></div>'}
           ${p.weaveStory ? `<div class="pd-acc" id="pd-acc-story">
             <div class="pd-acc-header" onclick="this.parentElement.classList.toggle('pd-acc-open')">
               <span class="pd-acc-label">Weave Story</span>
               <span class="pd-acc-icon">+</span>
             </div>
             <div class="pd-acc-body">${_esc(p.weaveStory)}${weaveFacts}</div>
-          </div>` : ''}
+          </div>` : '<div class="pd-acc" id="pd-acc-story"><div class="pd-acc-header" onclick="this.parentElement.classList.toggle(\'pd-acc-open\')"><span class="pd-acc-label">Weave Story</span><span class="pd-acc-icon">+</span></div><div class="pd-acc-body">Weave story coming soon.</div></div>'}
           ${p.careInstructions ? `<div class="pd-acc" id="pd-acc-care">
             <div class="pd-acc-header" onclick="this.parentElement.classList.toggle('pd-acc-open')">
               <span class="pd-acc-label">Care Guide</span>
               <span class="pd-acc-icon">+</span>
             </div>
             <div class="pd-acc-body">${_esc(p.careInstructions)}</div>
-          </div>` : ''}
+          </div>` : '<div class="pd-acc" id="pd-acc-care"><div class="pd-acc-header" onclick="this.parentElement.classList.toggle(\'pd-acc-open\')"><span class="pd-acc-label">Care Guide</span><span class="pd-acc-icon">+</span></div><div class="pd-acc-body">Care instructions coming soon.</div></div>'}
         </div>
 
         <!-- CTA Panel: WA / Call / Wishlist+Share -->

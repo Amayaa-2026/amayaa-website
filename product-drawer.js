@@ -5,7 +5,18 @@
    Logo: Amayaa_Logo_-_circle-removebg-preview.png
    Dummy images: images/1.jpg, 2.jpg, 3.jpg, 4.jpg
    ============================================================ */
-(function () {
+(
+// Accordion toggle: − when open, + when closed; smooth scroll into view
+function _pdAcc(h) {
+  var a = h.parentElement;
+  a.classList.toggle('pd-acc-open');
+  h.querySelector('.pd-acc-icon').textContent = a.classList.contains('pd-acc-open') ? '−' : '+';
+  if (a.classList.contains('pd-acc-open')) {
+    setTimeout(function () { a.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }, 60);
+  }
+}
+
+function () {
   'use strict';
 
   /* ── Constants ──────────────────────────────────────────── */
@@ -239,26 +250,26 @@
           <div class="pd-specs">${specs}</div>
           ${p.shortDescription ? `<div class="pd-short-desc">${_esc(p.shortDescription)}</div>` : ''}
           ${p.description ? `<div class="pd-acc" id="pd-acc-desc">
-            <div class="pd-acc-header" onclick="this.parentElement.classList.toggle('pd-acc-open')">
+            <div class="pd-acc-header" onclick="_pdAcc(this)">
               <span class="pd-acc-label">The Saree</span>
               <span class="pd-acc-icon">+</span>
             </div>
             <div class="pd-acc-body">${_esc(p.description)}</div>
-          </div>` : '<div class="pd-acc" id="pd-acc-desc"><div class="pd-acc-header" onclick="this.parentElement.classList.toggle(\'pd-acc-open\')"><span class="pd-acc-label">The Saree</span><span class="pd-acc-icon">+</span></div><div class="pd-acc-body">Details about this saree coming soon.</div></div>'}
+          </div>` : '<div class="pd-acc" id="pd-acc-desc"><div class="pd-acc-header" onclick=\"_pdAcc(this)\"><span class="pd-acc-label">The Saree</span><span class="pd-acc-icon">+</span></div><div class="pd-acc-body">Details about this saree coming soon.</div></div>'}
           ${p.weaveStory ? `<div class="pd-acc" id="pd-acc-story">
-            <div class="pd-acc-header" onclick="this.parentElement.classList.toggle('pd-acc-open')">
+            <div class="pd-acc-header" onclick="_pdAcc(this)">
               <span class="pd-acc-label">Weave Story</span>
               <span class="pd-acc-icon">+</span>
             </div>
             <div class="pd-acc-body">${_esc(p.weaveStory)}${weaveFacts}</div>
-          </div>` : '<div class="pd-acc" id="pd-acc-story"><div class="pd-acc-header" onclick="this.parentElement.classList.toggle(\'pd-acc-open\')"><span class="pd-acc-label">Weave Story</span><span class="pd-acc-icon">+</span></div><div class="pd-acc-body">Weave story coming soon.</div></div>'}
+          </div>` : '<div class="pd-acc" id="pd-acc-story"><div class="pd-acc-header" onclick=\"_pdAcc(this)\"><span class="pd-acc-label">Weave Story</span><span class="pd-acc-icon">+</span></div><div class="pd-acc-body">Weave story coming soon.</div></div>'}
           ${p.careInstructions ? `<div class="pd-acc" id="pd-acc-care">
-            <div class="pd-acc-header" onclick="this.parentElement.classList.toggle('pd-acc-open')">
+            <div class="pd-acc-header" onclick="_pdAcc(this)">
               <span class="pd-acc-label">Care Guide</span>
               <span class="pd-acc-icon">+</span>
             </div>
             <div class="pd-acc-body">${_esc(p.careInstructions)}</div>
-          </div>` : '<div class="pd-acc" id="pd-acc-care"><div class="pd-acc-header" onclick="this.parentElement.classList.toggle(\'pd-acc-open\')"><span class="pd-acc-label">Care Guide</span><span class="pd-acc-icon">+</span></div><div class="pd-acc-body">Care instructions coming soon.</div></div>'}
+          </div>` : '<div class="pd-acc" id="pd-acc-care"><div class="pd-acc-header" onclick=\"_pdAcc(this)\"><span class="pd-acc-label">Care Guide</span><span class="pd-acc-icon">+</span></div><div class="pd-acc-body">Care instructions coming soon.</div></div>'}
         </div>
 
         <!-- CTA Panel: WA / Call / Wishlist+Share -->

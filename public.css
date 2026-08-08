@@ -8,7 +8,7 @@
 .orbs{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;}
 
 /* ── Footer base layout (shared across all pages) ───────────── */
-.ft{position:relative;z-index:1;padding:52px 0 26px;background:#EAE0F5;border-top:2px solid rgba(106,58,138,.15);}
+.ft{position:relative;z-index:1;padding:52px 0 26px;background:var(--footer-bg,#E4EEE0);border-top:1px solid rgba(0,0,0,.07);}
 .fi2{padding:0 43px 0 28px;}
 .fg2{display:grid;grid-template-columns:minmax(240px,1fr) auto auto auto;gap:0 104px;margin-bottom:40px;align-items:start;}
 .fb2{padding:20px 28px 0;display:flex;justify-content:space-between;font-size:12px;color:#AAA090;border-top:1px solid rgba(0,0,0,.06);flex-wrap:wrap;gap:8px;}
@@ -246,7 +246,7 @@ margin-right:14px;}
 .srch-overlay.open{display:flex;}
 /* Centered panel */
 .srch-panel{
-  width:60%;max-width:720px;
+  width:60%;max-width:740px;
   background:#fff;
   border-radius:16px;overflow:hidden;
   box-shadow:0 16px 56px rgba(0,0,0,.32);
@@ -260,11 +260,11 @@ margin-right:14px;}
   background:#fff;
   border-bottom:1px solid #f0e8de;
 }
-.srch-logo{
-  font-family:'Cormorant Garamond',serif;
-  font-size:18px;font-weight:600;color:#1A0A04;letter-spacing:.04em;
-}
-.srch-logo span{color:#C4622D;font-style:italic;}
+.srch-hdr-brand{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.srch-hdr-logo{width:38px;height:38px;border-radius:50%;object-fit:cover;flex-shrink:0;}
+.srch-hdr-wm{line-height:1.2;}
+.srch-hdr-wm-main{display:block;font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:700;color:#1A0A04;letter-spacing:.03em;}
+.srch-hdr-wm-sub{display:block;font-family:'Jost',sans-serif;font-size:10px;color:#C4622D;letter-spacing:.12em;text-transform:uppercase;}
 .srch-close{
   background:none;border:none;font-size:22px;
   cursor:pointer;color:#3A2A1A;line-height:1;padding:0 2px;
@@ -272,8 +272,8 @@ margin-right:14px;}
 }
 .srch-close:hover{color:#C4622D;}
 /* Panel body */
-.srch-panel-body{padding:18px 22px 24px;}
-.srch-bar{display:flex;gap:8px;margin-bottom:16px;}
+.srch-panel-body{padding:20px 26px 28px;display:flex;flex-direction:column;align-items:center;}
+.srch-bar{display:flex;gap:8px;margin-bottom:16px;width:100%;}
 .srch-bar input{
   flex:1;border:1.5px solid #c8b8a0;border-radius:24px;
   padding:10px 18px;font-family:'Jost',sans-serif;font-size:14px;
@@ -288,7 +288,7 @@ margin-right:14px;}
 }
 .srch-bar button:hover{background:#a8501e;}
 /* Quick filter chips */
-.srch-chips{display:flex;flex-wrap:wrap;gap:7px;}
+.srch-chips{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;}
 .srch-chip{
   font-family:'Jost',sans-serif;font-size:12px;font-weight:500;
   letter-spacing:.04em;text-transform:uppercase;

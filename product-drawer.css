@@ -1,6 +1,6 @@
 /* ============================================================
    Amayaa — Product Drawer  v5
-   Layout: 72vw panel · 75vh height · centred vertically
+   Layout: 72vw full-height panel
    Left 50%: image (fills) + swatch strip (fixed)
    Right 50%: info strip (fixed) · accordion (scrollable) · CTA (fixed)
    ============================================================ */
@@ -14,18 +14,15 @@
 }
 .pd-backdrop.pd-open { display: block; }
 
-/* ── Drawer shell — 75vh centred, 72vw wide ───────────────── */
+/* ── Drawer shell — full height, 72vw wide ────────────────── */
 .pd-drawer {
   position: fixed;
-  top: 12.5vh;
-  right: 0;
+  top: 0; right: 0; bottom: 0;
   width: 72vw;
-  height: 75vh;
   display: flex;
   flex-direction: column;
   background: #F7F2F9;
   border-left: 1px solid rgba(123,94,167,.25);
-  border-radius: 16px 0 0 16px;
   box-shadow: -10px 0 56px rgba(10,0,20,.30);
   z-index: 901;
   overflow: hidden;
@@ -435,8 +432,7 @@
 /* ── Mobile ───────────────────────────────────────────────── */
 @media (max-width: 768px) {
   .pd-drawer {
-    top: 0; height: 100vh; width: 100%;
-    border-radius: 0; border-left: none;
+    width: 100%; border-left: none;
   }
   .pd-body-2col { flex-direction: column; }
   .pd-col-left { flex: 0 0 auto; border-right: none; border-bottom: 1px solid rgba(123,94,167,.18); }

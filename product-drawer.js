@@ -253,8 +253,9 @@
           </div>` : ''}
         </div>
 
-        <!-- CTA Panel 20vh -->
+        <!-- CTA Panel: WA / Call / Wishlist+Share -->
         <div class="pd-cta-panel">
+          <!-- Row 1: WhatsApp (full width green) -->
           <a class="pd-btn-wa"
              href="https://wa.me/${WA_NUMBER}?text=${waMsg}"
              target="_blank" rel="noopener">
@@ -264,24 +265,27 @@
             </svg>
             Enquire on WhatsApp
           </a>
+          <!-- Row 2: Call Us (full width bordered) -->
+          <a class="pd-btn-call" href="tel:${CALL_NUMBER}">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.26h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6.13 6.13l.86-.86a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+            Call Us
+          </a>
+          <!-- Row 3: Wishlist | Share (50/50) -->
           <div class="pd-cta-row">
-            <a class="pd-btn-call" href="tel:${CALL_NUMBER}">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.26h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6.13 6.13l.86-.86a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
-              </svg>
-              Call Us
-            </a>
             <button class="pd-btn-wish${wished ? ' pd-wished' : ''}" id="pd-wish-btn">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="${wished?'#8B1A4A':'none'}" stroke="#8B1A4A" stroke-width="2">
                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
               </svg>
               ${wished ? 'Saved' : 'Wishlist'}
             </button>
-            <button class="pd-btn-share" id="pd-share-btn" aria-label="Share">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <button class="pd-btn-share" id="pd-share-btn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
                 <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
               </svg>
+              Share
             </button>
           </div>
         </div>

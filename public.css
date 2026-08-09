@@ -237,6 +237,7 @@ to{opacity:1;}
 margin-right:14px;}
 .nav-srch-btn:hover{background:rgba(196,98,45,.12);color:#C4622D;}
 /* Search overlay — dark hazy backdrop */
+/* ── Search overlay — desktop centred panel, mobile bottom sheet ── */
 .srch-overlay{
   display:none;position:fixed;inset:0;z-index:500;
   background:rgba(26,10,4,.58);
@@ -244,16 +245,16 @@ margin-right:14px;}
   align-items:center;justify-content:center;
 }
 .srch-overlay.open{display:flex;}
-/* Centered panel */
+/* Desktop: centred card */
 .srch-panel{
   width:60%;max-width:740px;
   background:#fff;
   border-radius:16px;overflow:hidden;
   box-shadow:0 16px 56px rgba(0,0,0,.32);
-  animation:srchSlideIn .22s cubic-bezier(.32,0,.16,1);
+  animation:srchSlideIn .25s cubic-bezier(.32,0,.16,1);
 }
 @keyframes srchSlideIn{from{opacity:0;transform:translateY(-14px);}to{opacity:1;transform:translateY(0);}}
-/* Panel header — logo left, X right */
+/* Panel header */
 .srch-panel-hdr{
   display:flex;align-items:center;justify-content:space-between;
   padding:18px 22px 14px;
@@ -267,13 +268,13 @@ margin-right:14px;}
 .srch-hdr-wm-sub{display:block;font-family:'Jost',sans-serif;font-size:10px;color:#C4622D;letter-spacing:.12em;text-transform:uppercase;}
 .srch-close{
   background:none;border:none;font-size:22px;
-  cursor:pointer;color:#3A2A1A;line-height:1;padding:0 2px;
-  transition:color .2s;
+  cursor:pointer;color:#3A2A1A;line-height:1;padding:4px 6px;
+  transition:color .2s;border-radius:50%;
 }
 .srch-close:hover{color:#C4622D;}
 /* Panel body */
-.srch-panel-body{padding:20px 26px 28px;display:flex;flex-direction:column;align-items:center;}
-.srch-bar{display:flex;gap:8px;margin-bottom:16px;width:100%;}
+.srch-panel-body{padding:20px 26px 28px;display:flex;flex-direction:column;gap:14px;}
+.srch-bar{display:flex;gap:8px;width:100%;}
 .srch-bar input{
   flex:1;border:1.5px solid #c8b8a0;border-radius:24px;
   padding:10px 18px;font-family:'Jost',sans-serif;font-size:14px;
@@ -287,8 +288,10 @@ margin-right:14px;}
   color:#fff;flex-shrink:0;transition:background .2s;
 }
 .srch-bar button:hover{background:#a8501e;}
-/* Quick filter chips */
-.srch-chips{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;}
+/* Quick filter chips — horizontal scroll, no wrap */
+.srch-chips{
+  display:flex;flex-wrap:wrap;gap:7px;
+}
 .srch-chip{
   font-family:'Jost',sans-serif;font-size:12px;font-weight:500;
   letter-spacing:.04em;text-transform:uppercase;
@@ -297,6 +300,48 @@ margin-right:14px;}
 }
 .srch-chip:hover{background:#C4622D;border-color:#C4622D;color:#fff;}
 .srch-chip.active{background:#C4622D;border-color:#C4622D;color:white;}
+
+/* ── Mobile: bottom sheet ─────────────────────────────────── */
+@media(max-width:768px){
+  .srch-overlay{
+    align-items:flex-end;    /* anchor to bottom */
+    justify-content:center;
+  }
+  .srch-panel{
+    width:100%;max-width:100%;
+    border-radius:20px 20px 0 0;
+    max-height:82vh;
+    display:flex;flex-direction:column;
+    animation:srchSheetUp .28s cubic-bezier(.32,0,.16,1);
+  }
+  @keyframes srchSheetUp{from{transform:translateY(100%);}to{transform:translateY(0);}}
+  /* Drag handle */
+  .srch-panel::before{
+    content:'';display:block;
+    width:36px;height:4px;border-radius:2px;
+    background:rgba(0,0,0,.15);
+    margin:12px auto 0;flex-shrink:0;
+  }
+  .srch-panel-hdr{padding:12px 18px 10px;}
+  .srch-hdr-logo{width:32px;height:32px;}
+  .srch-hdr-wm-main{font-size:16px;}
+  /* Body scrolls inside the sheet */
+  .srch-panel-body{
+    padding:14px 16px 24px;
+    overflow-y:auto;-webkit-overflow-scrolling:touch;
+    flex:1;min-height:0;
+  }
+  /* Chips: single horizontal scrolling row on mobile */
+  .srch-chips{
+    flex-wrap:nowrap;
+    overflow-x:auto;-webkit-overflow-scrolling:touch;
+    padding-bottom:4px;
+    /* hide scrollbar */
+    scrollbar-width:none;
+  }
+  .srch-chips::-webkit-scrollbar{display:none;}
+  .srch-chip{font-size:11px;padding:5px 12px;}
+}
 .slide{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
   opacity:0;animation:cycle 27.5s linear infinite;}
 .slide:nth-child(1){opacity:1;animation-delay:-0.05s;}

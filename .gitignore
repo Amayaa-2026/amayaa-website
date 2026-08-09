@@ -1,0 +1,14 @@
+# Feedback / error screenshots — never commit
+error/
+
+# Backups created during development
+*.bak
+*.bak2
+*.mobilefix.bak
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Node (testing tools)
+node_modules/

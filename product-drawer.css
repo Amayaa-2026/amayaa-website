@@ -476,31 +476,39 @@
   /* Body: stack image above details */
   .pd-body-2col { flex-direction: column; overflow: hidden; }
 
-  /* Left col: full width, image + swatches row */
+  /* Left col: full width, stacked — image on top, thumbs below */
   .pd-col-left {
     flex: 0 0 auto;
+    flex-direction: column;             /* image stacked above thumbs */
     border-right: none;
     border-bottom: 1px solid rgba(123,94,167,.18);
-    flex-direction: row;                /* image | swatches side-by-side */
-    height: 44vw;                       /* ~171px on 390px phone */
-    min-height: 140px; max-height: 220px;
   }
 
-  /* Image zone: fills left ~78% of the row */
+  /* Image zone: full width, generous height */
   .pd-img-zone {
-    flex: 1;
+    flex: 0 0 58vw;                     /* ~226px on 390px phone */
+    min-height: 190px;
+    max-height: 290px;
     padding: 4px;
   }
 
-  /* Swatches: vertical strip on the right */
+  /* Swatches: horizontal scrolling row below image */
   .pd-swatches-strip {
-    flex: 0 0 72px;
-    min-height: unset;
-    flex-direction: column;             /* stack swatches vertically */
-    border-top: none;
-    border-left: 1px solid rgba(255,255,255,.06);
+    flex: 0 0 68px;
+    min-height: 68px;
+    flex-direction: row;                /* thumbs side by side */
+    border-top: 1px solid rgba(255,255,255,.06);
+    border-left: none;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
   }
-  .pd-swatch-item { flex: 1; }
+  .pd-swatches-strip::-webkit-scrollbar { display: none; }
+  .pd-swatch-item {
+    flex: 0 0 68px;                     /* fixed width, scroll horizontally */
+    height: 68px;
+  }
   .pd-swatch-label { font-size: 8px; padding: 4px 2px 3px; }
 
   /* Right col: fills remaining height, scrolls */
@@ -535,7 +543,7 @@
 
 /* Very small phones (< 390px) */
 @media (max-width: 390px) {
-  .pd-col-left { height: 48vw; }
+  .pd-img-zone { flex: 0 0 62vw; max-height: 260px; }
   .pd-title { font-size: 18px; }
   .pd-price { font-size: 22px; }
   .pd-specs { grid-template-columns: 1fr; }  /* single col */

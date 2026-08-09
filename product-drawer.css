@@ -440,14 +440,14 @@
 /* ── Mobile — bottom sheet ────────────────────────────────── */
 @media (max-width: 768px) {
 
-  /* Sheet slides UP from bottom, not in from right */
+  /* Sheet slides UP — full screen on mobile */
   .pd-drawer {
     width: 100%;
-    height: 90vh;
-    top: auto;                          /* detach from top        */
+    height: 100%;                       /* full viewport height   */
+    top: 0;
     border-left: none;
-    border-top: 1px solid rgba(123,94,167,.25);
-    border-radius: 18px 18px 0 0;
+    border-top: none;
+    border-radius: 0;                   /* full screen, no rounding */
     transform: translateY(100%);        /* hidden below viewport  */
   }
   .pd-drawer.pd-open { transform: translateY(0); }
@@ -484,11 +484,11 @@
     border-bottom: 1px solid rgba(123,94,167,.18);
   }
 
-  /* Image zone: full width, generous height */
+  /* Image zone: tall portrait, anchored in vh so it's large on any phone */
   .pd-img-zone {
-    flex: 0 0 58vw;                     /* ~226px on 390px phone */
-    min-height: 190px;
-    max-height: 290px;
+    flex: 0 0 50vh;                     /* 50% of screen height — ~422px on iPhone 14 */
+    min-height: 280px;
+    max-height: none;                   /* let vh control, no artificial cap */
     padding: 4px;
   }
 
@@ -543,7 +543,7 @@
 
 /* Very small phones (< 390px) */
 @media (max-width: 390px) {
-  .pd-img-zone { flex: 0 0 62vw; max-height: 260px; }
+  .pd-img-zone { flex: 0 0 46vh; min-height: 240px; }
   .pd-title { font-size: 18px; }
   .pd-price { font-size: 22px; }
   .pd-specs { grid-template-columns: 1fr; }  /* single col */

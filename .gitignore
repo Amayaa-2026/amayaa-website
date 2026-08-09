@@ -5,6 +5,7 @@ error/
 *.bak
 *.bak2
 *.mobilefix.bak
+*.prefix.bak
 
 # OS files
 .DS_Store

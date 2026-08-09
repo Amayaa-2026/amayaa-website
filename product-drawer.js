@@ -68,6 +68,7 @@
     if (!_isOpen) return;
     _isOpen = false;
     _stopAuto();
+    _closeFullscreen();           // dismiss fullscreen if open
     _backdrop.classList.remove('pd-open');
     _drawer.classList.remove('pd-open');
     _unlockScroll();
@@ -335,6 +336,35 @@
     const arrR = _drawer.querySelector('#pd-arr-right');
     if (arrL) showArrows ? arrL.removeAttribute('hidden') : arrL.setAttribute('hidden','');
     if (arrR) showArrows ? arrR.removeAttribute('hidden') : arrR.setAttribute('hidden','');
+
+    // Wire tap-to-fullscreen on image viewer
+    inner.onclick = _openFullscreen;
+  }
+
+  /* ── Fullscreen image overlay ───────────────────────────── */
+  function _openFullscreen() {
+    if (document.getElementById('pd-fs-ov')) { _closeFullscreen(); return; }
+    const inner = _drawer.querySelector('#pd-img-inner');
+    const ov = document.createElement('div');
+    ov.id = 'pd-fs-ov';
+    // Clone the image content into the overlay
+    const clone = inner.cloneNode(true);
+    clone.removeAttribute('id');
+    clone.onclick = null;         // prevent bubbling loop
+    ov.appendChild(clone);
+    // Close button
+    const btn = document.createElement('button');
+    btn.id = 'pd-fs-close';
+    btn.innerHTML = '&times;';
+    btn.setAttribute('aria-label', 'Close fullscreen');
+    btn.addEventListener('click', e => { e.stopPropagation(); _closeFullscreen(); });
+    ov.appendChild(btn);
+    ov.addEventListener('click', _closeFullscreen);
+    document.body.appendChild(ov);
+  }
+  function _closeFullscreen() {
+    const ov = document.getElementById('pd-fs-ov');
+    if (ov) ov.remove();
   }
 
   /* ── Auto-advance ───────────────────────────────────────── */

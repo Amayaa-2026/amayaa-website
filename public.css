@@ -9,9 +9,9 @@
 
 /* ── Footer base layout (shared across all pages) ───────────── */
 .ft{position:relative;z-index:1;padding:52px 0 26px;background:transparent;border-top:1px solid rgba(0,0,0,.07);}
-.fi2{padding:0 43px 0 28px;}
+.fi2{padding:0 86px 0 56px;}
 .fg2{display:grid;grid-template-columns:minmax(240px,1fr) auto auto auto;gap:0 104px;margin-bottom:40px;align-items:start;}
-.fb2{padding:20px 28px 0;display:flex;justify-content:space-between;font-size:12px;color:#AAA090;border-top:1px solid rgba(0,0,0,.06);flex-wrap:wrap;gap:8px;}
+.fb2{padding:20px 56px 0;display:flex;justify-content:space-between;font-size:12px;color:#AAA090;border-top:1px solid rgba(0,0,0,.06);flex-wrap:wrap;gap:8px;}
 .ftag{font-size:14px;line-height:1.8;margin:10px 0 16px;color:#7A6050;}
 .fsc{display:flex;gap:11px;}
 .fsb{width:36px;height:36px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.07);color:#5A4030;text-decoration:none;transition:all .3s;}
@@ -447,7 +447,7 @@ margin-right:14px;}
 /* ── Responsive ── */
 @media(max-width:768px){
   .page{padding:20px 16px 60px;}
-  .ft{padding:36px 16px 20px;}
+  .ft{padding:36px 32px 20px;}
   .fg2{grid-template-columns:1fr;gap:24px;}
   .pg4{grid-template-columns:repeat(2,1fr);}
   .pg3{grid-template-columns:1fr;}

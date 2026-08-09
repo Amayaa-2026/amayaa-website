@@ -456,14 +456,50 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
   .ni{border-radius:20px;padding:10px 16px;}
   .nl{display:none;}
   .bn-name{font-size:20px;}
+  /* Filter: bottom sheet on mobile */
   .cat-layout{grid-template-columns:1fr;}
-  .sidebar-filters{position:static;max-height:none;}
+  .sidebar-filters{
+    position:fixed;bottom:0;left:0;right:0;z-index:400;
+    max-height:82vh;overflow-y:auto;-webkit-overflow-scrolling:touch;
+    border-radius:20px 20px 0 0;
+    box-shadow:0 -6px 32px rgba(0,0,0,.18);
+    transform:translateY(105%);
+    transition:transform .32s cubic-bezier(.32,0,.16,1);
+  }
+  .sidebar-filters.mob-open{transform:translateY(0);}
+  /* Backdrop for filter sheet */
+  .mob-flt-backdrop{
+    display:none;position:fixed;inset:0;z-index:399;
+    background:rgba(26,10,4,.45);backdrop-filter:blur(3px);
+  }
+  .mob-flt-backdrop.show{display:block;}
+  /* Floating filter button */
+  .mob-filter-btn{
+    display:flex;align-items:center;gap:7px;
+    padding:9px 18px;border-radius:50px;
+    background:rgba(255,255,255,.85);backdrop-filter:blur(12px);
+    border:1.5px solid rgba(196,98,45,.3);
+    font-family:'Jost',sans-serif;font-size:12px;font-weight:600;
+    letter-spacing:1.5px;text-transform:uppercase;color:#A04010;
+    cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,.08);
+  }
+  /* Close handle at top of filter sheet */
+  .mob-flt-handle{
+    display:block;width:36px;height:4px;border-radius:2px;
+    background:rgba(0,0,0,.15);margin:12px auto 0;
+  }
+  /* Hide desktop close button in filter sheet on mobile */
+  .flt-close-mob{display:flex;}
   .pg4{grid-template-columns:repeat(2,1fr);}
   .pg3{grid-template-columns:1fr;}
   .fg2{grid-template-columns:1fr;gap:28px;}
   .page{padding:20px 16px 60px;}
   .ft{padding:36px 16px 20px;}
 }
+/* mob-filter-btn hidden on desktop */
+.mob-filter-btn{display:none;}
+.mob-flt-handle{display:none;}
+.mob-flt-backdrop{display:none;}
 @media(max-width:480px){
   .pg4{grid-template-columns:1fr;}
   .stats-row{grid-template-columns:1fr;}
@@ -648,13 +684,17 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
   </div>
 
   <div style="display:flex;gap:14px;align-items:center;margin-bottom:20px;flex-wrap:wrap;">
-    
     <select class="sort-sel" aria-label="Sort products">
       <option>Sort: Newest First</option>
       <option>Price: Low to High</option>
       <option>Price: High to Low</option>
       <option>Name: A to Z</option>
     </select>
+    <!-- Mobile: filter toggle button — hidden on desktop via CSS -->
+    <button class="mob-filter-btn" id="mobFltBtn" aria-label="Open filters" onclick="mobFltOpen()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+      Filters
+    </button>
     <span class="res-count">Showing 12 of 547 sarees</span>
   </div>
 
@@ -663,8 +703,13 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
     <span class="atag">Wedding <button aria-label="Remove filter">&times;</button></span>
   </div>
 
+  <!-- Mobile filter backdrop -->
+  <div class="mob-flt-backdrop" id="mobFltBackdrop" onclick="mobFltClose()"></div>
+
   <div class="cat-layout">
-    <aside class="sidebar-filters" aria-label="Filter products">
+    <aside class="sidebar-filters" id="mobFilterSheet" aria-label="Filter products">
+      <!-- Drag handle (mobile only) -->
+      <span class="mob-flt-handle"></span>
       <div class="flt-hdr">
         <span class="flt-title">Filters</span>
         <button class="flt-clear">Clear All</button>
@@ -939,6 +984,20 @@ function slowScrollTo(targetId){
 }
 </script>
 
+<script>
+/* ── Mobile filter bottom-sheet toggle ── */
+function mobFltOpen(){
+  document.getElementById('mobFilterSheet').classList.add('mob-open');
+  document.getElementById('mobFltBackdrop').classList.add('show');
+  document.body.style.overflow='hidden';
+}
+function mobFltClose(){
+  document.getElementById('mobFilterSheet').classList.remove('mob-open');
+  document.getElementById('mobFltBackdrop').classList.remove('show');
+  document.body.style.overflow='';
+}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')mobFltClose();});
+</script>
 <script>
 (function(){
   // Collapse all filter groups except first

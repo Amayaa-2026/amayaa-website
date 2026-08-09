@@ -71,6 +71,19 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
 .waf{position:fixed;bottom:30px;right:30px;z-index:1000;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#25D366,#128C7E);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(37,211,102,.45);text-decoration:none;transition:all .3s;animation:wap 3s ease-in-out infinite;}
 .waf:hover{transform:scale(1.1);}
 @keyframes wap{0%,100%{box-shadow:0 8px 24px rgba(37,211,102,.45);}50%{box-shadow:0 8px 32px rgba(37,211,102,.7),0 0 0 8px rgba(37,211,102,.12);}}
+
+/* ── Offers stats bar ─────────────────────────── */
+.offer-stats-bar{background:rgba(255,255,255,.7);backdrop-filter:blur(16px);border-bottom:1px solid rgba(0,0,0,.06);padding:14px 36px;}
+.offer-stats-inner{max-width:1380px;margin:0 auto;display:flex;gap:32px;align-items:center;flex-wrap:wrap;justify-content:center;}
+.offer-stat{display:flex;align-items:center;gap:10px;}
+.ostat-icon{font-size:20px;flex-shrink:0;}
+.ostat-main{font-size:13px;font-weight:600;color:#1A0A04;}
+.ostat-sub{font-size:11px;color:#9A8070;}
+.ostat-note{font-size:11px;color:#9A8070;margin-left:auto;line-height:1.6;text-align:right;}
+/* ── Offers grid header ───────────────────────── */
+.offers-grid-hdr{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:20px;flex-wrap:wrap;}
+.offers-grid-title{flex:1;min-width:0;}
+
 @media(max-width:768px){
   .page{padding:20px 16px 60px;}
   .ft{padding:36px 16px 20px;}
@@ -78,6 +91,15 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
   .pg4{grid-template-columns:repeat(2,1fr);}
   .pg3{grid-template-columns:1fr;}
   .fb2{flex-direction:column;text-align:center;}
+  /* Stats: compact 2-col grid */
+  .offer-stats-bar{padding:12px 16px;}
+  .offer-stats-inner{display:grid;grid-template-columns:1fr 1fr;gap:10px 12px;justify-items:start;}
+  .ostat-icon{font-size:18px;}
+  .ostat-note{grid-column:1/-1;margin-left:0;text-align:center;border-top:1px solid rgba(0,0,0,.06);padding-top:8px;width:100%;}
+  /* Grid header: stack heading above sort */
+  .offers-grid-hdr{flex-direction:column;align-items:flex-start;gap:8px;}
+  .offers-grid-hdr .sort-sel{width:100%;}
+  .offers-grid-title{text-align:left;}
 }
 @media(max-width:480px){.pg4{grid-template-columns:1fr;}}
 
@@ -467,13 +489,13 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
 </div>
 
 <!-- OFFER STATS BAR -->
-<div style="background:rgba(255,255,255,.7);backdrop-filter:blur(16px);border-bottom:1px solid rgba(0,0,0,.06);padding:18px 36px;">
-  <div style="max-width:1380px;margin:0 auto;display:flex;gap:36px;align-items:center;flex-wrap:wrap;justify-content:center;gap:40px;">
-    <div style="display:flex;align-items:center;gap:10px;"><span style="font-size:22px;">🏷</span><div><div style="font-size:13px;font-weight:600;color:#1A0A04;">8 Products on Offer</div><div style="font-size:11px;color:#9A8070;">Updated regularly</div></div></div>
-    <div style="display:flex;align-items:center;gap:10px;"><span style="font-size:22px;">💰</span><div><div style="font-size:13px;font-weight:600;color:#1A0A04;">Up to 29% Off</div><div style="font-size:11px;color:#9A8070;">On selected weaves</div></div></div>
-    <div style="display:flex;align-items:center;gap:10px;"><span style="font-size:22px;">✅</span><div><div style="font-size:13px;font-weight:600;color:#1A0A04;">100% Authentic</div><div style="font-size:11px;color:#9A8070;">GI-tagged, verified</div></div></div>
-    <div style="display:flex;align-items:center;gap:10px;"><span style="font-size:22px;">💬</span><div><div style="font-size:13px;font-weight:600;color:#1A0A04;">Order via WhatsApp</div><div style="font-size:11px;color:#9A8070;">Personal service always</div></div></div>
-    <div style="font-size:11px;color:#9A8070;text-align:right;margin-left:auto;line-height:1.6;white-space:nowrap;">Offer valid while stocks last<br>All prices inclusive of GST</div>
+<div class="offer-stats-bar">
+  <div class="offer-stats-inner">
+    <div class="offer-stat"><span class="ostat-icon">🏷</span><div><div class="ostat-main">8 Products on Offer</div><div class="ostat-sub">Updated regularly</div></div></div>
+    <div class="offer-stat"><span class="ostat-icon">💰</span><div><div class="ostat-main">Up to 29% Off</div><div class="ostat-sub">On selected weaves</div></div></div>
+    <div class="offer-stat"><span class="ostat-icon">✅</span><div><div class="ostat-main">100% Authentic</div><div class="ostat-sub">GI-tagged, verified</div></div></div>
+    <div class="offer-stat"><span class="ostat-icon">💬</span><div><div class="ostat-main">Order via WhatsApp</div><div class="ostat-sub">Personal service always</div></div></div>
+    <div class="ostat-note">Offer valid while stocks last · All prices inclusive of GST</div>
   </div>
 </div>
 
@@ -482,17 +504,17 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
 <!-- OFFERS GRID -->
 <div style="position:relative;z-index:1;">
 <div class="page" style="padding-top:36px;">
-  <div style="position:relative;margin-bottom:28px;text-align:center;">
-    <p class="sec-lbl">Current Offers</p>
-    <h2 class="sec-ttl" style="font-size:clamp(24px,3vw,40px);margin-bottom:0;">Handloom Sarees at Special Prices</h2>
-    <div style="position:absolute;right:0;top:50%;transform:translateY(-50%);">
-      <select class="sort-sel" onchange="sortOffers(this.value)">
-        <option value="default">Sort: Featured First</option>
-        <option value="price-asc">Price: Low to High</option>
-        <option value="price-desc">Price: High to Low</option>
-        <option value="saving">Highest Saving First</option>
-      </select>
+  <div class="offers-grid-hdr">
+    <div class="offers-grid-title">
+      <p class="sec-lbl">Current Offers</p>
+      <h2 class="sec-ttl" style="font-size:clamp(24px,3vw,40px);margin-bottom:0;">Handloom Sarees at Special Prices</h2>
     </div>
+    <select class="sort-sel" onchange="sortOffers(this.value)">
+      <option value="default">Sort: Featured First</option>
+      <option value="price-asc">Price: Low to High</option>
+      <option value="price-desc">Price: High to Low</option>
+      <option value="saving">Highest Saving First</option>
+    </select>
   </div>
 
   <!-- FILTER ROW -->

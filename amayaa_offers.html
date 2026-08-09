@@ -82,7 +82,7 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
 .ostat-note{font-size:11px;color:#9A8070;margin-left:auto;line-height:1.6;text-align:right;}
 /* ── Offers grid header ───────────────────────── */
 .offers-grid-hdr{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:20px;flex-wrap:wrap;}
-.offers-grid-title{flex:1;min-width:0;}
+.offers-grid-title{flex:1;min-width:0;text-align:center;}
 
 @media(max-width:768px){
   .page{padding:20px 16px 60px;}
@@ -97,9 +97,8 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
   .ostat-icon{font-size:18px;}
   .ostat-note{grid-column:1/-1;margin-left:0;text-align:center;border-top:1px solid rgba(0,0,0,.06);padding-top:8px;width:100%;}
   /* Grid header: stack heading above sort */
-  .offers-grid-hdr{flex-direction:column;align-items:flex-start;gap:8px;}
+  .offers-grid-hdr{flex-direction:column;align-items:center;gap:8px;}
   .offers-grid-hdr .sort-sel{width:100%;}
-  .offers-grid-title{text-align:left;}
 }
 @media(max-width:480px){.pg4{grid-template-columns:1fr;}}
 

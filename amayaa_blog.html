@@ -515,6 +515,20 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
 /* Hide when user scrolls past fold */
 .page-explore.hidden{opacity:0;pointer-events:none;}
 
+/* ── MOBILE LAYOUT ── */
+@media(max-width:768px){
+  .ph-hero{padding:32px 16px 20px;}
+  .cats{padding:0 16px 24px;}
+  .bgrid{
+    grid-template-columns:1fr;
+    padding:0 16px 60px;
+    gap:18px;
+  }
+  /* Cancel odd-item centering rules at single column */
+  .bgrid > .bc:last-child:nth-child(3n+1){grid-column:auto;}
+  .bgrid > .bc:last-child:nth-child(3n+2){grid-column-start:auto;}
+}
+
 </style>
 </head>
 <body>

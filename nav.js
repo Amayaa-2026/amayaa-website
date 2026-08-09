@@ -79,6 +79,11 @@
     <a href="amayaa_offers.html" style="color:#C4622D;font-weight:600;">&#127873; Special Offers</a>
     <div class="nav-divider"></div>
     <a href="amayaa_contact.html">Contact</a>
+    <div class="nav-divider"></div>
+    <a href="#" onclick="event.preventDefault();document.getElementById('mobPanel').classList.remove('show');document.getElementById('mobBackdrop').classList.remove('show');setTimeout(function(){document.getElementById('srchOverlay').classList.add('open');document.getElementById('srchInput').focus();},150);" style="display:flex;align-items:center;gap:8px;">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      Search Sarees
+    </a>
   </nav>
 
   <!-- WhatsApp footer -->

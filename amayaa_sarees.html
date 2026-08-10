@@ -417,7 +417,7 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
 .sw.sel{border-color:white;outline-color:#C4622D;transform:scale(1.18);}
 .sw.sel::after{content:"✓";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:white;text-shadow:0 1px 3px rgba(0,0,0,.7);}
 /* SORT SELECT */
-.sort-sel{padding:12px 36px 12px 18px;background:rgba(255,255,255,.65);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.88);border-radius:50px;font-family:'Jost',sans-serif;font-size:12px;color:#1A1208;cursor:pointer;outline:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23C4622D' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;}
+.sort-sel{padding:12px 36px 12px 18px;background:rgba(255,255,255,.65);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.88);border-radius:50px;font-family:'Jost',sans-serif;font-size:13px;color:#1A1208;cursor:pointer;outline:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23C4622D' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;}
 /* PAGINATION */
 .pag{display:flex;justify-content:center;align-items:center;gap:7px;margin-top:48px;}
 .pag-btn{width:34px;height:34px;border-radius:50%;border:none;cursor:pointer;font-family:'Jost',sans-serif;font-size:12px;font-weight:500;background:rgba(255,255,255,.65);color:#5A4030;transition:all .2s;backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.8);}
@@ -426,7 +426,7 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
 .pag-btn:disabled{opacity:.35;cursor:not-allowed;}
 /* ACTIVE FILTER TAGS */
 .atags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;min-height:10px;}
-.atag{display:inline-flex;align-items:center;gap:5px;padding:4px 12px 4px 14px;border-radius:20px;background:rgba(196,98,45,.1);color:#A04010;font-size:11px;font-weight:500;border:1px solid rgba(196,98,45,.22);}
+.atag{display:inline-flex;align-items:center;gap:5px;padding:4px 12px 4px 14px;border-radius:20px;background:rgba(196,98,45,.1);color:#A04010;font-size:12px;font-weight:500;border:1px solid rgba(196,98,45,.22);}
 .atag button{background:none;border:none;cursor:pointer;color:#C4622D;font-size:13px;line-height:1;padding:0;}
 /* SIDEBAR FILTERS */
 .cat-layout{display:grid;grid-template-columns:260px 1fr;gap:30px;}
@@ -455,28 +455,33 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
 .res-count{font-size:12px;color:#9A8070;white-space:nowrap;letter-spacing:.5px;}
 /* ── DESKTOP FILTER TOOLBAR ── */
 .desk-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:12px;}
-.desk-flt-btn{display:flex;align-items:center;gap:8px;padding:10px 20px;border-radius:50px;border:1px solid rgba(196,98,45,.28);background:rgba(255,255,255,.55);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);font-family:'Jost',sans-serif;font-size:12px;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:#3A2A1A;cursor:pointer;transition:all .2s;}
+.desk-flt-btn{display:flex;align-items:center;gap:8px;padding:10px 20px;border-radius:50px;border:1px solid rgba(196,98,45,.28);background:rgba(255,255,255,.55);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);font-family:'Jost',sans-serif;font-size:13px;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:#3A2A1A;cursor:pointer;transition:all .2s;}
 .desk-flt-btn:hover,.desk-flt-btn.active{background:rgba(196,98,45,.12);border-color:rgba(196,98,45,.5);color:#A04010;}
 /* ── DESKTOP FILTER OVERLAY ── */
 .desk-flt-overlay{display:none;margin-bottom:16px;border-radius:18px;background:rgba(255,255,255,.72);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(196,98,45,.18);box-shadow:0 4px 24px rgba(0,0,0,.08);align-items:flex-start;padding:20px 20px 20px 0;}
 .desk-flt-overlay.open{display:flex;}
 .desk-flt-inner{display:flex;align-items:flex-start;flex:1;overflow-x:auto;}
-.desk-flt-section{flex:1;min-width:120px;padding:0 20px;}
+.desk-flt-section{flex:1;min-width:130px;padding:0 20px;}
 .desk-flt-section+.desk-flt-section{border-left:1px solid rgba(0,0,0,.07);}
-.desk-flt-stitle{font-size:9px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:#9A8070;margin-bottom:10px;}
+.desk-flt-stitle{font-size:10px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:#9A8070;margin-bottom:10px;}
 .desk-flt-chips{display:flex;flex-wrap:wrap;gap:5px;}
-.desk-flt-chip{padding:4px 11px;border-radius:20px;font-size:11px;font-weight:500;border:1px solid rgba(196,98,45,.22);background:rgba(255,255,255,.6);color:#5A4030;cursor:pointer;transition:all .18s;white-space:nowrap;}
+.desk-flt-chip{padding:5px 13px;border-radius:20px;font-size:12px;font-weight:500;border:1px solid rgba(196,98,45,.22);background:rgba(255,255,255,.6);color:#5A4030;cursor:pointer;transition:all .18s;white-space:nowrap;}
 .desk-flt-chip:hover,.desk-flt-chip.on{background:rgba(196,98,45,.12);border-color:rgba(196,98,45,.5);color:#A04010;}
 .desk-flt-close{width:28px;height:28px;border-radius:50%;border:1px solid rgba(0,0,0,.12);background:rgba(255,255,255,.7);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;color:#9A8070;flex-shrink:0;transition:all .2s;align-self:flex-start;padding:0;font-family:'Jost',sans-serif;line-height:1;}
 .desk-flt-close:hover{background:rgba(196,98,45,.1);color:#C4622D;border-color:rgba(196,98,45,.3);}
 .desk-pr-row{display:flex;gap:5px;align-items:center;}
-.desk-pr-box{width:64px;padding:5px 8px;border-radius:8px;border:1px solid rgba(0,0,0,.1);background:rgba(255,255,255,.7);font-family:'Jost',sans-serif;font-size:11px;color:#1A1208;outline:none;}
-.desk-sw-row{display:flex;flex-wrap:wrap;gap:5px;}
-.desk-sw{width:20px;height:20px;border-radius:50%;cursor:pointer;transition:all .22s;position:relative;border:2px solid transparent;outline:2px solid transparent;}
-.desk-sw:hover{transform:scale(1.12);}
-.desk-sw.sel{border-color:white;outline-color:#C4622D;transform:scale(1.18);}
+.desk-pr-box{width:68px;padding:5px 8px;border-radius:8px;border:1px solid rgba(0,0,0,.1);background:rgba(255,255,255,.7);font-family:'Jost',sans-serif;font-size:12px;color:#1A1208;outline:none;}
+/* 6×6 colour swatch grid with hover tooltip */
+.desk-sw-row{display:grid;grid-template-columns:repeat(6,1fr);gap:5px;}
+.desk-sw{width:24px;height:24px;border-radius:50%;cursor:pointer;transition:all .22s;position:relative;border:2px solid transparent;outline:2px solid transparent;}
+.desk-sw:hover{transform:scale(1.15);}
+.desk-sw.sel{border-color:white;outline-color:#C4622D;transform:scale(1.2);}
+.desk-sw::after{content:attr(title);position:absolute;bottom:calc(100% + 5px);left:50%;transform:translateX(-50%);background:rgba(26,10,4,.88);color:white;font-size:10px;font-family:'Jost',sans-serif;padding:3px 7px;border-radius:6px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .15s;z-index:200;}
+.desk-sw:hover::after{opacity:1;}
 /* ── DESKTOP: single-column layout, sidebar hidden ── */
 @media(min-width:769px){.cat-layout{grid-template-columns:1fr !important;}.sidebar-filters{display:none !important;}}
+/* ── MOBILE: hide desktop-only filter elements ── */
+@media(max-width:768px){.desk-flt-btn{display:none !important;}.desk-flt-overlay{display:none !important;}.desk-toolbar{gap:8px;}}
 /* MOBILE RESPONSIVE */
 /* ── Filter FAB / backdrop — desktop: hidden (must come BEFORE mobile block) ── */
 .mob-filter-fab{display:none;}
@@ -765,17 +770,41 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
       <div class="desk-flt-section">
         <div class="desk-flt-stitle">Colour</div>
         <div class="desk-sw-row">
-          <div class="desk-sw" style="background:#C41E3A;" title="Red" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Red" aria-checked="false"></div>
-          <div class="desk-sw" style="background:#FFF8DC;border:1px solid #ddd;" title="Ivory" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Ivory" aria-checked="false"></div>
-          <div class="desk-sw" style="background:#003153;" title="Navy" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Navy" aria-checked="false"></div>
-          <div class="desk-sw" style="background:#2E8B57;" title="Green" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Green" aria-checked="false"></div>
-          <div class="desk-sw" style="background:#FFD700;" title="Gold" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Gold" aria-checked="false"></div>
+          <div class="desk-sw" style="background:#DC143C;" title="Red" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Red" aria-checked="false"></div>
+          <div class="desk-sw" style="background:#800000;" title="Maroon" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Maroon" aria-checked="false"></div>
           <div class="desk-sw" style="background:#FF7F50;" title="Coral" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Coral" aria-checked="false"></div>
-          <div class="desk-sw" style="background:#9370DB;" title="Purple" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Purple" aria-checked="false"></div>
-          <div class="desk-sw" style="background:#FF69B4;" title="Pink" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Pink" aria-checked="false"></div>
+          <div class="desk-sw" style="background:#FF6600;" title="Orange" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Orange" aria-checked="false"></div>
+          <div class="desk-sw" style="background:#FFBF00;" title="Amber" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Amber" aria-checked="false"></div>
+          <div class="desk-sw" style="background:#FFD700;" title="Gold" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Gold" aria-checked="false"></div>
+          <div class="desk-sw" style="background:#F5D020;" title="Yellow" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Yellow" aria-checked="false"></div>
+          <div class="desk-sw" style="background:#90C12E;" title="Lime" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Lime" aria-checked="false"></div>
+          <div class="desk-sw" style="background:#2E8B57;" title="Green" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Green" aria-checked="false"></div>
+          <div class="desk-sw" style="background:#228B22;" title="Forest" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Forest" aria-checked="false"></div>
+          <div class="desk-sw" style="background:#50C878;" title="Emerald" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Emerald" aria-checked="false"></div>
+          <div class="desk-sw" style="background:#008080;" title="Teal" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Teal" aria-checked="false"></div>
+          <div class="desk-sw" style="background:#40E0D0;" title="Turquoise" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Turquoise" aria-checked="false"></div>
+          <div class="desk-sw" style="background:#87CEEB;" title="Sky Blue" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Sky Blue" aria-checked="false"></div>
           <div class="desk-sw" style="background:#1E90FF;" title="Blue" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Blue" aria-checked="false"></div>
+          <div class="desk-sw" style="background:#4169E1;" title="Royal Blue" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Royal Blue" aria-checked="false"></div>
+          <div class="desk-sw" style="background:#003153;" title="Navy" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Navy" aria-checked="false"></div>
+          <div class="desk-sw" style="background:#4B0082;" title="Indigo" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Indigo" aria-checked="false"></div>
+          <div class="desk-sw" style="background:#9370DB;" title="Purple" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Purple" aria-checked="false"></div>
+          <div class="desk-sw" style="background:#E0B0FF;" title="Mauve" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Mauve" aria-checked="false"></div>
+          <div class="desk-sw" style="background:#FF69B4;" title="Pink" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Pink" aria-checked="false"></div>
+          <div class="desk-sw" style="background:#FF007F;" title="Rose" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Rose" aria-checked="false"></div>
+          <div class="desk-sw" style="background:#FFB6C1;" title="Blush" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Blush" aria-checked="false"></div>
+          <div class="desk-sw" style="background:#E6E6FA;" title="Lavender" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Lavender" aria-checked="false"></div>
+          <div class="desk-sw" style="background:#FFFFF0;border:1px solid #ddd;" title="Ivory" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Ivory" aria-checked="false"></div>
+          <div class="desk-sw" style="background:#FFFDD0;border:1px solid #ddd;" title="Cream" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Cream" aria-checked="false"></div>
+          <div class="desk-sw" style="background:#F5F5DC;border:1px solid #ddd;" title="Beige" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Beige" aria-checked="false"></div>
+          <div class="desk-sw" style="background:#C4A882;" title="Sandal" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Sandal" aria-checked="false"></div>
+          <div class="desk-sw" style="background:#FFCBA4;" title="Peach" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Peach" aria-checked="false"></div>
           <div class="desk-sw" style="background:#8B4513;" title="Brown" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Brown" aria-checked="false"></div>
-          <div class="desk-sw" style="background:#2F2F2F;" title="Black" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Black" aria-checked="false"></div>
+          <div class="desk-sw" style="background:#D2691E;" title="Chocolate" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Chocolate" aria-checked="false"></div>
+          <div class="desk-sw" style="background:#800020;" title="Burgundy" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Burgundy" aria-checked="false"></div>
+          <div class="desk-sw" style="background:#36454F;" title="Charcoal" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Charcoal" aria-checked="false"></div>
+          <div class="desk-sw" style="background:#1A1A1A;" title="Black" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Black" aria-checked="false"></div>
+          <div class="desk-sw" style="background:#C0C0C0;" title="Silver" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Silver" aria-checked="false"></div>
           <div class="desk-sw" style="background:#F5F5F5;border:1px solid #ddd;" title="White" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="White" aria-checked="false"></div>
         </div>
       </div>

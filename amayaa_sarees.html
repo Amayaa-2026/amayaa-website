@@ -481,7 +481,7 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
 /* ── DESKTOP: single-column layout, sidebar hidden ── */
 @media(min-width:769px){.cat-layout{grid-template-columns:1fr !important;}.sidebar-filters{display:none !important;}}
 /* ── MOBILE: hide desktop-only filter elements ── */
-@media(max-width:768px){.desk-flt-btn{display:none !important;}.desk-flt-overlay{display:none !important;}.desk-toolbar{gap:8px;}}
+@media(max-width:768px){.desk-flt-btn{display:none !important;}.desk-flt-overlay{display:none !important;}.desk-toolbar{justify-content:flex-start;flex-wrap:wrap;gap:10px;}}
 /* MOBILE RESPONSIVE */
 /* ── Filter FAB / backdrop — desktop: hidden (must come BEFORE mobile block) ── */
 .mob-filter-fab{display:none;}

@@ -482,6 +482,15 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
 @media(min-width:769px){.cat-layout{grid-template-columns:1fr !important;}.sidebar-filters{display:none !important;}}
 /* ── MOBILE: hide desktop-only filter elements ── */
 @media(max-width:768px){.desk-flt-btn{display:none !important;}.desk-flt-overlay{display:none !important;}.desk-toolbar{justify-content:flex-start;flex-wrap:wrap;gap:10px;}}
+/* ── MOBILE colour swatch grid (inside sidebar) ── */
+.mob-sw-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-top:4px;}
+.mob-sw-collapsed .sw:nth-child(n+7){display:none;}
+.mob-sw-more{display:block;font-size:11px;color:#C4622D;cursor:pointer;margin-top:8px;font-weight:600;letter-spacing:.5px;text-align:right;user-select:none;}
+/* ── MOBILE sidebar height + price range overflow fix ── */
+@media(max-width:768px){
+  .sidebar-filters{max-height:100vh;border-radius:0 16px 0 0;}
+  .pr-input{min-width:0;}
+}
 /* MOBILE RESPONSIVE */
 /* ── Filter FAB / backdrop — desktop: hidden (must come BEFORE mobile block) ── */
 .mob-filter-fab{display:none;}
@@ -843,7 +852,7 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
         <button class="flt-clear">Clear All</button>
       </div>
       <div class="flt-group">
-        <div class="flt-gtitle">Region / Weave <span style="font-size:14px;color:#C4622D;">&#8722;</span></div>
+        <div class="flt-gtitle">Region / Weave</div>
         <div class="flt-opts">
           <label class="flt-opt"><input type="checkbox" checked><div class="flt-cb"></div><span class="flt-lbl">Banarasi</span><span class="flt-cnt">48</span></label>
           <label class="flt-opt"><input type="checkbox"><div class="flt-cb"></div><span class="flt-lbl">Kanjivaram</span><span class="flt-cnt">52</span></label>
@@ -858,7 +867,7 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
         </div>
       </div>
       <div class="flt-group">
-        <div class="flt-gtitle">Fabric Type <span style="font-size:14px;color:#C4622D;">&#8722;</span></div>
+        <div class="flt-gtitle">Fabric Type</div>
         <div class="flt-opts">
           <label class="flt-opt"><input type="checkbox" checked><div class="flt-cb"></div><span class="flt-lbl">Silk</span><span class="flt-cnt">122</span></label>
           <label class="flt-opt"><input type="checkbox"><div class="flt-cb"></div><span class="flt-lbl">Cotton</span><span class="flt-cnt">124</span></label>
@@ -870,7 +879,7 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
         </div>
       </div>
       <div class="flt-group">
-        <div class="flt-gtitle">Occasion <span style="font-size:14px;color:#C4622D;">&#8722;</span></div>
+        <div class="flt-gtitle">Occasion</div>
         <div class="flt-opts">
           <label class="flt-opt"><input type="checkbox" checked><div class="flt-cb"></div><span class="flt-lbl">Wedding</span><span class="flt-cnt">186</span></label>
           <label class="flt-opt"><input type="checkbox"><div class="flt-cb"></div><span class="flt-lbl">Festive / Puja</span><span class="flt-cnt">214</span></label>
@@ -879,7 +888,7 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
         </div>
       </div>
       <div class="flt-group">
-        <div class="flt-gtitle">Price Range <span style="font-size:14px;color:#C4622D;">&#8722;</span></div>
+        <div class="flt-gtitle">Price Range</div>
         <div class="pr-inputs">
           <input class="pr-input" type="number" placeholder="Min &#8377;" aria-label="Minimum price">
           <span class="pr-sep">&#8212;</span>
@@ -887,11 +896,49 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
         </div>
       </div>
       <div class="flt-group">
-        <div class="flt-gtitle">Colour <span style="font-size:14px;color:#C4622D;">&#8722;</span></div>
-        <div class="sw-row"><div class="sw" style="background:#C41E3A;" title="Red" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Red" aria-checked="false"></div><div class="sw" style="background:#FFF8DC;" title="Ivory" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Ivory" aria-checked="false"></div><div class="sw" style="background:#003153;" title="Navy" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Navy" aria-checked="false"></div><div class="sw" style="background:#2E8B57;" title="Green" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Green" aria-checked="false"></div><div class="sw" style="background:#FFD700;" title="Gold" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Gold" aria-checked="false"></div><div class="sw" style="background:#FF7F50;" title="Coral" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Coral" aria-checked="false"></div><div class="sw" style="background:#9370DB;" title="Purple" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Purple" aria-checked="false"></div><div class="sw" style="background:#FF69B4;" title="Pink" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Pink" aria-checked="false"></div><div class="sw" style="background:#1E90FF;" title="Blue" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Blue" aria-checked="false"></div><div class="sw" style="background:#8B4513;" title="Brown" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Brown" aria-checked="false"></div><div class="sw" style="background:#2F2F2F;" title="Black" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Black" aria-checked="false"></div><div class="sw" style="background:#F5F5F5;" title="White" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="White" aria-checked="false"></div></div>
+        <div class="flt-gtitle">Colour</div>
+        <div class="sw-row mob-sw-grid mob-sw-collapsed" id="mobSwGrid">
+          <div class="sw" style="background:#DC143C;" title="Red" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Red" aria-checked="false"></div>
+          <div class="sw" style="background:#800000;" title="Maroon" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Maroon" aria-checked="false"></div>
+          <div class="sw" style="background:#FF7F50;" title="Coral" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Coral" aria-checked="false"></div>
+          <div class="sw" style="background:#FF6600;" title="Orange" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Orange" aria-checked="false"></div>
+          <div class="sw" style="background:#FFBF00;" title="Amber" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Amber" aria-checked="false"></div>
+          <div class="sw" style="background:#FFD700;" title="Gold" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Gold" aria-checked="false"></div>
+          <div class="sw" style="background:#F5D020;" title="Yellow" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Yellow" aria-checked="false"></div>
+          <div class="sw" style="background:#90C12E;" title="Lime" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Lime" aria-checked="false"></div>
+          <div class="sw" style="background:#2E8B57;" title="Green" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Green" aria-checked="false"></div>
+          <div class="sw" style="background:#228B22;" title="Forest" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Forest" aria-checked="false"></div>
+          <div class="sw" style="background:#50C878;" title="Emerald" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Emerald" aria-checked="false"></div>
+          <div class="sw" style="background:#008080;" title="Teal" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Teal" aria-checked="false"></div>
+          <div class="sw" style="background:#40E0D0;" title="Turquoise" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Turquoise" aria-checked="false"></div>
+          <div class="sw" style="background:#87CEEB;" title="Sky Blue" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Sky Blue" aria-checked="false"></div>
+          <div class="sw" style="background:#1E90FF;" title="Blue" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Blue" aria-checked="false"></div>
+          <div class="sw" style="background:#4169E1;" title="Royal Blue" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Royal Blue" aria-checked="false"></div>
+          <div class="sw" style="background:#003153;" title="Navy" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Navy" aria-checked="false"></div>
+          <div class="sw" style="background:#4B0082;" title="Indigo" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Indigo" aria-checked="false"></div>
+          <div class="sw" style="background:#9370DB;" title="Purple" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Purple" aria-checked="false"></div>
+          <div class="sw" style="background:#E0B0FF;" title="Mauve" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Mauve" aria-checked="false"></div>
+          <div class="sw" style="background:#FF69B4;" title="Pink" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Pink" aria-checked="false"></div>
+          <div class="sw" style="background:#FF007F;" title="Rose" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Rose" aria-checked="false"></div>
+          <div class="sw" style="background:#FFB6C1;" title="Blush" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Blush" aria-checked="false"></div>
+          <div class="sw" style="background:#E6E6FA;" title="Lavender" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Lavender" aria-checked="false"></div>
+          <div class="sw" style="background:#FFFFF0;border:1px solid #ddd;" title="Ivory" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Ivory" aria-checked="false"></div>
+          <div class="sw" style="background:#FFFDD0;border:1px solid #ddd;" title="Cream" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Cream" aria-checked="false"></div>
+          <div class="sw" style="background:#F5F5DC;border:1px solid #ddd;" title="Beige" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Beige" aria-checked="false"></div>
+          <div class="sw" style="background:#C4A882;" title="Sandal" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Sandal" aria-checked="false"></div>
+          <div class="sw" style="background:#FFCBA4;" title="Peach" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Peach" aria-checked="false"></div>
+          <div class="sw" style="background:#8B4513;" title="Brown" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Brown" aria-checked="false"></div>
+          <div class="sw" style="background:#D2691E;" title="Chocolate" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Chocolate" aria-checked="false"></div>
+          <div class="sw" style="background:#800020;" title="Burgundy" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Burgundy" aria-checked="false"></div>
+          <div class="sw" style="background:#36454F;" title="Charcoal" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Charcoal" aria-checked="false"></div>
+          <div class="sw" style="background:#1A1A1A;" title="Black" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Black" aria-checked="false"></div>
+          <div class="sw" style="background:#C0C0C0;" title="Silver" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Silver" aria-checked="false"></div>
+          <div class="sw" style="background:#F5F5F5;border:1px solid #ddd;" title="White" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="White" aria-checked="false"></div>
+        </div>
+        <span class="mob-sw-more" id="mobSwMore" onclick="mobSwToggle()">+ 30 more colours</span>
       </div>
       <div class="flt-group">
-        <div class="flt-gtitle">Show Only <span style="font-size:14px;color:#C4622D;">&#8722;</span></div>
+        <div class="flt-gtitle">Show Only</div>
         <div class="flt-opts">
           <label class="flt-opt"><input type="checkbox"><div class="flt-cb"></div><span class="flt-lbl">New Arrivals</span></label>
           <label class="flt-opt"><input type="checkbox"><div class="flt-cb"></div><span class="flt-lbl">Special Offers</span></label>
@@ -1028,7 +1075,7 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
 </div>
 <div id="footer-wrap"></div>
 <!-- Mobile-only floating filter FAB (bottom-left, mirrors WhatsApp FAB) -->
-<button class="mob-filter-fab" id="mobFltFab" onclick="mobFltOpen()" aria-label="Open filters">
+<button class="mob-filter-fab" id="mobFltFab" onclick="mobFltToggle()" aria-label="Toggle filters">
   <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
 </button>
 <a href="https://wa.me/919583946000?text=Hello!%20I%20visited%20Amayaa%20and%20would%20like%20to%20know%20more." class="waf" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
@@ -1145,6 +1192,19 @@ function mobFltClose(){
   document.getElementById('mobFilterSheet').classList.remove('mob-open');
   document.getElementById('mobFltBackdrop').classList.remove('show');
   document.body.style.overflow='';
+}
+function mobFltToggle(){
+  var sheet=document.getElementById('mobFilterSheet');
+  if(sheet.classList.contains('mob-open')) mobFltClose();
+  else mobFltOpen();
+}
+/* ── Mobile colour swatch expand/collapse ── */
+function mobSwToggle(){
+  var grid=document.getElementById('mobSwGrid');
+  var btn=document.getElementById('mobSwMore');
+  if(!grid||!btn) return;
+  var isNowCollapsed=grid.classList.toggle('mob-sw-collapsed');
+  btn.textContent=isNowCollapsed?'+ 30 more colours':'&#8722; fewer colours';
 }
 document.addEventListener('keydown',function(e){if(e.key==='Escape')mobFltClose();});
 </script>

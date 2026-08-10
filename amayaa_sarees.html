@@ -453,6 +453,30 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
 .sw-row{display:flex;flex-wrap:wrap;gap:7px;margin-top:4px;}
 /* RESULTS COUNT */
 .res-count{font-size:12px;color:#9A8070;white-space:nowrap;letter-spacing:.5px;}
+/* ── DESKTOP FILTER TOOLBAR ── */
+.desk-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:12px;}
+.desk-flt-btn{display:flex;align-items:center;gap:8px;padding:10px 20px;border-radius:50px;border:1px solid rgba(196,98,45,.28);background:rgba(255,255,255,.55);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);font-family:'Jost',sans-serif;font-size:12px;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:#3A2A1A;cursor:pointer;transition:all .2s;}
+.desk-flt-btn:hover,.desk-flt-btn.active{background:rgba(196,98,45,.12);border-color:rgba(196,98,45,.5);color:#A04010;}
+/* ── DESKTOP FILTER OVERLAY ── */
+.desk-flt-overlay{display:none;margin-bottom:16px;border-radius:18px;background:rgba(255,255,255,.72);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(196,98,45,.18);box-shadow:0 4px 24px rgba(0,0,0,.08);align-items:flex-start;padding:20px 20px 20px 0;}
+.desk-flt-overlay.open{display:flex;}
+.desk-flt-inner{display:flex;align-items:flex-start;flex:1;overflow-x:auto;}
+.desk-flt-section{flex:1;min-width:120px;padding:0 20px;}
+.desk-flt-section+.desk-flt-section{border-left:1px solid rgba(0,0,0,.07);}
+.desk-flt-stitle{font-size:9px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:#9A8070;margin-bottom:10px;}
+.desk-flt-chips{display:flex;flex-wrap:wrap;gap:5px;}
+.desk-flt-chip{padding:4px 11px;border-radius:20px;font-size:11px;font-weight:500;border:1px solid rgba(196,98,45,.22);background:rgba(255,255,255,.6);color:#5A4030;cursor:pointer;transition:all .18s;white-space:nowrap;}
+.desk-flt-chip:hover,.desk-flt-chip.on{background:rgba(196,98,45,.12);border-color:rgba(196,98,45,.5);color:#A04010;}
+.desk-flt-close{width:28px;height:28px;border-radius:50%;border:1px solid rgba(0,0,0,.12);background:rgba(255,255,255,.7);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;color:#9A8070;flex-shrink:0;transition:all .2s;align-self:flex-start;padding:0;font-family:'Jost',sans-serif;line-height:1;}
+.desk-flt-close:hover{background:rgba(196,98,45,.1);color:#C4622D;border-color:rgba(196,98,45,.3);}
+.desk-pr-row{display:flex;gap:5px;align-items:center;}
+.desk-pr-box{width:64px;padding:5px 8px;border-radius:8px;border:1px solid rgba(0,0,0,.1);background:rgba(255,255,255,.7);font-family:'Jost',sans-serif;font-size:11px;color:#1A1208;outline:none;}
+.desk-sw-row{display:flex;flex-wrap:wrap;gap:5px;}
+.desk-sw{width:20px;height:20px;border-radius:50%;cursor:pointer;transition:all .22s;position:relative;border:2px solid transparent;outline:2px solid transparent;}
+.desk-sw:hover{transform:scale(1.12);}
+.desk-sw.sel{border-color:white;outline-color:#C4622D;transform:scale(1.18);}
+/* ── DESKTOP: single-column layout, sidebar hidden ── */
+@media(min-width:769px){.cat-layout{grid-template-columns:1fr !important;}.sidebar-filters{display:none !important;}}
 /* MOBILE RESPONSIVE */
 /* ── Filter FAB / backdrop — desktop: hidden (must come BEFORE mobile block) ── */
 .mob-filter-fab{display:none;}
@@ -689,14 +713,90 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
     <p style="text-align:center;font-size:15px;color:#7A6050;max-width:540px;margin:0 auto 28px;line-height:1.8;">Sourced directly from master weavers across India — each saree carries centuries of tradition and a craftsman&apos;s lifetime of skill.</p>
   </div>
 
-  <div style="display:flex;gap:14px;align-items:center;margin-bottom:20px;flex-wrap:wrap;">
+  <div class="desk-toolbar">
+    <button class="desk-flt-btn" id="deskFltBtn" onclick="deskFltToggle()" aria-label="Toggle filters" aria-expanded="false">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+      Filters
+    </button>
+    <span class="res-count">Showing 12 of 547 sarees</span>
     <select class="sort-sel" aria-label="Sort products">
       <option>Sort: Newest First</option>
       <option>Price: Low to High</option>
       <option>Price: High to Low</option>
       <option>Name: A to Z</option>
     </select>
-    <span class="res-count">Showing 12 of 547 sarees</span>
+  </div>
+  <!-- Desktop filter overlay — non-modal horizontal band, hidden by default -->
+  <div class="desk-flt-overlay" id="deskFltOverlay" role="region" aria-label="Filter options">
+    <div class="desk-flt-inner">
+      <div class="desk-flt-section">
+        <div class="desk-flt-stitle">Weave / Region</div>
+        <div class="desk-flt-chips">
+          <span class="desk-flt-chip on" role="checkbox" aria-checked="true" tabindex="0" onclick="this.classList.toggle('on');this.setAttribute('aria-checked',this.classList.contains('on'))">Banarasi</span>
+          <span class="desk-flt-chip" role="checkbox" aria-checked="false" tabindex="0" onclick="this.classList.toggle('on');this.setAttribute('aria-checked',this.classList.contains('on'))">Kanjivaram</span>
+          <span class="desk-flt-chip" role="checkbox" aria-checked="false" tabindex="0" onclick="this.classList.toggle('on');this.setAttribute('aria-checked',this.classList.contains('on'))">Baluchari</span>
+          <span class="desk-flt-chip" role="checkbox" aria-checked="false" tabindex="0" onclick="this.classList.toggle('on');this.setAttribute('aria-checked',this.classList.contains('on'))">Chanderi</span>
+          <span class="desk-flt-chip" role="checkbox" aria-checked="false" tabindex="0" onclick="this.classList.toggle('on');this.setAttribute('aria-checked',this.classList.contains('on'))">Sambalpuri</span>
+          <span class="desk-flt-chip" role="checkbox" aria-checked="false" tabindex="0" onclick="this.classList.toggle('on');this.setAttribute('aria-checked',this.classList.contains('on'))">Paithani</span>
+          <span class="desk-flt-chip" role="checkbox" aria-checked="false" tabindex="0" onclick="this.classList.toggle('on');this.setAttribute('aria-checked',this.classList.contains('on'))">Bhagalpuri</span>
+          <span class="desk-flt-chip" role="checkbox" aria-checked="false" tabindex="0" onclick="this.classList.toggle('on');this.setAttribute('aria-checked',this.classList.contains('on'))">Jamdani</span>
+        </div>
+      </div>
+      <div class="desk-flt-section">
+        <div class="desk-flt-stitle">Fabric</div>
+        <div class="desk-flt-chips">
+          <span class="desk-flt-chip on" role="checkbox" aria-checked="true" tabindex="0" onclick="this.classList.toggle('on');this.setAttribute('aria-checked',this.classList.contains('on'))">Silk</span>
+          <span class="desk-flt-chip" role="checkbox" aria-checked="false" tabindex="0" onclick="this.classList.toggle('on');this.setAttribute('aria-checked',this.classList.contains('on'))">Cotton</span>
+          <span class="desk-flt-chip" role="checkbox" aria-checked="false" tabindex="0" onclick="this.classList.toggle('on');this.setAttribute('aria-checked',this.classList.contains('on'))">Tussar</span>
+          <span class="desk-flt-chip" role="checkbox" aria-checked="false" tabindex="0" onclick="this.classList.toggle('on');this.setAttribute('aria-checked',this.classList.contains('on'))">Linen</span>
+          <span class="desk-flt-chip" role="checkbox" aria-checked="false" tabindex="0" onclick="this.classList.toggle('on');this.setAttribute('aria-checked',this.classList.contains('on'))">Tissue</span>
+          <span class="desk-flt-chip" role="checkbox" aria-checked="false" tabindex="0" onclick="this.classList.toggle('on');this.setAttribute('aria-checked',this.classList.contains('on'))">Muslin</span>
+        </div>
+      </div>
+      <div class="desk-flt-section">
+        <div class="desk-flt-stitle">Occasion</div>
+        <div class="desk-flt-chips">
+          <span class="desk-flt-chip on" role="checkbox" aria-checked="true" tabindex="0" onclick="this.classList.toggle('on');this.setAttribute('aria-checked',this.classList.contains('on'))">Wedding</span>
+          <span class="desk-flt-chip" role="checkbox" aria-checked="false" tabindex="0" onclick="this.classList.toggle('on');this.setAttribute('aria-checked',this.classList.contains('on'))">Festive</span>
+          <span class="desk-flt-chip" role="checkbox" aria-checked="false" tabindex="0" onclick="this.classList.toggle('on');this.setAttribute('aria-checked',this.classList.contains('on'))">Office</span>
+          <span class="desk-flt-chip" role="checkbox" aria-checked="false" tabindex="0" onclick="this.classList.toggle('on');this.setAttribute('aria-checked',this.classList.contains('on'))">Gift</span>
+        </div>
+      </div>
+      <div class="desk-flt-section">
+        <div class="desk-flt-stitle">Colour</div>
+        <div class="desk-sw-row">
+          <div class="desk-sw" style="background:#C41E3A;" title="Red" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Red" aria-checked="false"></div>
+          <div class="desk-sw" style="background:#FFF8DC;border:1px solid #ddd;" title="Ivory" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Ivory" aria-checked="false"></div>
+          <div class="desk-sw" style="background:#003153;" title="Navy" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Navy" aria-checked="false"></div>
+          <div class="desk-sw" style="background:#2E8B57;" title="Green" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Green" aria-checked="false"></div>
+          <div class="desk-sw" style="background:#FFD700;" title="Gold" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Gold" aria-checked="false"></div>
+          <div class="desk-sw" style="background:#FF7F50;" title="Coral" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Coral" aria-checked="false"></div>
+          <div class="desk-sw" style="background:#9370DB;" title="Purple" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Purple" aria-checked="false"></div>
+          <div class="desk-sw" style="background:#FF69B4;" title="Pink" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Pink" aria-checked="false"></div>
+          <div class="desk-sw" style="background:#1E90FF;" title="Blue" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Blue" aria-checked="false"></div>
+          <div class="desk-sw" style="background:#8B4513;" title="Brown" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Brown" aria-checked="false"></div>
+          <div class="desk-sw" style="background:#2F2F2F;" title="Black" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="Black" aria-checked="false"></div>
+          <div class="desk-sw" style="background:#F5F5F5;border:1px solid #ddd;" title="White" onclick="this.classList.toggle('sel')" role="checkbox" aria-label="White" aria-checked="false"></div>
+        </div>
+      </div>
+      <div class="desk-flt-section">
+        <div class="desk-flt-stitle">Price (&#8377;)</div>
+        <div class="desk-pr-row">
+          <input class="desk-pr-box" type="number" placeholder="Min" aria-label="Minimum price">
+          <span style="font-size:11px;color:#B0967E;">&#8212;</span>
+          <input class="desk-pr-box" type="number" placeholder="Max" aria-label="Maximum price">
+        </div>
+      </div>
+      <div class="desk-flt-section">
+        <div class="desk-flt-stitle">Show Only</div>
+        <div class="desk-flt-chips">
+          <span class="desk-flt-chip" role="checkbox" aria-checked="false" tabindex="0" onclick="this.classList.toggle('on');this.setAttribute('aria-checked',this.classList.contains('on'))">New</span>
+          <span class="desk-flt-chip" role="checkbox" aria-checked="false" tabindex="0" onclick="this.classList.toggle('on');this.setAttribute('aria-checked',this.classList.contains('on'))">Offers</span>
+          <span class="desk-flt-chip" role="checkbox" aria-checked="false" tabindex="0" onclick="this.classList.toggle('on');this.setAttribute('aria-checked',this.classList.contains('on'))">Featured</span>
+        </div>
+      </div>
+    </div>
+    <button class="desk-flt-close" onclick="deskFltToggle()" aria-label="Close filters">&#215;</button>
   </div>
 
   <div class="atags" aria-label="Active filters">
@@ -772,7 +872,7 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
     </aside>
 
     <section aria-label="Product listing">
-      <div class="pg3"><div class="pc">
+      <div class="pg4"><div class="pc">
   <div class="pi"><div class="gf" style="height:240px;background:linear-gradient(160deg,#8B1A4A,#C4622D);"></div>
   <div class="pbadges"><span class="badge b-new">New</span></div></div>
   <div class="pinfo">
@@ -988,6 +1088,24 @@ function slowScrollTo(targetId){
 </script>
 
 <script>
+/* ── Desktop filter overlay toggle ── */
+function deskFltToggle(){
+  var overlay = document.getElementById('deskFltOverlay');
+  var btn = document.getElementById('deskFltBtn');
+  if(!overlay || !btn) return;
+  var isOpen = overlay.classList.toggle('open');
+  btn.classList.toggle('active', isOpen);
+  btn.setAttribute('aria-expanded', String(isOpen));
+}
+document.addEventListener('click', function(e){
+  var overlay = document.getElementById('deskFltOverlay');
+  var btn = document.getElementById('deskFltBtn');
+  if(!overlay || !overlay.classList.contains('open')) return;
+  if(!overlay.contains(e.target) && e.target !== btn && !btn.contains(e.target)){
+    overlay.classList.remove('open');
+    if(btn){ btn.classList.remove('active'); btn.setAttribute('aria-expanded','false'); }
+  }
+});
 /* ── Mobile filter bottom-sheet toggle ── */
 function mobFltOpen(){
   document.getElementById('mobFilterSheet').classList.add('mob-open');

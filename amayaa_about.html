@@ -451,12 +451,12 @@ body{font-family:'Jost',sans-serif;background:#F0E6D8;color:#1A1208;font-size:15
 .vt{font-size:14px;color:#5A4030;}
 .vc{font-weight:700;color:#C4622D;}
 @media(max-width:768px){
-  .cg{grid-template-columns:repeat(3,1fr);}
+  .cg{grid-template-columns:repeat(3,minmax(0,1fr));}
   .ti{grid-template-columns:repeat(2,1fr);}
   .hbtns{flex-direction:column;align-items:center;}
   .btn-p,.btn-o{width:100%;max-width:260px;text-align:center;}
-}
-@media(max-width:480px){
+  .fi2{padding:0;}
+}80px){
   .cg{grid-template-columns:repeat(2,1fr);}
   .ti{grid-template-columns:1fr;}
   .htitle{font-size:clamp(30px,8vw,48px);}
@@ -512,8 +512,8 @@ body{font-family:'Jost',sans-serif;background:#F0E6D8;color:#1A1208;font-size:15
 .fsb{width:36px;height:36px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.07);color:#5A4030;text-decoration:none;transition:all .3s;}
 .fsb:hover{background:#C4622D;color:white;}
 .fb2{padding:20px 56px 0;display:flex;justify-content:space-between;font-size:12px;color:#AAA090;border-top:1px solid rgba(0,0,0,.06);flex-wrap:wrap;gap:8px;}
-@media(max-width:768px){.fg2{grid-template-columns:repeat(3,1fr);gap:24px 12px;}.fg2>*:first-child{grid-column:1/-1;}.fb2{flex-direction:column;text-align:center;}}
-.ft{position:relative;z-index:1;padding:52px 0 26px;margin-top:40px;border-top:1px solid rgba(0,0,0,.07);}
+@media(max-width:768px){.fg2{grid-template-columns:repeat(3,minmax(0,1fr));gap:24px 12px;}.fg2>*:first-child{grid-column:1/-1;}.fb2{flex-direction:column;text-align:center;}  .fi2{padding:0;}
+}ive;z-index:1;padding:52px 0 26px;margin-top:40px;border-top:1px solid rgba(0,0,0,.07);}
 
 /* Story text vertical accent stripe */
 .story-text{position:relative;padding-left:20px;}
@@ -542,8 +542,8 @@ body{font-family:'Jost',sans-serif;background:#F0E6D8;color:#1A1208;font-size:15
   .vs-grid{grid-template-columns:1fr;}
   .weavers-sec{padding:0 16px 48px;}
   .wgrid{grid-template-columns:repeat(2,1fr);}
-}
-@media(max-width:480px){
+  .fi2{padding:0;}
+}80px){
   .wgrid{grid-template-columns:1fr;}
 }
 

@@ -177,21 +177,28 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
 .hero{position:fixed!important;top:0;left:0;width:100%;height:85vh!important;z-index:0!important;overflow:hidden;
   background:#8B1A4A;}
 .slide{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
-  opacity:0;animation:cycle 27.5s linear infinite;}
+  opacity:0;animation:cycle 24s linear infinite;}
 .slide:nth-child(1){opacity:1;animation-delay:-0.05s;}
-.slide:nth-child(2){animation-delay:5.5s;}
-.slide:nth-child(3){animation-delay:11s;}
-.slide:nth-child(4){animation-delay:16.5s;}
-.slide:nth-child(5){animation-delay:22s;}
+.slide:nth-child(2){animation-delay:4s;}
+.slide:nth-child(3){animation-delay:8s;}
+.slide:nth-child(4){animation-delay:12s;}
+.slide:nth-child(5){animation-delay:16s;}
+.slide:nth-child(6){animation-delay:20s;}
 @keyframes cycle{0%{opacity:0;}3%{opacity:1;}17%{opacity:1;}20%{opacity:0;}100%{opacity:0;}}
-
-.s1 .slide-bg{background:linear-gradient(135deg,#8B1A4A,#C4622D,#E8A020);}
-.s2 .slide-bg{background:linear-gradient(135deg,#1A0A4A,#5A1A8A,#8B0050);}
-.s3 .slide-bg{background:linear-gradient(135deg,#0A3A1A,#1A7A3A,#C4A010);}
-.s4 .slide-bg{background:linear-gradient(135deg,#3A0A0A,#8A1A1A,#C4622D);}
-.s5 .slide-bg{background:linear-gradient(135deg,#0A1A3A,#1A3A7A,#8B0050);}
-.slide-ov{position:absolute;inset:0;background:rgba(248,242,234,.86);}
-.slide-ct{position:relative;z-index:2;text-align:center;max-width:760px;padding:0 32px;}
+.slide-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  /* EXPERIMENT-A: shift crop down to clear nav pill — revert to "center top" if images look wrong */
+  object-position:center 15%;}
+.slide-ov{display:none;}
+/* EXPERIMENT-B: text block at bottom, transparent — revert block below to restore card */
+.slide{align-items:flex-end;}
+.slide-ct{position:relative;z-index:2;text-align:center;max-width:760px;padding:0 32px 52px;
+  background:none;border:none;backdrop-filter:none;-webkit-backdrop-filter:none;border-radius:0;}
+.slide .eye{background:rgba(0,0,0,.28);color:#F8E8D0;border-color:rgba(255,220,180,.35);}
+.slide .htitle{color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.55);}
+.slide .htitle em{color:#F5C090;}
+.slide .hsub{color:rgba(255,248,238,.88);text-shadow:0 1px 6px rgba(0,0,0,.5);}
+.slide .btn-o{background:rgba(255,255,255,.2);color:#fff;border-color:rgba(255,255,255,.5);}
+/* END EXPERIMENT */
 .eye{display:inline-block;font-size:11px;font-weight:500;letter-spacing:4px;text-transform:uppercase;
   padding:6px 20px;border-radius:24px;margin-bottom:20px;
   background:rgba(196,98,45,.11);color:#A04010;border:1px solid rgba(196,98,45,.26);}
@@ -216,12 +223,13 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
 .btn-o:hover{background:rgba(196,98,45,.09);}
 .dots{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:0;}
 .dot{width:8px;height:8px;border-radius:50%;background:rgba(196,98,45,.3);
-  border:1.5px solid rgba(196,98,45,.45);animation:dcycle 27.5s linear infinite;}
+  border:1.5px solid rgba(196,98,45,.45);animation:dcycle 24s linear infinite;}
 .dot:nth-child(1){animation-delay:-0.05s;}
-.dot:nth-child(2){animation-delay:5.5s;}
-.dot:nth-child(3){animation-delay:11s;}
-.dot:nth-child(4){animation-delay:16.5s;}
-.dot:nth-child(5){animation-delay:22s;}
+.dot:nth-child(2){animation-delay:4s;}
+.dot:nth-child(3){animation-delay:8s;}
+.dot:nth-child(4){animation-delay:12s;}
+.dot:nth-child(5){animation-delay:16s;}
+.dot:nth-child(6){animation-delay:20s;}
 @keyframes dcycle{
   0%{background:rgba(196,98,45,.3);width:8px;border-radius:50%;}
   3%{background:#C4622D;width:22px;border-radius:4px;}
@@ -396,7 +404,7 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
 <!-- HERO: position:fixed so content scrolls over it -->
 <div class="hero">
 <div class="slide s1">
-  <div class="slide-bg"></div><div class="slide-ov"></div>
+  <img class="slide-img" src="Images/Common.jpg" alt="Handloom Sarees — Amayaa by Polka Dots">
   <div class="slide-ct">
     <span class="eye">✦ New Arrivals — Summer 2026 ✦</span>
     <h1 class="htitle">Where Every Thread<br>Tells a <em>Story</em></h1>
@@ -408,19 +416,7 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
   </div>
 </div>
 <div class="slide s2">
-  <div class="slide-bg"></div><div class="slide-ov"></div>
-  <div class="slide-ct">
-    <span class="eye">Varanasi Collection</span>
-    <h1 class="htitle">The Silk of<br><em>Emperors &amp; Queens</em></h1>
-    <p class="hsub">Pure Banarasi brocades woven on pit looms — 15 centuries of unbroken tradition, delivered to your door.</p>
-    <div class="hbtns">
-      <a href="amayaa_sarees.html" class="btn-p">Explore &amp; Shop</a>
-      <a href="https://wa.me/919583946000" class="btn-o" target="_blank" rel="noopener">WhatsApp Us</a>
-    </div>
-  </div>
-</div>
-<div class="slide s3">
-  <div class="slide-bg"></div><div class="slide-ov"></div>
+  <img class="slide-img" src="Images/Kanjivaran Gem.png" alt="Kanjivaram Silk Saree">
   <div class="slide-ct">
     <span class="eye">South India Exclusive</span>
     <h1 class="htitle">Kanjivaram &mdash;<br><em>The Queen of Silks</em></h1>
@@ -431,12 +427,24 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
     </div>
   </div>
 </div>
-<div class="slide s4">
-  <div class="slide-bg"></div><div class="slide-ov"></div>
+<div class="slide s3">
+  <img class="slide-img" src="Images/Jamdani CG.png" alt="Jamdani Muslin Saree">
   <div class="slide-ct">
     <span class="eye">Bengal Heritage</span>
-    <h1 class="htitle">Baluchari &mdash;<br><em>Myths Woven in Silk</em></h1>
-    <p class="hsub">Ramayana and Mahabharata depicted in every pallu. Art you can wear. Heritage you can pass on.</p>
+    <h1 class="htitle">Jamdani &mdash;<br><em>The Art of Bengal</em></h1>
+    <p class="hsub">Hand-woven on fine muslin, each motif placed by memory alone. A UNESCO heritage craft — rare, light, and breathtaking.</p>
+    <div class="hbtns">
+      <a href="amayaa_sarees.html" class="btn-p">Explore &amp; Shop</a>
+      <a href="https://wa.me/919583946000" class="btn-o" target="_blank" rel="noopener">WhatsApp Us</a>
+    </div>
+  </div>
+</div>
+<div class="slide s4">
+  <img class="slide-img" src="Images/Paithani NBG 1.jpg" alt="Paithani Silk Saree">
+  <div class="slide-ct">
+    <span class="eye">Maharashtra Royal Weave</span>
+    <h1 class="htitle">Paithani &mdash;<br><em>Woven in Gold &amp; Peacock</em></h1>
+    <p class="hsub">Peacock motifs in pure zari, borders that shimmer like gold — the bridal saree of Maharashtra for over two millennia.</p>
     <div class="hbtns">
       <a href="amayaa_sarees.html" class="btn-p">Explore &amp; Shop</a>
       <a href="https://wa.me/919583946000" class="btn-o" target="_blank" rel="noopener">WhatsApp Us</a>
@@ -444,11 +452,23 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
   </div>
 </div>
 <div class="slide s5">
-  <div class="slide-bg"></div><div class="slide-ov"></div>
+  <img class="slide-img" src="Images/Pochampally CG.png" alt="Pochampally Ikat Saree">
   <div class="slide-ct">
-    <span class="eye">&#127873; Wedding Season Special</span>
-    <h1 class="htitle">Dressed in<br><em>Tradition &amp; Grace</em></h1>
-    <p class="hsub">From bridal trousseau to gifting — discover sarees for life&apos;s most precious moments.</p>
+    <span class="eye">Telangana Collection</span>
+    <h1 class="htitle">Pochampally Ikat &mdash;<br><em>Geometry in Silk</em></h1>
+    <p class="hsub">Resist-dyed threads woven into mesmerising geometric patterns — a GI-tagged craft from the heart of Telangana.</p>
+    <div class="hbtns">
+      <a href="amayaa_sarees.html" class="btn-p">Explore &amp; Shop</a>
+      <a href="https://wa.me/919583946000" class="btn-o" target="_blank" rel="noopener">WhatsApp Us</a>
+    </div>
+  </div>
+</div>
+<div class="slide s6">
+  <img class="slide-img" src="Images/Banarsi CG.png" alt="Banarasi Silk Saree">
+  <div class="slide-ct">
+    <span class="eye">Varanasi Collection</span>
+    <h1 class="htitle">Banarasi &mdash;<br><em>The Silk of Emperors</em></h1>
+    <p class="hsub">Pure Katan silk. Woven on pit looms for fifteen centuries. Every zari thread carries the weight of a living tradition.</p>
     <div class="hbtns">
       <a href="amayaa_sarees.html" class="btn-p">Explore &amp; Shop</a>
       <a href="https://wa.me/919583946000" class="btn-o" target="_blank" rel="noopener">WhatsApp Us</a>
@@ -456,7 +476,7 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
   </div>
 </div>
 
-<div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+<div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
 <a class="scroll-hint" href="#collections" onclick="event.preventDefault();slowScrollTo('collections');" aria-label="Scroll down to explore">
   <span class="sh-text">Explore</span>
   <div class="sh-arrow">

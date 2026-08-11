@@ -38,6 +38,12 @@
       '; path=/; SameSite=Lax';
   }
 
+  /* ── Skip gate entirely on localhost / file:// (dev environments) ── */
+  var host = window.location.hostname;
+  if(host === 'localhost' || host === '127.0.0.1' || host === '' || host.endsWith('.local')){
+    return;
+  }
+
   /* ── Check URL for ?preview=... and set cookie if correct ── */
   var params = new URLSearchParams(window.location.search);
   if(params.get('preview') === SECRET){

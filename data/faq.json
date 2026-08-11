@@ -1,0 +1,175 @@
+{
+  "pageTitle": "Frequently Asked Questions",
+  "pageSubtitle": "Everything you need to know about ordering, shipping, returns, and caring for your saree.",
+  "ctaTitle": "Still have a question?",
+  "ctaText": "Our team is available on WhatsApp Monday–Saturday, 10am–7pm IST. We usually respond within a few hours.",
+  "groups": [
+    {
+      "id": "ordering",
+      "label": "Ordering",
+      "icon": "🛍️",
+      "items": [
+        {
+          "id": "ord-1",
+          "question": "How do I place an order?",
+          "answer": "<p>Browse our sarees collection and click on any product to view full details. When you're ready, click <strong>\"Enquire on WhatsApp\"</strong> — this opens a WhatsApp chat with us where you can confirm the saree, share your delivery address, and complete the order. We confirm availability and share payment details within a few hours.</p>"
+        },
+        {
+          "id": "ord-2",
+          "question": "Do you have a website checkout / shopping cart?",
+          "answer": "<p>Currently we operate on a personal, WhatsApp-based ordering system. This lets us give you personalised attention — answer questions, share more photos, or suggest alternatives. We find this works much better for handloom sarees than a generic cart checkout.</p>"
+        },
+        {
+          "id": "ord-3",
+          "question": "Can I request customisation — colour, blouse piece, or length?",
+          "answer": "<p>Yes, for select weaves we can work with the weavers on custom colours or specific design requests. Lead time for custom work is typically 4–8 weeks depending on the weave. WhatsApp us with your requirements and we'll let you know what's possible.</p>"
+        },
+        {
+          "id": "ord-4",
+          "question": "Can I see more photos or a video of a saree before buying?",
+          "answer": "<p>Absolutely — and we encourage it. WhatsApp us and we'll share a short video of the saree in natural light showing the drape, texture, zari work, and pallu in detail. This is especially recommended for sarees above ₹10,000 or for wedding purchases.</p>"
+        },
+        {
+          "id": "ord-5",
+          "question": "Do you take bulk or wholesale orders?",
+          "answer": "<p>Yes, we cater to bulk orders for weddings, corporate gifting, and retailers. Minimum quantity and pricing varies by weave type. Please WhatsApp us with your requirements and we'll share a custom quote.</p>"
+        }
+      ]
+    },
+    {
+      "id": "shipping",
+      "label": "Shipping",
+      "icon": "📦",
+      "items": [
+        {
+          "id": "shp-1",
+          "question": "How long does delivery take?",
+          "answer": "<p>After payment confirmation, orders are dispatched within 2–3 business days. Delivery timelines:</p><ul><li>Metro cities — 4–6 business days</li><li>Other cities &amp; towns — 6–9 business days</li><li>Remote / rural areas — 10–14 business days</li></ul><p>You'll receive a tracking number via WhatsApp once dispatched.</p>"
+        },
+        {
+          "id": "shp-2",
+          "question": "Do you ship internationally?",
+          "answer": "<p>Yes, we ship internationally on request. Please WhatsApp us before placing your order so we can confirm shipping charges and estimated delivery for your country. Typical international delivery is 15–21 business days.</p>"
+        },
+        {
+          "id": "shp-3",
+          "question": "What are the shipping charges?",
+          "answer": "<p>Shipping within India is <strong>free on orders above ₹5,000</strong>. For orders below ₹5,000, a flat charge of ₹120 applies. International shipping is calculated based on your location — contact us for a quote.</p>"
+        },
+        {
+          "id": "shp-4",
+          "question": "How is the saree packaged?",
+          "answer": "<p>Each saree is carefully folded, wrapped in tissue paper, and packed in our signature gift box — ideal for gifting as-is. We avoid plastic packaging in keeping with our sustainability values.</p>"
+        }
+      ]
+    },
+    {
+      "id": "returns",
+      "label": "Returns & Refunds",
+      "icon": "↩️",
+      "items": [
+        {
+          "id": "ret-1",
+          "question": "Can I return a saree if I don't like it?",
+          "answer": "<p>We accept returns within 7 days of delivery only if the item received is significantly different from what was described, has a manufacturing defect, or was damaged in transit. We do not accept returns for change of mind. We encourage you to ask for photos and videos before buying to ensure you're fully satisfied.</p>"
+        },
+        {
+          "id": "ret-2",
+          "question": "The colour looks different from the website — can I return it?",
+          "answer": "<p>Screen colours vary across devices and lighting conditions, and handloom fabrics have a natural depth that cameras can't fully capture. Minor colour variation is not considered a defect and is not grounds for a return. If colour accuracy is important to you, please request a video before purchasing — we're happy to share one.</p>"
+        },
+        {
+          "id": "ret-3",
+          "question": "How long does a refund take?",
+          "answer": "<p>Once we receive and inspect the returned item, refunds are processed within 7–10 business days to the original payment method. For bank transfers, please share your account details when raising the return request.</p>"
+        }
+      ]
+    },
+    {
+      "id": "sarees",
+      "label": "About Our Sarees",
+      "icon": "🧵",
+      "items": [
+        {
+          "id": "sar-1",
+          "question": "Are your sarees genuine handloom?",
+          "answer": "<p>Yes, every saree we sell is sourced directly from master weavers and established weaving clusters across India — Varanasi, Kanchipuram, Bishnupur, Chanderi, Pochampally, and more. We visit the weavers personally to ensure authenticity and fair trade.</p>"
+        },
+        {
+          "id": "sar-2",
+          "question": "What is the difference between Banarasi and Kanjivaram silk?",
+          "answer": "<p><strong>Banarasi</strong> silk (from Varanasi) is known for its rich brocade work with Mughal-inspired motifs — intricate jaal patterns and heavy zari. It's softer and drapes beautifully. <strong>Kanjivaram</strong> (from Kanchipuram, Tamil Nadu) is heavier, known for bold temple borders, contrasting pallu, and vibrant colours with pure mulberry silk. Banarasi is ideal for North Indian weddings; Kanjivaram is the quintessential South Indian bridal saree.</p>"
+        },
+        {
+          "id": "sar-3",
+          "question": "Do the sarees come with a blouse piece?",
+          "answer": "<p>Most of our sarees come with a matching unstitched blouse piece (typically 0.8–1 metre). This is mentioned in each product's description. If you need a separate blouse fabric or stitching assistance, please ask us — we can help you source a matching fabric.</p>"
+        },
+        {
+          "id": "sar-4",
+          "question": "What does GI-tagged mean?",
+          "answer": "<p>A Geographical Indication (GI) tag is a legal certification that a product originates from a specific region and has qualities attributable to that origin. For example, Pochampally Ikat and Kanjivaram silk both carry GI tags — meaning only sarees genuinely woven in those regions can use that name. GI tags protect both the craft and the consumer.</p>"
+        },
+        {
+          "id": "sar-5",
+          "question": "Why do handloom sarees cost more than power-loom sarees?",
+          "answer": "<p>A single Banarasi or Kanjivaram saree can take a master weaver anywhere from 2 weeks to 3 months to complete, depending on the complexity. The cost reflects the artisan's skill, the quality of raw silk and zari, and the heritage of the craft. When you buy handloom, you are directly supporting a weaver's livelihood and preserving a centuries-old art form.</p>"
+        }
+      ]
+    },
+    {
+      "id": "care",
+      "label": "Saree Care",
+      "icon": "✨",
+      "items": [
+        {
+          "id": "care-1",
+          "question": "How should I wash a silk saree?",
+          "answer": "<p>Silk sarees should ideally be <strong>dry cleaned</strong> for the first few washes to preserve the sheen and zari work. If hand-washing at home, use cold water with a mild silk-specific detergent — never wring or twist the fabric. Do not machine wash. Dry flat in shade, never in direct sunlight which can fade the colour.</p>"
+        },
+        {
+          "id": "care-2",
+          "question": "How do I store a silk saree long-term?",
+          "answer": "<ul><li>Wrap in muslin cloth (not plastic) to allow the fabric to breathe</li><li>Store in a cool, dry, dark place away from moisture</li><li>Refold along different lines every 6 months to prevent permanent crease marks</li><li>Place neem leaves or silica gel packets nearby to deter insects</li><li>Never store with strong-smelling mothballs directly touching the saree</li></ul>"
+        },
+        {
+          "id": "care-3",
+          "question": "The zari (gold/silver thread) has tarnished — what do I do?",
+          "answer": "<p>Tarnishing of zari is natural over time, especially with humidity. Avoid storing in humid conditions. To restore some shine, gently brush the zari area with a very soft brush. Professional dry cleaners with experience in silk sarees can also restore tarnished zari — ask specifically for zari treatment when giving it for dry cleaning.</p>"
+        },
+        {
+          "id": "care-4",
+          "question": "How do I iron a silk saree?",
+          "answer": "<p>Iron on low heat (silk setting) on the reverse side of the saree. Always place a thin cotton cloth between the iron and the saree. Never iron directly on zari work — the heat can damage the metallic threads. Steam ironing from a distance is a safer alternative.</p>"
+        }
+      ]
+    },
+    {
+      "id": "payment",
+      "label": "Payment",
+      "icon": "💳",
+      "items": [
+        {
+          "id": "pay-1",
+          "question": "What payment methods do you accept?",
+          "answer": "<p>We accept <strong>UPI</strong> (GPay, PhonePe, Paytm, BHIM), <strong>bank transfer (NEFT/IMPS)</strong>, and <strong>WhatsApp Pay</strong>. Payment details are shared during the WhatsApp ordering process. All payments are confirmed before dispatch.</p>"
+        },
+        {
+          "id": "pay-2",
+          "question": "Is it safe to pay via WhatsApp / UPI?",
+          "answer": "<p>Yes — UPI payments are processed through NPCI's secure infrastructure. We share our verified UPI ID or bank account details only via our official WhatsApp number (+91 95839 46000). We will never ask for your PIN, OTP, or card details. If you receive any suspicious messages, please contact us to verify.</p>"
+        },
+        {
+          "id": "pay-3",
+          "question": "Do you offer Cash on Delivery (COD)?",
+          "answer": "<p>COD is available selectively for orders below ₹5,000 within India. For higher-value sarees, we require advance payment to ensure the piece is reserved for you. WhatsApp us to check COD availability for your pincode.</p>"
+        },
+        {
+          "id": "pay-4",
+          "question": "Do you offer EMI or instalment payments?",
+          "answer": "<p>For premium sarees above ₹15,000, we can arrange a 50% advance + 50% before dispatch payment plan. WhatsApp us to discuss — we're happy to work with you especially for wedding purchases.</p>"
+        }
+      ]
+    }
+  ]
+}

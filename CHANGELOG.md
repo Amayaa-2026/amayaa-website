@@ -15,6 +15,7 @@
 | v2.7 | Aug 10 2026 | Phase 3 Step 4 complete — sarees filter redesign (desktop + mobile), global footer + mobile layout fixes |
 | **v2.8** | **Aug 11 2026** | **Data-driven sarees grid, ProductDrawer wired to homepage, hero banner with 6 real images** |
 | **v2.9** | **Aug 11 2026** | **FAQ & Policy pages, footer update, preview gate (coming_soon.html), logo home link** |
+| **v3.0** | **Aug 11 2026** | **Admin traceability matrix, FAQ/Policies JSON + admin pages, hero banners JSON-driven, typography orb picker (10 pages)** |
 
 ---
 

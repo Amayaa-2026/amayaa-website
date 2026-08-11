@@ -403,81 +403,9 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
   </div>
 </div>
 <!-- HERO: position:fixed so content scrolls over it -->
-<div class="hero">
-<div class="slide s1">
-  <img class="slide-img" src="images/Common.jpg" alt="Handloom Sarees — Amayaa by Polka Dots">
-  <div class="slide-ct">
-    <span class="eye">✦ New Arrivals — Summer 2026 ✦</span>
-    <h1 class="htitle">Where Every Thread<br>Tells a <em>Story</em></h1>
-    <p class="hsub">Master weavers. Ancient looms. Sarees that carry the soul of India — from the banks of the Ganga to the looms of Kanchipuram.</p>
-    <div class="hbtns">
-      <a href="amayaa_sarees.html" class="btn-p">Explore &amp; Shop</a>
-      <a href="https://wa.me/919583946000" class="btn-o" target="_blank" rel="noopener">WhatsApp Us</a>
-    </div>
-  </div>
-</div>
-<div class="slide s2">
-  <img class="slide-img" src="images/Kanjivaran Gem.png" alt="Kanjivaram Silk Saree">
-  <div class="slide-ct">
-    <span class="eye">South India Exclusive</span>
-    <h1 class="htitle">Kanjivaram &mdash;<br><em>The Queen of Silks</em></h1>
-    <p class="hsub">Temple borders, zari brilliance, and a heritage that defines celebration across generations.</p>
-    <div class="hbtns">
-      <a href="amayaa_sarees.html" class="btn-p">Explore &amp; Shop</a>
-      <a href="https://wa.me/919583946000" class="btn-o" target="_blank" rel="noopener">WhatsApp Us</a>
-    </div>
-  </div>
-</div>
-<div class="slide s3">
-  <img class="slide-img" src="images/Jamdani CG.png" alt="Jamdani Muslin Saree">
-  <div class="slide-ct">
-    <span class="eye">Bengal Heritage</span>
-    <h1 class="htitle">Jamdani &mdash;<br><em>The Art of Bengal</em></h1>
-    <p class="hsub">Hand-woven on fine muslin, each motif placed by memory alone. A UNESCO heritage craft — rare, light, and breathtaking.</p>
-    <div class="hbtns">
-      <a href="amayaa_sarees.html" class="btn-p">Explore &amp; Shop</a>
-      <a href="https://wa.me/919583946000" class="btn-o" target="_blank" rel="noopener">WhatsApp Us</a>
-    </div>
-  </div>
-</div>
-<div class="slide s4">
-  <img class="slide-img" src="images/Paithani NBG 1.jpg" alt="Paithani Silk Saree">
-  <div class="slide-ct">
-    <span class="eye">Maharashtra Royal Weave</span>
-    <h1 class="htitle">Paithani &mdash;<br><em>Woven in Gold &amp; Peacock</em></h1>
-    <p class="hsub">Peacock motifs in pure zari, borders that shimmer like gold — the bridal saree of Maharashtra for over two millennia.</p>
-    <div class="hbtns">
-      <a href="amayaa_sarees.html" class="btn-p">Explore &amp; Shop</a>
-      <a href="https://wa.me/919583946000" class="btn-o" target="_blank" rel="noopener">WhatsApp Us</a>
-    </div>
-  </div>
-</div>
-<div class="slide s5">
-  <img class="slide-img" src="images/Pochampally CG.png" alt="Pochampally Ikat Saree">
-  <div class="slide-ct">
-    <span class="eye">Telangana Collection</span>
-    <h1 class="htitle">Pochampally Ikat &mdash;<br><em>Geometry in Silk</em></h1>
-    <p class="hsub">Resist-dyed threads woven into mesmerising geometric patterns — a GI-tagged craft from the heart of Telangana.</p>
-    <div class="hbtns">
-      <a href="amayaa_sarees.html" class="btn-p">Explore &amp; Shop</a>
-      <a href="https://wa.me/919583946000" class="btn-o" target="_blank" rel="noopener">WhatsApp Us</a>
-    </div>
-  </div>
-</div>
-<div class="slide s6">
-  <img class="slide-img" src="images/Banarsi CG.png" alt="Banarasi Silk Saree">
-  <div class="slide-ct">
-    <span class="eye">Varanasi Collection</span>
-    <h1 class="htitle">Banarasi &mdash;<br><em>The Silk of Emperors</em></h1>
-    <p class="hsub">Pure Katan silk. Woven on pit looms for fifteen centuries. Every zari thread carries the weight of a living tradition.</p>
-    <div class="hbtns">
-      <a href="amayaa_sarees.html" class="btn-p">Explore &amp; Shop</a>
-      <a href="https://wa.me/919583946000" class="btn-o" target="_blank" rel="noopener">WhatsApp Us</a>
-    </div>
-  </div>
-</div>
-
-<div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+<div class="hero" id="hero-slides">
+<!-- slides injected by banner-loader below -->
+<div class="dots" id="hero-dots"></div>
 <a class="scroll-hint" href="#collections" onclick="event.preventDefault();slowScrollTo('collections');" aria-label="Scroll down to explore">
   <span class="sh-text">Explore</span>
   <div class="sh-arrow">
@@ -485,6 +413,69 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
   </div>
 </a>
 </div>
+<script>
+/* ── Banner loader: renders hero slides from data/banners.json ── */
+(function(){
+  var _fallback = [
+    {slot:'s1',eyebrow:'✦ New Arrivals — Summer 2026 ✦',title:'Where Every Thread<br>Tells a <em>Story</em>',subtitle:'Master weavers. Ancient looms. Sarees that carry the soul of India — from the banks of the Ganga to the looms of Kanchipuram.',ctaPrimary:{label:'Explore & Shop',href:'amayaa_sarees.html'},ctaSecondary:{label:'WhatsApp Us',href:'https://wa.me/919583946000'},backgroundImage:'images/Common.jpg',backgroundAlt:'Handloom Sarees — Amayaa by Polka Dots',active:true},
+    {slot:'s2',eyebrow:'South India Exclusive',title:'Kanjivaram &mdash;<br><em>The Queen of Silks</em>',subtitle:'Temple borders, zari brilliance, and a heritage that defines celebration across generations.',ctaPrimary:{label:'Explore & Shop',href:'amayaa_sarees.html'},ctaSecondary:{label:'WhatsApp Us',href:'https://wa.me/919583946000'},backgroundImage:'images/Kanjivaran Gem.png',backgroundAlt:'Kanjivaram Silk Saree',active:true},
+    {slot:'s3',eyebrow:'Bengal Heritage',title:'Jamdani &mdash;<br><em>The Art of Bengal</em>',subtitle:'Hand-woven on fine muslin, each motif placed by memory alone. A UNESCO heritage craft — rare, light, and breathtaking.',ctaPrimary:{label:'Explore & Shop',href:'amayaa_sarees.html'},ctaSecondary:{label:'WhatsApp Us',href:'https://wa.me/919583946000'},backgroundImage:'images/Jamdani CG.png',backgroundAlt:'Jamdani Muslin Saree',active:true},
+    {slot:'s4',eyebrow:'Maharashtra Royal Weave',title:'Paithani &mdash;<br><em>Woven in Gold &amp; Peacock</em>',subtitle:'Peacock motifs in pure zari, borders that shimmer like gold — the bridal saree of Maharashtra for over two millennia.',ctaPrimary:{label:'Explore & Shop',href:'amayaa_sarees.html'},ctaSecondary:{label:'WhatsApp Us',href:'https://wa.me/919583946000'},backgroundImage:'images/Paithani NBG 1.jpg',backgroundAlt:'Paithani Silk Saree',active:true},
+    {slot:'s5',eyebrow:'Telangana Collection',title:'Pochampally Ikat &mdash;<br><em>Geometry in Silk</em>',subtitle:'Resist-dyed threads woven into mesmerising geometric patterns — a GI-tagged craft from the heart of Telangana.',ctaPrimary:{label:'Explore & Shop',href:'amayaa_sarees.html'},ctaSecondary:{label:'WhatsApp Us',href:'https://wa.me/919583946000'},backgroundImage:'images/Pochampally CG.png',backgroundAlt:'Pochampally Ikat Saree',active:true},
+    {slot:'s6',eyebrow:'Varanasi Collection',title:'Banarasi &mdash;<br><em>The Silk of Emperors</em>',subtitle:'Pure Katan silk. Woven on pit looms for fifteen centuries. Every zari thread carries the weight of a living tradition.',ctaPrimary:{label:'Explore & Shop',href:'amayaa_sarees.html'},ctaSecondary:{label:'WhatsApp Us',href:'https://wa.me/919583946000'},backgroundImage:'images/Banarsi CG.png',backgroundAlt:'Banarasi Silk Saree',active:true}
+  ];
+
+  function _render(slides){
+    var active = slides.filter(function(s){ return s.active !== false; });
+    if(!active.length) active = slides;
+    var hero = document.getElementById('hero-slides');
+    var dots = document.getElementById('hero-dots');
+    if(!hero) return;
+    /* Insert slides before dots/scroll-hint */
+    var frag = document.createDocumentFragment();
+    active.forEach(function(s, i){
+      var div = document.createElement('div');
+      div.className = 'slide ' + (s.slot || ('s'+(i+1)));
+      var imgTag = s.backgroundImage
+        ? '<img class="slide-img" src="'+s.backgroundImage+'" alt="'+(s.backgroundAlt||'')+'">'
+        : '';
+      div.innerHTML = imgTag +
+        '<div class="slide-ct">'+
+          '<span class="eye">'+s.eyebrow+'</span>'+
+          '<h1 class="htitle">'+s.title+'</h1>'+
+          '<p class="hsub">'+s.subtitle+'</p>'+
+          '<div class="hbtns">'+
+            '<a href="'+s.ctaPrimary.href+'" class="btn-p">'+s.ctaPrimary.label+'</a>'+
+            '<a href="'+s.ctaSecondary.href+'" class="btn-o" target="_blank" rel="noopener">'+s.ctaSecondary.label+'</a>'+
+          '</div>'+
+        '</div>';
+      frag.appendChild(div);
+    });
+    hero.insertBefore(frag, dots);
+    /* Rebuild dots */
+    if(dots){
+      dots.innerHTML = '';
+      active.forEach(function(){ dots.insertAdjacentHTML('beforeend','<div class="dot"></div>'); });
+    }
+  }
+
+  /* Boot synchronously with fallback, upgrade silently via fetch */
+  _render(_fallback);
+  fetch('data/banners.json')
+    .then(function(r){ return r.ok ? r.json() : null; })
+    .then(function(data){
+      if(!data) return;
+      /* Clear existing slides (keep dots + scroll-hint) */
+      var hero = document.getElementById('hero-slides');
+      if(!hero) return;
+      Array.from(hero.querySelectorAll('.slide')).forEach(function(el){ el.remove(); });
+      var dots = document.getElementById('hero-dots');
+      if(dots) dots.innerHTML = '';
+      _render(data);
+    })
+    .catch(function(){/* silently keep fallback */});
+})();
+</script>
 
 <!-- CONTENT SCROLLS OVER HERO -->
 <div class="home-content">

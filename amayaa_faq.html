@@ -138,255 +138,13 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
     <p>No questions match your search. Try different keywords or <a href="https://wa.me/919583946000" target="_blank" rel="noopener" style="color:#C4622D;font-weight:600;">ask us directly on WhatsApp</a>.</p>
   </div>
 
-  <!-- ── GROUP: Ordering ── -->
-  <div class="faq-group" data-cat="ordering">
-    <h2 class="faq-group-title"><span class="faq-group-icon">🛍️</span> Ordering</h2>
+  <!-- FAQ groups rendered from data/faq.json -->
+  <div id="faq-dynamic-content"></div>
 
-    <div class="faq-item" data-cat="ordering">
-      <div class="faq-q" onclick="toggleFaq(this)">
-        <span class="faq-q-text">How do I place an order?</span>
-        <span class="faq-toggle"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></span>
-      </div>
-      <div class="faq-a"><div class="faq-a-inner"><p>Browse our sarees collection and click on any product to view full details. When you're ready, click <strong>"Enquire on WhatsApp"</strong> — this opens a WhatsApp chat with us where you can confirm the saree, share your delivery address, and complete the order. We confirm availability and share payment details within a few hours.</p></div></div>
-    </div>
-
-    <div class="faq-item" data-cat="ordering">
-      <div class="faq-q" onclick="toggleFaq(this)">
-        <span class="faq-q-text">Do you have a website checkout / shopping cart?</span>
-        <span class="faq-toggle"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></span>
-      </div>
-      <div class="faq-a"><div class="faq-a-inner"><p>Currently we operate on a personal, WhatsApp-based ordering system. This lets us give you personalised attention — answer questions, share more photos, or suggest alternatives. We find this works much better for handloom sarees than a generic cart checkout.</p></div></div>
-    </div>
-
-    <div class="faq-item" data-cat="ordering">
-      <div class="faq-q" onclick="toggleFaq(this)">
-        <span class="faq-q-text">Can I request customisation — colour, blouse piece, or length?</span>
-        <span class="faq-toggle"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></span>
-      </div>
-      <div class="faq-a"><div class="faq-a-inner"><p>Yes, for select weaves we can work with the weavers on custom colours or specific design requests. Lead time for custom work is typically 4–8 weeks depending on the weave. WhatsApp us with your requirements and we'll let you know what's possible.</p></div></div>
-    </div>
-
-    <div class="faq-item" data-cat="ordering">
-      <div class="faq-q" onclick="toggleFaq(this)">
-        <span class="faq-q-text">Can I see more photos or a video of a saree before buying?</span>
-        <span class="faq-toggle"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></span>
-      </div>
-      <div class="faq-a"><div class="faq-a-inner"><p>Absolutely — and we encourage it. WhatsApp us and we'll share a short video of the saree in natural light showing the drape, texture, zari work, and pallu in detail. This is especially recommended for sarees above ₹10,000 or for wedding purchases.</p></div></div>
-    </div>
-
-    <div class="faq-item" data-cat="ordering">
-      <div class="faq-q" onclick="toggleFaq(this)">
-        <span class="faq-q-text">Do you take bulk or wholesale orders?</span>
-        <span class="faq-toggle"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></span>
-      </div>
-      <div class="faq-a"><div class="faq-a-inner"><p>Yes, we cater to bulk orders for weddings, corporate gifting, and retailers. Minimum quantity and pricing varies by weave type. Please WhatsApp us with your requirements and we'll share a custom quote.</p></div></div>
-    </div>
-  </div>
-
-  <!-- ── GROUP: Shipping ── -->
-  <div class="faq-group" data-cat="shipping">
-    <h2 class="faq-group-title"><span class="faq-group-icon">📦</span> Shipping</h2>
-
-    <div class="faq-item" data-cat="shipping">
-      <div class="faq-q" onclick="toggleFaq(this)">
-        <span class="faq-q-text">How long does delivery take?</span>
-        <span class="faq-toggle"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></span>
-      </div>
-      <div class="faq-a"><div class="faq-a-inner"><p>After payment confirmation, orders are dispatched within 2–3 business days. Delivery timelines:</p>
-        <ul>
-          <li>Metro cities — 4–6 business days</li>
-          <li>Other cities — 6–9 business days</li>
-          <li>Remote areas — 10–14 business days</li>
-        </ul>
-        <p>You'll receive a tracking number via WhatsApp once dispatched.</p>
-      </div></div>
-    </div>
-
-    <div class="faq-item" data-cat="shipping">
-      <div class="faq-q" onclick="toggleFaq(this)">
-        <span class="faq-q-text">Do you ship internationally?</span>
-        <span class="faq-toggle"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></span>
-      </div>
-      <div class="faq-a"><div class="faq-a-inner"><p>Yes, we ship internationally on request. Please WhatsApp us before placing your order so we can confirm shipping charges and estimated delivery for your country. Typical international delivery is 15–21 business days.</p></div></div>
-    </div>
-
-    <div class="faq-item" data-cat="shipping">
-      <div class="faq-q" onclick="toggleFaq(this)">
-        <span class="faq-q-text">What are the shipping charges?</span>
-        <span class="faq-toggle"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></span>
-      </div>
-      <div class="faq-a"><div class="faq-a-inner"><p>Shipping within India is <strong>free on orders above ₹5,000</strong>. For orders below ₹5,000, a flat charge of ₹120 applies. International shipping is calculated based on your location — contact us for a quote.</p></div></div>
-    </div>
-
-    <div class="faq-item" data-cat="shipping">
-      <div class="faq-q" onclick="toggleFaq(this)">
-        <span class="faq-q-text">How is the saree packaged?</span>
-        <span class="faq-toggle"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></span>
-      </div>
-      <div class="faq-a"><div class="faq-a-inner"><p>Each saree is carefully folded, wrapped in tissue paper, and packed in our signature gift box — ideal for gifting as-is. We avoid plastic packaging in keeping with our sustainability values.</p></div></div>
-    </div>
-  </div>
-
-  <!-- ── GROUP: Returns ── -->
-  <div class="faq-group" data-cat="returns">
-    <h2 class="faq-group-title"><span class="faq-group-icon">↩️</span> Returns &amp; Refunds</h2>
-
-    <div class="faq-item" data-cat="returns">
-      <div class="faq-q" onclick="toggleFaq(this)">
-        <span class="faq-q-text">Can I return a saree if I don't like it?</span>
-        <span class="faq-toggle"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></span>
-      </div>
-      <div class="faq-a"><div class="faq-a-inner"><p>We accept returns within 7 days of delivery only if the item received is significantly different from what was described, has a manufacturing defect, or was damaged in transit. We do not accept returns for change of mind. We encourage you to ask for photos and videos before buying to ensure you're fully satisfied.</p></div></div>
-    </div>
-
-    <div class="faq-item" data-cat="returns">
-      <div class="faq-q" onclick="toggleFaq(this)">
-        <span class="faq-q-text">The colour looks different from the website — can I return it?</span>
-        <span class="faq-toggle"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></span>
-      </div>
-      <div class="faq-a"><div class="faq-a-inner"><p>Screen colours vary across devices and lighting conditions, and handloom fabrics have a natural depth that cameras can't fully capture. Minor colour variation is not considered a defect and is not grounds for a return. If colour accuracy is important to you, please request a video before purchasing — we're happy to share one.</p></div></div>
-    </div>
-
-    <div class="faq-item" data-cat="returns">
-      <div class="faq-q" onclick="toggleFaq(this)">
-        <span class="faq-q-text">How long does a refund take?</span>
-        <span class="faq-toggle"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></span>
-      </div>
-      <div class="faq-a"><div class="faq-a-inner"><p>Once we receive and inspect the returned item, refunds are processed within 7–10 business days to the original payment method. For bank transfers, please share your account details when raising the return request.</p></div></div>
-    </div>
-  </div>
-
-  <!-- ── GROUP: About Sarees ── -->
-  <div class="faq-group" data-cat="sarees">
-    <h2 class="faq-group-title"><span class="faq-group-icon">🧵</span> About Our Sarees</h2>
-
-    <div class="faq-item" data-cat="sarees">
-      <div class="faq-q" onclick="toggleFaq(this)">
-        <span class="faq-q-text">Are your sarees genuine handloom?</span>
-        <span class="faq-toggle"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></span>
-      </div>
-      <div class="faq-a"><div class="faq-a-inner"><p>Yes, every saree we sell is sourced directly from master weavers and established weaving clusters across India — Varanasi, Kanchipuram, Bishnupur, Chanderi, Pochampally, and more. We visit the weavers personally to ensure authenticity and fair trade.</p></div></div>
-    </div>
-
-    <div class="faq-item" data-cat="sarees">
-      <div class="faq-q" onclick="toggleFaq(this)">
-        <span class="faq-q-text">What is the difference between Banarasi and Kanjivaram silk?</span>
-        <span class="faq-toggle"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></span>
-      </div>
-      <div class="faq-a"><div class="faq-a-inner"><p><strong>Banarasi</strong> silk (from Varanasi) is known for its rich brocade work with Mughal-inspired motifs — intricate jaal patterns and heavy zari. It's softer and drapes beautifully. <strong>Kanjivaram</strong> (from Kanchipuram, Tamil Nadu) is heavier, known for bold temple borders, contrasting pallu, and vibrant colours with pure mulberry silk. Banarasi is ideal for North Indian weddings; Kanjivaram is the quintessential South Indian bridal saree.</p></div></div>
-    </div>
-
-    <div class="faq-item" data-cat="sarees">
-      <div class="faq-q" onclick="toggleFaq(this)">
-        <span class="faq-q-text">Do the sarees come with a blouse piece?</span>
-        <span class="faq-toggle"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></span>
-      </div>
-      <div class="faq-a"><div class="faq-a-inner"><p>Most of our sarees come with a matching unstitched blouse piece (typically 0.8–1 metre). This is mentioned in each product's description. If you need a separate blouse fabric or stitching assistance, please ask us — we can help you source a matching fabric.</p></div></div>
-    </div>
-
-    <div class="faq-item" data-cat="sarees">
-      <div class="faq-q" onclick="toggleFaq(this)">
-        <span class="faq-q-text">What does GI-tagged mean?</span>
-        <span class="faq-toggle"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></span>
-      </div>
-      <div class="faq-a"><div class="faq-a-inner"><p>A Geographical Indication (GI) tag is a legal certification that a product originates from a specific region and has qualities attributable to that origin. For example, Pochampally Ikat and Kanjivaram silk both carry GI tags — meaning only sarees genuinely woven in those regions can use that name. GI tags protect both the craft and the consumer.</p></div></div>
-    </div>
-
-    <div class="faq-item" data-cat="sarees">
-      <div class="faq-q" onclick="toggleFaq(this)">
-        <span class="faq-q-text">Why do handloom sarees cost more than power-loom sarees?</span>
-        <span class="faq-toggle"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></span>
-      </div>
-      <div class="faq-a"><div class="faq-a-inner"><p>A single Banarasi or Kanjivaram saree can take a master weaver anywhere from 2 weeks to 3 months to complete, depending on the complexity. The cost reflects the artisan's skill, the quality of raw silk and zari, and the heritage of the craft. When you buy handloom, you are directly supporting a weaver's livelihood and preserving a centuries-old art form.</p></div></div>
-    </div>
-  </div>
-
-  <!-- ── GROUP: Saree Care ── -->
-  <div class="faq-group" data-cat="care">
-    <h2 class="faq-group-title"><span class="faq-group-icon">✨</span> Saree Care</h2>
-
-    <div class="faq-item" data-cat="care">
-      <div class="faq-q" onclick="toggleFaq(this)">
-        <span class="faq-q-text">How should I wash a silk saree?</span>
-        <span class="faq-toggle"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></span>
-      </div>
-      <div class="faq-a"><div class="faq-a-inner"><p>Silk sarees should ideally be <strong>dry cleaned</strong> for the first few washes to preserve the sheen and zari work. If hand-washing at home, use cold water with a mild silk-specific detergent — never wring or twist the fabric. Do not machine wash. Dry flat in shade, never in direct sunlight which can fade the colour.</p></div></div>
-    </div>
-
-    <div class="faq-item" data-cat="care">
-      <div class="faq-q" onclick="toggleFaq(this)">
-        <span class="faq-q-text">How do I store a silk saree long-term?</span>
-        <span class="faq-toggle"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></span>
-      </div>
-      <div class="faq-a"><div class="faq-a-inner">
-        <ul>
-          <li>Wrap in muslin cloth (not plastic) to allow the fabric to breathe</li>
-          <li>Store in a cool, dry, dark place away from moisture</li>
-          <li>Refold along different lines every 6 months to prevent permanent crease marks</li>
-          <li>Place neem leaves or silica gel packets nearby to deter insects</li>
-          <li>Never store with strong-smelling mothballs directly touching the saree</li>
-        </ul>
-      </div></div>
-    </div>
-
-    <div class="faq-item" data-cat="care">
-      <div class="faq-q" onclick="toggleFaq(this)">
-        <span class="faq-q-text">The zari (gold/silver thread) has tarnished — what do I do?</span>
-        <span class="faq-toggle"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></span>
-      </div>
-      <div class="faq-a"><div class="faq-a-inner"><p>Tarnishing of zari is natural over time, especially with humidity. Avoid storing in humid conditions. To restore some shine, gently brush the zari area with a very soft brush. Professional dry cleaners with experience in silk sarees can also restore tarnished zari — ask specifically for zari treatment when giving it for dry cleaning.</p></div></div>
-    </div>
-
-    <div class="faq-item" data-cat="care">
-      <div class="faq-q" onclick="toggleFaq(this)">
-        <span class="faq-q-text">How do I iron a silk saree?</span>
-        <span class="faq-toggle"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></span>
-      </div>
-      <div class="faq-a"><div class="faq-a-inner"><p>Iron on low heat (silk setting) on the reverse side of the saree. Always place a thin cotton cloth between the iron and the saree. Never iron directly on zari work — the heat can damage the metallic threads. Steam ironing from a distance is a safer alternative.</p></div></div>
-    </div>
-  </div>
-
-  <!-- ── GROUP: Payment ── -->
-  <div class="faq-group" data-cat="payment">
-    <h2 class="faq-group-title"><span class="faq-group-icon">💳</span> Payment</h2>
-
-    <div class="faq-item" data-cat="payment">
-      <div class="faq-q" onclick="toggleFaq(this)">
-        <span class="faq-q-text">What payment methods do you accept?</span>
-        <span class="faq-toggle"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></span>
-      </div>
-      <div class="faq-a"><div class="faq-a-inner"><p>We accept <strong>UPI</strong> (GPay, PhonePe, Paytm, BHIM), <strong>bank transfer (NEFT/IMPS)</strong>, and <strong>WhatsApp Pay</strong>. Payment details are shared during the WhatsApp ordering process. All payments are confirmed before dispatch.</p></div></div>
-    </div>
-
-    <div class="faq-item" data-cat="payment">
-      <div class="faq-q" onclick="toggleFaq(this)">
-        <span class="faq-q-text">Is it safe to pay via WhatsApp / UPI?</span>
-        <span class="faq-toggle"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></span>
-      </div>
-      <div class="faq-a"><div class="faq-a-inner"><p>Yes — UPI payments are processed through NPCI's secure infrastructure. We share our verified UPI ID or bank account details only via our official WhatsApp number (+91 95839 46000). We will never ask for your PIN, OTP, or card details. If you receive any suspicious messages, please contact us to verify.</p></div></div>
-    </div>
-
-    <div class="faq-item" data-cat="payment">
-      <div class="faq-q" onclick="toggleFaq(this)">
-        <span class="faq-q-text">Do you offer Cash on Delivery (COD)?</span>
-        <span class="faq-toggle"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></span>
-      </div>
-      <div class="faq-a"><div class="faq-a-inner"><p>COD is available selectively for orders below ₹5,000 within India. For higher-value sarees, we require advance payment to ensure the piece is reserved for you. WhatsApp us to check COD availability for your pincode.</p></div></div>
-    </div>
-
-    <div class="faq-item" data-cat="payment">
-      <div class="faq-q" onclick="toggleFaq(this)">
-        <span class="faq-q-text">Do you offer EMI or instalment payments?</span>
-        <span class="faq-toggle"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></span>
-      </div>
-      <div class="faq-a"><div class="faq-a-inner"><p>For premium sarees above ₹15,000, we can arrange a 50% advance + 50% before dispatch payment plan. WhatsApp us to discuss — we're happy to work with you especially for wedding purchases.</p></div></div>
-    </div>
-  </div>
-
-  <!-- Still need help -->
-  <div class="faq-cta">
-    <h3>Still have a question?</h3>
-    <p>Our team is available on WhatsApp Monday–Saturday, 10am–7pm IST.<br>We usually respond within a few hours.</p>
+  <!-- CTA rendered from JSON -->
+  <div class="faq-cta" id="faq-cta" style="display:none">
+    <h3 id="faq-cta-title">Still have a question?</h3>
+    <p id="faq-cta-text"></p>
     <div class="faq-cta-btns">
       <a href="https://wa.me/919583946000" class="btn-wa" target="_blank" rel="noopener">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
@@ -456,5 +214,67 @@ function faqSearch(query){
 </a>
 
 <script src="nav.js"></script>
+
+<script>
+/* ── Load FAQ from data/faq.json ── */
+(function(){
+  var _fallback = null; /* will use fetch only */
+
+  function _esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+  function _render(data){
+    /* Update hero if fields present */
+    if(data.pageSubtitle){
+      var sub = document.querySelector('.faq-sub');
+      if(sub) sub.textContent = data.pageSubtitle;
+    }
+
+    /* Render groups */
+    var container = document.getElementById('faq-dynamic-content');
+    if(!container) return;
+    var html = '';
+    (data.groups||[]).forEach(function(g){
+      html += '<div class="faq-group" data-cat="'+_esc(g.id)+'">';
+      html += '<h2 class="faq-group-title"><span class="faq-group-icon">'+g.icon+'</span> '+_esc(g.label)+'</h2>';
+      (g.items||[]).forEach(function(item){
+        html += '<div class="faq-item" data-cat="'+_esc(g.id)+'">';
+        html += '<div class="faq-q" onclick="toggleFaq(this)">';
+        html += '<span class="faq-q-text">'+_esc(item.question)+'</span>';
+        html += '<span class="faq-toggle"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></span>';
+        html += '</div>';
+        html += '<div class="faq-a"><div class="faq-a-inner">'+item.answer+'</div></div>';
+        html += '</div>';
+      });
+      html += '</div>';
+    });
+    container.innerHTML = html;
+
+    /* Render CTA */
+    var cta = document.getElementById('faq-cta');
+    if(cta){
+      if(data.ctaTitle) document.getElementById('faq-cta-title').textContent = data.ctaTitle;
+      if(data.ctaText)  document.getElementById('faq-cta-text').textContent  = data.ctaText;
+      cta.style.display = '';
+    }
+
+    /* Re-wire category filter chips with new DOM */
+    _rewireChips();
+  }
+
+  function _rewireChips(){
+    /* chips were wired before dynamic content rendered — re-apply active filter */
+    var activeBtn = document.querySelector('.faq-chip.active');
+    if(activeBtn) filterCat(activeBtn.dataset.cat, activeBtn);
+  }
+
+  fetch('data/faq.json')
+    .then(function(r){ if(!r.ok) throw new Error(); return r.json(); })
+    .then(function(data){ _render(data); })
+    .catch(function(){
+      document.getElementById('faq-dynamic-content').innerHTML =
+        '<p style="text-align:center;padding:40px;color:#9A8070;">Could not load FAQ content. Please try refreshing the page.</p>';
+    });
+})();
+</script>
 </body>
 </html>

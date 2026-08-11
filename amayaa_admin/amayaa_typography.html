@@ -335,6 +335,74 @@ input[type=color].fi{padding:4px 6px;height:40px;cursor:pointer;}
           </div>
         </div>
 
+        <!-- 7. PAGE BACKGROUND ORBS -->
+        <div class="section-card">
+          <div class="section-heading">Page Background Orbs</div>
+          <div class="section-desc">Floating gradient orbs that define the background mood of each page. Colour picker sets the primary orb; the remaining orbs shade automatically.</div>
+
+          <!-- Single-colour pages (1 orb picker) -->
+          <div class="row-item">
+            <div><div class="row-label">🏠 Home</div><div class="row-sub">index.html — landing page orbs</div></div>
+            <div class="colour-row"><input type="color" class="colour-preview" id="orb-home" value="#8EC5C0" oninput="syncHex(this,'hex-orb-home');updatePreview()"><input class="fi colour-hex" id="hex-orb-home" value="#8EC5C0" onchange="syncColor(this,'orb-home');updatePreview()"></div>
+          </div>
+          <div class="row-item">
+            <div><div class="row-label">🧣 Sarees</div><div class="row-sub">amayaa_sarees.html — catalogue page</div></div>
+            <div class="colour-row"><input type="color" class="colour-preview" id="orb-sarees" value="#F4C2A1" oninput="syncHex(this,'hex-orb-sarees');updatePreview()"><input class="fi colour-hex" id="hex-orb-sarees" value="#F4C2A1" onchange="syncColor(this,'orb-sarees');updatePreview()"></div>
+          </div>
+          <div class="row-item">
+            <div><div class="row-label">🖼️ Product</div><div class="row-sub">Product detail drawer orbs</div></div>
+            <div class="colour-row"><input type="color" class="colour-preview" id="orb-product" value="#E8C878" oninput="syncHex(this,'hex-orb-product');updatePreview()"><input class="fi colour-hex" id="hex-orb-product" value="#E8C878" onchange="syncColor(this,'orb-product');updatePreview()"></div>
+          </div>
+          <div class="row-item">
+            <div><div class="row-label">📝 Blog</div><div class="row-sub">amayaa_blog.html — stories page</div></div>
+            <div class="colour-row"><input type="color" class="colour-preview" id="orb-blog" value="#8EC5C0" oninput="syncHex(this,'hex-orb-blog');updatePreview()"><input class="fi colour-hex" id="hex-orb-blog" value="#8EC5C0" onchange="syncColor(this,'orb-blog');updatePreview()"></div>
+          </div>
+          <div class="row-item">
+            <div><div class="row-label">💜 About</div><div class="row-sub">amayaa_about.html — our story</div></div>
+            <div class="colour-row"><input type="color" class="colour-preview" id="orb-about" value="#C4A8D4" oninput="syncHex(this,'hex-orb-about');updatePreview()"><input class="fi colour-hex" id="hex-orb-about" value="#C4A8D4" onchange="syncColor(this,'orb-about');updatePreview()"></div>
+          </div>
+          <div class="row-item">
+            <div><div class="row-label">📞 Contact</div><div class="row-sub">amayaa_contact.html — reach us</div></div>
+            <div class="colour-row"><input type="color" class="colour-preview" id="orb-contact" value="#90D4C8" oninput="syncHex(this,'hex-orb-contact');updatePreview()"><input class="fi colour-hex" id="hex-orb-contact" value="#90D4C8" onchange="syncColor(this,'orb-contact');updatePreview()"></div>
+          </div>
+          <div class="row-item">
+            <div><div class="row-label">🏷️ Offers</div><div class="row-sub">amayaa_offers.html — special offers</div></div>
+            <div class="colour-row"><input type="color" class="colour-preview" id="orb-offers" value="#F4A8B8" oninput="syncHex(this,'hex-orb-offers');updatePreview()"><input class="fi colour-hex" id="hex-orb-offers" value="#F4A8B8" onchange="syncColor(this,'orb-offers');updatePreview()"></div>
+          </div>
+
+          <hr class="divider">
+          <div class="section-desc" style="margin-bottom:12px;">Pages below use 4 individual orb colours. Each swatch controls one floating orb (top-left → top-right → bottom-left → bottom-right).</div>
+
+          <!-- 4-colour pages -->
+          <div class="row-item" style="align-items:flex-start;padding-top:14px;">
+            <div style="min-width:120px;"><div class="row-label">🔍 Search</div><div class="row-sub">amayaa_search.html</div></div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;">
+              <div class="colour-row"><input type="color" class="colour-preview" id="orb-search-1" value="#8B6AB0" oninput="syncHex(this,'hex-orb-search-1');updatePreview()"><input class="fi colour-hex" id="hex-orb-search-1" value="#8B6AB0" onchange="syncColor(this,'orb-search-1');updatePreview()" style="width:80px;"></div>
+              <div class="colour-row"><input type="color" class="colour-preview" id="orb-search-2" value="#C8B4D0" oninput="syncHex(this,'hex-orb-search-2');updatePreview()"><input class="fi colour-hex" id="hex-orb-search-2" value="#C8B4D0" onchange="syncColor(this,'orb-search-2');updatePreview()" style="width:80px;"></div>
+              <div class="colour-row"><input type="color" class="colour-preview" id="orb-search-3" value="#A090D0" oninput="syncHex(this,'hex-orb-search-3');updatePreview()"><input class="fi colour-hex" id="hex-orb-search-3" value="#A090D0" onchange="syncColor(this,'orb-search-3');updatePreview()" style="width:80px;"></div>
+              <div class="colour-row"><input type="color" class="colour-preview" id="orb-search-4" value="#D8C0E0" oninput="syncHex(this,'hex-orb-search-4');updatePreview()"><input class="fi colour-hex" id="hex-orb-search-4" value="#D8C0E0" onchange="syncColor(this,'orb-search-4');updatePreview()" style="width:80px;"></div>
+            </div>
+          </div>
+          <div class="row-item" style="align-items:flex-start;padding-top:14px;">
+            <div style="min-width:120px;"><div class="row-label">❓ FAQ</div><div class="row-sub">amayaa_faq.html</div></div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;">
+              <div class="colour-row"><input type="color" class="colour-preview" id="orb-faq-1" value="#B4D8C8" oninput="syncHex(this,'hex-orb-faq-1');updatePreview()"><input class="fi colour-hex" id="hex-orb-faq-1" value="#B4D8C8" onchange="syncColor(this,'orb-faq-1');updatePreview()" style="width:80px;"></div>
+              <div class="colour-row"><input type="color" class="colour-preview" id="orb-faq-2" value="#C8D4B0" oninput="syncHex(this,'hex-orb-faq-2');updatePreview()"><input class="fi colour-hex" id="hex-orb-faq-2" value="#C8D4B0" onchange="syncColor(this,'orb-faq-2');updatePreview()" style="width:80px;"></div>
+              <div class="colour-row"><input type="color" class="colour-preview" id="orb-faq-3" value="#D0C4B8" oninput="syncHex(this,'hex-orb-faq-3');updatePreview()"><input class="fi colour-hex" id="hex-orb-faq-3" value="#D0C4B8" onchange="syncColor(this,'orb-faq-3');updatePreview()" style="width:80px;"></div>
+              <div class="colour-row"><input type="color" class="colour-preview" id="orb-faq-4" value="#B8C8D8" oninput="syncHex(this,'hex-orb-faq-4');updatePreview()"><input class="fi colour-hex" id="hex-orb-faq-4" value="#B8C8D8" onchange="syncColor(this,'orb-faq-4');updatePreview()" style="width:80px;"></div>
+            </div>
+          </div>
+          <div class="row-item" style="align-items:flex-start;padding-top:14px;border-bottom:none;">
+            <div style="min-width:120px;"><div class="row-label">📋 Policies</div><div class="row-sub">amayaa_policies.html</div></div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;">
+              <div class="colour-row"><input type="color" class="colour-preview" id="orb-policies-1" value="#C8B4D0" oninput="syncHex(this,'hex-orb-policies-1');updatePreview()"><input class="fi colour-hex" id="hex-orb-policies-1" value="#C8B4D0" onchange="syncColor(this,'orb-policies-1');updatePreview()" style="width:80px;"></div>
+              <div class="colour-row"><input type="color" class="colour-preview" id="orb-policies-2" value="#D4C0E0" oninput="syncHex(this,'hex-orb-policies-2');updatePreview()"><input class="fi colour-hex" id="hex-orb-policies-2" value="#D4C0E0" onchange="syncColor(this,'orb-policies-2');updatePreview()" style="width:80px;"></div>
+              <div class="colour-row"><input type="color" class="colour-preview" id="orb-policies-3" value="#B8D4A0" oninput="syncHex(this,'hex-orb-policies-3');updatePreview()"><input class="fi colour-hex" id="hex-orb-policies-3" value="#B8D4A0" onchange="syncColor(this,'orb-policies-3');updatePreview()" style="width:80px;"></div>
+              <div class="colour-row"><input type="color" class="colour-preview" id="orb-policies-4" value="#D0B8C8" oninput="syncHex(this,'hex-orb-policies-4');updatePreview()"><input class="fi colour-hex" id="hex-orb-policies-4" value="#D0B8C8" onchange="syncColor(this,'orb-policies-4');updatePreview()" style="width:80px;"></div>
+            </div>
+          </div>
+        </div>
+
       </div><!-- /left -->
 
       <!-- RIGHT: LIVE PREVIEW -->

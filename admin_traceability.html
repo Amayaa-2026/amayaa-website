@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Traceability Matrix — Amayaa by Polka Dots</title>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Jost',sans-serif;background:#F5F0E8;color:#1A1208;font-size:14px;}
+
+/* ── Header ── */
+.hdr{background:linear-gradient(135deg,#1A0A04,#3A1A08);color:#fff;padding:36px 48px 32px;}
+.hdr-label{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:8px;}
+.hdr-title{font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:400;margin-bottom:6px;}
+.hdr-sub{font-size:13px;color:rgba(255,255,255,.6);margin-bottom:24px;}
+.hdr-meta{font-size:11px;color:rgba(255,255,255,.4);letter-spacing:.5px;}
+
+/* ── Summary cards ── */
+.summary{display:flex;gap:16px;padding:28px 48px;flex-wrap:wrap;background:#EDE7DA;border-bottom:1px solid rgba(0,0,0,.08);}
+.scard{background:#fff;border-radius:12px;padding:16px 24px;min-width:140px;border:1px solid rgba(0,0,0,.06);text-align:center;}
+.scard-num{font-size:32px;font-weight:700;line-height:1;}
+.scard-lbl{font-size:11px;color:#9A8070;margin-top:4px;letter-spacing:.5px;}
+.scard.green .scard-num{color:#1A7A40;}
+.scard.amber .scard-num{color:#B87A00;}
+.scard.red .scard-num{color:#C4622D;}
+.scard.blue .scard-num{color:#1A5A8A;}
+
+/* ── Controls ── */
+.controls{padding:20px 48px;display:flex;gap:12px;flex-wrap:wrap;align-items:center;background:#F5F0E8;border-bottom:1px solid rgba(0,0,0,.06);}
+.controls label{font-size:12px;font-weight:600;color:#5A4030;letter-spacing:.5px;}
+select,input[type=text]{font-family:'Jost',sans-serif;font-size:13px;padding:8px 12px;border:1px solid rgba(0,0,0,.12);border-radius:8px;background:#fff;color:#1A1208;outline:none;}
+select:focus,input:focus{border-color:#C4622D;}
+.btn-reset{padding:8px 16px;border-radius:8px;border:1px solid rgba(196,98,45,.3);background:transparent;color:#C4622D;font-family:'Jost',sans-serif;font-size:13px;cursor:pointer;}
+.btn-reset:hover{background:rgba(196,98,45,.08);}
+
+/* ── Legend ── */
+.legend{padding:12px 48px;display:flex;gap:20px;flex-wrap:wrap;font-size:12px;color:#5A4030;background:#F5F0E8;}
+.leg{display:flex;align-items:center;gap:6px;}
+
+/* ── Table wrapper ── */
+.tbl-wrap{padding:0 48px 60px;overflow-x:auto;}
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.07);margin-top:24px;}
+thead{background:#1A0A04;color:#fff;}
+thead th{padding:12px 14px;text-align:left;font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;white-space:nowrap;}
+tbody tr{border-bottom:1px solid rgba(0,0,0,.05);}
+tbody tr:last-child{border-bottom:none;}
+tbody tr:hover{background:#FBF7F2;}
+td{padding:11px 14px;font-size:13px;vertical-align:top;line-height:1.5;}
+
+/* Page group header */
+.pg-row td{background:#F5F0E8;font-weight:700;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:#5A4030;padding:8px 14px;border-top:2px solid rgba(0,0,0,.08);}
+
+/* Badges */
+.badge{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:600;letter-spacing:.3px;white-space:nowrap;}
+.badge-yes{background:#D4F0DD;color:#1A7A40;}
+.badge-no{background:#FDDDD5;color:#C4622D;}
+.badge-partial{background:#FFF0C0;color:#8A6000;}
+.badge-planned{background:#D8E8F8;color:#1A5A8A;}
+.badge-na{background:#EEE;color:#888;}
+.badge-gap{background:#FFE0E0;color:#A00000;font-weight:700;}
+
+/* Configurable cell */
+.cfg-yes{color:#1A7A40;font-weight:600;}
+.cfg-no{color:#C4622D;}
+.cfg-partial{color:#8A6000;font-weight:600;}
+
+/* Note text */
+.note{font-size:11px;color:#9A8070;margin-top:3px;line-height:1.4;}
+.gap-note{font-size:11px;color:#A00000;margin-top:3px;font-weight:600;}
+
+/* Hidden rows */
+tr.hidden{display:none;}
+
+/* Section chip */
+.page-chip{display:inline-block;font-size:10px;padding:1px 7px;border-radius:10px;background:rgba(196,98,45,.1);color:#C4622D;font-weight:600;margin-right:4px;}
+
+/* Typography gap */
+.typo-gap{background:#FFF8E0;}
+
+@media(max-width:900px){
+  .hdr,.summary,.controls,.legend,.tbl-wrap{padding-left:20px;padding-right:20px;}
+}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="hdr-label">Internal Reference Document</div>
+  <h1 class="hdr-title">Admin Traceability Matrix</h1>
+  <p class="hdr-sub">Maps every configurable UI element across all public pages to its Admin panel control, JSON data source, and implementation status.</p>
+  <p class="hdr-meta">Generated: August 11, 2026 &nbsp;·&nbsp; Site: amayaabypolkadots.in &nbsp;·&nbsp; Version: pre-work snapshot</p>
+</div>
+
+<!-- Summary -->
+<div class="summary">
+  <div class="scard green">
+    <div class="scard-num" id="cnt-yes">0</div>
+    <div class="scard-lbl">JSON Implemented</div>
+  </div>
+  <div class="scard red">
+    <div class="scard-num" id="cnt-no">0</div>
+    <div class="scard-lbl">JSON Not Implemented</div>
+  </div>
+  <div class="scard amber">
+    <div class="scard-num" id="cnt-partial">0</div>
+    <div class="scard-lbl">Partial / Planned</div>
+  </div>
+  <div class="scard blue">
+    <div class="scard-num" id="cnt-gap">0</div>
+    <div class="scard-lbl">Admin Page Missing</div>
+  </div>
+  <div class="scard" style="border-color:#C4622D;">
+    <div class="scard-num" id="cnt-total" style="color:#C4622D;">0</div>
+    <div class="scard-lbl">Total Elements</div>
+  </div>
+</div>
+
+<!-- Controls -->
+<div class="controls">
+  <label>PAGE</label>
+  <select id="filterPage" onchange="applyFilters()">
+    <option value="">All Pages</option>
+    <option>Global (nav.js)</option>
+    <option>index.html</option>
+    <option>amayaa_sarees.html</option>
+    <option>amayaa_about.html</option>
+    <option>amayaa_blog.html</option>
+    <option>amayaa_contact.html</option>
+    <option>amayaa_offers.html</option>
+    <option>amayaa_search.html</option>
+    <option>amayaa_product.html</option>
+    <option>amayaa_faq.html</option>
+    <option>amayaa_policies.html</option>
+    <option>Admin — Typography</option>
+  </select>
+
+  <label>JSON STATUS</label>
+  <select id="filterJson" onchange="applyFilters()">
+    <option value="">All</option>
+    <option value="yes">Implemented</option>
+    <option value="no">Not Implemented</option>
+    <option value="partial">Partial</option>
+    <option value="planned">Planned</option>
+  </select>
+
+  <label>CONFIGURABLE</label>
+  <select id="filterCfg" onchange="applyFilters()">
+    <option value="">All</option>
+    <option value="yes">Yes</option>
+    <option value="no">No</option>
+    <option value="partial">Partial</option>
+  </select>
+
+  <button class="btn-reset" onclick="resetFilters()">Reset</button>
+</div>
+
+<!-- Legend -->
+<div class="legend">
+  <div class="leg"><span class="badge badge-yes">Yes</span> Fully implemented</div>
+  <div class="leg"><span class="badge badge-no">No</span> Not implemented</div>
+  <div class="leg"><span class="badge badge-partial">Partial</span> Partially done</div>
+  <div class="leg"><span class="badge badge-planned">Planned</span> Designed, not built</div>
+  <div class="leg"><span class="badge badge-gap">GAP</span> Admin page missing</div>
+  <div class="leg"><span class="badge badge-na">N/A</span> Not applicable</div>
+</div>
+
+<!-- Table -->
+<div class="tbl-wrap">
+<table id="mainTable">
+<thead>
+  <tr>
+    <th style="width:14%">Page</th>
+    <th style="width:18%">UI Element / Section</th>
+    <th style="width:8%">Configurable?</th>
+    <th style="width:14%">Admin Page</th>
+    <th style="width:16%">Admin Field(s)</th>
+    <th style="width:8%">JSON Done?</th>
+    <th style="width:14%">JSON File / Key</th>
+    <th>Notes / Gaps</th>
+  </tr>
+</thead>
+<tbody id="tableBody">
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- GLOBAL nav.js -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<tr class="pg-row"><td colspan="8">GLOBAL — nav.js (appears on all pages)</td></tr>
+
+<tr data-page="Global (nav.js)" data-json="yes" data-cfg="yes">
+  <td><span class="page-chip">Global</span></td>
+  <td><strong>Logo / Brand Name</strong></td>
+  <td class="cfg-yes">Yes</td>
+  <td>Admin › Settings</td>
+  <td>Store Name</td>
+  <td><span class="badge badge-yes">Yes</span></td>
+  <td>settings.json › storeName</td>
+  <td><div class="note">Logo seal is a base64 PNG in nav.js (not yet admin-changeable). Brand text comes from settings.</div></td>
+</tr>
+
+<tr data-page="Global (nav.js)" data-json="no" data-cfg="no">
+  <td><span class="page-chip">Global</span></td>
+  <td><strong>Nav Links</strong><br><small>Home, Sarees, Offers, Blog, About, Contact</small></td>
+  <td class="cfg-no">No</td>
+  <td>—</td>
+  <td>Hardcoded in nav.js</td>
+  <td><span class="badge badge-no">No</span></td>
+  <td>—</td>
+  <td><div class="note">Nav items are static. No admin control planned (site structure unlikely to change).</div></td>
+</tr>
+
+<tr data-page="Global (nav.js)" data-json="yes" data-cfg="yes">
+  <td><span class="page-chip">Global</span></td>
+  <td><strong>WhatsApp FAB</strong><br><small>Floating action button</small></td>
+  <td class="cfg-yes">Yes</td>
+  <td>Admin › Settings</td>
+  <td>WhatsApp Number · Show WhatsApp FAB toggle</td>
+  <td><span class="badge badge-yes">Yes</span></td>
+  <td>settings.json › contact.whatsapp · siteControls.showWhatsAppFab</td>
+  <td><div class="note">Number and visibility both wired.</div></td>
+</tr>
+
+<tr data-page="Global (nav.js)" data-json="yes" data-cfg="yes">
+  <td><span class="page-chip">Global</span></td>
+  <td><strong>Footer — Store Info</strong><br><small>Name, tagline, copyright</small></td>
+  <td class="cfg-yes">Yes</td>
+  <td>Admin › Settings</td>
+  <td>Store Name · Footer Tagline · Footer Copyright</td>
+  <td><span class="badge badge-yes">Yes</span></td>
+  <td>settings.json › storeName · footerTagline · footerCopyright</td>
+  <td></td>
+</tr>
+
+<tr data-page="Global (nav.js)" data-json="yes" data-cfg="yes">
+  <td><span class="page-chip">Global</span></td>
+  <td><strong>Footer — Social Links</strong><br><small>Instagram, Facebook, YouTube, Pinterest</small></td>
+  <td class="cfg-yes">Yes</td>
+  <td>Admin › Settings</td>
+  <td>Instagram URL · Facebook URL · YouTube URL · Pinterest URL</td>
+  <td><span class="badge badge-yes">Yes</span></td>
+  <td>settings.json › social.*</td>
+  <td></td>
+</tr>
+
+<tr data-page="Global (nav.js)" data-json="yes" data-cfg="yes">
+  <td><span class="page-chip">Global</span></td>
+  <td><strong>Footer — Contact Info</strong><br><small>WhatsApp, Phone, Email</small></td>
+  <td class="cfg-yes">Yes</td>
+  <td>Admin › Settings</td>
+  <td>WhatsApp Number · Store Phone · Store Email</td>
+  <td><span class="badge badge-yes">Yes</span></td>
+  <td>settings.json › contact.*</td>
+  <td></td>
+</tr>
+
+<tr data-page="Global (nav.js)" data-json="yes" data-cfg="yes">
+  <td><span class="page-chip">Global</span></td>
+  <td><strong>Footer — Store Hours</strong></td>
+  <td class="cfg-yes">Yes</td>
+  <td>Admin › Settings</td>
+  <td>Mon–Sat Hours · Sunday Hours · Holiday Notice</td>
+  <td><span class="badge badge-yes">Yes</span></td>
+  <td>settings.json › hours.*</td>
+  <td></td>
+</tr>
+
+<tr data-page="Global (nav.js)" data-json="no" data-cfg="no">
+  <td><span class="page-chip">Global</span></td>
+  <td><strong>Footer — Column Links</strong><br><small>Discover, Connect columns</small></td>
+  <td class="cfg-no">No</td>
+  <td>—</td>
+  <td>Hardcoded in nav.js</td>
+  <td><span class="badge badge-no">No</span></td>
+  <td>—</td>
+  <td><div class="note">Links like "Our Story", "Blog", "FAQ", "Policies" are static.</div></td>
+</tr>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- index.html -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<tr class="pg-row"><td colspan="8">index.html — Home Page</td></tr>
+
+<tr data-page="index.html" data-json="yes" data-cfg="yes">
+  <td><span class="page-chip">Home</span></td>
+  <td><strong>Hero Banner</strong><br><small>6 slides: eyebrow, headline, subtitle, CTA buttons, image</small></td>
+  <td class="cfg-yes">Yes</td>
+  <td>Admin › Banners</td>
+  <td>Background Image · Eyebrow Text · Headline · Sub-text · Primary/Secondary CTA</td>
+  <td><span class="badge badge-yes">Yes</span></td>
+  <td>banners.json › [].{eyebrow, title, subtitle, ctaPrimary, ctaSecondary, backgroundImage, backgroundAlt, active}</td>
+  <td><div class="note">✅ Complete. banners.json updated to 6 slides with image paths. index.html hero now renders dynamically via JS fetch with inline fallback. dots rebuilt dynamically. active flag supported.</div></td>
+</tr>
+
+<tr data-page="index.html" data-json="yes" data-cfg="yes">
+  <td><span class="page-chip">Home</span></td>
+  <td><strong>Visitor Counter Strip</strong><br><small>"Woven with love for X visitors"</small></td>
+  <td class="cfg-yes">Yes</td>
+  <td>Admin › Settings</td>
+  <td>GoatCounter Code · Show Visitor Counter toggle</td>
+  <td><span class="badge badge-yes">Yes</span></td>
+  <td>settings.json › visitorStripText · siteControls.showVisitorCounter · integrations.goatcounterSite</td>
+  <td></td>
+</tr>
+
+<tr data-page="index.html" data-json="no" data-cfg="no">
+  <td><span class="page-chip">Home</span></td>
+  <td><strong>Collections Grid</strong><br><small>6 saree type cards (Kanjivaram, Banarasi…)</small></td>
+  <td class="cfg-no">No</td>
+  <td>—</td>
+  <td>Hardcoded in index.html</td>
+  <td><span class="badge badge-no">No</span></td>
+  <td>—</td>
+  <td><div class="note">Static cards with gradient backgrounds. Could be driven by categories.json in future.</div></td>
+</tr>
+
+<tr data-page="index.html" data-json="no" data-cfg="no">
+  <td><span class="page-chip">Home</span></td>
+  <td><strong>Trust Strip</strong><br><small>4 bullet points (GI Tagged, Free Returns…)</small></td>
+  <td class="cfg-no">No</td>
+  <td>—</td>
+  <td>Hardcoded in index.html</td>
+  <td><span class="badge badge-no">No</span></td>
+  <td>—</td>
+  <td><div class="note">Low priority. Static marketing copy.</div></td>
+</tr>
+
+<tr data-page="index.html" data-json="yes" data-cfg="yes">
+  <td><span class="page-chip">Home</span></td>
+  <td><strong>New Arrivals</strong><br><small>4 featured product cards</small></td>
+  <td class="cfg-yes">Yes</td>
+  <td>Admin › Products</td>
+  <td>Product featured flag · All product fields</td>
+  <td><span class="badge badge-yes">Yes</span></td>
+  <td>products_index.json › [featured=true]</td>
+  <td><div class="note">Cards rendered from products_index.json. ProductDrawer wired. Image loading via ImageKit TBD (#69).</div></td>
+</tr>
+
+<tr data-page="index.html" data-json="yes" data-cfg="yes">
+  <td><span class="page-chip">Home</span></td>
+  <td><strong>Blog Preview</strong><br><small>3 latest post cards</small></td>
+  <td class="cfg-yes">Yes</td>
+  <td>Admin › Blog</td>
+  <td>Title · Date · Excerpt · Category · Gradient</td>
+  <td><span class="badge badge-yes">Yes</span></td>
+  <td>blog.json › [].{title, date, excerpt, category, gradientFrom, gradientTo}</td>
+  <td><div class="note">JSON structure complete. Read logic in index.html TBD — currently static HTML.</div></td>
+</tr>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- amayaa_sarees.html -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<tr class="pg-row"><td colspan="8">amayaa_sarees.html — Sarees Catalogue</td></tr>
+
+<tr data-page="amayaa_sarees.html" data-json="yes" data-cfg="yes">
+  <td><span class="page-chip">Sarees</span></td>
+  <td><strong>Product Grid</strong><br><small>Cards: name, price, badges, colour, enquire</small></td>
+  <td class="cfg-yes">Yes</td>
+  <td>Admin › Products / Product Edit</td>
+  <td>All product fields (name, price, region, fabric, colour, occasion, badges, status)</td>
+  <td><span class="badge badge-yes">Yes</span></td>
+  <td>products_index.json · data/products/{id}.json</td>
+  <td><div class="note">Fully data-driven. _boot() + fetch() pattern. Filter + sort engine in JS.</div></td>
+</tr>
+
+<tr data-page="amayaa_sarees.html" data-json="no" data-cfg="partial">
+  <td><span class="page-chip">Sarees</span></td>
+  <td><strong>Filter Chips — Desktop Overlay</strong><br><small>Weave/Region, Fabric, Occasion, Colour, Price, Show Only</small></td>
+  <td class="cfg-partial">Partial</td>
+  <td>Admin › Categories</td>
+  <td>Regions · Fabric Types · Colour Templates</td>
+  <td><span class="badge badge-no">No</span></td>
+  <td>—</td>
+  <td><div class="gap-note">Filter values hardcoded in HTML. Categories admin exists but filter chips not driven from it. Planned: drive from categories JSON.</div></td>
+</tr>
+
+<tr data-page="amayaa_sarees.html" data-json="no" data-cfg="partial">
+  <td><span class="page-chip">Sarees</span></td>
+  <td><strong>Filter Chips — Mobile Sidebar</strong><br><small>Same dimensions, mobile FAB</small></td>
+  <td class="cfg-partial">Partial</td>
+  <td>Admin › Categories</td>
+  <td>Same as desktop filters</td>
+  <td><span class="badge badge-no">No</span></td>
+  <td>—</td>
+  <td><div class="note">Same gap as desktop — hardcoded checkboxes not yet driven from JSON.</div></td>
+</tr>
+
+<tr data-page="amayaa_sarees.html" data-json="no" data-cfg="no">
+  <td><span class="page-chip">Sarees</span></td>
+  <td><strong>Sort Dropdown</strong><br><small>Low→High, High→Low, A→Z, Newest</small></td>
+  <td class="cfg-no">No</td>
+  <td>—</td>
+  <td>Hardcoded</td>
+  <td><span class="badge badge-na">N/A</span></td>
+  <td>—</td>
+  <td><div class="note">Sort options are functional controls, not content — not configurable by design.</div></td>
+</tr>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- amayaa_about.html -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<tr class="pg-row"><td colspan="8">amayaa_about.html — Our Story</td></tr>
+
+<tr data-page="amayaa_about.html" data-json="yes" data-cfg="yes">
+  <td><span class="page-chip">About</span></td>
+  <td><strong>Story Sections</strong><br><small>2 alternating text+image blocks</small></td>
+  <td class="cfg-yes">Yes</td>
+  <td>Admin › About › Story tab</td>
+  <td>Label · Heading · Body · Image Position · Gradient</td>
+  <td><span class="badge badge-yes">Yes</span></td>
+  <td>about.json › story[].{label, heading, body, imgPos, imgGradient}</td>
+  <td></td>
+</tr>
+
+<tr data-page="amayaa_about.html" data-json="yes" data-cfg="yes">
+  <td><span class="page-chip">About</span></td>
+  <td><strong>Values</strong><br><small>4 value cards with icons</small></td>
+  <td class="cfg-yes">Yes</td>
+  <td>Admin › About › Values tab</td>
+  <td>Icon · Title · Description</td>
+  <td><span class="badge badge-yes">Yes</span></td>
+  <td>about.json › values[].{icon, title, desc}</td>
+  <td></td>
+</tr>
+
+<tr data-page="amayaa_about.html" data-json="yes" data-cfg="yes">
+  <td><span class="page-chip">About</span></td>
+  <td><strong>Weaver Profiles</strong><br><small>4 artisan cards</small></td>
+  <td class="cfg-yes">Yes</td>
+  <td>Admin › About › Weavers tab</td>
+  <td>Name · Region · Specialty · Story</td>
+  <td><span class="badge badge-yes">Yes</span></td>
+  <td>about.json › weavers[].{name, region, specialty, story}</td>
+  <td></td>
+</tr>
+
+<tr data-page="amayaa_about.html" data-json="yes" data-cfg="yes">
+  <td><span class="page-chip">About</span></td>
+  <td><strong>Promise Section</strong><br><small>3 promise cards with icons</small></td>
+  <td class="cfg-yes">Yes</td>
+  <td>Admin › About › Promise tab</td>
+  <td>Icon · Title · Description</td>
+  <td><span class="badge badge-yes">Yes</span></td>
+  <td>about.json › promise[].{icon, title, desc}</td>
+  <td></td>
+</tr>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- amayaa_blog.html -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<tr class="pg-row"><td colspan="8">amayaa_blog.html — Blog</td></tr>
+
+<tr data-page="amayaa_blog.html" data-json="yes" data-cfg="yes">
+  <td><span class="page-chip">Blog</span></td>
+  <td><strong>Blog Post Cards</strong><br><small>Title, category, date, excerpt, gradient</small></td>
+  <td class="cfg-yes">Yes</td>
+  <td>Admin › Blog</td>
+  <td>Title · Category · Date · Read Time · Excerpt · Body · Gradient · Published flag</td>
+  <td><span class="badge badge-yes">Yes</span></td>
+  <td>blog.json › [].{title, category, date, readTime, excerpt, body, gradientFrom, gradientTo, published}</td>
+  <td></td>
+</tr>
+
+<tr data-page="amayaa_blog.html" data-json="no" data-cfg="no">
+  <td><span class="page-chip">Blog</span></td>
+  <td><strong>Hero Band</strong><br><small>"Our Blog" title text</small></td>
+  <td class="cfg-no">No</td>
+  <td>—</td>
+  <td>Hardcoded</td>
+  <td><span class="badge badge-no">No</span></td>
+  <td>—</td>
+  <td><div class="note">Static page title. Low priority to configure.</div></td>
+</tr>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- amayaa_contact.html -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<tr class="pg-row"><td colspan="8">amayaa_contact.html — Contact</td></tr>
+
+<tr data-page="amayaa_contact.html" data-json="yes" data-cfg="yes">
+  <td><span class="page-chip">Contact</span></td>
+  <td><strong>Store Info Panel</strong><br><small>Address, hours, phone, email, WhatsApp</small></td>
+  <td class="cfg-yes">Yes</td>
+  <td>Admin › Settings</td>
+  <td>Address · Google Maps Link · Mon–Sat Hours · Sunday Hours · Holiday Notice · WhatsApp · Phone · Email</td>
+  <td><span class="badge badge-yes">Yes</span></td>
+  <td>settings.json › address.* · hours.* · contact.*</td>
+  <td></td>
+</tr>
+
+<tr data-page="amayaa_contact.html" data-json="yes" data-cfg="yes">
+  <td><span class="page-chip">Contact</span></td>
+  <td><strong>Contact Form</strong><br><small>Name, email, phone, message → Formspree</small></td>
+  <td class="cfg-yes">Yes</td>
+  <td>Admin › Settings</td>
+  <td>Formspree Form ID</td>
+  <td><span class="badge badge-yes">Yes</span></td>
+  <td>settings.json › integrations.formspreeId</td>
+  <td><div class="note">Formspree endpoint wired in JSON. Live test pending (Task #71).</div></td>
+</tr>
+
+<tr data-page="amayaa_contact.html" data-json="yes" data-cfg="yes">
+  <td><span class="page-chip">Contact</span></td>
+  <td><strong>Google Maps Embed</strong></td>
+  <td class="cfg-yes">Yes</td>
+  <td>Admin › Settings</td>
+  <td>Google Maps Link</td>
+  <td><span class="badge badge-yes">Yes</span></td>
+  <td>settings.json › googleMapsLink</td>
+  <td></td>
+</tr>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- amayaa_offers.html -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<tr class="pg-row"><td colspan="8">amayaa_offers.html — Special Offers</td></tr>
+
+<tr data-page="amayaa_offers.html" data-json="no" data-cfg="no">
+  <td><span class="page-chip">Offers</span></td>
+  <td><strong>Hero Banner</strong><br><small>Festive Offers title, subtitle, decorative circles</small></td>
+  <td class="cfg-no">No</td>
+  <td>—</td>
+  <td>Hardcoded</td>
+  <td><span class="badge badge-no">No</span></td>
+  <td>—</td>
+  <td><div class="note">Static festive banner. Could link to banners.json in future.</div></td>
+</tr>
+
+<tr data-page="amayaa_offers.html" data-json="no" data-cfg="no">
+  <td><span class="page-chip">Offers</span></td>
+  <td><strong>Offer Stats Bar</strong><br><small>4 stats: "Up to 40% off", "Free shipping"…</small></td>
+  <td class="cfg-no">No</td>
+  <td>—</td>
+  <td>Hardcoded</td>
+  <td><span class="badge badge-no">No</span></td>
+  <td>—</td>
+  <td><div class="note">Marketing copy. Candidate for settings.json in future.</div></td>
+</tr>
+
+<tr data-page="amayaa_offers.html" data-json="yes" data-cfg="yes">
+  <td><span class="page-chip">Offers</span></td>
+  <td><strong>Offers Product Grid</strong><br><small>Cards where originalPrice &gt; offerPrice</small></td>
+  <td class="cfg-yes">Yes</td>
+  <td>Admin › Products / Product Edit</td>
+  <td>Original Price · Offer Price · Valid Until · Status</td>
+  <td><span class="badge badge-yes">Yes</span></td>
+  <td>products_index.json › [originalPrice &gt; price]</td>
+  <td><div class="note">Filter logic reads originalPrice from JSON. Products with discount appear here.</div></td>
+</tr>
+
+<tr data-page="amayaa_offers.html" data-json="no" data-cfg="no">
+  <td><span class="page-chip">Offers</span></td>
+  <td><strong>Occasion Filter Row</strong><br><small>Wedding, Casual, Festive…</small></td>
+  <td class="cfg-no">No</td>
+  <td>—</td>
+  <td>Hardcoded</td>
+  <td><span class="badge badge-no">No</span></td>
+  <td>—</td>
+  <td><div class="note">Hardcoded filter chips. Same gap as Sarees page.</div></td>
+</tr>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- amayaa_search.html -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<tr class="pg-row"><td colspan="8">amayaa_search.html — Search Results</td></tr>
+
+<tr data-page="amayaa_search.html" data-json="yes" data-cfg="yes">
+  <td><span class="page-chip">Search</span></td>
+  <td><strong>Product Grid</strong><br><small>Search results with filters</small></td>
+  <td class="cfg-yes">Yes</td>
+  <td>Admin › Products</td>
+  <td>All product fields</td>
+  <td><span class="badge badge-yes">Yes</span></td>
+  <td>products_index.json</td>
+  <td></td>
+</tr>
+
+<tr data-page="amayaa_search.html" data-json="no" data-cfg="no">
+  <td><span class="page-chip">Search</span></td>
+  <td><strong>Filter Dropdowns</strong><br><small>Type, Colour, Fabric, Occasion, Price, New/Offer/GI toggles</small></td>
+  <td class="cfg-no">No</td>
+  <td>—</td>
+  <td>Hardcoded in HTML</td>
+  <td><span class="badge badge-no">No</span></td>
+  <td>—</td>
+  <td><div class="gap-note">Same gap as Sarees page filters. Dropdown options hardcoded, not from categories JSON.</div></td>
+</tr>
+
+<tr data-page="amayaa_search.html" data-json="yes" data-cfg="yes">
+  <td><span class="page-chip">Search</span></td>
+  <td><strong>Typography / Orb Colours</strong></td>
+  <td class="cfg-yes">Yes</td>
+  <td>Admin › Typography</td>
+  <td>Orb Colours — Search page (4 swatches)</td>
+  <td><span class="badge badge-yes">Yes</span></td>
+  <td>typography.json › orbColours.search[0..3]</td>
+  <td><div class="note">✅ Added to typography.json as 4-colour array. Admin orb picker section added to amayaa_typography.html.</div></td>
+</tr>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- amayaa_product.html -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<tr class="pg-row"><td colspan="8">amayaa_product.html — Product Detail</td></tr>
+
+<tr data-page="amayaa_product.html" data-json="yes" data-cfg="yes">
+  <td><span class="page-chip">Product</span></td>
+  <td><strong>Product Detail — All Fields</strong><br><small>Name, price, description, care, weave story, badges, colour swatches</small></td>
+  <td class="cfg-yes">Yes</td>
+  <td>Admin › Product Edit</td>
+  <td>SKU · Name · Region · Fabric · Colour · Occasion · Pricing · Short Desc · Full Desc · Weave Story · Care · Status</td>
+  <td><span class="badge badge-yes">Yes</span></td>
+  <td>data/products/{id}.json</td>
+  <td><div class="note">Individual product files in data/products/ folder. ProductDrawer reads these on open.</div></td>
+</tr>
+
+<tr data-page="amayaa_product.html" data-json="no" data-cfg="no">
+  <td><span class="page-chip">Product</span></td>
+  <td><strong>Related Products</strong></td>
+  <td class="cfg-no">No</td>
+  <td>—</td>
+  <td>Not implemented</td>
+  <td><span class="badge badge-no">No</span></td>
+  <td>—</td>
+  <td><div class="note">Not yet built. Future: same-type products from products_index.json.</div></td>
+</tr>
+
+<tr data-page="amayaa_product.html" data-json="no" data-cfg="no">
+  <td><span class="page-chip">Product</span></td>
+  <td><strong>Typography / Orb Colours</strong></td>
+  <td class="cfg-partial">Partial</td>
+  <td>Admin › Typography</td>
+  <td>Orb Colours — Product page</td>
+  <td><span class="badge badge-yes">Yes</span></td>
+  <td>typography.json › orbColours.product</td>
+  <td><div class="note">Product orb colour is in typography.json. Typography admin page coverage needs verification.</div></td>
+</tr>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- amayaa_faq.html -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<tr class="pg-row"><td colspan="8">amayaa_faq.html — FAQ</td></tr>
+
+<tr data-page="amayaa_faq.html" data-json="yes" data-cfg="yes">
+  <td><span class="page-chip">FAQ</span></td>
+  <td><strong>All Q&amp;A Items</strong><br><small>25 questions across 6 groups</small></td>
+  <td class="cfg-yes">Yes</td>
+  <td>Admin › FAQ</td>
+  <td>Group · Question · Answer (HTML)</td>
+  <td><span class="badge badge-yes">Yes</span></td>
+  <td>data/faq.json › groups[].items[].{question, answer}</td>
+  <td><div class="note">✅ Complete. data/faq.json created (25 Q&As, 6 groups). amayaa_admin/amayaa_faq.html built with edit/delete UI. Public amayaa_faq.html fetches JSON with inline fallback.</div></td>
+</tr>
+
+<tr data-page="amayaa_faq.html" data-json="yes" data-cfg="yes">
+  <td><span class="page-chip">FAQ</span></td>
+  <td><strong>Category Groups</strong><br><small>Ordering, Shipping, Returns, About Sarees, Care, Payment</small></td>
+  <td class="cfg-yes">Yes</td>
+  <td>Admin › FAQ</td>
+  <td>Group label · Group icon</td>
+  <td><span class="badge badge-yes">Yes</span></td>
+  <td>data/faq.json › groups[].{id, label, icon}</td>
+  <td><div class="note">✅ Group names and icons come from faq.json. Category filter chips wired to JSON groups dynamically.</div></td>
+</tr>
+
+<tr data-page="amayaa_faq.html" data-json="yes" data-cfg="yes">
+  <td><span class="page-chip">FAQ</span></td>
+  <td><strong>Hero Text</strong><br><small>"Frequently Asked Questions" + subtitle</small></td>
+  <td class="cfg-yes">Yes</td>
+  <td>Admin › FAQ</td>
+  <td>Page Title · Page Subtitle</td>
+  <td><span class="badge badge-yes">Yes</span></td>
+  <td>data/faq.json › {pageTitle, pageSubtitle}</td>
+  <td><div class="note">✅ Page title, subtitle and CTA text rendered from faq.json.</div></td>
+</tr>
+
+<tr data-page="amayaa_faq.html" data-json="yes" data-cfg="yes">
+  <td><span class="page-chip">FAQ</span></td>
+  <td><strong>Typography / Orb Colours</strong></td>
+  <td class="cfg-yes">Yes</td>
+  <td>Admin › Typography</td>
+  <td>Orb Colours — FAQ page (4 swatches)</td>
+  <td><span class="badge badge-yes">Yes</span></td>
+  <td>typography.json › orbColours.faq[0..3]</td>
+  <td><div class="note">✅ Added to typography.json as 4-colour array. Admin orb picker section added to amayaa_typography.html.</div></td>
+</tr>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- amayaa_policies.html -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<tr class="pg-row"><td colspan="8">amayaa_policies.html — Policies &amp; T&C</td></tr>
+
+<tr data-page="amayaa_policies.html" data-json="yes" data-cfg="yes">
+  <td><span class="page-chip">Policies</span></td>
+  <td><strong>Shipping &amp; Delivery Policy</strong></td>
+  <td class="cfg-yes">Yes</td>
+  <td>Admin › Policies</td>
+  <td>Section Title · Highlight Text · Section Content (HTML)</td>
+  <td><span class="badge badge-yes">Yes</span></td>
+  <td>data/policies.json › sections[id=shipping].{title, highlight, content}</td>
+  <td><div class="note">✅ Complete. data/policies.json created. amayaa_admin/amayaa_policies.html built with section edit form. Public page fetches JSON with fallback.</div></td>
+</tr>
+
+<tr data-page="amayaa_policies.html" data-json="yes" data-cfg="yes">
+  <td><span class="page-chip">Policies</span></td>
+  <td><strong>Cancellation &amp; Refund Policy</strong></td>
+  <td class="cfg-yes">Yes</td>
+  <td>Admin › Policies</td>
+  <td>Section Title · Highlight Text · Section Content (HTML)</td>
+  <td><span class="badge badge-yes">Yes</span></td>
+  <td>data/policies.json › sections[id=cancellation]</td>
+  <td></td>
+</tr>
+
+<tr data-page="amayaa_policies.html" data-json="yes" data-cfg="yes">
+  <td><span class="page-chip">Policies</span></td>
+  <td><strong>Terms &amp; Conditions</strong></td>
+  <td class="cfg-yes">Yes</td>
+  <td>Admin › Policies</td>
+  <td>Section Title · Highlight Text · Section Content (HTML)</td>
+  <td><span class="badge badge-yes">Yes</span></td>
+  <td>data/policies.json › sections[id=terms]</td>
+  <td></td>
+</tr>
+
+<tr data-page="amayaa_policies.html" data-json="yes" data-cfg="yes">
+  <td><span class="page-chip">Policies</span></td>
+  <td><strong>Privacy Policy</strong></td>
+  <td class="cfg-yes">Yes</td>
+  <td>Admin › Policies</td>
+  <td>Section Title · Highlight Text · Section Content (HTML)</td>
+  <td><span class="badge badge-yes">Yes</span></td>
+  <td>data/policies.json › sections[id=privacy]</td>
+  <td></td>
+</tr>
+
+<tr data-page="amayaa_policies.html" data-json="yes" data-cfg="yes">
+  <td><span class="page-chip">Policies</span></td>
+  <td><strong>Disclaimer</strong></td>
+  <td class="cfg-yes">Yes</td>
+  <td>Admin › Policies</td>
+  <td>Section Title · Highlight Text · Section Content (HTML)</td>
+  <td><span class="badge badge-yes">Yes</span></td>
+  <td>data/policies.json › sections[id=disclaimer]</td>
+  <td></td>
+</tr>
+
+<tr data-page="amayaa_policies.html" data-json="yes" data-cfg="yes">
+  <td><span class="page-chip">Policies</span></td>
+  <td><strong>Typography / Orb Colours</strong></td>
+  <td class="cfg-yes">Yes</td>
+  <td>Admin › Typography</td>
+  <td>Orb Colours — Policies page (4 swatches)</td>
+  <td><span class="badge badge-yes">Yes</span></td>
+  <td>typography.json › orbColours.policies[0..3]</td>
+  <td><div class="note">✅ Added to typography.json as 4-colour array. Admin orb picker section added to amayaa_typography.html.</div></td>
+</tr>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- Admin Typography -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<tr class="pg-row"><td colspan="8">Admin — Typography Page (Re-verification Required)</td></tr>
+
+<tr data-page="Admin — Typography" data-json="yes" data-cfg="yes">
+  <td><span class="page-chip">Typography</span></td>
+  <td><strong>Primary Font (Body &amp; UI)</strong></td>
+  <td class="cfg-yes">Yes</td>
+  <td>Admin › Typography</td>
+  <td>Primary Font — Body &amp; UI dropdown</td>
+  <td><span class="badge badge-yes">Yes</span></td>
+  <td>typography.json › fonts.ff-primary</td>
+  <td></td>
+</tr>
+
+<tr data-page="Admin — Typography" data-json="yes" data-cfg="yes">
+  <td><span class="page-chip">Typography</span></td>
+  <td><strong>Display Font (Headings)</strong></td>
+  <td class="cfg-yes">Yes</td>
+  <td>Admin › Typography</td>
+  <td>Display Font — Headings &amp; Titles dropdown</td>
+  <td><span class="badge badge-yes">Yes</span></td>
+  <td>typography.json › fonts.ff-body</td>
+  <td></td>
+</tr>
+
+<tr data-page="Admin — Typography" data-json="yes" data-cfg="yes">
+  <td><span class="page-chip">Typography</span></td>
+  <td><strong>Font Sizes (14 settings)</strong><br><small>Body, Title, Heading, TH, TD, Labels, Inputs, Buttons, Badges, Meta, Brand, BrandSub, SectionLabel, NavLink</small></td>
+  <td class="cfg-yes">Yes</td>
+  <td>Admin › Typography</td>
+  <td>Individual size sliders/inputs</td>
+  <td><span class="badge badge-yes">Yes</span></td>
+  <td>typography.json › fontSizes.*</td>
+  <td></td>
+</tr>
+
+<tr data-page="Admin — Typography" data-json="yes" data-cfg="yes">
+  <td><span class="page-chip">Typography</span></td>
+  <td><strong>Colour Palette (8 colours)</strong><br><small>Body, Title, Label, Input, Link, Muted, NavLink, Active</small></td>
+  <td class="cfg-yes">Yes</td>
+  <td>Admin › Typography</td>
+  <td>Colour pickers</td>
+  <td><span class="badge badge-yes">Yes</span></td>
+  <td>typography.json › colours.*</td>
+  <td></td>
+</tr>
+
+<tr data-page="Admin — Typography" data-json="yes" data-cfg="yes">
+  <td><span class="page-chip">Typography</span></td>
+  <td><strong>Spacing (Line Height, Letter Spacing, Label Transform)</strong></td>
+  <td class="cfg-yes">Yes</td>
+  <td>Admin › Typography</td>
+  <td>Line Height · Letter Spacing · Label Transform</td>
+  <td><span class="badge badge-yes">Yes</span></td>
+  <td>typography.json › spacing.*</td>
+  <td></td>
+</tr>
+
+<tr data-page="Admin — Typography" data-json="yes" data-cfg="yes">
+  <td><span class="page-chip">Typography</span></td>
+  <td><strong>Orb Colours — All Pages (10)</strong><br><small>home, sarees, product, blog, about, contact, offers, search, faq, policies</small></td>
+  <td class="cfg-yes">Yes</td>
+  <td>Admin › Typography</td>
+  <td>Orb colour pickers per page (1 swatch for 7 legacy pages; 4 swatches for search/faq/policies)</td>
+  <td><span class="badge badge-yes">Yes</span></td>
+  <td>typography.json › orbColours.{home,sarees,product,blog,about,contact,offers} + orbColours.{search,faq,policies}[0..3]</td>
+  <td><div class="note">✅ All 10 pages now covered. Search, FAQ, Policies added to typography.json as 4-colour arrays. Orb picker section card added to amayaa_typography.html covering all pages.</div></td>
+</tr>
+
+<tr data-page="Admin — Typography" data-json="no" data-cfg="no" class="typo-gap">
+  <td><span class="page-chip">Typography</span></td>
+  <td><strong>Live Preview Coverage</strong><br><small>Preview shows Admin UI styles only</small></td>
+  <td class="cfg-no">No</td>
+  <td>Admin › Typography</td>
+  <td>Preview panel</td>
+  <td><span class="badge badge-partial">Partial</span></td>
+  <td>—</td>
+  <td><div class="gap-note">Typography live preview currently reflects admin panel styles. Verify: does changing typography.json actually apply to public pages (index, sarees, etc.)? Wire-up check needed.</div></td>
+</tr>
+
+</tbody>
+</table>
+</div>
+
+<script>
+// ── Count summary ──────────────────────────────────────────────────────────
+function countSummary(){
+  var rows = document.querySelectorAll('#tableBody tr[data-page]');
+  var yes=0, no=0, partial=0, gap=0, total=0;
+  rows.forEach(function(r){
+    var j = r.dataset.json;
+    total++;
+    if(j==='yes') yes++;
+    else if(j==='no') no++;
+    else if(j==='partial') partial++;
+    else if(j==='planned') partial++;
+    // count gap badges
+    if(r.querySelector('.badge-gap')) gap++;
+  });
+  document.getElementById('cnt-yes').textContent = yes;
+  document.getElementById('cnt-no').textContent = no;
+  document.getElementById('cnt-partial').textContent = partial;
+  document.getElementById('cnt-gap').textContent = gap;
+  document.getElementById('cnt-total').textContent = total;
+}
+
+// ── Filters ──────────────────────────────────────────────────────────────
+function applyFilters(){
+  var page = document.getElementById('filterPage').value;
+  var json = document.getElementById('filterJson').value;
+  var cfg  = document.getElementById('filterCfg').value;
+  var rows = document.querySelectorAll('#tableBody tr[data-page]');
+  var pgRows = document.querySelectorAll('#tableBody tr.pg-row');
+
+  rows.forEach(function(r){
+    var show = true;
+    if(page && r.dataset.page !== page) show = false;
+    if(json && r.dataset.json !== json) show = false;
+    if(cfg  && r.dataset.cfg  !== cfg)  show = false;
+    r.classList.toggle('hidden', !show);
+  });
+
+  // Hide page group headers if all their rows are hidden
+  pgRows.forEach(function(pg){
+    var next = pg.nextElementSibling;
+    var anyVisible = false;
+    while(next && !next.classList.contains('pg-row')){
+      if(!next.classList.contains('hidden')) anyVisible = true;
+      next = next.nextElementSibling;
+    }
+    pg.classList.toggle('hidden', !anyVisible);
+  });
+}
+
+function resetFilters(){
+  document.getElementById('filterPage').value = '';
+  document.getElementById('filterJson').value = '';
+  document.getElementById('filterCfg').value  = '';
+  applyFilters();
+}
+
+countSummary();
+</script>
+</body>
+</html>

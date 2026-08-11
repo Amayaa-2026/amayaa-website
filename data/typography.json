@@ -41,6 +41,24 @@
     "blog": "#8EC5C0",
     "about": "#C4A8D4",
     "contact": "#90D4C8",
-    "offers": "#F4A8B8"
+    "offers": "#F4A8B8",
+    "search": [
+      "#8B6AB0",
+      "#C8B4D0",
+      "#A090D0",
+      "#D8C0E0"
+    ],
+    "faq": [
+      "#B4D8C8",
+      "#C8D4B0",
+      "#D0C4B8",
+      "#B8C8D8"
+    ],
+    "policies": [
+      "#C8B4D0",
+      "#D4C0E0",
+      "#B8D4A0",
+      "#D0B8C8"
+    ]
   }
 }

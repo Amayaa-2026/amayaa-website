@@ -19,6 +19,92 @@
 
 ---
 
+## NEXT SESSION PLAN — Pending Design Decisions & Backlog (Aug 11 2026)
+
+Three topics raised, answers agreed, implementation deferred.
+
+---
+
+### PLAN-A · Remaining "JSON Not Implemented" Items (15 items across traceability matrix)
+
+Priority order agreed for next sessions:
+
+**Priority 1 — Sarees filter chips wired to categories.json**
+- Admin › Categories already exists but sarees page filter chips are still hardcoded in HTML
+- Wire desktop filter overlay chips + mobile sidebar chips to fetch `data/categories.json`
+- Same for the Sort dropdown options
+- Pages affected: `amayaa_sarees.html`
+
+**Priority 2 — Offers page: hero + stats bar + occasion/filter rows from offers.json**
+- Admin › Special Offers page exists but `amayaa_offers.html` ignores it
+- Wire: hero banner text, "52+ sarees" stats bar, Occasion filter row, Filter dropdowns
+- JSON: `data/offers.json`
+
+**Priority 3 — Nav links and Footer columns from settings.json**
+- Nav pill labels/hrefs hardcoded in `nav.js`
+- Footer column links hardcoded in `nav.js`
+- Add `settings.json › nav.links[]` and `settings.json › footer.columns[]`
+- Admin: add to Admin › Settings page
+
+**Priority 4 — Collections grid from new collections.json**
+- 6 collection tiles on index.html (Banarasi, Kanjivaram, etc.) hardcoded
+- New file: `data/collections.json`
+- New admin page: Admin › Collections (or fold into Admin › Categories)
+
+**Low priority / UI only**
+- Typography Live Preview: currently previews Admin panel styles only, not public site. Enhancement, not blocking.
+- Related Products in product drawer: driven by products.json tags/region match. Needs logic, no new data.
+- Search page hero band gradient: add to `typography.json › pageThemes.search` and wire
+
+Full details in `admin_traceability.html` — filter by "JSON: No" to see all 15 rows.
+
+---
+
+### PLAN-B · Coming Soon Toggle — Cross-Device Fix
+
+**Problem:** Current `gate.js` uses a session cookie set by visiting `?preview=amayaa2026`. This is browser+device specific — a new laptop/phone has no cookie and always hits the coming soon page.
+
+**Agreed solution:** Make `gate.js` read `settings.json` synchronously before deciding whether to redirect.
+
+**How it works:**
+- Add `comingSoon: true` flag to `settings.json › siteControls`
+- `gate.js` does a synchronous XHR (`new XMLHttpRequest(); xhr.open(..., false)`) to fetch `settings.json` at startup
+- If `comingSoon: false` → gate bypassed for **everyone on every device**, no cookie needed
+- If `comingSoon: true` → existing cookie/preview-URL logic applies (team preview via `?preview=amayaa2026`)
+- settings.json is tiny and CDN-cached on GitHub Pages, so the sync XHR adds negligible latency
+
+**Dependency:** The Admin Settings toggle for "Coming Soon" needs to actually save to `settings.json` (requires Task #72 — backend write API). Until then: edit `settings.json` directly and commit to toggle it.
+
+**Files to change:**
+- `data/settings.json` — add `siteControls.comingSoon: true`
+- `gate.js` — add sync XHR check before cookie logic
+- `amayaa_admin/amayaa_settings.html` — verify toggle is wired to the right JSON key
+
+---
+
+### PLAN-C · Typography Admin — Proper Tab Separation (Admin vs Public Site)
+
+**Problem:** The "Admin Panel" and "Public Website" tabs in `amayaa_admin/amayaa_typography.html` both show the same controls. `switchScope()` only swaps the active button style — it shows/hides nothing. All current controls affect admin panel appearance only (sidebar colours, nav link sizes, etc.).
+
+**Agreed solution:**
+1. Wrap all existing controls in `<div data-scope="admin">` — these stay as-is (Admin panel styles)
+2. Build a new `<div data-scope="website" style="display:none">` section with **public site** typography controls:
+   - Heading font size (Cormorant Garamond — h1, h2, section titles)
+   - Body font size (Jost — paragraphs, cards)
+   - Public colour palette (brand orange #C4622D, text #1A0A04, muted #9A8070, etc.)
+   - Hero font sizing
+   - Product card label sizes
+3. Update `switchScope()` to toggle `display` on the two scope divs
+4. Extend `typography.json` with a `publicSite` object alongside the existing admin keys
+5. Public pages would fetch `typography.json › publicSite` and apply as CSS variables
+
+**Files to change:**
+- `amayaa_admin/amayaa_typography.html` — split into two scoped panels, fix switchScope()
+- `data/typography.json` — add `publicSite: { headingSize, bodySize, colours: {...} }`
+- Public pages — add a small script to fetch and apply `publicSite` CSS vars
+
+---
+
 ## REVISION 4 — Sarees Filter Redesign & Post-v2.6 Fixes (August 2026)
 **Status:** Complete — ready to tag v2.7  
 **Affects:** `amayaa_sarees.html` (primary), `public.css`, `amayaa_blog.html`, `amayaa_about.html`, `amayaa_contact.html`, `amayaa_offers.html`, `amayaa_search.html`

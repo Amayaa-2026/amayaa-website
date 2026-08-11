@@ -14,6 +14,7 @@
 | v2.6 | Aug 8 2026 | Phase 3 Step 3 complete — search overlay, amayaa_search.html, product-drawer v6, mobile RWD |
 | v2.7 | Aug 10 2026 | Phase 3 Step 4 complete — sarees filter redesign (desktop + mobile), global footer + mobile layout fixes |
 | **v2.8** | **Aug 11 2026** | **Data-driven sarees grid, ProductDrawer wired to homepage, hero banner with 6 real images** |
+| **v2.9** | **Aug 11 2026** | **FAQ & Policy pages, footer update, preview gate (coming_soon.html), logo home link** |
 
 ---
 
@@ -105,6 +106,109 @@ All newly added filter UI bumped one level:
 - [ ] Blog: No vertical sidebar line on mobile
 - [ ] Contact: No CSS cascade corruption from unclosed @media
 - [ ] Offers: Heading centred on desktop
+
+---
+
+## REVISION 6 — FAQ, Policies, Preview Gate, Logo Link (August 11 2026)
+**Status:** Complete — ready to tag v2.9  
+**Affects:** `amayaa_faq.html` (new), `amayaa_policies.html` (new), `nav.js`, `gate.js` (new), `coming_soon.html` (new), all public HTML pages
+
+### R6-1 · New Pages — amayaa_policies.html & amayaa_faq.html
+
+**amayaa_policies.html** — 5-section policy document, standalone (no nav/footer):
+- Sections: Shipping & Delivery · Cancellation & Refund · Terms & Conditions · Privacy Policy · Disclaimer
+- Sticky left sidebar with scroll-spy — sidebar link highlights as user scrolls
+- Layout: `grid-template-columns: 220px 1fr`; collapses to single column on mobile
+- Glassmorphic section cards with terracotta accent colour
+- **No nav.js / no header / no footer** — fully standalone read-only page
+- **No WhatsApp float button** — browser Back button is the only navigation
+- `gate.js` loaded in `<head>` — page is gated like all other public pages
+
+**amayaa_faq.html** — 22 accordion questions, standalone (no nav/footer):
+- 6 categories: Ordering · Shipping · Returns · About Sarees · Care & Maintenance · Payment
+- Live keyword search (`faqSearch()`): filters `.faq-item` elements in real time
+- Category filter chips (`filterCat()`): show/hide `.faq-group` sections
+- Accordion toggle (`toggleFaq()`): `max-height` CSS transition, one-open enforced
+- No-results message with WhatsApp fallback link
+- **No nav.js / no header / no footer** — browser Back is only navigation
+- `gate.js` loaded in `<head>`
+
+**Admin-configurability noted** (Task #75): Both pages will be wired to `data/faq.json` and `data/policies.json` in a future revision with Admin CRUD.
+
+### R6-2 · nav.js — Footer Updated (Discover + Connect columns)
+
+**Discover column** (unchanged + addition):
+- Our Story, Blog, Care Guide — existing
+- **Policies & T&C** → `amayaa_policies.html` — new link added
+
+**Connect column** (restructured):
+- **Removed:** WhatsApp link, Email Us link
+- **Moved up:** Visit Store
+- **Added:** FAQ → `amayaa_faq.html`
+- Final order: Contact Us · Visit Store · FAQ
+
+All 9+ pages pick up the footer change automatically via `nav.js` injection.
+
+### R6-3 · nav.js — Logo Clicks Go Home
+
+The `<div class="nav-seal">` (the circular seal icon in the top-left pill) is now wrapped in:
+```html
+<a href="index.html" style="display:flex;align-items:center;text-decoration:none;">
+  <div class="nav-seal">…</div>
+</a>
+```
+The `<a href="index.html" class="nav-brand">` (text logo, right of seal) was already a link.
+Both logo elements now navigate to `index.html` on click — standard UX expectation.
+
+### R6-4 · gate.js — Preview Gate (Cookie-Based Coming Soon)
+
+**File:** `gate.js` (new, ~60 lines, loaded in `<head>` of every public page)
+
+**Behaviour:**
+- Visiting any page **without** the preview cookie → immediate redirect to `coming_soon.html`
+- Visiting `?preview=amayaa2026` → sets session cookie `amayaa_preview=amayaa2026`, removes query param from URL bar, page loads normally
+- Cookie persists for the browser session (no `Expires` = session cookie)
+- `coming_soon.html` itself is excluded from the redirect loop
+
+**Implementation notes:**
+- Pure JS, no server-side dependency — works on GitHub Pages (static host)
+- Cookie set with `SameSite=Lax; path=/` — no cross-site leakage
+- `history.replaceState()` cleans the `?preview=...` from the URL bar after cookie is set
+
+### R6-5 · coming_soon.html — Branded Coming Soon Page
+
+**File:** `coming_soon.html` (new, fully standalone — no nav.js, no gate.js)
+
+**Contents:**
+- Animated orb background (matches site aesthetic)
+- Amayaa logo (falls back to text if `images/amayaa-logo.png` not found)
+- Headline: *"Something beautiful is coming."*
+- Two-line description of the boutique
+- WhatsApp "Notify me" button (pre-filled message: "Hi, I'd like to know when Amayaa launches!")
+- Copyright footer
+- No navigation, no links to internal pages
+
+### R6-6 · Gate Activation Instructions (for Debabrata)
+
+**To preview the site yourself (any device/browser):**
+
+Open this URL in the browser:
+```
+https://amayaabypolkadots.in/index.html?preview=amayaa2026
+```
+The cookie is set instantly. All pages are then accessible for that browser session.
+Repeat on each device or browser you want to test with.
+
+**What a regular visitor sees:**
+- They type `amayaabypolkadots.in` (or any page URL)
+- `gate.js` runs before the page renders, finds no cookie
+- Immediately redirected to `coming_soon.html`
+- They see the branded "Something beautiful is coming" page with a WhatsApp Notify button
+
+**To go live (remove the gate):**
+1. Delete `gate.js` and `coming_soon.html` from the project
+2. Remove `<script src="gate.js"></script>` from the `<head>` of every HTML file (search-replace in editor)
+3. Commit and push — site is public immediately
 
 ---
 

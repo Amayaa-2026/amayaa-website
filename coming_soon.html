@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coming Soon — Amayaa by Polka Dots</title>
+<meta name="description" content="Something beautiful is on its way. Amayaa by Polka Dots — curated handloom sarees, launching soon.">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;}
+body{
+  font-family:'Jost',sans-serif;
+  background:#F5F0E8;
+  color:#1A0A04;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  min-height:100vh;
+  text-align:center;
+  overflow:hidden;
+}
+
+/* ── animated orbs ── */
+.orbs{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;}
+.orb{position:absolute;border-radius:50%;filter:blur(90px);opacity:.55;animation:fl 22s ease-in-out infinite;}
+.o1{width:520px;height:520px;background:#C8B4D0;top:-120px;left:-100px;}
+.o2{width:400px;height:400px;background:#D4C0A0;top:30%;right:-100px;animation-delay:-8s;}
+.o3{width:350px;height:350px;background:#B8D4A0;bottom:10%;left:5%;animation-delay:-15s;}
+.o4{width:300px;height:300px;background:#D8B4B0;bottom:-80px;right:10%;animation-delay:-4s;}
+@keyframes fl{0%,100%{transform:translate(0,0);}50%{transform:translate(24px,-32px);}}
+
+/* ── content ── */
+.cs-wrap{
+  position:relative;z-index:1;
+  display:flex;flex-direction:column;align-items:center;
+  padding:40px 24px;
+  max-width:600px;
+  width:100%;
+}
+
+/* logo */
+.cs-logo img{
+  height:80px;
+  object-fit:contain;
+  margin-bottom:32px;
+  filter:drop-shadow(0 2px 8px rgba(0,0,0,.12));
+}
+
+/* tagline strip */
+.cs-label{
+  font-size:11px;letter-spacing:4px;text-transform:uppercase;
+  color:#A04010;font-weight:500;margin-bottom:14px;
+}
+
+/* headline */
+.cs-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(36px,7vw,72px);
+  font-weight:300;
+  line-height:1.08;
+  color:#1A0A04;
+  margin-bottom:8px;
+}
+.cs-title em{
+  font-style:italic;
+  color:#C4622D;
+}
+
+/* sub */
+.cs-sub{
+  font-size:15px;
+  color:#4A3828;
+  font-weight:300;
+  line-height:1.7;
+  max-width:440px;
+  margin:18px auto 36px;
+}
+
+/* divider */
+.cs-div{
+  width:60px;height:2px;
+  background:linear-gradient(90deg,transparent,#C4622D,transparent);
+  margin:0 auto 36px;
+}
+
+/* WhatsApp button */
+.cs-wa{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:13px 28px;
+  background:#25D366;
+  color:#fff;
+  font-family:'Jost',sans-serif;
+  font-size:14px;font-weight:500;
+  letter-spacing:.5px;
+  border-radius:50px;
+  text-decoration:none;
+  box-shadow:0 4px 20px rgba(37,211,102,.3);
+  transition:transform .2s,box-shadow .2s;
+}
+.cs-wa:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(37,211,102,.4);}
+.cs-wa svg{flex-shrink:0;}
+
+/* notify note */
+.cs-note{
+  margin-top:48px;
+  font-size:12px;
+  color:#8A7060;
+  letter-spacing:.3px;
+}
+
+/* mobile tweak */
+@media(max-width:480px){
+  .cs-logo img{height:60px;}
+  .cs-sub{font-size:14px;}
+}
+</style>
+</head>
+<body>
+
+<div class="orbs">
+  <div class="orb o1"></div>
+  <div class="orb o2"></div>
+  <div class="orb o3"></div>
+  <div class="orb o4"></div>
+</div>
+
+<div class="cs-wrap">
+
+  <!-- Logo -->
+  <div class="cs-logo">
+    <img src="images/amayaa-logo.png" alt="Amayaa by Polka Dots"
+      onerror="this.style.display='none';document.querySelector('.cs-logo').insertAdjacentHTML('beforeend','<div style=\'font-family:Cormorant Garamond,serif;font-size:28px;font-weight:300;letter-spacing:2px;\'>Amayaa <em style=\'font-style:italic;color:#C4622D;\'>by</em> Polka Dots</div>')">
+  </div>
+
+  <p class="cs-label">Handloom Sarees</p>
+
+  <h1 class="cs-title">Something<br>beautiful is<br><em>coming.</em></h1>
+
+  <div class="cs-div"></div>
+
+  <p class="cs-sub">
+    We are weaving together a curated collection of India's finest handloom sarees —
+    each one sourced directly from master weavers. Our boutique opens very soon.
+  </p>
+
+  <a href="https://wa.me/919583946000?text=Hi%2C+I%27d+like+to+know+when+Amayaa+launches%21"
+     class="cs-wa" target="_blank" rel="noopener" aria-label="Contact us on WhatsApp">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    </svg>
+    Notify me on WhatsApp
+  </a>
+
+  <p class="cs-note">© 2026 Amayaa by Polka Dots &nbsp;·&nbsp; All rights reserved</p>
+
+</div>
+
+</body>
+</html>

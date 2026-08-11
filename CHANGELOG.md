@@ -12,7 +12,8 @@
 | v2-baseline | Jul 2026 | Snapshot before modularisation (pre-nav.js) |
 | v2.0 | Jul 2026 | Phase 3 Step 2 complete — nav.js, footer.js, public.css; all 7 pages modularised |
 | v2.6 | Aug 8 2026 | Phase 3 Step 3 complete — search overlay, amayaa_search.html, product-drawer v6, mobile RWD |
-| **v2.7** | **Aug 10 2026** | **Phase 3 Step 4 complete — sarees filter redesign (desktop + mobile), global footer + mobile layout fixes** |
+| v2.7 | Aug 10 2026 | Phase 3 Step 4 complete — sarees filter redesign (desktop + mobile), global footer + mobile layout fixes |
+| **v2.8** | **Aug 11 2026** | **Data-driven sarees grid, ProductDrawer wired to homepage, hero banner with 6 real images** |
 
 ---
 
@@ -104,6 +105,60 @@ All newly added filter UI bumped one level:
 - [ ] Blog: No vertical sidebar line on mobile
 - [ ] Contact: No CSS cascade corruption from unclosed @media
 - [ ] Offers: Heading centred on desktop
+
+---
+
+## REVISION 5 — Data-Driven Sarees Grid, ProductDrawer, Hero Banners (August 11 2026)
+**Status:** Complete — tagged v2.8  
+**Affects:** `amayaa_sarees.html`, `index.html`, `CHANGELOG.md`, `images/`
+
+### R5-1 · Sarees Page — Data-Driven Product Grid
+
+**Previous:** Hardcoded static product cards in HTML.
+
+**New behaviour:**
+- `_boot(_fallback)` fires synchronously on page load — 12 products render instantly on any protocol (file://, localhost, live)
+- `fetch('data/products_index.json')` runs in background and upgrades grid silently if successful
+- Batch size: 8 cards; "Load More Sarees ↓" button reveals remaining
+- Result count: "Showing X of Y sarees"
+- Filter engine reads both desktop overlay chips and mobile sidebar checkboxes — OR within each dimension, AND across dimensions
+- Sort: Low to High, High to Low, A to Z, Newest First
+- All cards open `ProductDrawer.open(id)` on click — no inline WhatsApp links
+
+**Bug fixed:** 3 desktop chips and 3 mobile checkboxes were hardcoded as pre-selected in HTML (leftover demo states), causing "Showing 1 of 1 sarees" on load. Fixed by removing `class="desk-flt-chip on"` and `checked` attributes.
+
+**Bug fixed:** Corrupted junk block and obsolete `nameToId` script removed from file tail — were causing `SyntaxError: Unexpected token '.'` breaking all JS on the page.
+
+### R5-2 · index.html — ProductDrawer Wired to New Arrivals
+
+- `product-drawer.css` and `product-drawer.js` added to `<head>`/`<body>`
+- All 4 New Arrivals `.pc` cards wired: `onclick="ProductDrawer.open('AMY-xxx')"`
+- Inline WhatsApp enquire links removed from product cards
+
+### R5-3 · index.html — Hero Banner with Real Images (6 slides, 24s cycle)
+
+**Previous:** 5 slides with CSS gradient backgrounds only.
+
+**New:** 6 slides with real saree images, 4s each:
+
+| Slide | Image | Copy |
+|---|---|---|
+| s1 | `images/Common.jpg` | New Arrivals — Where Every Thread Tells a Story |
+| s2 | `images/Kanjivaran Gem.png` | South India Exclusive — Kanjivaram, The Queen of Silks |
+| s3 | `images/Jamdani CG.png` | Bengal Heritage — Jamdani, The Art of Bengal |
+| s4 | `images/Paithani NBG 1.jpg` | Maharashtra Royal Weave — Paithani, Woven in Gold & Peacock |
+| s5 | `images/Pochampally CG.png` | Telangana Collection — Pochampally Ikat, Geometry in Silk |
+| s6 | `images/Banarsi CG.png` | Varanasi Collection — Banarasi, The Silk of Emperors |
+
+**CSS experiments (marked, revertable):**
+- `EXPERIMENT-A`: `object-position: center 15%` — shifts crop down to clear nav pill from model faces. Revert to `center top` if needed.
+- `EXPERIMENT-B`: Text bottom-aligned, transparent background, white text + drop shadow. Remove marked block to revert.
+
+**Case-sensitivity fix:** `images/` tracked lowercase in git; HTML had `Images/` (uppercase). GitHub Pages (Linux) is case-sensitive — images were missing on live site. Fixed `src="Images/..."` → `src="images/..."` across all slide `<img>` tags.
+
+### R5-4 · Changelog Policy
+
+`CHANGELOG.md` is the single source of truth. Updated at every meaningful commit. No duplication in other docs.
 
 ---
 

@@ -89,7 +89,7 @@ tr.hidden{display:none;}
   <div class="hdr-label">Internal Reference Document</div>
   <h1 class="hdr-title">Admin Traceability Matrix</h1>
   <p class="hdr-sub">Maps every configurable UI element across all public pages to its Admin panel control, JSON data source, and implementation status.</p>
-  <p class="hdr-meta">Generated: August 11, 2026 &nbsp;·&nbsp; Site: amayaabypolkadots.in &nbsp;·&nbsp; Version: pre-work snapshot</p>
+  <p class="hdr-meta">Last updated: August 12, 2026 &nbsp;·&nbsp; Site: amayaabypolkadots.in &nbsp;·&nbsp; Nav Links, Footer Columns, Collections Grid now fully configurable</p>
 </div>
 
 <!-- Summary -->
@@ -198,15 +198,15 @@ tr.hidden{display:none;}
   <td><div class="note">Logo seal is a base64 PNG in nav.js (not yet admin-changeable). Brand text comes from settings.</div></td>
 </tr>
 
-<tr data-page="Global (nav.js)" data-json="no" data-cfg="no">
+<tr data-page="Global (nav.js)" data-json="yes" data-cfg="yes">
   <td><span class="page-chip">Global</span></td>
-  <td><strong>Nav Links</strong><br><small>Home, Sarees, Offers, Blog, About, Contact</small></td>
-  <td class="cfg-no">No</td>
-  <td>—</td>
-  <td>Hardcoded in nav.js</td>
-  <td><span class="badge badge-no">No</span></td>
-  <td>—</td>
-  <td><div class="note">Nav items are static. No admin control planned (site structure unlikely to change).</div></td>
+  <td><strong>Nav Links</strong><br><small>Sarees, Blog, Our Story, Special Offers, Contact</small></td>
+  <td class="cfg-yes">Yes</td>
+  <td>Admin › Settings</td>
+  <td>Nav Links &amp; Footer Columns card — Label, URL, Highlight, Icon per link</td>
+  <td><span class="badge badge-yes">Yes</span></td>
+  <td>settings.json › nav.links[]</td>
+  <td><div class="note">✅ nav.js fetches settings.json on every page load and rebuilds the nav UL from nav.links[]. Admin card added to amayaa_settings.html (Aug 2026).</div></td>
 </tr>
 
 <tr data-page="Global (nav.js)" data-json="yes" data-cfg="yes">
@@ -264,15 +264,15 @@ tr.hidden{display:none;}
   <td></td>
 </tr>
 
-<tr data-page="Global (nav.js)" data-json="no" data-cfg="no">
+<tr data-page="Global (nav.js)" data-json="yes" data-cfg="yes">
   <td><span class="page-chip">Global</span></td>
-  <td><strong>Footer — Column Links</strong><br><small>Discover, Connect columns</small></td>
-  <td class="cfg-no">No</td>
-  <td>—</td>
-  <td>Hardcoded in nav.js</td>
-  <td><span class="badge badge-no">No</span></td>
-  <td>—</td>
-  <td><div class="note">Links like "Our Story", "Blog", "FAQ", "Policies" are static.</div></td>
+  <td><strong>Footer — Column Links</strong><br><small>Shop, Discover, Connect columns</small></td>
+  <td class="cfg-yes">Yes</td>
+  <td>Admin › Settings</td>
+  <td>Nav Links &amp; Footer Columns card — Column heading + Label/URL per link row</td>
+  <td><span class="badge badge-yes">Yes</span></td>
+  <td>settings.json › footer.columns[].{heading, links[]}</td>
+  <td><div class="note">✅ nav.js fetches settings.json and rebuilds all 3 footer columns from footer.columns[]. Admin card added to amayaa_settings.html (Aug 2026).</div></td>
 </tr>
 
 <!-- ══════════════════════════════════════════════════════════════════════ -->
@@ -302,15 +302,15 @@ tr.hidden{display:none;}
   <td></td>
 </tr>
 
-<tr data-page="index.html" data-json="no" data-cfg="no">
+<tr data-page="index.html" data-json="yes" data-cfg="yes">
   <td><span class="page-chip">Home</span></td>
-  <td><strong>Collections Grid</strong><br><small>6 saree type cards (Kanjivaram, Banarasi…)</small></td>
-  <td class="cfg-no">No</td>
-  <td>—</td>
-  <td>Hardcoded in index.html</td>
-  <td><span class="badge badge-no">No</span></td>
-  <td>—</td>
-  <td><div class="note">Static cards with gradient backgrounds. Could be driven by categories.json in future.</div></td>
+  <td><strong>Collections Grid</strong><br><small>6 regional cards (Banarasi, Kanjivaram…)</small></td>
+  <td class="cfg-yes">Yes</td>
+  <td>Admin › Settings</td>
+  <td>Collections Grid card — Name, Count, Filter Param, Gradient per card; Section Label &amp; Title</td>
+  <td><span class="badge badge-yes">Yes</span></td>
+  <td>data/collections.json › {sectionLabel, sectionTitle, items[]}</td>
+  <td><div class="note">✅ index.html fetches collections.json and renders grid dynamically. Admin card added to amayaa_settings.html writes directly to collections.json via GitHub API (Aug 2026).</div></td>
 </tr>
 
 <tr data-page="index.html" data-json="no" data-cfg="no">

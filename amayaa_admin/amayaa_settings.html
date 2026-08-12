@@ -220,6 +220,19 @@ body{font-family:'Jost',sans-serif;background:linear-gradient(135deg,#E4DFD9 0%,
 .token-set-wrap{display:flex;align-items:center;gap:10px;font-size:12px;color:#7A6050;}
 .token-set-wrap a{color:#C4622D;cursor:pointer;text-decoration:underline;}
 
+/* ── Nav / Footer / Collections dynamic cards ── */
+.sub-sec-title{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#9A8070;margin:16px 0 8px;}
+.nf-tbl{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:16px;}
+.nf-tbl th{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#9A8070;padding:6px 8px;text-align:left;border-bottom:1.5px solid rgba(0,0,0,.07);background:rgba(240,230,216,.4);}
+.nf-tbl td{padding:5px 6px;border-bottom:1px solid rgba(0,0,0,.04);}
+.nf-tbl tr:last-child td{border-bottom:none;}
+.nf-tbl .fi{padding:5px 8px;font-size:12px;width:100%;}
+.fc-section{background:rgba(240,230,216,.3);border:1px solid rgba(0,0,0,.06);border-radius:10px;padding:12px;margin-bottom:10px;}
+.fc-head-row{display:grid;grid-template-columns:80px 1fr;gap:8px;align-items:center;margin-bottom:8px;}
+.fc-head-row label{font-size:11px;font-weight:600;color:#5A4030;}
+.fc-link-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:5px;}
+.coll-swatch{width:20px;height:20px;border-radius:4px;flex-shrink:0;border:1px solid rgba(0,0,0,.12);}
+
 </style>
 </head>
 <body>
@@ -373,6 +386,52 @@ if(!sessionStorage.getItem('amayaa_admin')){
       </div>
     </div>
 
+    <!-- CARD 8: NAV LINKS & FOOTER COLUMNS -->
+    <div class="settings-card locked" id="card-navfooter">
+      <div class="settings-card-header">
+        <div class="settings-card-title">🧭 Nav Links &amp; Footer Columns</div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span class="save-indicator" id="si-navfooter">✅ Saved</span>
+          <button class="btn btn-edit btn-sm" id="btn-navfooter" onclick="editCard('navfooter')">✏ Edit</button>
+        </div>
+      </div>
+      <p style="font-size:12px;color:#9A8070;margin-bottom:12px;">Changes apply to the nav bar and footer on every page of the site.</p>
+
+      <div class="sub-sec-title">Navigation Links</div>
+      <table class="nf-tbl">
+        <thead><tr><th style="width:22%">Label</th><th style="width:36%">URL / Page</th><th style="width:10%;text-align:center;">Highlight?</th><th style="width:10%">Icon</th></tr></thead>
+        <tbody id="nav-links-tbody"></tbody>
+      </table>
+
+      <div class="sub-sec-title">Footer Columns</div>
+      <div id="footer-cols-wrap"></div>
+    </div>
+
+    <!-- CARD 9: COLLECTIONS GRID -->
+    <div class="settings-card locked" id="card-collections">
+      <div class="settings-card-header">
+        <div class="settings-card-title">🎨 Collections Grid (Homepage)</div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span class="save-indicator" id="si-collections">✅ Saved</span>
+          <button class="btn btn-edit btn-sm" id="btn-collections" onclick="editCard('collections')">✏ Edit</button>
+        </div>
+      </div>
+      <p style="font-size:12px;color:#9A8070;margin-bottom:12px;">These are the 6 regional collection cards shown on the homepage.</p>
+      <div class="form-grid" style="margin-bottom:14px;">
+        <div class="fg"><label>Section Label (eyebrow text)</label><input class="fi" id="fi-coll-label" disabled></div>
+        <div class="fg"><label>Section Title (heading)</label><input class="fi" id="fi-coll-title" disabled></div>
+      </div>
+      <table class="nf-tbl">
+        <thead><tr>
+          <th style="width:18%">Name</th>
+          <th style="width:10%">Count</th>
+          <th style="width:26%">Filter Param (e.g. region=Banarasi)</th>
+          <th>Gradient CSS</th>
+        </tr></thead>
+        <tbody id="collections-tbody"></tbody>
+      </table>
+    </div>
+
     <!-- CARD 7: CHANGE PASSWORD -->
     <div class="settings-card locked" id="card-password">
       <div class="settings-card-header">
@@ -405,6 +464,8 @@ var GH = {
 };
 var _cfg = null;   // parsed settings.json object
 var _sha = null;   // current file SHA (needed for writes)
+var _colCfg = null; // parsed collections.json object
+var _colSha = null; // SHA for collections.json
 var editing = {};
 
 /* ── Boot: load settings from GitHub and populate form ─────────────────────── */
@@ -433,23 +494,103 @@ function clearToken() {
   _checkToken();
 }
 
+function _b64ToUtf8(b64) {
+  var raw = atob(b64.replace(/\n/g, ''));
+  return decodeURIComponent(raw.split('').map(function(c){
+    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+  }).join(''));
+}
+function _utf8ToB64(str) {
+  var bytes = encodeURIComponent(str).replace(/%([0-9A-F]{2})/gi, function(m,p){ return String.fromCharCode(parseInt(p,16)); });
+  return btoa(bytes);
+}
+
 document.addEventListener('DOMContentLoaded', function () {
   _checkToken();
-  var url = 'https://api.github.com/repos/' + GH.repo + '/contents/' + GH.file + '?ref=' + GH.branch;
-  fetch(url, { headers: { Authorization: 'token ' + (localStorage.getItem('amayaa_gh_token') || ''), Accept: 'application/vnd.github.v3+json' } })
+  var tok = localStorage.getItem('amayaa_gh_token') || '';
+  var hdrs = { Authorization: 'token ' + tok, Accept: 'application/vnd.github.v3+json' };
+
+  // Load settings.json
+  fetch('https://api.github.com/repos/' + GH.repo + '/contents/' + GH.file + '?ref=' + GH.branch, { headers: hdrs })
     .then(function (r) { return r.json(); })
     .then(function (data) {
       _sha = data.sha;
-      // Decode base64 → UTF-8 properly (handles en-dashes, emoji, etc.)
-      var _raw = atob(data.content.replace(/\n/g, ''));
-      var _utf = decodeURIComponent(_raw.split('').map(function(c){
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-      }).join(''));
-      _cfg = JSON.parse(_utf);
+      _cfg = JSON.parse(_b64ToUtf8(data.content));
       _populate();
     })
     .catch(function (e) { console.warn('Settings load failed', e); });
+
+  // Load collections.json
+  fetch('https://api.github.com/repos/' + GH.repo + '/contents/data/collections.json?ref=' + GH.branch, { headers: hdrs })
+    .then(function (r) { return r.json(); })
+    .then(function (data) {
+      _colSha = data.sha;
+      _colCfg = JSON.parse(_b64ToUtf8(data.content));
+      _populateCollections();
+    })
+    .catch(function (e) { console.warn('Collections load failed', e); });
 });
+
+/* ── Render nav links table ─────────────────────────────────────────────────── */
+function _renderNavLinks() {
+  var links = (_cfg && _cfg.nav && _cfg.nav.links) || [];
+  var tbody = document.getElementById('nav-links-tbody');
+  if (!tbody) return;
+  tbody.innerHTML = links.map(function(lnk, i) {
+    var hl = lnk.highlight ? 'checked' : '';
+    var icon = lnk.icon || '';
+    return '<tr>' +
+      '<td><input class="fi" data-nav="label" data-i="' + i + '" value="' + (lnk.label||'').replace(/"/g,'&quot;') + '" disabled></td>' +
+      '<td><input class="fi" data-nav="href" data-i="' + i + '" value="' + (lnk.href||'') + '" disabled></td>' +
+      '<td style="text-align:center;"><input type="checkbox" class="nav-hl-cb" data-i="' + i + '" ' + hl + ' disabled style="width:16px;height:16px;cursor:pointer;"></td>' +
+      '<td><input class="fi" data-nav="icon" data-i="' + i + '" value="' + icon + '" disabled style="width:52px;text-align:center;font-size:16px;"></td>' +
+    '</tr>';
+  }).join('');
+}
+
+/* ── Render footer columns ──────────────────────────────────────────────────── */
+function _renderFooterCols() {
+  var cols = (_cfg && _cfg.footer && _cfg.footer.columns) || [];
+  var wrap = document.getElementById('footer-cols-wrap');
+  if (!wrap) return;
+  wrap.innerHTML = cols.map(function(col, ci) {
+    var linkRows = (col.links || []).map(function(lnk, li) {
+      return '<div class="fc-link-row">' +
+        '<input class="fi" data-fc="label" data-ci="' + ci + '" data-li="' + li + '" value="' + (lnk.label||'').replace(/"/g,'&quot;') + '" placeholder="Link label" disabled>' +
+        '<input class="fi" data-fc="href"  data-ci="' + ci + '" data-li="' + li + '" value="' + (lnk.href||'') + '" placeholder="URL" disabled>' +
+      '</div>';
+    }).join('');
+    return '<div class="fc-section">' +
+      '<div class="fc-head-row"><label>Column ' + (ci+1) + ' Heading</label>' +
+      '<input class="fi" data-fc-head="' + ci + '" value="' + (col.heading||'').replace(/"/g,'&quot;') + '" disabled></div>' +
+      '<div style="font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#9A8070;margin-bottom:6px;">Label &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; URL</div>' +
+      linkRows +
+    '</div>';
+  }).join('');
+}
+
+/* ── Render collections table ───────────────────────────────────────────────── */
+function _populateCollections() {
+  if (!_colCfg) return;
+  var s = function(id, v) { var el = document.getElementById(id); if (el) el.value = v || ''; };
+  s('fi-coll-label', _colCfg.sectionLabel);
+  s('fi-coll-title', _colCfg.sectionTitle);
+
+  var items = _colCfg.items || [];
+  var tbody = document.getElementById('collections-tbody');
+  if (!tbody) return;
+  tbody.innerHTML = items.map(function(item, i) {
+    return '<tr>' +
+      '<td><input class="fi col-fi" data-col="name" data-i="' + i + '" value="' + (item.name||'') + '" disabled></td>' +
+      '<td><input class="fi col-fi" data-col="count" data-i="' + i + '" value="' + (item.count||'') + '" disabled style="width:60px;"></td>' +
+      '<td><input class="fi col-fi" data-col="filterParam" data-i="' + i + '" value="' + (item.filterParam||'') + '" disabled></td>' +
+      '<td><div style="display:flex;align-items:center;gap:6px;">' +
+        '<div class="coll-swatch" id="sw-' + i + '" style="background:' + (item.gradient||'#888') + ';"></div>' +
+        '<input class="fi col-fi" data-col="gradient" data-i="' + i + '" value="' + (item.gradient||'').replace(/"/g,'&quot;') + '" disabled style="font-size:11px;" oninput="document.getElementById(\'sw-' + i + '\').style.background=this.value">' +
+      '</div></td>' +
+    '</tr>';
+  }).join('');
+}
 
 /* ── Populate all form inputs from _cfg ────────────────────────────────────── */
 function _populate() {
@@ -483,6 +624,9 @@ function _populate() {
   k('tog-showVisitorCounter',    c.siteControls && c.siteControls.showVisitorCounter);
   k('tog-showWhatsAppFab',       c.siteControls && c.siteControls.showWhatsAppFab);
   k('tog-showSpecialOffersInNav',c.siteControls && c.siteControls.showSpecialOffersInNav);
+  // Nav Links & Footer columns
+  _renderNavLinks();
+  _renderFooterCols();
 }
 
 /* ── Collect form values into _cfg for a given card ────────────────────────── */
@@ -529,6 +673,52 @@ function _collect(id) {
     _cfg.siteControls.showWhatsAppFab        = c('tog-showWhatsAppFab');
     _cfg.siteControls.showSpecialOffersInNav = c('tog-showSpecialOffersInNav');
   }
+  if (id === 'navfooter') {
+    // Collect nav links
+    var navLinks = [];
+    document.querySelectorAll('#nav-links-tbody tr').forEach(function(tr) {
+      var label = tr.querySelector('[data-nav="label"]');
+      var href  = tr.querySelector('[data-nav="href"]');
+      var hl    = tr.querySelector('.nav-hl-cb');
+      var icon  = tr.querySelector('[data-nav="icon"]');
+      if (label && label.value.trim()) {
+        var lnk = { label: label.value.trim(), href: (href ? href.value.trim() : '') };
+        if (hl && hl.checked) { lnk.highlight = true; }
+        if (icon && icon.value.trim()) { lnk.icon = icon.value.trim(); }
+        navLinks.push(lnk);
+      }
+    });
+    _cfg.nav = _cfg.nav || {};
+    _cfg.nav.links = navLinks;
+    // Collect footer columns
+    var footerCols = [];
+    document.querySelectorAll('[data-fc-head]').forEach(function(headInput) {
+      var ci = parseInt(headInput.dataset.fcHead);
+      var col = { heading: headInput.value.trim(), links: [] };
+      document.querySelectorAll('[data-fc="label"][data-ci="' + ci + '"]').forEach(function(labelInput) {
+        var li = parseInt(labelInput.dataset.li);
+        var hrefInput = document.querySelector('[data-fc="href"][data-ci="' + ci + '"][data-li="' + li + '"]');
+        col.links.push({ label: labelInput.value.trim(), href: hrefInput ? hrefInput.value.trim() : '' });
+      });
+      footerCols[ci] = col;
+    });
+    _cfg.footer = _cfg.footer || {};
+    _cfg.footer.columns = footerCols;
+  }
+  if (id === 'collections') {
+    var items = [];
+    document.querySelectorAll('#collections-tbody tr').forEach(function(tr) {
+      var item = {};
+      tr.querySelectorAll('[data-col]').forEach(function(inp) { item[inp.dataset.col] = inp.value.trim(); });
+      if (item.name) items.push(item);
+    });
+    _colCfg = _colCfg || {};
+    _colCfg.items = items;
+    var lbl = document.getElementById('fi-coll-label');
+    var ttl = document.getElementById('fi-coll-title');
+    if (lbl) _colCfg.sectionLabel = lbl.value.trim();
+    if (ttl) _colCfg.sectionTitle = ttl.value.trim();
+  }
 }
 
 /* ── Write _cfg to GitHub and update SHA ───────────────────────────────────── */
@@ -557,16 +747,8 @@ function _write(cardId) {
   si.classList.add('show');
 
   var encoded;
-  try {
-    // Encode UTF-8 → base64 properly (handles en-dashes, emoji, etc.)
-    var _json = JSON.stringify(_cfg, null, 2);
-    var _bytes = encodeURIComponent(_json).replace(/%([0-9A-F]{2})/gi, function(m, p){ return String.fromCharCode(parseInt(p, 16)); });
-    encoded = btoa(_bytes);
-  } catch(e) {
-    si.textContent = '❌ Encoding error';
-    btn.textContent = '💾 Save'; btn.disabled = false;
-    return;
-  }
+  try { encoded = _utf8ToB64(JSON.stringify(_cfg, null, 2)); }
+  catch(e) { si.textContent = '❌ Encoding error'; btn.textContent = '💾 Save'; btn.disabled = false; return; }
 
   fetch('https://api.github.com/repos/' + GH.repo + '/contents/' + GH.file, {
     method  : 'PUT',
@@ -575,18 +757,47 @@ function _write(cardId) {
   })
   .then(function (r) { return r.json(); })
   .then(function (data) {
-    if (data.content && data.content.sha) {
-      _sha = data.content.sha;  // keep SHA current for next write
-    }
-    btn.textContent = '✏ Edit';
-    btn.className   = 'btn btn-edit btn-sm';
-    btn.disabled    = false;
-    si.textContent  = '✅ Saved — live in ~30s';
+    if (data.content && data.content.sha) { _sha = data.content.sha; }
+    btn.textContent = '✏ Edit'; btn.className = 'btn btn-edit btn-sm'; btn.disabled = false;
+    si.textContent = '✅ Saved — live in ~30s';
     setTimeout(function () { si.classList.remove('show'); }, 5000);
   })
   .catch(function () {
-    btn.textContent = '💾 Save';
-    btn.disabled = false;
+    btn.textContent = '💾 Save'; btn.disabled = false;
+    si.textContent = '❌ Save failed — check connection';
+    setTimeout(function () { si.classList.remove('show'); }, 4000);
+  });
+}
+
+/* ── Write _colCfg (collections.json) to GitHub ─────────────────────────────── */
+function _writeCol(cardId) {
+  var btn = document.getElementById('btn-' + cardId);
+  var si  = document.getElementById('si-'  + cardId);
+  var _token = localStorage.getItem('amayaa_gh_token') || '';
+  if (!_token) { si.textContent = '❌ No token'; si.classList.add('show'); setTimeout(function(){si.classList.remove('show');},4000); return; }
+  if (!_colSha) { si.textContent = '❌ Page not ready — reload'; si.classList.add('show'); setTimeout(function(){si.classList.remove('show');},4000); return; }
+
+  btn.textContent = '⏳ Saving…'; btn.disabled = true;
+  si.textContent = '⏳ Saving…'; si.classList.add('show');
+
+  var encoded;
+  try { encoded = _utf8ToB64(JSON.stringify(_colCfg, null, 2)); }
+  catch(e) { si.textContent = '❌ Encoding error'; btn.textContent = '💾 Save'; btn.disabled = false; return; }
+
+  fetch('https://api.github.com/repos/' + GH.repo + '/contents/data/collections.json', {
+    method  : 'PUT',
+    headers : { Authorization: 'token ' + _token, Accept: 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
+    body    : JSON.stringify({ message: 'Admin: update collections', content: encoded, sha: _colSha, branch: GH.branch })
+  })
+  .then(function (r) { return r.json(); })
+  .then(function (data) {
+    if (data.content && data.content.sha) { _colSha = data.content.sha; }
+    btn.textContent = '✏ Edit'; btn.className = 'btn btn-edit btn-sm'; btn.disabled = false;
+    si.textContent = '✅ Saved — live in ~30s';
+    setTimeout(function () { si.classList.remove('show'); }, 5000);
+  })
+  .catch(function () {
+    btn.textContent = '💾 Save'; btn.disabled = false;
     si.textContent = '❌ Save failed — check connection';
     setTimeout(function () { si.classList.remove('show'); }, 4000);
   });
@@ -598,11 +809,16 @@ function editCard(id) {
   var btn  = document.getElementById('btn-'  + id);
   var si   = document.getElementById('si-'   + id);
 
+  function setDisabled(disabled) {
+    card.querySelectorAll('.fi,.fta,.fse').forEach(function (el) { el.disabled = disabled; });
+    card.querySelectorAll('.toggle input').forEach(function (el) { el.disabled = disabled; });
+    card.querySelectorAll('.nav-hl-cb').forEach(function (el) { el.disabled = disabled; });
+  }
+
   if (!editing[id]) {
     // → Enter edit mode
     card.classList.remove('locked');
-    card.querySelectorAll('.fi,.fta,.fse').forEach(function (el) { el.disabled = false; });
-    card.querySelectorAll('.toggle input').forEach(function (el) { el.disabled = false; });
+    setDisabled(false);
     btn.textContent = '💾 Save';
     btn.className   = 'btn btn-save btn-sm';
     si.classList.remove('show');
@@ -611,10 +827,9 @@ function editCard(id) {
     // → Save: collect → lock → write to GitHub
     _collect(id);
     card.classList.add('locked');
-    card.querySelectorAll('.fi,.fta,.fse').forEach(function (el) { el.disabled = true; });
-    card.querySelectorAll('.toggle input').forEach(function (el) { el.disabled = true; });
+    setDisabled(true);
     editing[id] = false;
-    _write(id);
+    if (id === 'collections') { _writeCol(id); } else { _write(id); }
   }
 }
 </script>

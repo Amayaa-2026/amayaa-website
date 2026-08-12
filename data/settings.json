@@ -17,10 +17,10 @@
     "email": "stylewithpolkadots@gmail.com"
   },
   "hours": {
-    "weekdays": "Monday Ã¢ÂÂ Saturday",
-    "weekdayHours": "10:00 AM Ã¢ÂÂ 8:00 PM",
+    "weekdays": "Monday – Saturday",
+    "weekdayHours": "10:00 AM – 8:00 PM",
     "sunday": "Sunday",
-    "sundayHours": "11:00 AM Ã¢ÂÂ 6:00 PM"
+    "sundayHours": "11:00 AM – 6:00 PM"
   },
   "holidayNotice": "",
   "social": {
@@ -49,12 +49,12 @@
     "showSpecialOffersInNav": true
   },
   "seo": {
-    "title": "Amayaa by Polka Dots Ã¢ÂÂ Handloom Sarees from India's Finest Weavers",
-    "description": "Authentic handloom sarees handpicked from India's finest weaver communities. Banarasi, Kanjivaram, Baluchari, Chanderi and more Ã¢ÂÂ delivered to your door from Kolkata.",
+    "title": "Amayaa by Polka Dots — Handloom Sarees from India's Finest Weavers",
+    "description": "Authentic handloom sarees handpicked from India's finest weaver communities. Banarasi, Kanjivaram, Baluchari, Chanderi and more — delivered to your door from Kolkata.",
     "keywords": "handloom sarees, Banarasi saree, Kanjivaram silk, Baluchari, Chanderi, Kolkata saree boutique, authentic handloom"
   },
-  "footerCopyright": "2026 Amayaa by Polka Dots ÃÂ· All Rights Reserved ÃÂ· Kolkata, India",
-  "footerTagline": "Made with Ã¢ÂÂ¥ for Indian Handloom",
+  "footerCopyright": "2026 Amayaa by Polka Dots · All Rights Reserved · Kolkata, India",
+  "footerTagline": "Made with ♥ for Indian Handloom",
   "visitorStripText": "Woven with love for {count} visitors",
   "nav": {
     "links": [
@@ -74,7 +74,7 @@
         "label": "Special Offers",
         "href": "amayaa_offers.html",
         "highlight": true,
-        "icon": "Ã°ÂÂÂ"
+        "icon": "🎁"
       },
       {
         "label": "Contact",

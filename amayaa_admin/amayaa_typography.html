@@ -129,6 +129,8 @@ input[type=color].fi{padding:4px 6px;height:40px;cursor:pointer;}
       <button class="scope-tab" onclick="switchScope('website',this)">🌐 Public Website</button>
     </div>
 
+    <!-- ══ ADMIN PANEL SCOPE ══ -->
+    <div id="scope-admin">
     <div class="two-panel">
 
       <!-- LEFT CONTROLS -->
@@ -439,6 +441,194 @@ input[type=color].fi{padding:4px 6px;height:40px;cursor:pointer;}
       </div>
 
     </div><!-- /two-panel -->
+    </div><!-- /scope-admin -->
+
+    <!-- ══ PUBLIC WEBSITE SCOPE ══ -->
+    <div id="scope-website" style="display:none">
+    <div class="two-panel">
+
+      <!-- LEFT: PUBLIC CONTROLS -->
+      <div>
+
+        <!-- PW-1: HEADING TYPOGRAPHY -->
+        <div class="section-card">
+          <div class="section-heading">Heading Typography</div>
+          <div class="section-desc">Font sizes for titles and headings on public-facing pages (homepage, sarees, blog, etc.).</div>
+
+          <div class="row-item">
+            <div><div class="row-label">Hero Heading</div><div class="row-sub">Main h1 on homepage hero slides</div></div>
+            <div class="row-controls">
+              <div class="size-stepper">
+                <button class="step-btn" onclick="pwStep('pw-hero-h',−1)">−</button>
+                <div class="step-val" id="pw-hero-h">72px</div>
+                <button class="step-btn" onclick="pwStep('pw-hero-h',1)">+</button>
+              </div>
+            </div>
+          </div>
+          <div class="row-item">
+            <div><div class="row-label">Section Title</div><div class="row-sub">h2 — "Our Collections", "Latest from the Loom"</div></div>
+            <div class="row-controls">
+              <div class="size-stepper">
+                <button class="step-btn" onclick="pwStep('pw-sec-title',−1)">−</button>
+                <div class="step-val" id="pw-sec-title">42px</div>
+                <button class="step-btn" onclick="pwStep('pw-sec-title',1)">+</button>
+              </div>
+            </div>
+          </div>
+          <div class="row-item">
+            <div><div class="row-label">Section Label</div><div class="row-sub">Uppercase eyebrow — "OUR COLLECTIONS"</div></div>
+            <div class="row-controls">
+              <div class="size-stepper">
+                <button class="step-btn" onclick="pwStep('pw-sec-lbl',−1)">−</button>
+                <div class="step-val" id="pw-sec-lbl">11px</div>
+                <button class="step-btn" onclick="pwStep('pw-sec-lbl',1)">+</button>
+              </div>
+            </div>
+          </div>
+          <div class="row-item">
+            <div><div class="row-label">Product Name</div><div class="row-sub">Saree card title in product grid</div></div>
+            <div class="row-controls">
+              <div class="size-stepper">
+                <button class="step-btn" onclick="pwStep('pw-prod-name',−1)">−</button>
+                <div class="step-val" id="pw-prod-name">14px</div>
+                <button class="step-btn" onclick="pwStep('pw-prod-name',1)">+</button>
+              </div>
+            </div>
+          </div>
+          <div class="row-item">
+            <div><div class="row-label">Product Price</div><div class="row-sub">₹ price tag on product cards</div></div>
+            <div class="row-controls">
+              <div class="size-stepper">
+                <button class="step-btn" onclick="pwStep('pw-prod-price',−1)">−</button>
+                <div class="step-val" id="pw-prod-price">15px</div>
+                <button class="step-btn" onclick="pwStep('pw-prod-price',1)">+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PW-2: BODY TYPOGRAPHY -->
+        <div class="section-card">
+          <div class="section-heading">Body Typography</div>
+          <div class="section-desc">Font sizes for paragraphs, hero subtitles, and supporting text on public pages.</div>
+
+          <div class="row-item">
+            <div><div class="row-label">Hero Subtitle</div><div class="row-sub">Supporting text below hero heading</div></div>
+            <div class="row-controls">
+              <div class="size-stepper">
+                <button class="step-btn" onclick="pwStep('pw-hero-sub',−1)">−</button>
+                <div class="step-val" id="pw-hero-sub">16px</div>
+                <button class="step-btn" onclick="pwStep('pw-hero-sub',1)">+</button>
+              </div>
+            </div>
+          </div>
+          <div class="row-item">
+            <div><div class="row-label">Body Paragraph</div><div class="row-sub">Blog posts, About page, FAQ answers</div></div>
+            <div class="row-controls">
+              <div class="size-stepper">
+                <button class="step-btn" onclick="pwStep('pw-body',−1)">−</button>
+                <div class="step-val" id="pw-body">15px</div>
+                <button class="step-btn" onclick="pwStep('pw-body',1)">+</button>
+              </div>
+            </div>
+          </div>
+          <div class="row-item">
+            <div><div class="row-label">Meta / Caption</div><div class="row-sub">Blog date, product region tag, small labels</div></div>
+            <div class="row-controls">
+              <div class="size-stepper">
+                <button class="step-btn" onclick="pwStep('pw-meta',−1)">−</button>
+                <div class="step-val" id="pw-meta">12px</div>
+                <button class="step-btn" onclick="pwStep('pw-meta',1)">+</button>
+              </div>
+            </div>
+          </div>
+          <div class="row-item">
+            <div><div class="row-label">Button Text</div><div class="row-sub">Primary & secondary CTA buttons on public pages</div></div>
+            <div class="row-controls">
+              <div class="size-stepper">
+                <button class="step-btn" onclick="pwStep('pw-btn',−1)">−</button>
+                <div class="step-val" id="pw-btn">14px</div>
+                <button class="step-btn" onclick="pwStep('pw-btn',1)">+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PW-3: PUBLIC COLOUR PALETTE -->
+        <div class="section-card">
+          <div class="section-heading">Public Colour Palette</div>
+          <div class="section-desc">Colours that define the look and feel of the public-facing website.</div>
+
+          <div class="row-item">
+            <div><div class="row-label">Brand (Primary)</div><div class="row-sub">Buttons, links, accents, highlights</div></div>
+            <div class="colour-row"><input type="color" class="colour-preview" id="pw-col-brand" value="#C4622D" oninput="syncHex(this,'pw-hex-brand');pwUpdatePreview()"><input class="fi colour-hex" id="pw-hex-brand" value="#C4622D" onchange="syncColor(this,'pw-col-brand');pwUpdatePreview()"></div>
+          </div>
+          <div class="row-item">
+            <div><div class="row-label">Brand (Dark)</div><div class="row-sub">Hover states, deep accents, slide gradients</div></div>
+            <div class="colour-row"><input type="color" class="colour-preview" id="pw-col-brand-dark" value="#8B1A4A" oninput="syncHex(this,'pw-hex-brand-dark');pwUpdatePreview()"><input class="fi colour-hex" id="pw-hex-brand-dark" value="#8B1A4A" onchange="syncColor(this,'pw-col-brand-dark');pwUpdatePreview()"></div>
+          </div>
+          <div class="row-item">
+            <div><div class="row-label">Deep Text</div><div class="row-sub">Headings, product titles, nav labels</div></div>
+            <div class="colour-row"><input type="color" class="colour-preview" id="pw-col-deep" value="#1A0A04" oninput="syncHex(this,'pw-hex-deep');pwUpdatePreview()"><input class="fi colour-hex" id="pw-hex-deep" value="#1A0A04" onchange="syncColor(this,'pw-col-deep');pwUpdatePreview()"></div>
+          </div>
+          <div class="row-item">
+            <div><div class="row-label">Body Text</div><div class="row-sub">Paragraphs, descriptions, FAQ answers</div></div>
+            <div class="colour-row"><input type="color" class="colour-preview" id="pw-col-body" value="#3A2A1A" oninput="syncHex(this,'pw-hex-body');pwUpdatePreview()"><input class="fi colour-hex" id="pw-hex-body" value="#3A2A1A" onchange="syncColor(this,'pw-col-body');pwUpdatePreview()"></div>
+          </div>
+          <div class="row-item">
+            <div><div class="row-label">Muted / Meta</div><div class="row-sub">Subtitles, captions, helper text</div></div>
+            <div class="colour-row"><input type="color" class="colour-preview" id="pw-col-muted" value="#9A8070" oninput="syncHex(this,'pw-hex-muted');pwUpdatePreview()"><input class="fi colour-hex" id="pw-hex-muted" value="#9A8070" onchange="syncColor(this,'pw-col-muted');pwUpdatePreview()"></div>
+          </div>
+          <div class="row-item">
+            <div><div class="row-label">Background (Cream)</div><div class="row-sub">Page background colour across all public pages</div></div>
+            <div class="colour-row"><input type="color" class="colour-preview" id="pw-col-bg" value="#F5F0E8" oninput="syncHex(this,'pw-hex-bg');pwUpdatePreview()"><input class="fi colour-hex" id="pw-hex-bg" value="#F5F0E8" onchange="syncColor(this,'pw-col-bg');pwUpdatePreview()"></div>
+          </div>
+          <div class="row-item">
+            <div><div class="row-label">Hero Text</div><div class="row-sub">Text on hero banner slides (usually white)</div></div>
+            <div class="colour-row"><input type="color" class="colour-preview" id="pw-col-hero" value="#FFFFFF" oninput="syncHex(this,'pw-hex-hero');pwUpdatePreview()"><input class="fi colour-hex" id="pw-hex-hero" value="#FFFFFF" onchange="syncColor(this,'pw-col-hero');pwUpdatePreview()"></div>
+          </div>
+        </div>
+
+      </div><!-- /left -->
+
+      <!-- RIGHT: PUBLIC SITE LIVE PREVIEW -->
+      <div class="preview-panel">
+        <div class="preview-label">Public Site Preview</div>
+
+        <!-- Mini hero mock -->
+        <div id="pw-prev-hero" style="border-radius:10px;padding:20px 16px 18px;background:linear-gradient(135deg,#8B1A4A,#C4622D);margin-bottom:14px;text-align:center;">
+          <div id="pw-prev-eyebrow" style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,248,238,.75);margin-bottom:8px;">✦ New Arrivals ✦</div>
+          <div id="pw-prev-h1" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:#FFFFFF;line-height:1.1;margin-bottom:8px;">Where Every Thread<br>Tells a <em style="color:#F5C090;">Story</em></div>
+          <div id="pw-prev-hsub" style="font-size:13px;color:rgba(255,248,238,.85);margin-bottom:12px;line-height:1.6;">Master weavers. Ancient looms. Sarees that carry the soul of India.</div>
+          <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
+            <span id="pw-prev-btn-p" style="padding:8px 16px;border-radius:20px;font-size:13px;font-weight:600;color:#FFFFFF;background:#C4622D;display:inline-block;">Explore &amp; Shop</span>
+            <span style="padding:8px 16px;border-radius:20px;font-size:13px;font-weight:500;color:#FFFFFF;border:1.5px solid rgba(255,255,255,.5);display:inline-block;">WhatsApp Us</span>
+          </div>
+        </div>
+
+        <!-- Mini section mock -->
+        <div id="pw-prev-section" style="background:#F5F0E8;border-radius:8px;padding:12px;margin-bottom:14px;">
+          <div id="pw-prev-sec-lbl" style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#C4622D;font-weight:600;margin-bottom:4px;">OUR COLLECTIONS</div>
+          <div id="pw-prev-sec-title" style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;color:#1A0A04;margin-bottom:8px;">Woven by Region,<br>Celebrated by India</div>
+          <div id="pw-prev-body" style="font-size:14px;color:#3A2A1A;line-height:1.7;margin-bottom:8px;">Authentic handloom sarees from India's finest weaver communities — Banarasi, Kanjivaram, Baluchari and more.</div>
+          <div id="pw-prev-meta" style="font-size:12px;color:#9A8070;">48+ sarees · Banarasi Collection</div>
+        </div>
+
+        <!-- Mini product card mock -->
+        <div id="pw-prev-card" style="background:white;border-radius:8px;padding:10px;border:1px solid rgba(0,0,0,.06);">
+          <div style="height:60px;background:linear-gradient(135deg,#8B1A4A,#C4622D);border-radius:6px;margin-bottom:8px;"></div>
+          <div id="pw-prev-pname" style="font-size:14px;font-weight:500;color:#1A0A04;">Pure Banarasi Katan Silk</div>
+          <div id="pw-prev-price" style="font-size:15px;font-weight:600;color:#C4622D;margin-top:2px;">₹24,500</div>
+          <div id="pw-prev-region" style="font-size:12px;color:#9A8070;margin-top:2px;">Varanasi · Silk</div>
+        </div>
+
+        <hr style="border:none;border-top:1px solid rgba(0,0,0,.08);margin:12px 0;">
+        <div style="font-size:11px;color:#9A8070;text-align:center;">Updating live as you change settings</div>
+      </div>
+
+    </div><!-- /two-panel -->
+    </div><!-- /scope-website -->
+
   </div><!-- /content -->
 
   <div class="save-bar">
@@ -454,7 +644,69 @@ input[type=color].fi{padding:4px 6px;height:40px;cursor:pointer;}
 function step(id,dir){const el=document.getElementById(id);const v=parseInt(el.textContent);const n=Math.max(8,Math.min(60,v+dir));el.textContent=n+'px';updatePreview();}
 function syncHex(picker,hexId){document.getElementById(hexId).value=picker.value;}
 function syncColor(hex,pickerId){const v=hex.value;if(/^#[0-9A-Fa-f]{6}$/.test(v))document.getElementById(pickerId).value=v;}
-function switchScope(s,btn){document.querySelectorAll('.scope-tab').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}
+function switchScope(s,btn){
+  document.querySelectorAll('.scope-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('scope-admin').style.display   = s==='admin'   ? '' : 'none';
+  document.getElementById('scope-website').style.display = s==='website' ? '' : 'none';
+}
+
+/* ── Public site stepper ── */
+function pwStep(id,dir){
+  var el=document.getElementById(id);
+  var v=parseInt(el.textContent);
+  var n=Math.max(8,Math.min(120,v+dir));
+  el.textContent=n+'px';
+  pwUpdatePreview();
+}
+
+/* ── Public site preview updater ── */
+function pwUpdatePreview(){
+  var heroH   = document.getElementById('pw-hero-h').textContent;
+  var heroSub = document.getElementById('pw-hero-sub').textContent;
+  var secTitle= document.getElementById('pw-sec-title').textContent;
+  var secLbl  = document.getElementById('pw-sec-lbl').textContent;
+  var body    = document.getElementById('pw-body').textContent;
+  var meta    = document.getElementById('pw-meta').textContent;
+  var pname   = document.getElementById('pw-prod-name').textContent;
+  var pprice  = document.getElementById('pw-prod-price').textContent;
+  var btn     = document.getElementById('pw-btn').textContent;
+  var brand   = document.getElementById('pw-col-brand').value;
+  var brandDk = document.getElementById('pw-col-brand-dark').value;
+  var deep    = document.getElementById('pw-col-deep').value;
+  var bodyCol = document.getElementById('pw-col-body').value;
+  var muted   = document.getElementById('pw-col-muted').value;
+  var bg      = document.getElementById('pw-col-bg').value;
+  var heroTxt = document.getElementById('pw-col-hero').value;
+
+  /* hero */
+  var hero=document.getElementById('pw-prev-hero');
+  if(hero) hero.style.background='linear-gradient(135deg,'+brandDk+','+brand+')';
+  var h1=document.getElementById('pw-prev-h1');
+  if(h1){h1.style.fontSize=Math.round(parseInt(heroH)*0.4)+'px';h1.style.color=heroTxt;}
+  var hs=document.getElementById('pw-prev-hsub');
+  if(hs){hs.style.fontSize=Math.round(parseInt(heroSub)*0.85)+'px';}
+  var bp=document.getElementById('pw-prev-btn-p');
+  if(bp){bp.style.background=brand;bp.style.fontSize=btn;}
+  /* section */
+  var sec=document.getElementById('pw-prev-section');
+  if(sec) sec.style.background=bg;
+  var sl=document.getElementById('pw-prev-sec-lbl');
+  if(sl){sl.style.fontSize=secLbl;sl.style.color=brand;}
+  var st=document.getElementById('pw-prev-sec-title');
+  if(st){st.style.fontSize=Math.round(parseInt(secTitle)*0.55)+'px';st.style.color=deep;}
+  var bd=document.getElementById('pw-prev-body');
+  if(bd){bd.style.fontSize=Math.round(parseInt(body)*0.93)+'px';bd.style.color=bodyCol;}
+  var mt=document.getElementById('pw-prev-meta');
+  if(mt){mt.style.fontSize=meta;mt.style.color=muted;}
+  /* product card */
+  var pn=document.getElementById('pw-prev-pname');
+  if(pn){pn.style.fontSize=pname;pn.style.color=deep;}
+  var pp=document.getElementById('pw-prev-price');
+  if(pp){pp.style.fontSize=pprice;pp.style.color=brand;}
+  var pr=document.getElementById('pw-prev-region');
+  if(pr){pr.style.fontSize=meta;pr.style.color=muted;}
+}
 function saveDraft(){document.getElementById('save-status').textContent='✓ Draft saved — '+new Date().toLocaleTimeString();}
 function resetAll(){location.reload();}
 

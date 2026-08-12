@@ -735,7 +735,7 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
       Filters
     </button>
     <span class="res-count">Showing 12 of 547 sarees</span>
-    <select class="sort-sel" aria-label="Sort products">
+    <select class="sort-sel" id="sort-select" aria-label="Sort products">
       <option>Sort: Newest First</option>
       <option>Price: Low to High</option>
       <option>Price: High to Low</option>
@@ -745,39 +745,8 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
   <!-- Desktop filter overlay — non-modal horizontal band, hidden by default -->
   <div class="desk-flt-overlay" id="deskFltOverlay" role="region" aria-label="Filter options">
     <div class="desk-flt-inner">
-      <div class="desk-flt-section">
-        <div class="desk-flt-stitle">Weave / Region</div>
-        <div class="desk-flt-chips">
-          <span class="desk-flt-chip" role="checkbox" aria-checked="false" tabindex="0" onclick="this.classList.toggle('on');this.setAttribute('aria-checked',this.classList.contains('on'))">Banarasi</span>
-          <span class="desk-flt-chip" role="checkbox" aria-checked="false" tabindex="0" onclick="this.classList.toggle('on');this.setAttribute('aria-checked',this.classList.contains('on'))">Kanjivaram</span>
-          <span class="desk-flt-chip" role="checkbox" aria-checked="false" tabindex="0" onclick="this.classList.toggle('on');this.setAttribute('aria-checked',this.classList.contains('on'))">Baluchari</span>
-          <span class="desk-flt-chip" role="checkbox" aria-checked="false" tabindex="0" onclick="this.classList.toggle('on');this.setAttribute('aria-checked',this.classList.contains('on'))">Chanderi</span>
-          <span class="desk-flt-chip" role="checkbox" aria-checked="false" tabindex="0" onclick="this.classList.toggle('on');this.setAttribute('aria-checked',this.classList.contains('on'))">Sambalpuri</span>
-          <span class="desk-flt-chip" role="checkbox" aria-checked="false" tabindex="0" onclick="this.classList.toggle('on');this.setAttribute('aria-checked',this.classList.contains('on'))">Paithani</span>
-          <span class="desk-flt-chip" role="checkbox" aria-checked="false" tabindex="0" onclick="this.classList.toggle('on');this.setAttribute('aria-checked',this.classList.contains('on'))">Bhagalpuri</span>
-          <span class="desk-flt-chip" role="checkbox" aria-checked="false" tabindex="0" onclick="this.classList.toggle('on');this.setAttribute('aria-checked',this.classList.contains('on'))">Jamdani</span>
-        </div>
-      </div>
-      <div class="desk-flt-section">
-        <div class="desk-flt-stitle">Fabric</div>
-        <div class="desk-flt-chips">
-          <span class="desk-flt-chip" role="checkbox" aria-checked="false" tabindex="0" onclick="this.classList.toggle('on');this.setAttribute('aria-checked',this.classList.contains('on'))">Silk</span>
-          <span class="desk-flt-chip" role="checkbox" aria-checked="false" tabindex="0" onclick="this.classList.toggle('on');this.setAttribute('aria-checked',this.classList.contains('on'))">Cotton</span>
-          <span class="desk-flt-chip" role="checkbox" aria-checked="false" tabindex="0" onclick="this.classList.toggle('on');this.setAttribute('aria-checked',this.classList.contains('on'))">Tussar</span>
-          <span class="desk-flt-chip" role="checkbox" aria-checked="false" tabindex="0" onclick="this.classList.toggle('on');this.setAttribute('aria-checked',this.classList.contains('on'))">Linen</span>
-          <span class="desk-flt-chip" role="checkbox" aria-checked="false" tabindex="0" onclick="this.classList.toggle('on');this.setAttribute('aria-checked',this.classList.contains('on'))">Tissue</span>
-          <span class="desk-flt-chip" role="checkbox" aria-checked="false" tabindex="0" onclick="this.classList.toggle('on');this.setAttribute('aria-checked',this.classList.contains('on'))">Muslin</span>
-        </div>
-      </div>
-      <div class="desk-flt-section">
-        <div class="desk-flt-stitle">Occasion</div>
-        <div class="desk-flt-chips">
-          <span class="desk-flt-chip" role="checkbox" aria-checked="false" tabindex="0" onclick="this.classList.toggle('on');this.setAttribute('aria-checked',this.classList.contains('on'))">Wedding</span>
-          <span class="desk-flt-chip" role="checkbox" aria-checked="false" tabindex="0" onclick="this.classList.toggle('on');this.setAttribute('aria-checked',this.classList.contains('on'))">Festive</span>
-          <span class="desk-flt-chip" role="checkbox" aria-checked="false" tabindex="0" onclick="this.classList.toggle('on');this.setAttribute('aria-checked',this.classList.contains('on'))">Office</span>
-          <span class="desk-flt-chip" role="checkbox" aria-checked="false" tabindex="0" onclick="this.classList.toggle('on');this.setAttribute('aria-checked',this.classList.contains('on'))">Gift</span>
-        </div>
-      </div>
+      <!-- dynamic filter sections injected from data/categories.json -->
+      <div id="desk-filter-dynamic" style="display:contents"></div>
       <div class="desk-flt-section">
         <div class="desk-flt-stitle">Colour</div>
         <div class="desk-sw-row">
@@ -827,14 +796,8 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
           <input class="desk-pr-box" type="number" placeholder="Max" aria-label="Maximum price">
         </div>
       </div>
-      <div class="desk-flt-section">
-        <div class="desk-flt-stitle">Show Only</div>
-        <div class="desk-flt-chips">
-          <span class="desk-flt-chip" role="checkbox" aria-checked="false" tabindex="0" onclick="this.classList.toggle('on');this.setAttribute('aria-checked',this.classList.contains('on'))">New</span>
-          <span class="desk-flt-chip" role="checkbox" aria-checked="false" tabindex="0" onclick="this.classList.toggle('on');this.setAttribute('aria-checked',this.classList.contains('on'))">Offers</span>
-          <span class="desk-flt-chip" role="checkbox" aria-checked="false" tabindex="0" onclick="this.classList.toggle('on');this.setAttribute('aria-checked',this.classList.contains('on'))">Featured</span>
-        </div>
-      </div>
+      <!-- show-only chips injected by categories loader -->
+      <div id="desk-filter-showonly" style="display:contents"></div>
     </div>
     <button class="desk-flt-close" onclick="deskFltToggle()" aria-label="Close filters">&#215;</button>
   </div>
@@ -853,42 +816,8 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
         <span class="flt-title">Filters</span>
         <button class="flt-clear">Clear All</button>
       </div>
-      <div class="flt-group">
-        <div class="flt-gtitle">Region / Weave</div>
-        <div class="flt-opts">
-          <label class="flt-opt"><input type="checkbox"><div class="flt-cb"></div><span class="flt-lbl">Banarasi</span><span class="flt-cnt">48</span></label>
-          <label class="flt-opt"><input type="checkbox"><div class="flt-cb"></div><span class="flt-lbl">Kanjivaram</span><span class="flt-cnt">52</span></label>
-          <label class="flt-opt"><input type="checkbox"><div class="flt-cb"></div><span class="flt-lbl">Baluchari</span><span class="flt-cnt">24</span></label>
-          <label class="flt-opt"><input type="checkbox"><div class="flt-cb"></div><span class="flt-lbl">Chanderi</span><span class="flt-cnt">36</span></label>
-          <label class="flt-opt"><input type="checkbox"><div class="flt-cb"></div><span class="flt-lbl">Sambalpuri</span><span class="flt-cnt">28</span></label>
-          <label class="flt-opt"><input type="checkbox"><div class="flt-cb"></div><span class="flt-lbl">Paithani</span><span class="flt-cnt">22</span></label>
-          <label class="flt-opt"><input type="checkbox"><div class="flt-cb"></div><span class="flt-lbl">Pochampally</span><span class="flt-cnt">19</span></label>
-          <label class="flt-opt"><input type="checkbox"><div class="flt-cb"></div><span class="flt-lbl">Bhagalpuri</span><span class="flt-cnt">29</span></label>
-          <label class="flt-opt"><input type="checkbox"><div class="flt-cb"></div><span class="flt-lbl">Maheshwari</span><span class="flt-cnt">17</span></label>
-          <label class="flt-opt"><input type="checkbox"><div class="flt-cb"></div><span class="flt-lbl">Jamdani</span><span class="flt-cnt">14</span></label>
-        </div>
-      </div>
-      <div class="flt-group">
-        <div class="flt-gtitle">Fabric Type</div>
-        <div class="flt-opts">
-          <label class="flt-opt"><input type="checkbox"><div class="flt-cb"></div><span class="flt-lbl">Silk</span><span class="flt-cnt">122</span></label>
-          <label class="flt-opt"><input type="checkbox"><div class="flt-cb"></div><span class="flt-lbl">Cotton</span><span class="flt-cnt">124</span></label>
-          <label class="flt-opt"><input type="checkbox"><div class="flt-cb"></div><span class="flt-lbl">Tussar Silk</span><span class="flt-cnt">58</span></label>
-          <label class="flt-opt"><input type="checkbox"><div class="flt-cb"></div><span class="flt-lbl">Kosa Silk</span><span class="flt-cnt">31</span></label>
-          <label class="flt-opt"><input type="checkbox"><div class="flt-cb"></div><span class="flt-lbl">Linen</span><span class="flt-cnt">43</span></label>
-          <label class="flt-opt"><input type="checkbox"><div class="flt-cb"></div><span class="flt-lbl">Tissue</span><span class="flt-cnt">27</span></label>
-          <label class="flt-opt"><input type="checkbox"><div class="flt-cb"></div><span class="flt-lbl">Muslin</span><span class="flt-cnt">18</span></label>
-        </div>
-      </div>
-      <div class="flt-group">
-        <div class="flt-gtitle">Occasion</div>
-        <div class="flt-opts">
-          <label class="flt-opt"><input type="checkbox"><div class="flt-cb"></div><span class="flt-lbl">Wedding</span><span class="flt-cnt">186</span></label>
-          <label class="flt-opt"><input type="checkbox"><div class="flt-cb"></div><span class="flt-lbl">Festive / Puja</span><span class="flt-cnt">214</span></label>
-          <label class="flt-opt"><input type="checkbox"><div class="flt-cb"></div><span class="flt-lbl">Office / Daily</span><span class="flt-cnt">98</span></label>
-          <label class="flt-opt"><input type="checkbox"><div class="flt-cb"></div><span class="flt-lbl">Gift</span><span class="flt-cnt">143</span></label>
-        </div>
-      </div>
+      <!-- dynamic filter groups injected from data/categories.json -->
+      <div id="mob-filter-dynamic"></div>
       <div class="flt-group">
         <div class="flt-gtitle">Price Range</div>
         <div class="pr-inputs">
@@ -939,14 +868,8 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
         </div>
         <span class="mob-sw-more" id="mobSwMore" onclick="mobSwToggle()">+ 30 more colours</span>
       </div>
-      <div class="flt-group">
-        <div class="flt-gtitle">Show Only</div>
-        <div class="flt-opts">
-          <label class="flt-opt"><input type="checkbox"><div class="flt-cb"></div><span class="flt-lbl">New Arrivals</span></label>
-          <label class="flt-opt"><input type="checkbox"><div class="flt-cb"></div><span class="flt-lbl">Special Offers</span></label>
-          <label class="flt-opt"><input type="checkbox"><div class="flt-cb"></div><span class="flt-lbl">Featured</span></label>
-        </div>
-      </div>
+      <!-- show-only group injected by categories loader -->
+      <div id="mob-filter-showonly"></div>
     </aside>
 
     <section aria-label="Product listing">
@@ -1394,6 +1317,98 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')mobFltClose(
   function _uniq(arr){ return arr.filter(function(v,i,a){ return a.indexOf(v)===i; }); }
   function _fmt(n){ return Number(n).toLocaleString('en-IN'); }
   function _esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+})();
+</script>
+
+<script>
+/* ── Categories loader: renders filter chips + sort options from data/categories.json ── */
+(function(){
+  var _chipEvt = 'this.classList.toggle(\'on\');this.setAttribute(\'aria-checked\',this.classList.contains(\'on\'))';
+
+  function _renderDesktop(filters){
+    var dyn = document.getElementById('desk-filter-dynamic');
+    var sho = document.getElementById('desk-filter-showonly');
+    if(!dyn) return;
+    var html = '';
+    filters.forEach(function(f){
+      if(f.id === 'showonly') return; /* handled separately after colour/price */
+      html += '<div class="desk-flt-section"><div class="desk-flt-stitle">'+f.deskTitle+'</div><div class="desk-flt-chips">';
+      f.items.forEach(function(item){
+        var lbl = item.deskLabel || item.label;
+        html += '<span class="desk-flt-chip" role="checkbox" aria-checked="false" tabindex="0" onclick="'+_chipEvt+'">'+lbl+'</span>';
+      });
+      html += '</div></div>';
+    });
+    dyn.innerHTML = html;
+    /* show-only section after colour/price */
+    var shoHtml = '';
+    filters.forEach(function(f){
+      if(f.id !== 'showonly') return;
+      shoHtml += '<div class="desk-flt-section"><div class="desk-flt-stitle">'+f.deskTitle+'</div><div class="desk-flt-chips">';
+      f.items.forEach(function(item){
+        var lbl = item.deskLabel || item.label;
+        shoHtml += '<span class="desk-flt-chip" role="checkbox" aria-checked="false" tabindex="0" onclick="'+_chipEvt+'">'+lbl+'</span>';
+      });
+      shoHtml += '</div></div>';
+    });
+    if(sho) sho.innerHTML = shoHtml;
+  }
+
+  function _renderMobile(filters){
+    var dyn = document.getElementById('mob-filter-dynamic');
+    var sho = document.getElementById('mob-filter-showonly');
+    if(!dyn) return;
+    var html = '';
+    filters.forEach(function(f){
+      if(f.id === 'showonly') return;
+      html += '<div class="flt-group"><div class="flt-gtitle">'+f.mobTitle+'</div><div class="flt-opts">';
+      f.items.forEach(function(item){
+        var lbl = item.label;
+        var cnt = item.count ? '<span class="flt-cnt">'+item.count+'</span>' : '';
+        html += '<label class="flt-opt"><input type="checkbox"><div class="flt-cb"></div><span class="flt-lbl">'+lbl+'</span>'+cnt+'</label>';
+      });
+      html += '</div></div>';
+    });
+    dyn.innerHTML = html;
+    /* show-only */
+    var shoHtml = '';
+    filters.forEach(function(f){
+      if(f.id !== 'showonly') return;
+      shoHtml += '<div class="flt-group"><div class="flt-gtitle">'+f.mobTitle+'</div><div class="flt-opts">';
+      f.items.forEach(function(item){
+        shoHtml += '<label class="flt-opt"><input type="checkbox"><div class="flt-cb"></div><span class="flt-lbl">'+item.label+'</span></label>';
+      });
+      shoHtml += '</div></div>';
+    });
+    if(sho) sho.innerHTML = shoHtml;
+  }
+
+  function _renderSort(opts){
+    var sel = document.getElementById('sort-select');
+    if(!sel || !opts || !opts.length) return;
+    sel.innerHTML = opts.map(function(o){ return '<option value="'+o.value+'">'+o.label+'</option>'; }).join('');
+  }
+
+  function _render(data){
+    if(data.filters)     { _renderDesktop(data.filters); _renderMobile(data.filters); }
+    if(data.sortOptions) { _renderSort(data.sortOptions); }
+  }
+
+  /* Inline fallback so filters are never blank if fetch fails */
+  _render({
+    sortOptions:[{label:'Sort: Newest First',value:'newest'},{label:'Price: Low to High',value:'price-asc'},{label:'Price: High to Low',value:'price-desc'},{label:'Name: A to Z',value:'name-asc'}],
+    filters:[
+      {id:'region',deskTitle:'Weave / Region',mobTitle:'Region / Weave',items:[{label:'Banarasi',count:48},{label:'Kanjivaram',count:52},{label:'Baluchari',count:24},{label:'Chanderi',count:36},{label:'Sambalpuri',count:28},{label:'Paithani',count:22},{label:'Pochampally',count:19},{label:'Bhagalpuri',count:29},{label:'Maheshwari',count:17},{label:'Jamdani',count:14}]},
+      {id:'fabric',deskTitle:'Fabric',mobTitle:'Fabric Type',items:[{label:'Silk',count:122},{label:'Cotton',count:124},{label:'Tussar Silk',count:58},{label:'Kosa Silk',count:31},{label:'Linen',count:43},{label:'Tissue',count:27},{label:'Muslin',count:18}]},
+      {id:'occasion',deskTitle:'Occasion',mobTitle:'Occasion',items:[{label:'Festive / Puja',deskLabel:'Festive',count:214},{label:'Wedding',deskLabel:'Wedding',count:186},{label:'Office / Daily',deskLabel:'Office',count:98},{label:'Gift',deskLabel:'Gift',count:143}]},
+      {id:'showonly',deskTitle:'Show Only',mobTitle:'Show Only',items:[{label:'New Arrivals',deskLabel:'New'},{label:'Special Offers',deskLabel:'Offers'},{label:'Featured',deskLabel:'Featured'}]}
+    ]
+  });
+
+  fetch('data/categories.json')
+    .then(function(r){ return r.ok ? r.json() : null; })
+    .then(function(data){ if(data) _render(data); })
+    .catch(function(){});
 })();
 </script>
 </body>

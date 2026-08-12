@@ -485,16 +485,16 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
 <!-- COLLECTIONS -->
 <div class="section-collections"><div class="page" id="collections">
   <div class="pdots"><div class="pd" style="width:12px;height:12px;"></div><div class="pd" style="width:8px;height:8px;opacity:.6;"></div><div class="pd" style="width:5px;height:5px;opacity:.35;"></div></div>
-  <p class="sec-lbl">Our Collections</p>
-  <h2 class="sec-ttl">Woven by Region, Celebrated by India</h2>
-  <div class="cg"><a href="amayaa_sarees.html?region=Banarasi" class="ct"><div class="cc" style="background:linear-gradient(135deg,#8B1A4A,#C4622D)"><div class="cov">Explore</div></div><div class="cn">Banarasi</div><div class="ck">48+ sarees</div></a>
+  <p class="sec-lbl" id="coll-lbl">Our Collections</p>
+  <h2 class="sec-ttl" id="coll-ttl">Woven by Region, Celebrated by India</h2>
+  <div class="cg" id="coll-grid"><a href="amayaa_sarees.html?region=Banarasi" class="ct"><div class="cc" style="background:linear-gradient(135deg,#8B1A4A,#C4622D)"><div class="cov">Explore</div></div><div class="cn">Banarasi</div><div class="ck">48+ sarees</div></a>
 <a href="amayaa_sarees.html?region=Kanjivaram" class="ct"><div class="cc" style="background:linear-gradient(135deg,#1A0A4A,#8B0050)"><div class="cov">Explore</div></div><div class="cn">Kanjivaram</div><div class="ck">52+ sarees</div></a>
 <a href="amayaa_sarees.html?region=Baluchari" class="ct"><div class="cc" style="background:linear-gradient(135deg,#0A3A1A,#C4A010)"><div class="cov">Explore</div></div><div class="cn">Baluchari</div><div class="ck">24+ sarees</div></a>
 <a href="amayaa_sarees.html?region=Chanderi" class="ct"><div class="cc" style="background:linear-gradient(135deg,#3A1A0A,#C4622D)"><div class="cov">Explore</div></div><div class="cn">Chanderi</div><div class="ck">36+ sarees</div></a>
 <a href="amayaa_sarees.html?region=Sambalpuri" class="ct"><div class="cc" style="background:linear-gradient(135deg,#0A2A3A,#1A7A6A)"><div class="cov">Explore</div></div><div class="cn">Sambalpuri</div><div class="ck">28+ sarees</div></a>
 <a href="amayaa_sarees.html?region=Paithani" class="ct"><div class="cc" style="background:linear-gradient(135deg,#2A0A3A,#8B1A8A)"><div class="cov">Explore</div></div><div class="cn">Paithani</div><div class="ck">22+ sarees</div></a>
 </div>
-  <a href="amayaa_sarees.html" class="va">View All Collections <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+  <a href="amayaa_sarees.html" class="va" id="coll-view-all">View All Collections <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
 </div></div>
 
 <!-- TRUST -->
@@ -572,5 +572,38 @@ function slowScrollTo(t){var e=document.getElementById(t);if(!e)return;var s=win
 </script>
 <script src="nav.js"></script>
 <script src="product-drawer.js"></script>
+
+<script>
+/* ── Collections grid loader (PLAN-A P4) ───────────────────────────────────── */
+(function(){
+  var _FALLBACK_DONE = true; // hardcoded HTML already rendered
+  function _renderGrid(data){
+    var grid = document.getElementById('coll-grid');
+    if(!grid || !data || !data.items) return;
+    var html = '';
+    data.items.forEach(function(item){
+      var href = 'amayaa_sarees.html?' + item.filterParam;
+      html += '<a href="' + href + '" class="ct">' +
+              '<div class="cc" style="background:' + item.gradient + '">' +
+              '<div class="cov">Explore</div></div>' +
+              '<div class="cn">' + item.name + '</div>' +
+              '<div class="ck">' + item.count + ' sarees</div></a>';
+    });
+    grid.innerHTML = html;
+    // section label / title
+    var lbl = document.getElementById('coll-lbl');
+    if(lbl && data.sectionLabel) lbl.textContent = data.sectionLabel;
+    var ttl = document.getElementById('coll-ttl');
+    if(ttl && data.sectionTitle) ttl.textContent = data.sectionTitle;
+    // view all link
+    var va = document.getElementById('coll-view-all');
+    if(va && data.viewAllHref) va.href = data.viewAllHref;
+  }
+  fetch('data/collections.json')
+    .then(function(r){ return r.ok ? r.json() : null; })
+    .then(function(data){ if(data) _renderGrid(data); })
+    .catch(function(){});
+}());
+</script>
 </body>
 </html>

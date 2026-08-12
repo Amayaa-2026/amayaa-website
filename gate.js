@@ -1,42 +1,38 @@
 /**
- * gate.js — Amayaa preview gate (cookie-based)
+ * gate.js — Amayaa preview gate
  *
  * HOW IT WORKS
  * ─────────────────────────────────────────────────────────────────────────────
- * • Visiting ?preview=amayaa2026 sets a session cookie and continues normally.
- * • Any page that loads this script checks for the cookie.
- *   – Cookie present  → page loads normally (invisible to visitors, site works).
- *   – Cookie absent   → user is immediately redirected to coming_soon.html.
+ * 1. Reads data/settings.json synchronously (tiny file, CDN-cached).
+ *    – If siteControls.comingSoon === false → gate is OFF for ALL devices.
+ *      No cookie or preview URL needed. Site is fully open.
+ *    – If comingSoon === true → gate is ON; proceed to cookie check below.
  *
- * TO PREVIEW THE SITE (you or team members)
+ * 2. Cookie / preview-URL logic (only when comingSoon is true):
+ *    – Visiting ?preview=<key> sets a persistent cookie (30 days) and allows access.
+ *    – Cookie present → page loads normally.
+ *    – No cookie → redirect to coming_soon.html.
+ *
+ * TO TURN OFF COMING SOON (go live)
+ * ─────────────────────────────────────────────────────────────────────────────
+ *   Set "comingSoon": false in data/settings.json and commit + push.
+ *   Works immediately on ALL devices — no cookie required.
+ *
+ * TO PREVIEW WHILE GATE IS ON (you or team members)
  * ─────────────────────────────────────────────────────────────────────────────
  *   Open: https://amayaabypolkadots.in/index.html?preview=amayaa2026
- *   The cookie is set for that browser session. All pages are then accessible
- *   until you close the browser tab group or clear cookies.
- *   Repeat the URL on each device / browser you want to test.
+ *   Cookie is set for 30 days. Repeat on each new device/browser.
  *
- * TO REMOVE THE GATE (going live)
+ * PREVIEW KEY
  * ─────────────────────────────────────────────────────────────────────────────
- *   Remove the <script src="gate.js"></script> tag from every HTML page's
- *   <head>, then delete gate.js and coming_soon.html, and redeploy.
+ *   Controlled by siteControls.comingSoonPreviewKey in settings.json.
+ *   Default: "amayaa2026"
  * ─────────────────────────────────────────────────────────────────────────────
  */
 (function(){
-  var COOKIE = 'amayaa_preview';
-  var SECRET = 'amayaa2026';
-  var GATE_PAGE = 'coming_soon.html';
-
-  /* ── Helper: read a cookie by name ── */
-  function getCookie(name){
-    var match = document.cookie.match(new RegExp('(?:^|;\\s*)' + name + '=([^;]*)'));
-    return match ? decodeURIComponent(match[1]) : null;
-  }
-
-  /* ── Helper: set a session cookie (no expiry = session lifetime) ── */
-  function setCookie(name, value){
-    document.cookie = name + '=' + encodeURIComponent(value) +
-      '; path=/; SameSite=Lax';
-  }
+  var COOKIE      = 'amayaa_preview';
+  var GATE_PAGE   = 'coming_soon.html';
+  var DEFAULT_KEY = 'amayaa2026';
 
   /* ── Skip gate entirely on localhost / file:// (dev environments) ── */
   var host = window.location.hostname;
@@ -44,25 +40,55 @@
     return;
   }
 
-  /* ── Check URL for ?preview=... and set cookie if correct ── */
+  /* ── Read settings.json synchronously to check comingSoon flag ── */
+  var comingSoon = true;   /* safe default: gate ON if fetch fails */
+  var previewKey = DEFAULT_KEY;
+  try {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'data/settings.json', false /* synchronous */);
+    xhr.send(null);
+    if(xhr.status === 200){
+      var cfg = JSON.parse(xhr.responseText);
+      if(cfg && cfg.siteControls){
+        comingSoon = cfg.siteControls.comingSoon !== false; /* undefined → true */
+        if(cfg.siteControls.comingSoonPreviewKey){
+          previewKey = cfg.siteControls.comingSoonPreviewKey;
+        }
+      }
+    }
+  } catch(e){ /* network error or JSON parse fail — keep defaults */ }
+
+  /* ── Gate is OFF: allow everyone through on every device ── */
+  if(!comingSoon){ return; }
+
+  /* ── Gate is ON: cookie / preview-URL logic ── */
+
+  function getCookie(name){
+    var match = document.cookie.match(new RegExp('(?:^|;\\s*)' + name + '=([^;]*)'));
+    return match ? decodeURIComponent(match[1]) : null;
+  }
+
+  function setCookie(name, value){
+    /* 30-day persistent cookie — survives browser restarts */
+    var exp = new Date(Date.now() + 30*24*60*60*1000).toUTCString();
+    document.cookie = name + '=' + encodeURIComponent(value) +
+      '; path=/; expires=' + exp + '; SameSite=Lax';
+  }
+
+  /* Check ?preview= param */
   var params = new URLSearchParams(window.location.search);
-  if(params.get('preview') === SECRET){
-    setCookie(COOKIE, SECRET);
-    /* Remove the ?preview param from the URL bar (clean appearance) */
+  if(params.get('preview') === previewKey){
+    setCookie(COOKIE, previewKey);
     params.delete('preview');
     var clean = window.location.pathname + (params.toString() ? '?' + params.toString() : '');
     history.replaceState(null, '', clean);
-    /* Cookie set — allow page to load */
-    return;
+    return; /* allow page */
   }
 
-  /* ── Already has valid cookie — allow page to load ── */
-  if(getCookie(COOKIE) === SECRET){
-    return;
-  }
+  /* Check cookie */
+  if(getCookie(COOKIE) === previewKey){ return; }
 
-  /* ── No valid cookie — redirect to coming soon ── */
-  /* Avoid redirect loop if we ARE already on the gate page */
+  /* No valid cookie → redirect to coming soon (avoid loop) */
   if(window.location.pathname.indexOf(GATE_PAGE) === -1){
     window.location.replace(GATE_PAGE);
   }

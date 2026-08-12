@@ -41,6 +41,8 @@
     }
   },
   "siteControls": {
+    "comingSoon": true,
+    "comingSoonPreviewKey": "amayaa2026",
     "maintenanceMode": false,
     "showVisitorCounter": true,
     "showWhatsAppFab": true,
@@ -53,5 +55,46 @@
   },
   "footerCopyright": "2026 Amayaa by Polka Dots · All Rights Reserved · Kolkata, India",
   "footerTagline": "Made with ♥ for Indian Handloom",
-  "visitorStripText": "Woven with love for {count} visitors"
+  "visitorStripText": "Woven with love for {count} visitors",
+  "nav": {
+    "links": [
+      { "label": "Sarees",         "href": "amayaa_sarees.html" },
+      { "label": "Blog",           "href": "amayaa_blog.html" },
+      { "label": "Our Story",      "href": "amayaa_about.html" },
+      { "label": "Special Offers", "href": "amayaa_offers.html", "highlight": true, "icon": "🎁" },
+      { "label": "Contact",        "href": "amayaa_contact.html" }
+    ]
+  },
+  "footer": {
+    "copyright": "&copy; 2026 Amayaa by Polka Dots &middot; All Rights Reserved &middot; Kolkata, India",
+    "tagline": "Made with &#9829; for Indian Handloom",
+    "columns": [
+      {
+        "heading": "Shop",
+        "links": [
+          { "label": "All Sarees",     "href": "amayaa_sarees.html" },
+          { "label": "New Arrivals",   "href": "amayaa_sarees.html?filter=new" },
+          { "label": "Special Offers", "href": "amayaa_offers.html" },
+          { "label": "Wedding",        "href": "amayaa_sarees.html?occasion=wedding" }
+        ]
+      },
+      {
+        "heading": "Discover",
+        "links": [
+          { "label": "Our Story",      "href": "amayaa_about.html" },
+          { "label": "Blog",           "href": "amayaa_blog.html" },
+          { "label": "Care Guide",     "href": "amayaa_blog.html?cat=care" },
+          { "label": "Policies & T&C", "href": "amayaa_policies.html" }
+        ]
+      },
+      {
+        "heading": "Connect",
+        "links": [
+          { "label": "Contact Us",  "href": "amayaa_contact.html" },
+          { "label": "Visit Store", "href": "amayaa_contact.html" },
+          { "label": "FAQ",         "href": "amayaa_faq.html" }
+        ]
+      }
+    ]
+  }
 }

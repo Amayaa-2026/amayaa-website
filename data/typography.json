@@ -34,6 +34,26 @@
     "letterSpacing": "1px",
     "labelTransform": "uppercase"
   },
+  "publicSite": {
+    "heroHeadingSize": "clamp(36px,6vw,72px)",
+    "heroSubtitleSize": "16px",
+    "sectionTitleSize": "clamp(28px,4vw,42px)",
+    "sectionLabelSize": "11px",
+    "bodySize": "15px",
+    "productNameSize": "14px",
+    "productPriceSize": "15px",
+    "metaSize": "12px",
+    "colours": {
+      "brand":       "#C4622D",
+      "brandDark":   "#8B1A4A",
+      "deepText":    "#1A0A04",
+      "bodyText":    "#3A2A1A",
+      "muted":       "#9A8070",
+      "background":  "#F5F0E8",
+      "heroText":    "#FFFFFF",
+      "heroMuted":   "rgba(255,248,238,0.85)"
+    }
+  },
   "orbColours": {
     "home": "#8EC5C0",
     "sarees": "#F4C2A1",

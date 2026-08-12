@@ -482,24 +482,24 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
   <div style="position:absolute;width:300px;height:300px;border-radius:50%;background:rgba(255,255,255,.08);top:-100px;left:-80px;"></div>
   <div style="position:absolute;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.06);bottom:-60px;right:60px;"></div>
   <div style="position:relative;z-index:1;">
-    <div style="display:inline-block;font-size:11px;font-weight:600;letter-spacing:4px;text-transform:uppercase;padding:6px 22px;border-radius:28px;background:rgba(255,255,255,.18);color:white;border:1px solid rgba(255,255,255,.35);margin-bottom:18px;">&#127873; Limited Time Offers</div>
-    <h1 style="font-family:'Cormorant Garamond',serif;font-size:clamp(40px,6vw,70px);font-weight:300;color:white;line-height:1.08;margin-bottom:16px;">Special Offers on<br><em style="font-style:italic;color:#FFD580;">Handloom Sarees</em></h1>
-    <p style="font-size:16px;color:rgba(255,255,255,.85);max-width:560px;margin:0 auto 28px;line-height:1.8;">Exclusive discounts on authentic handloom sarees — Kanjivaram, Banarasi, Paithani and more. All prices include original weaver price and verified authenticity.</p>
-    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+    <div id="off-hero-eyebrow" style="display:inline-block;font-size:11px;font-weight:600;letter-spacing:4px;text-transform:uppercase;padding:6px 22px;border-radius:28px;background:rgba(255,255,255,.18);color:white;border:1px solid rgba(255,255,255,.35);margin-bottom:18px;">🎁 Limited Time Offers</div>
+    <h1 id="off-hero-title" style="font-family:'Cormorant Garamond',serif;font-size:clamp(40px,6vw,70px);font-weight:300;color:white;line-height:1.08;margin-bottom:16px;">Special Offers on<br><em style="font-style:italic;color:#FFD580;">Handloom Sarees</em></h1>
+    <p id="off-hero-sub" style="font-size:16px;color:rgba(255,255,255,.85);max-width:560px;margin:0 auto 28px;line-height:1.8;">Exclusive discounts on authentic handloom sarees — Kanjivaram, Banarasi, Paithani and more. All prices include original weaver price and verified authenticity.</p>
+    <div id="off-hero-btns" style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
       <a href="amayaa_sarees.html" style="padding:12px 28px;border-radius:36px;background:rgba(255,255,255,.15);color:white;text-decoration:none;font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;border:1.5px solid rgba(255,255,255,.4);transition:all .3s;">Browse All Sarees</a>
-      <a href="https://wa.me/919583946000?text=Hello!%20I%20am%20interested%20in%20your%20Special%20Offers.%20Please%20share%20more%20details." target="_blank" style="padding:12px 28px;border-radius:36px;background:linear-gradient(135deg,#25D366,#128C7E);color:white;text-decoration:none;font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;">&#128172; WhatsApp for Deals</a>
+      <a href="https://wa.me/919583946000?text=Hello!%20I%20am%20interested%20in%20your%20Special%20Offers.%20Please%20share%20more%20details." target="_blank" style="padding:12px 28px;border-radius:36px;background:linear-gradient(135deg,#25D366,#128C7E);color:white;text-decoration:none;font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;">💬 WhatsApp for Deals</a>
     </div>
   </div>
 </div>
 
 <!-- OFFER STATS BAR -->
 <div class="offer-stats-bar">
-  <div class="offer-stats-inner">
+  <div class="offer-stats-inner" id="off-stats-inner">
     <div class="offer-stat"><span class="ostat-icon">🏷</span><div><div class="ostat-main">8 Products on Offer</div><div class="ostat-sub">Updated regularly</div></div></div>
     <div class="offer-stat"><span class="ostat-icon">💰</span><div><div class="ostat-main">Up to 29% Off</div><div class="ostat-sub">On selected weaves</div></div></div>
     <div class="offer-stat"><span class="ostat-icon">✅</span><div><div class="ostat-main">100% Authentic</div><div class="ostat-sub">GI-tagged, verified</div></div></div>
     <div class="offer-stat"><span class="ostat-icon">💬</span><div><div class="ostat-main">Order via WhatsApp</div><div class="ostat-sub">Personal service always</div></div></div>
-    <div class="ostat-note">Offer valid while stocks last · All prices inclusive of GST</div>
+    <div class="ostat-note" id="off-stats-note">Offer valid while stocks last · All prices inclusive of GST</div>
   </div>
 </div>
 
@@ -521,8 +521,8 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
     </select>
   </div>
 
-  <!-- FILTER ROW -->
-  <div class="filter-row" style="justify-content:center;">
+  <!-- FILTER ROW — injected from data/offers.json -->
+  <div class="filter-row" id="off-filter-row" style="justify-content:center;">
     <div class="fp active" onclick="filterOffers('all',this)">All Offers (8)</div>
     <div class="fp" onclick="filterOffers('silk',this)">Silk Sarees</div>
     <div class="fp" onclick="filterOffers('cotton',this)">Cotton Sarees</div>
@@ -683,5 +683,49 @@ function slowScrollTo(targetId){
 })();
 </script>
 <script src="nav.js"></script>
+<script>
+/* ── Offers loader: updates hero, stats, filters from data/offers.json ── */
+(function(){
+  function _render(d){
+    /* Hero */
+    var eyebrow = document.getElementById('off-hero-eyebrow');
+    var title   = document.getElementById('off-hero-title');
+    var sub     = document.getElementById('off-hero-sub');
+    var btns    = document.getElementById('off-hero-btns');
+    if(d.hero){
+      if(eyebrow && d.hero.eyebrow) eyebrow.textContent = d.hero.eyebrow;
+      if(title   && d.hero.title)   title.innerHTML     = d.hero.title;
+      if(sub     && d.hero.subtitle) sub.textContent    = d.hero.subtitle;
+      if(btns    && d.hero.ctaPrimary && d.hero.ctaSecondary){
+        btns.innerHTML =
+          '<a href="'+d.hero.ctaPrimary.href+'" style="padding:12px 28px;border-radius:36px;background:rgba(255,255,255,.15);color:white;text-decoration:none;font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;border:1.5px solid rgba(255,255,255,.4);">'+d.hero.ctaPrimary.label+'</a>'+
+          '<a href="'+d.hero.ctaSecondary.href+'" target="_blank" style="padding:12px 28px;border-radius:36px;background:linear-gradient(135deg,#25D366,#128C7E);color:white;text-decoration:none;font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;">'+d.hero.ctaSecondary.label+'</a>';
+      }
+    }
+    /* Stats */
+    var statsInner = document.getElementById('off-stats-inner');
+    if(statsInner && d.stats && d.stats.length){
+      var html = '';
+      d.stats.forEach(function(s){
+        html += '<div class="offer-stat"><span class="ostat-icon">'+s.icon+'</span><div><div class="ostat-main">'+s.main+'</div><div class="ostat-sub">'+s.sub+'</div></div></div>';
+      });
+      html += '<div class="ostat-note" id="off-stats-note">'+(d.statsNote||'')+'</div>';
+      statsInner.innerHTML = html;
+    }
+    /* Filter row */
+    var filterRow = document.getElementById('off-filter-row');
+    if(filterRow && d.filters && d.filters.length){
+      filterRow.innerHTML = d.filters.map(function(f){
+        return '<div class="fp'+(f.active?' active':'')+'" onclick="filterOffers(\''+f.value+'\',this)">'+f.label+'</div>';
+      }).join('');
+    }
+  }
+
+  fetch('data/offers.json')
+    .then(function(r){ return r.ok ? r.json() : null; })
+    .then(function(data){ if(data) _render(data); })
+    .catch(function(){});
+})();
+</script>
 </body>
 </html>

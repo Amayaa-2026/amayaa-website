@@ -16,6 +16,62 @@
 | **v2.8** | **Aug 11 2026** | **Data-driven sarees grid, ProductDrawer wired to homepage, hero banner with 6 real images** |
 | **v2.9** | **Aug 11 2026** | **FAQ & Policy pages, footer update, preview gate (coming_soon.html), logo home link** |
 | **v3.0** | **Aug 11 2026** | **Admin traceability matrix, FAQ/Policies JSON + admin pages, hero banners JSON-driven, typography orb picker (10 pages)** |
+| **v3.1** | **Aug 12 2026** | **All dummy/partial admin pages wired to GitHub API. All public pages JSON-driven (About, Blog, Contact, Offers, Search, Home). Traceability matrix updated with Code Push column + Token reminder.** |
+
+---
+
+## 🚧 TODO — Remaining Admin Gaps (Aug 12 2026)
+
+The following two admin pages remain **dummy/unconnected** and require code implementation before they can be used. Both need a git push after implementation.
+
+---
+
+### TODO-1: `amayaa_admin/amayaa_product_edit.html` — Product Edit Page
+
+**Status:** Dummy — UI exists but Save does nothing  
+**Effort:** High (complex multi-file write)  
+**Priority:** High — needed before products can be managed end-to-end
+
+**What needs building:**
+- On load: read `?id=` param from URL, fetch `data/products/{id}.json` via GitHub API, populate all form fields (SKU, name, pricing, region, fabric, occasion, description, weave story, care, colour swatches, status)
+- Region and Fabric dropdowns: fetch from `data/categories.json` (currently hardcoded)
+- On Save & Publish: GitHub API PUT to `data/products/{id}.json` AND update the corresponding entry in `data/products_index.json` (name, price, originalPrice, status, region, fabric, featured)
+- On New Product: generate new UUID/SKU, create `data/products/{id}.json`, append to `products_index.json`
+- Image upload: file picker → base64 → GitHub API PUT to `images/products/{id}/img1.jpg` etc. → store path in product JSON
+- Status toggle: `active` / `sold` / `hidden` — reflected in both product JSON and index
+
+**Files affected:** `amayaa_admin/amayaa_product_edit.html`, `data/products_index.json`, `data/products/{id}.json`  
+**Code push required:** Yes (to deploy the implementation) — then all future product saves are API-only (no further pushes)
+
+---
+
+### TODO-2: `amayaa_admin/amayaa_typography.html` — Typography Admin Page
+
+**Status:** Dummy — controls render but Save Draft only updates a timestamp span  
+**Effort:** Medium  
+**Priority:** Medium — currently workaround is editing typography.json directly
+
+**What needs building:**
+- On load: fetch `data/typography.json` via GitHub API, populate all pickers/sliders/colour inputs for both "Public Website" and "Admin Panel" tabs
+- On save: collect all values from controls → build typography.json object → GitHub API PUT
+- Public pages need to fetch `typography.json` on load and apply CSS variables (currently only the admin panel tab reads it; the Public Website tab is read-only preview)
+
+**Files affected:** `amayaa_admin/amayaa_typography.html`, `data/typography.json`, public pages (to add fetch + CSS var injection)  
+**Code push required:** Yes (to deploy) — then typography changes are API-only
+
+---
+
+### TODO-3: Dashboard — Visitor & WA Click Counts (GoatCounter + Cloudflare Worker)
+
+**Status:** Hardcoded placeholder — no data source  
+**Effort:** Medium  
+**Priority:** Low — cosmetic on dashboard, not blocking
+
+**Plan agreed:**
+- Visitor count: fetch from GoatCounter API (`https://amayaa.goatcounter.com/api/v0/stats/hits`) with API token
+- WhatsApp click count: on every WA button click, fire to a Cloudflare Worker (free tier) → Worker increments KV counter OR registers as GoatCounter custom event → Dashboard fetches and displays
+
+**Code push required:** Yes (Cloudflare Worker deploy + dashboard wiring)
 
 ---
 

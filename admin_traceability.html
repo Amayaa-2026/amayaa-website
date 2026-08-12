@@ -56,6 +56,18 @@ td{padding:11px 14px;font-size:13px;vertical-align:top;line-height:1.5;}
 tr.hidden{display:none;}
 .page-chip{display:inline-block;font-size:10px;padding:1px 7px;border-radius:10px;background:rgba(196,98,45,.1);color:#C4622D;font-weight:600;margin-right:4px;}
 @media(max-width:900px){.hdr,.summary,.controls,.legend,.tbl-wrap{padding-left:20px;padding-right:20px;}}
+/* CODE PUSH COLUMN */
+.push-no{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:700;background:#D4F0DD;color:#1A7A40;}
+.push-yes{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:700;background:#FDDDD5;color:#C4622D;}
+.push-na{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:700;background:#EEE;color:#888;}
+/* GITHUB TOKEN REMINDER BOX */
+.token-reminder{margin:0 48px 0;padding:18px 24px;background:linear-gradient(135deg,#0A2A4A,#0A3A6A);color:#fff;border-radius:14px;border-left:5px solid #2A9ADD;display:flex;align-items:flex-start;gap:18px;}
+.token-reminder .tr-icon{font-size:28px;flex-shrink:0;margin-top:2px;}
+.token-reminder .tr-body{flex:1;}
+.token-reminder .tr-title{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:#7EC8F0;margin-bottom:6px;letter-spacing:.3px;}
+.token-reminder .tr-text{font-size:13px;color:rgba(255,255,255,.8);line-height:1.7;}
+.token-reminder .tr-key{display:inline-block;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.2);border-radius:6px;padding:2px 8px;font-family:monospace;font-size:12px;color:#A8D8F0;letter-spacing:.5px;margin:0 2px;}
+.token-reminder .tr-badge{display:inline-block;background:rgba(196,98,45,.25);border:1px solid rgba(196,98,45,.5);color:#FFA060;border-radius:6px;padding:1px 8px;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-left:8px;}
 </style>
 </head>
 <body>
@@ -120,16 +132,30 @@ tr.hidden{display:none;}
   <div class="leg"><span class="badge badge-na">N/A</span> Not applicable / intentionally static</div>
 </div>
 
+<div class="token-reminder">
+  <div class="tr-icon">🔑</div>
+  <div class="tr-body">
+    <div class="tr-title">GitHub API Token — Required for All Admin Saves <span class="tr-badge">Do Not Hardcode</span></div>
+    <div class="tr-text">
+      Every admin page that writes to JSON uses a GitHub Fine-Grained PAT stored in <span class="tr-key">localStorage.getItem('amayaa_gh_token')</span>.<br>
+      To set it: <strong>Admin → Settings → scroll to bottom → GitHub Token field → Save Token</strong>.<br>
+      Token is stored in the browser only — never committed to git. Required scopes: <span class="tr-key">Contents: Read &amp; Write</span> on repo <span class="tr-key">Amayaa-2026/amayaa-website</span>.<br>
+      If a Save button shows "No GitHub token" alert → go to Settings and re-enter. Token resets if browser data is cleared.
+    </div>
+  </div>
+</div>
+
 <div class="tbl-wrap">
 <table id="mainTable">
 <thead>
   <tr>
-    <th style="width:13%">Page / Location</th>
-    <th style="width:18%">UI Element / Section</th>
-    <th style="width:9%">Live Status</th>
-    <th style="width:13%">Admin Page</th>
-    <th style="width:15%">Admin Field(s)</th>
-    <th style="width:14%">JSON File → Key</th>
+    <th style="width:12%">Page / Location</th>
+    <th style="width:17%">UI Element / Section</th>
+    <th style="width:8%">Live Status</th>
+    <th style="width:11%">Admin Page</th>
+    <th style="width:13%">Admin Field(s)</th>
+    <th style="width:13%">JSON File → Key</th>
+    <th style="width:7%">Code Push?</th>
     <th>Notes &amp; Gaps</th>
   </tr>
 </thead>
@@ -138,7 +164,7 @@ tr.hidden{display:none;}
 <!-- ═══════════════════════════════════════════════════ -->
 <!-- GLOBAL nav.js -->
 <!-- ═══════════════════════════════════════════════════ -->
-<tr class="pg-row"><td colspan="7">GLOBAL — nav.js (injected on all pages)</td></tr>
+<tr class="pg-row"><td colspan="8">GLOBAL — nav.js (injected on all pages)</td></tr>
 
 <tr data-page="Global (nav.js)" data-json="yes">
   <td><span class="page-chip">Global</span></td>
@@ -233,7 +259,7 @@ tr.hidden{display:none;}
 <!-- ═══════════════════════════════════════════════════ -->
 <!-- index.html -->
 <!-- ═══════════════════════════════════════════════════ -->
-<tr class="pg-row"><td colspan="7">index.html — Home Page</td></tr>
+<tr class="pg-row"><td colspan="8">index.html — Home Page</td></tr>
 
 <tr data-page="index.html" data-json="yes">
   <td><span class="page-chip">Home</span></td>
@@ -298,7 +324,7 @@ tr.hidden{display:none;}
 <!-- ═══════════════════════════════════════════════════ -->
 <!-- amayaa_sarees.html -->
 <!-- ═══════════════════════════════════════════════════ -->
-<tr class="pg-row"><td colspan="7">amayaa_sarees.html — Sarees Catalogue</td></tr>
+<tr class="pg-row"><td colspan="8">amayaa_sarees.html — Sarees Catalogue</td></tr>
 
 <tr data-page="amayaa_sarees.html" data-json="yes">
   <td><span class="page-chip">Sarees</span></td>
@@ -333,7 +359,7 @@ tr.hidden{display:none;}
 <!-- ═══════════════════════════════════════════════════ -->
 <!-- amayaa_about.html -->
 <!-- ═══════════════════════════════════════════════════ -->
-<tr class="pg-row"><td colspan="7">amayaa_about.html — Our Story (Public)</td></tr>
+<tr class="pg-row"><td colspan="8">amayaa_about.html — Our Story (Public)</td></tr>
 
 <tr data-page="amayaa_about.html" data-json="yes">
   <td><span class="page-chip">About</span></td>
@@ -378,7 +404,7 @@ tr.hidden{display:none;}
 <!-- ═══════════════════════════════════════════════════ -->
 <!-- amayaa_blog.html -->
 <!-- ═══════════════════════════════════════════════════ -->
-<tr class="pg-row"><td colspan="7">amayaa_blog.html — Blog (Public)</td></tr>
+<tr class="pg-row"><td colspan="8">amayaa_blog.html — Blog (Public)</td></tr>
 
 <tr data-page="amayaa_blog.html" data-json="yes">
   <td><span class="page-chip">Blog</span></td>
@@ -403,7 +429,7 @@ tr.hidden{display:none;}
 <!-- ═══════════════════════════════════════════════════ -->
 <!-- amayaa_contact.html -->
 <!-- ═══════════════════════════════════════════════════ -->
-<tr class="pg-row"><td colspan="7">amayaa_contact.html — Contact</td></tr>
+<tr class="pg-row"><td colspan="8">amayaa_contact.html — Contact</td></tr>
 
 <tr data-page="amayaa_contact.html" data-json="yes">
   <td><span class="page-chip">Contact</span></td>
@@ -438,7 +464,7 @@ tr.hidden{display:none;}
 <!-- ═══════════════════════════════════════════════════ -->
 <!-- amayaa_offers.html -->
 <!-- ═══════════════════════════════════════════════════ -->
-<tr class="pg-row"><td colspan="7">amayaa_offers.html — Special Offers</td></tr>
+<tr class="pg-row"><td colspan="8">amayaa_offers.html — Special Offers</td></tr>
 
 <tr data-page="amayaa_offers.html" data-json="yes">
   <td><span class="page-chip">Offers</span></td>
@@ -483,7 +509,7 @@ tr.hidden{display:none;}
 <!-- ═══════════════════════════════════════════════════ -->
 <!-- amayaa_search.html -->
 <!-- ═══════════════════════════════════════════════════ -->
-<tr class="pg-row"><td colspan="7">amayaa_search.html — Search Results</td></tr>
+<tr class="pg-row"><td colspan="8">amayaa_search.html — Search Results</td></tr>
 
 <tr data-page="amayaa_search.html" data-json="yes">
   <td><span class="page-chip">Search</span></td>
@@ -508,7 +534,7 @@ tr.hidden{display:none;}
 <!-- ═══════════════════════════════════════════════════ -->
 <!-- amayaa_faq.html -->
 <!-- ═══════════════════════════════════════════════════ -->
-<tr class="pg-row"><td colspan="7">amayaa_faq.html — FAQ (Public)</td></tr>
+<tr class="pg-row"><td colspan="8">amayaa_faq.html — FAQ (Public)</td></tr>
 
 <tr data-page="amayaa_faq.html" data-json="yes">
   <td><span class="page-chip">FAQ</span></td>
@@ -533,7 +559,7 @@ tr.hidden{display:none;}
 <!-- ═══════════════════════════════════════════════════ -->
 <!-- amayaa_policies.html -->
 <!-- ═══════════════════════════════════════════════════ -->
-<tr class="pg-row"><td colspan="7">amayaa_policies.html — Policies &amp; T&amp;C (Public)</td></tr>
+<tr class="pg-row"><td colspan="8">amayaa_policies.html — Policies &amp; T&amp;C (Public)</td></tr>
 
 <tr data-page="amayaa_policies.html" data-json="yes">
   <td><span class="page-chip">Policies</span></td>
@@ -548,7 +574,7 @@ tr.hidden{display:none;}
 <!-- ═══════════════════════════════════════════════════ -->
 <!-- PRODUCT DETAIL OVERLAY (ProductDrawer) -->
 <!-- ═══════════════════════════════════════════════════ -->
-<tr class="pg-row"><td colspan="7">Product Detail Overlay (ProductDrawer — appears on Sarees, Search, Home pages)</td></tr>
+<tr class="pg-row"><td colspan="8">Product Detail Overlay (ProductDrawer — appears on Sarees, Search, Home pages)</td></tr>
 
 <tr data-page="amayaa_sarees.html" data-json="yes">
   <td><span class="page-chip">Product Overlay</span></td>
@@ -563,7 +589,7 @@ tr.hidden{display:none;}
 <!-- ═══════════════════════════════════════════════════ -->
 <!-- ADMIN PAGES — BACKEND CONNECTIVITY AUDIT -->
 <!-- ═══════════════════════════════════════════════════ -->
-<tr class="pg-row"><td colspan="7">ADMIN PAGES — Backend Connectivity Audit</td></tr>
+<tr class="pg-row"><td colspan="8">ADMIN PAGES — Backend Connectivity Audit</td></tr>
 
 <tr data-page="Admin — Settings" data-json="yes">
   <td><span class="page-chip">Admin</span><br><small>amayaa_settings.html</small></td>
@@ -729,6 +755,36 @@ function resetFilters(){
 }
 
 countSummary();
+
+/* ── Inject "Code Push?" column into every data row ── */
+function injectPushColumn(){
+  // Map: data-json value → push needed?
+  // "yes" = admin writes via GH API → No push needed
+  // "no"  = element is hardcoded HTML → Yes, code edit required
+  // "dummy" = admin UI has no backend wired → Yes
+  // "partial" = admin reads + some writes via GH API → No
+  // "local" = saves to browser only → Yes (needs wiring)
+  // "na" = intentionally static → N/A
+  var pushMap = {yes:'no',no:'yes',partial:'no',dummy:'yes',local:'yes',na:'na'};
+  var labelMap = {
+    no: '<span class="push-no">✅ No — Admin only</span>',
+    yes: '<span class="push-yes">⚠ Yes — Terminal push</span>',
+    na: '<span class="push-na">N/A</span>'
+  };
+  document.querySelectorAll('#tableBody tr[data-json]').forEach(function(row){
+    var j = row.dataset.json || 'na';
+    var push = pushMap[j] || 'na';
+    // Allow per-row override via data-push attribute
+    if(row.dataset.push) push = row.dataset.push;
+    var td = document.createElement('td');
+    td.innerHTML = labelMap[push] || labelMap.na;
+    // Insert before the last td (Notes column)
+    var tds = row.querySelectorAll('td');
+    var noteTd = tds[tds.length-1];
+    row.insertBefore(td, noteTd);
+  });
+}
+injectPushColumn();
 </script>
 </body>
 </html>

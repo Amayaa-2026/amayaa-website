@@ -185,105 +185,136 @@ body{font-family:'Jost',sans-serif;background:linear-gradient(135deg,#E4DFD9 0%,
 .prod-thumb-placeholder{width:44px;height:52px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 </style><title>Banner Manager — Amayaa Admin</title></head><body>
 <script>if(!sessionStorage.getItem('amayaa_admin')){window.location.href='index.html';}</script>
-<script>
-if(!sessionStorage.getItem('amayaa_admin')){
-  window.location.href='index.html';
-}
-</script><aside class="sidebar"></aside>
+<aside class="sidebar"></aside>
 <div class="main">
   <div class="topbar">
-    <div><div class="topbar-title">Banner Manager</div><div class="topbar-sub">Edit homepage rotating slider — 5 slides</div></div>
+    <div>
+      <div class="topbar-title">Banner Manager</div>
+      <div class="topbar-sub" id="topbar-sub">Loading banners…</div>
+    </div>
     <div class="topbar-actions">
-      <a href="/index.html" class="btn btn-ghost" target="_blank">👁 Preview Homepage</a>
-      <button class="btn btn-primary" onclick="saveBanners()">💾 Save All Banners</button>
+      <a href="../index.html" class="btn btn-ghost" target="_blank">👁 Preview Homepage</a>
+      <button id="btn-save" class="btn btn-primary" onclick="saveBanners()">💾 Save All Banners</button>
     </div>
   </div>
   <div class="content">
-    <div class="alert alert-info">💡 Changes apply to the live website immediately after saving. Each slide auto-advances every 5.5 seconds.</div>
 
-    <!-- SLIDE SELECTOR -->
-    <div class="banner-grid" id="bannerGrid"></div>
+    <div class="alert alert-info">💡 Edit a slide below then click <strong>Save All Banners</strong>. Changes go live on GitHub Pages within ~2 minutes. Requires GitHub token set in Admin → Settings.</div>
 
-    <!-- SELECTED SLIDE EDITOR -->
-    <div class="card">
+    <!-- SLIDE SELECTOR THUMBNAILS -->
+    <div class="banner-grid" id="bannerGrid">
+      <div style="grid-column:1/-1;text-align:center;padding:30px;color:#9A8070;font-size:13px;">Loading slides…</div>
+    </div>
+
+    <!-- EDITOR CARD -->
+    <div class="card" id="editorCard" style="display:none;">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
-        <h3 style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:#1A0A04;">Editing: <span id="slideTitle" style="color:#C4622D;">Slide 1</span></h3>
+        <h3 style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:#1A0A04;">
+          Editing: <span id="slideTitle" style="color:#C4622D;">Slide 1</span>
+        </h3>
         <div style="display:flex;gap:8px;">
-          <button class="btn btn-ghost btn-sm">⬅ Prev Slide</button>
-          <button class="btn btn-ghost btn-sm">Next Slide ➡</button>
+          <button class="btn btn-ghost btn-sm" onclick="prevSlide()">⬅ Prev</button>
+          <button class="btn btn-ghost btn-sm" onclick="nextSlide()">Next ➡</button>
         </div>
       </div>
 
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:28px;">
-        <!-- LEFT: FIELDS -->
+
+        <!-- LEFT: FORM FIELDS -->
         <div>
-          <div class="fg"><label>Background Image</label>
-            <div style="height:120px;border-radius:12px;background:linear-gradient(135deg,#8B1A4A,#C4622D);display:flex;align-items:center;justify-content:center;margin-bottom:10px;position:relative;">
-              <span style="font-size:12px;color:#7A6050;letter-spacing:2px;">CURRENT BANNER IMAGE</span>
+
+          <!-- Background image -->
+          <div class="fg">
+            <label>Background Image</label>
+            <div id="img-preview-box" style="height:80px;border-radius:10px;background:linear-gradient(135deg,#8B1A4A,#C4622D);display:flex;align-items:center;justify-content:center;margin-bottom:8px;position:relative;overflow:hidden;">
+              <span id="img-preview-label" style="font-size:11px;color:rgba(255,255,255,.7);letter-spacing:2px;text-transform:uppercase;z-index:1;">No image</span>
             </div>
-            <button class="btn btn-ghost" style="width:100%;justify-content:center;">📁 Upload New Image</button>
-            <p style="font-size:11px;color:#B0967E;margin-top:6px;text-align:center;">JPG/PNG · Recommended: 1600×900px · Max 2MB</p>
+            <div style="display:flex;gap:8px;align-items:center;">
+              <button class="btn btn-ghost btn-sm" onclick="uploadImage()" style="flex:1;justify-content:center;">📁 Upload Image</button>
+              <input id="bi-bgimage" class="fi" style="flex:2;font-size:11px;" placeholder="images/filename.jpg" oninput="_updatePreview()">
+            </div>
+            <p id="img-status" style="font-size:11px;color:#B0967E;margin-top:4px;min-height:16px;"></p>
           </div>
-          <div class="fg"><label>Eyebrow Text (small label above title)</label><input id="bi-eyebrow" class="fi" value="New Arrivals — Summer 2026" placeholder="e.g. Varanasi Collection"></div>
-          <div class="fg"><label>Headline *</label><input id="bi-headline" class="fi" value="Where Every Thread Tells a Story" placeholder="Main banner headline"></div>
-          <div class="fg"><label>Italic word/phrase (shown in terracotta)</label><input id="bi-title" class="fi" value="Story" placeholder="e.g. Queens — this part becomes italic coloured"></div>
-          <div class="fg"><label>Sub-text (supporting paragraph)</label><textarea id="bi-subtitle" class="fta" style="min-height:80px;">Master weavers. Ancient looms. Sarees that carry the soul of India.</textarea></div>
+
+          <div class="fg">
+            <label>Eyebrow Text <small style="font-weight:400;text-transform:none;letter-spacing:0;">(small label above title)</small></label>
+            <input id="bi-eyebrow" class="fi" placeholder="e.g. Varanasi Collection" oninput="_updatePreview()">
+          </div>
+
+          <div class="fg">
+            <label>Headline (plain text)</label>
+            <input id="bi-headline" class="fi" placeholder="e.g. Kanjivaram — The Queen of Silks" oninput="_updatePreview()">
+          </div>
+
+          <div class="fg">
+            <label>Title HTML <small style="font-weight:400;text-transform:none;letter-spacing:0;">— use <code>&lt;br&gt;</code> for line break, <code>&lt;em&gt;</code> for terracotta italic</small></label>
+            <textarea id="bi-title" class="fta" rows="2" placeholder="e.g. Kanjivaram &amp;mdash;&lt;br&gt;&lt;em&gt;The Queen of Silks&lt;/em&gt;" oninput="_updatePreview()"></textarea>
+          </div>
+
+          <div class="fg">
+            <label>Sub-text (supporting paragraph)</label>
+            <textarea id="bi-subtitle" class="fta" rows="3" placeholder="Supporting description shown below the title" oninput="_updatePreview()"></textarea>
+          </div>
+
           <div class="form-grid">
-            <div class="fg"><label>Primary Button Label</label><input id="bi-cta1-label" class="fi" value="Explore &amp; Shop"></div>
-            <div class="fg"><label>Primary Button Link</label><input id="bi-cta1-href" class="fi" value="../amayaa_sarees.html"></div>
+            <div class="fg"><label>Primary Button Label</label><input id="bi-cta1-label" class="fi" placeholder="Explore &amp; Shop" oninput="_updatePreview()"></div>
+            <div class="fg"><label>Primary Button Link</label><input id="bi-cta1-href" class="fi" placeholder="../amayaa_sarees.html"></div>
           </div>
+
           <div class="form-grid">
-            <div class="fg"><label>Secondary Button Label</label><input id="bi-cta2-label" class="fi" value="WhatsApp Us"></div>
-            <div class="fg"><label>Secondary Button Link</label><input id="bi-cta2-href" class="fi" value="https://wa.me/919583946000"></div>
+            <div class="fg"><label>Secondary Button Label</label><input id="bi-cta2-label" class="fi" placeholder="WhatsApp Us" oninput="_updatePreview()"></div>
+            <div class="fg"><label>Secondary Button Link</label><input id="bi-cta2-href" class="fi" placeholder="https://wa.me/91…"></div>
           </div>
+
         </div>
 
-        <!-- RIGHT: LIVE PREVIEW -->
+        <!-- RIGHT: LIVE PREVIEW + TOGGLE -->
         <div>
           <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#9A8070;margin-bottom:10px;">Live Preview</div>
-          <div style="border-radius:16px;overflow:hidden;height:360px;background:linear-gradient(135deg,#8B1A4A,#C4622D);position:relative;display:flex;align-items:center;justify-content:center;text-align:center;padding:32px;">
+
+          <div id="livePreview" style="border-radius:16px;overflow:hidden;height:330px;background:linear-gradient(135deg,#8B1A4A,#C4622D);position:relative;display:flex;align-items:center;justify-content:center;text-align:center;padding:28px;">
             <div style="position:absolute;inset:0;background:rgba(247,240,232,.72);"></div>
-            <div style="position:relative;z-index:1;">
-              <div style="display:inline-block;font-size:10px;font-weight:600;letter-spacing:4px;text-transform:uppercase;padding:5px 16px;border-radius:20px;background:rgba(196,98,45,.12);color:#A04010;border:1px solid rgba(196,98,45,.3);margin-bottom:14px;">New Arrivals — Summer 2026</div>
-              <div style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:#1A0A04;line-height:1.1;margin-bottom:12px;">Where Every Thread<br>Tells a <em style="font-style:italic;color:#C4622D;">Story</em></div>
-              <div style="font-size:13px;color:#6B5040;margin-bottom:16px;">Master weavers. Ancient looms. Sarees that carry the soul of India.</div>
-              <div style="display:flex;gap:10px;justify-content:center;">
-                <div style="padding:10px 22px;border-radius:24px;background:linear-gradient(135deg,#C4622D,#E8843D);color:#1A0A04;font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;">Explore &amp; Shop</div>
-                <div style="padding:10px 22px;border-radius:24px;background:rgba(255,255,255,.5);border:1.5px solid rgba(196,98,45,.4);color:#C4622D;font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;">WhatsApp Us</div>
+            <div style="position:relative;z-index:1;max-width:340px;">
+              <div id="prev-eyebrow" style="display:inline-block;font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;padding:4px 14px;border-radius:20px;background:rgba(196,98,45,.12);color:#A04010;border:1px solid rgba(196,98,45,.3);margin-bottom:12px;">Eyebrow</div>
+              <div id="prev-title" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:#1A0A04;line-height:1.15;margin-bottom:10px;"></div>
+              <div id="prev-subtitle" style="font-size:12px;color:#6B5040;margin-bottom:14px;line-height:1.5;"></div>
+              <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
+                <div id="prev-cta1" style="padding:8px 18px;border-radius:22px;background:linear-gradient(135deg,#C4622D,#E8843D);color:white;font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;">CTA 1</div>
+                <div id="prev-cta2" style="padding:8px 18px;border-radius:22px;background:rgba(255,255,255,.5);border:1.5px solid rgba(196,98,45,.4);color:#C4622D;font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;">CTA 2</div>
               </div>
             </div>
           </div>
+
           <div style="margin-top:14px;">
             <div style="display:flex;gap:8px;align-items:center;margin-bottom:10px;">
               <span style="font-size:11px;color:#9A8070;">Slide active:</span>
               <label class="toggle"><input id="bi-active" type="checkbox" checked><div class="toggle-slider"></div></label>
-              <span class="toggle-label" style="font-size:12px;">Show this slide</span>
+              <span class="toggle-label" style="font-size:12px;">Show this slide on homepage</span>
             </div>
-            <div style="font-size:11px;color:#B0967E;line-height:1.7;">
-              Auto-advance: every 5.5 seconds<br>
-              Total slides: 5 (min 1, max 8)<br>
-              Image size: not uploaded yet
-            </div>
+            <div id="slide-meta" style="font-size:11px;color:#B0967E;line-height:1.8;background:rgba(0,0,0,.03);border-radius:8px;padding:10px 12px;"></div>
           </div>
         </div>
+
       </div>
     </div>
 
-    <!-- ADD/REMOVE SLIDES -->
-    <div style="display:flex;gap:10px;margin-top:16px;">
-      <button class="btn btn-ghost">+ Add New Slide</button>
-      <button class="btn btn-danger">🗑 Remove This Slide</button>
-      <span style="font-size:12px;color:#B0967E;align-self:center;">Minimum 1 slide · Maximum 8 slides</span>
+    <!-- ADD / REMOVE -->
+    <div id="slideActions" style="display:none;display:flex;gap:10px;margin-top:16px;align-items:center;">
+      <button class="btn btn-ghost" onclick="addSlide()">＋ Add New Slide</button>
+      <button class="btn btn-danger" onclick="removeSlide()">🗑 Remove This Slide</button>
+      <span style="font-size:12px;color:#B0967E;">Minimum 1 slide · Maximum 8 slides</span>
     </div>
 
   </div>
 </div>
-<script>
-var _banners = [];
-var _curIdx = 0;
 
-/* ── GitHub API helpers ── */
-var GH_REPO = 'Amayaa-2026/amayaa-website';
+<script>
+/* ═══ STATE ═══ */
+var _banners = [];
+var _curIdx  = 0;
+
+/* ═══ GITHUB API HELPERS ═══ */
+var GH_REPO   = 'Amayaa-2026/amayaa-website';
 var GH_BRANCH = 'main';
 function _b64ToUtf8(b64){var raw=atob(b64.replace(/\n/g,''));var bytes=new Uint8Array(raw.length);for(var i=0;i<raw.length;i++)bytes[i]=raw.charCodeAt(i);return new TextDecoder('utf-8',{fatal:false}).decode(bytes);}
 function _utf8ToB64(str){var bytes=new TextEncoder().encode(str);var bin='';for(var i=0;i<bytes.length;i++)bin+=String.fromCharCode(bytes[i]);return btoa(bin);}
@@ -291,124 +322,279 @@ function _ghTok(){return localStorage.getItem('amayaa_gh_token')||'';}
 function _ghHdrs(){return{Authorization:'token '+_ghTok(),Accept:'application/vnd.github.v3+json','Content-Type':'application/json'};}
 function _ghSave(filePath,dat,msg,btnEl){
   var tok=_ghTok();
-  if(!tok){alert('No GitHub token. Set it in Admin → Settings first.');return;}
+  if(!tok){alert('No GitHub token. Go to Admin → Settings to add it.');return;}
   var orig=btnEl?btnEl.textContent:'';
   if(btnEl){btnEl.textContent='Saving…';btnEl.disabled=true;}
   fetch('https://api.github.com/repos/'+GH_REPO+'/contents/'+filePath+'?ref='+GH_BRANCH,{headers:_ghHdrs()})
     .then(function(r){return r.json();})
     .then(function(ex){
-      if(!ex.sha)throw new Error(ex.message||'No SHA');
+      if(!ex.sha)throw new Error(ex.message||'No SHA returned');
       return fetch('https://api.github.com/repos/'+GH_REPO+'/contents/'+filePath,{method:'PUT',headers:_ghHdrs(),body:JSON.stringify({message:msg,content:_utf8ToB64(JSON.stringify(dat,null,2)),sha:ex.sha,branch:GH_BRANCH})});
     })
     .then(function(r){return r.json();})
     .then(function(res){
       if(res.content){
         if(btnEl){btnEl.textContent='✅ Saved!';setTimeout(function(){btnEl.textContent=orig;btnEl.disabled=false;},2500);}
-        else{var t=document.createElement('div');t.style.cssText='position:fixed;top:20px;right:20px;z-index:9999;padding:12px 20px;border-radius:10px;background:#D4F0DD;border:1px solid #1A7A40;color:#1A7A40;font-family:Jost,sans-serif;font-weight:600;font-size:14px;';t.textContent='✅ Saved to GitHub!';document.body.appendChild(t);setTimeout(function(){t.remove();},3000);}
-      }else{throw new Error(res.message||'Write failed');}
+      }else{throw new Error(res.message||'Write failed — check token permissions');}
     })
     .catch(function(e){alert('Save failed: '+(e.message||e));if(btnEl){btnEl.textContent=orig;btnEl.disabled=false;}});
 }
 
-/* ── Banner gradient palette (cycles by index) ── */
+/* ═══ GRADIENT PALETTE ═══ */
 var _GRADS = [
   'linear-gradient(135deg,#8B1A4A,#C4622D)',
   'linear-gradient(135deg,#1A0A4A,#5A1A8A)',
-  'linear-gradient(135deg,#0A3A1A,#C4A010)',
-  'linear-gradient(135deg,#3A0A0A,#C4622D)',
-  'linear-gradient(135deg,#0A1A3A,#8B0050)',
-  'linear-gradient(135deg,#1A2A0A,#5A8B00)',
-  'linear-gradient(135deg,#2A1A0A,#8B4A00)',
+  'linear-gradient(135deg,#0A3A1A,#2A8A50)',
+  'linear-gradient(135deg,#3A1A0A,#8A4010)',
+  'linear-gradient(135deg,#0A1A3A,#1A5A8A)',
+  'linear-gradient(135deg,#2A0A2A,#8B0070)',
+  'linear-gradient(135deg,#2A1A0A,#8B5A00)',
   'linear-gradient(135deg,#0A2A2A,#006B6B)'
 ];
 
-function _renderThumbs() {
+/* ═══ RENDER THUMBNAILS ═══ */
+function _renderThumbs(){
   var grid = document.getElementById('bannerGrid');
-  if (!grid) return;
+  if(!grid) return;
   grid.innerHTML = '';
-  _banners.forEach(function(b, i) {
+  if(!_banners.length){
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:20px;color:#9A8070;">No slides yet. Click "Add New Slide".</div>';
+    return;
+  }
+  _banners.forEach(function(b,i){
     var grad = _GRADS[i % _GRADS.length];
+    var inactive = b.active === false ? ' style="opacity:.5"' : '';
     var card = document.createElement('div');
     card.className = 'banner-card' + (i === _curIdx ? ' active-slide' : '');
-    card.setAttribute('onclick', 'selectSlide(' + i + ')');
+    card.onclick = function(){ selectSlide(i); };
     card.innerHTML =
-      '<div class="banner-preview" style="background:' + grad + '">Slide ' + (i + 1) + '</div>' +
-      '<div class="banner-num">' + _escHtml(b.eyebrow || ('Slide ' + (i + 1))) + '</div>';
+      '<div class="banner-preview" style="background:'+grad+';"'+inactive+'>' +
+        '<span style="font-size:13px;font-weight:600;color:white;">'+( i+1 )+'</span>' +
+      '</div>' +
+      '<div class="banner-num" style="font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' +
+        _esc(b.eyebrow || ('Slide '+(i+1))) + (b.active===false?' 🔕':'') +
+      '</div>';
     grid.appendChild(card);
   });
+  // update sub
+  var sub = document.getElementById('topbar-sub');
+  if(sub) sub.textContent = _banners.length + ' slide' + (_banners.length!==1?'s':'') + ' · editing Slide '+(_curIdx+1);
 }
 
-function selectSlide(idx) {
+/* ═══ SELECT SLIDE ═══ */
+function selectSlide(idx){
+  _collectForm(); // save edits of current slide before switching
   _curIdx = idx;
-  document.querySelectorAll('.banner-card').forEach(function(c, j) {
-    c.classList.toggle('active-slide', j === idx);
-  });
+  _renderThumbs();
   _populateForm(idx);
 }
 
-function _escHtml(s) {
-  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-}
+/* ═══ POPULATE FORM ═══ */
+function _esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function _set(id,val){ var el=document.getElementById(id); if(el) el.value=val!=null?val:''; }
 
-function _set(id, val) {
-  var el = document.getElementById(id);
-  if (el) el.value = val || '';
-}
-
-function _populateForm(idx) {
+function _populateForm(idx){
   var b = _banners[idx];
-  if (!b) return;
-  _set('bi-eyebrow',   b.eyebrow);
-  _set('bi-headline',  b.headline);
-  _set('bi-title',     b.title);
-  _set('bi-subtitle',  b.subtitle);
-  _set('bi-cta1-label', b.ctaPrimary   && b.ctaPrimary.label);
-  _set('bi-cta1-href',  b.ctaPrimary   && b.ctaPrimary.href);
-  _set('bi-cta2-label', b.ctaSecondary && b.ctaSecondary.label);
-  _set('bi-cta2-href',  b.ctaSecondary && b.ctaSecondary.href);
+  if(!b) return;
+  _set('bi-eyebrow',   b.eyebrow   || '');
+  _set('bi-headline',  b.headline  || '');
+  _set('bi-title',     b.title     || '');
+  _set('bi-subtitle',  b.subtitle  || '');
+  _set('bi-cta1-label', b.ctaPrimary   ? b.ctaPrimary.label  : '');
+  _set('bi-cta1-href',  b.ctaPrimary   ? b.ctaPrimary.href   : '');
+  _set('bi-cta2-label', b.ctaSecondary ? b.ctaSecondary.label : '');
+  _set('bi-cta2-href',  b.ctaSecondary ? b.ctaSecondary.href  : '');
+  _set('bi-bgimage',   b.backgroundImage || '');
   var tog = document.getElementById('bi-active');
-  if (tog) tog.checked = (b.active !== false);
+  if(tog) tog.checked = (b.active !== false);
   var titleEl = document.getElementById('slideTitle');
-  if (titleEl) titleEl.textContent = 'Slide ' + (idx + 1) + (b.eyebrow ? ' — ' + b.eyebrow : '');
+  if(titleEl) titleEl.textContent = 'Slide '+(idx+1)+(b.eyebrow?' — '+b.eyebrow:'');
+  // update image preview box
+  _updateImgPreview(b.backgroundImage);
+  // update meta
+  var meta = document.getElementById('slide-meta');
+  if(meta) meta.innerHTML =
+    'Slide: <strong>'+(idx+1)+' of '+_banners.length+'</strong><br>'+
+    'Auto-advance: every 5.5 sec<br>'+
+    'Image: '+(b.backgroundImage||'<em style="color:#C4622D;">none set</em>');
+  _updatePreview();
+  // show editor
+  var card = document.getElementById('editorCard');
+  if(card) card.style.display = '';
+  var acts = document.getElementById('slideActions');
+  if(acts) acts.style.display = 'flex';
 }
 
-function _collectForm() {
+function _updateImgPreview(path){
+  var box   = document.getElementById('img-preview-box');
+  var label = document.getElementById('img-preview-label');
+  if(!box) return;
+  if(path){
+    box.style.backgroundImage = 'url(../'+path+')';
+    box.style.backgroundSize  = 'cover';
+    box.style.backgroundPosition = 'center';
+    if(label) label.textContent = '';
+  } else {
+    box.style.backgroundImage = '';
+    if(label) label.textContent = 'No image set';
+  }
+}
+
+/* ═══ COLLECT FORM → _banners[_curIdx] ═══ */
+function _collectForm(){
+  if(!_banners[_curIdx]) return;
   var b = _banners[_curIdx];
-  if (!b) return;
-  var get = function(id) { var el = document.getElementById(id); return el ? el.value.trim() : ''; };
-  b.eyebrow  = get('bi-eyebrow');
-  b.headline = get('bi-headline');
-  b.title    = get('bi-title');
-  b.subtitle = get('bi-subtitle');
-  if (!b.ctaPrimary)   b.ctaPrimary   = {};
-  if (!b.ctaSecondary) b.ctaSecondary = {};
-  b.ctaPrimary.label   = get('bi-cta1-label');
-  b.ctaPrimary.href    = get('bi-cta1-href');
-  b.ctaSecondary.label = get('bi-cta2-label');
-  b.ctaSecondary.href  = get('bi-cta2-href');
+  var get = function(id){ var el=document.getElementById(id); return el?el.value.trim():''; };
+  b.eyebrow   = get('bi-eyebrow');
+  b.headline  = get('bi-headline');
+  b.title     = get('bi-title');
+  b.subtitle  = get('bi-subtitle');
+  b.ctaPrimary   = { label: get('bi-cta1-label'), href: get('bi-cta1-href') };
+  b.ctaSecondary = { label: get('bi-cta2-label'), href: get('bi-cta2-href') };
+  b.backgroundImage = get('bi-bgimage');
   var tog = document.getElementById('bi-active');
   b.active = tog ? tog.checked : true;
 }
 
-function saveBanners() {
-  _collectForm();
-  var btn = document.querySelector('.topbar-actions .btn-primary');
-  _ghSave('data/banners.json', _banners, 'Admin: update banners', btn);
+/* ═══ LIVE PREVIEW ═══ */
+function _updatePreview(){
+  var get = function(id){ var el=document.getElementById(id); return el?el.value:''; };
+  var ew = document.getElementById('prev-eyebrow');
+  var tt = document.getElementById('prev-title');
+  var st = document.getElementById('prev-subtitle');
+  var c1 = document.getElementById('prev-cta1');
+  var c2 = document.getElementById('prev-cta2');
+  if(ew) ew.textContent = get('bi-eyebrow') || 'Eyebrow label';
+  if(tt) tt.innerHTML   = get('bi-title')   || _esc(get('bi-headline')) || 'Banner Title';
+  if(st) st.textContent = get('bi-subtitle') || 'Supporting text';
+  if(c1) c1.textContent = get('bi-cta1-label') || 'Primary CTA';
+  if(c2) c2.textContent = get('bi-cta2-label') || 'Secondary CTA';
+  // update image preview box live
+  _updateImgPreview(get('bi-bgimage'));
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-  fetch('../data/banners.json?_=' + Date.now())
-    .then(function(r) {
-      if (!r.ok) throw new Error('HTTP ' + r.status);
+/* ═══ NAVIGATION ═══ */
+function prevSlide(){
+  if(!_banners.length) return;
+  _collectForm();
+  _curIdx = (_curIdx - 1 + _banners.length) % _banners.length;
+  _renderThumbs();
+  _populateForm(_curIdx);
+}
+function nextSlide(){
+  if(!_banners.length) return;
+  _collectForm();
+  _curIdx = (_curIdx + 1) % _banners.length;
+  _renderThumbs();
+  _populateForm(_curIdx);
+}
+
+/* ═══ ADD / REMOVE SLIDES ═══ */
+function addSlide(){
+  if(_banners.length >= 8){ alert('Maximum 8 slides.'); return; }
+  _collectForm();
+  _banners.push({
+    id: Date.now(),
+    eyebrow: 'New Slide',
+    headline: 'New Banner Headline',
+    title: 'New <em>Banner</em>',
+    subtitle: 'Enter your banner description here.',
+    ctaPrimary:   { label: 'Explore & Shop', href: '../amayaa_sarees.html' },
+    ctaSecondary: { label: 'WhatsApp Us',    href: 'https://wa.me/919583946000' },
+    backgroundImage: '',
+    active: true
+  });
+  _curIdx = _banners.length - 1;
+  _renderThumbs();
+  _populateForm(_curIdx);
+}
+
+function removeSlide(){
+  if(_banners.length <= 1){ alert('Cannot remove the last slide.'); return; }
+  if(!confirm('Remove Slide '+(_curIdx+1)+' ("'+(_banners[_curIdx].eyebrow||'unnamed')+'")?')) return;
+  _banners.splice(_curIdx, 1);
+  _curIdx = Math.min(_curIdx, _banners.length - 1);
+  _renderThumbs();
+  _populateForm(_curIdx);
+}
+
+/* ═══ IMAGE UPLOAD VIA GITHUB API ═══ */
+function uploadImage(){
+  var tok = _ghTok();
+  if(!tok){ alert('No GitHub token. Go to Admin → Settings first.'); return; }
+  var fi = document.createElement('input');
+  fi.type = 'file';
+  fi.accept = 'image/jpeg,image/png,image/webp';
+  fi.onchange = function(e){
+    var file = e.target.files[0];
+    if(!file) return;
+    if(file.size > 3*1024*1024){ alert('Image must be under 3 MB.'); return; }
+    var statusEl = document.getElementById('img-status');
+    if(statusEl) statusEl.textContent = 'Reading file…';
+    var reader = new FileReader();
+    reader.onload = function(ev){
+      var b64 = ev.target.result.split(',')[1];
+      var path = 'images/' + file.name.replace(/\s/g,'_');
+      if(statusEl) statusEl.textContent = 'Uploading to GitHub…';
+      fetch('https://api.github.com/repos/'+GH_REPO+'/contents/'+path+'?ref='+GH_BRANCH,{headers:_ghHdrs()})
+        .then(function(r){ return r.json(); })
+        .then(function(ex){
+          var body = { message:'Admin: upload banner image '+file.name, content:b64, branch:GH_BRANCH };
+          if(ex.sha) body.sha = ex.sha; // overwrite if exists
+          return fetch('https://api.github.com/repos/'+GH_REPO+'/contents/'+path,{method:'PUT',headers:_ghHdrs(),body:JSON.stringify(body)});
+        })
+        .then(function(r){ return r.json(); })
+        .then(function(res){
+          if(res.content){
+            document.getElementById('bi-bgimage').value = path;
+            _updateImgPreview(path);
+            if(statusEl) statusEl.textContent = '✅ Uploaded! Click Save All Banners to apply.';
+            setTimeout(function(){ if(statusEl) statusEl.textContent=''; },5000);
+          } else {
+            if(statusEl) statusEl.textContent = '❌ Upload failed: '+(res.message||'Unknown error');
+          }
+        })
+        .catch(function(err){
+          if(statusEl) statusEl.textContent = '❌ Upload failed: '+err.message;
+        });
+    };
+    reader.readAsDataURL(file);
+  };
+  fi.click();
+}
+
+/* ═══ SAVE ═══ */
+function saveBanners(){
+  _collectForm();
+  var btn = document.getElementById('btn-save');
+  _ghSave('data/banners.json', _banners, 'Admin: update banners ('+_banners.length+' slides)', btn);
+}
+
+/* ═══ INIT ═══ */
+document.addEventListener('DOMContentLoaded', function(){
+  fetch('../data/banners.json?_='+Date.now())
+    .then(function(r){
+      if(!r.ok) throw new Error('HTTP '+r.status);
       return r.json();
     })
-    .then(function(data) {
+    .then(function(data){
       _banners = Array.isArray(data) ? data : [];
       _renderThumbs();
-      if (_banners.length) _populateForm(0);
+      if(_banners.length){
+        _populateForm(0);
+      } else {
+        var sub = document.getElementById('topbar-sub');
+        if(sub) sub.textContent = '0 slides — use Add New Slide to start';
+        var card = document.getElementById('editorCard');
+        if(card) card.style.display = 'none';
+      }
     })
-    .catch(function(e) {
-      console.warn('Could not load banners.json:', e);
+    .catch(function(e){
+      console.error('Could not load banners.json:', e);
+      var grid = document.getElementById('bannerGrid');
+      if(grid) grid.innerHTML = '<div style="grid-column:1/-1;padding:20px;color:#C4622D;font-size:13px;">⚠ Could not load banners.json — check GitHub token is set in Settings.</div>';
+      var sub = document.getElementById('topbar-sub');
+      if(sub) sub.textContent = 'Load error — check console';
     });
 });
 </script>

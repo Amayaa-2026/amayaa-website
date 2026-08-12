@@ -436,7 +436,7 @@ function clearToken() {
 document.addEventListener('DOMContentLoaded', function () {
   _checkToken();
   var url = 'https://api.github.com/repos/' + GH.repo + '/contents/' + GH.file + '?ref=' + GH.branch;
-  fetch(url, { headers: { Authorization: 'token ' + _token, Accept: 'application/vnd.github.v3+json' } })
+  fetch(url, { headers: { Authorization: 'token ' + (localStorage.getItem('amayaa_gh_token') || ''), Accept: 'application/vnd.github.v3+json' } })
     .then(function (r) { return r.json(); })
     .then(function (data) {
       _sha = data.sha;

@@ -692,6 +692,48 @@ function slowScrollTo(targetId){
 }
 </script>
 
+<script>
+(function(){
+  fetch('data/about.json')
+    .then(function(r){ return r.json(); })
+    .then(function(d) {
+      // STORY SECTIONS
+      var storySec = document.querySelector('.story-sec');
+      if (storySec && d.story) {
+        var html = '';
+        d.story.forEach(function(s) {
+          var flip = s.imgPos === 'right' ? ' flip' : '';
+          var grad = 'linear-gradient(160deg,' + s.imgGradient + ')';
+          var bodyHtml = s.body.split('\n\n').map(function(p){ return '<p>' + p + '</p>'; }).join('');
+          html += '<div class="story-grid' + flip + '">' +
+            '<div class="story-img"><div class="gf" style="background:' + grad + '"></div></div>' +
+            '<div class="story-text">' +
+              '<p class="st-lbl">' + s.label + '</p>' +
+              '<h2 class="st-title">' + s.heading + '</h2>' +
+              bodyHtml +
+            '</div></div>';
+        });
+        storySec.innerHTML = html;
+      }
+      // VALUES CARDS
+      var vsGrid = document.querySelector('.vs-grid');
+      if (vsGrid && d.values) {
+        vsGrid.innerHTML = d.values.map(function(v){
+          return '<div class="vcard"><div class="vcard-icon">' + v.icon + '</div><div class="vcard-title">' + v.title + '</div><div class="vcard-body">' + v.desc + '</div></div>';
+        }).join('');
+      }
+      // WEAVERS
+      var wGrid = document.querySelector('.wgrid');
+      if (wGrid && d.weavers) {
+        var colors = ['linear-gradient(160deg,#8B1A4A,#C4622D)','linear-gradient(160deg,#0A2A5A,#1A5A9A)','linear-gradient(160deg,#0A3A1A,#2A7A3A)','linear-gradient(160deg,#3A1A0A,#8A4A0A)'];
+        wGrid.innerHTML = d.weavers.map(function(w, i){
+          return '<div class="wcard"><div class="wcard-img" style="background:'+colors[i%colors.length]+'"></div><div class="wcard-body"><div class="wcard-name">'+w.name+'</div><div class="wcard-region">'+w.region+' &middot; '+w.specialty+'</div><div class="wcard-desc">'+w.story+'</div></div></div>';
+        }).join('');
+      }
+    })
+    .catch(function(e){ console.warn('about.json load failed, keeping static content', e); });
+})();
+</script>
 <script src="nav.js"></script>
 </body>
 </html>

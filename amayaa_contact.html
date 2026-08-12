@@ -324,28 +324,28 @@ input[type="submit"],button[type="submit"]{width:100%;padding:14px;border-radius
         <div class="citem-icon">&#128205;</div>
         <div class="citem-body">
           <div class="citem-label">Store Address</div>
-          <div class="citem-val">Block DS IV, Civic Center, Shop No. G5 &amp; G11<br>Uttarapan Market Complex, Scheme No VII (M)<br>CIT Rd, near DVC Tower<br>Kolkata, West Bengal 700054</div>
+          <div class="citem-val" id="ct-address">Block DS IV, Civic Center, Shop No. G5 &amp; G11<br>Uttarapan Market Complex, Scheme No VII (M)<br>CIT Rd, near DVC Tower<br>Kolkata, West Bengal 700054</div>
         </div>
       </div>
       <div class="citem">
         <div class="citem-icon">&#128242;</div>
         <div class="citem-body">
           <div class="citem-label">WhatsApp &amp; Phone</div>
-          <div class="citem-val"><a href="https://wa.me/919583946000">+91 95839 46000</a></div>
+          <div class="citem-val"><a id="ct-phone" href="https://wa.me/919583946000">+91 95839 46000</a></div>
         </div>
       </div>
       <div class="citem">
         <div class="citem-icon">&#9993;</div>
         <div class="citem-body">
           <div class="citem-label">Email</div>
-          <div class="citem-val"><a href="mailto:stylewithpolkadots@gmail.com">stylewithpolkadots@gmail.com</a></div>
+          <div class="citem-val"><a id="ct-email" href="mailto:stylewithpolkadots@gmail.com">stylewithpolkadots@gmail.com</a></div>
         </div>
       </div>
       <div class="citem">
         <div class="citem-icon">&#128336;</div>
         <div class="citem-body">
           <div class="citem-label">Store Hours</div>
-          <div class="citem-val">
+          <div class="citem-val" id="ct-hours">
             <div class="hours-grid">
               <div class="hrow"><span>Mon &ndash; Sat</span></div><div class="hrow">10:00 AM &ndash; 8:00 PM</div>
               <div class="hrow"><span>Sunday</span></div><div class="hrow">11:00 AM &ndash; 6:00 PM</div>
@@ -406,7 +406,7 @@ input[type="submit"],button[type="submit"]{width:100%;padding:14px;border-radius
     Uttarapan Market Complex, CIT Road<br>
     Kolkata, West Bengal 700054
   </div>
-  <a href="https://maps.google.com/?q=Uttarapan+Market+Complex+Kolkata" 
+  <a id="ct-map-link" href="https://maps.google.com/?q=Uttarapan+Market+Complex+Kolkata"
      target="_blank" rel="noopener" class="map-link">&#128205; Open in Google Maps</a>
 </div>
 </div>
@@ -437,6 +437,28 @@ function slowScrollTo(targetId){
   }
   requestAnimationFrame(step);
 }
+</script>
+<script>
+(function(){
+  fetch('data/settings.json')
+    .then(function(r){ return r.json(); })
+    .then(function(s) {
+      var a = s.address;
+      var el = document.getElementById('ct-address');
+      if(el && a) el.innerHTML = [a.line1,a.line2,a.line3].filter(Boolean).join('<br>') + (a.city ? '<br>' + a.city + ', ' + a.state + ' ' + a.pincode : '');
+      var ph = document.getElementById('ct-phone');
+      if(ph && s.contact && s.contact.phone){ ph.textContent = s.contact.phone; ph.href = 'tel:' + s.contact.phone.replace(/[^+0-9]/g,''); }
+      var em = document.getElementById('ct-email');
+      if(em && s.contact && s.contact.email){ em.textContent = s.contact.email; em.href = 'mailto:' + s.contact.email; }
+      var hrs = document.getElementById('ct-hours');
+      if(hrs && s.hours) hrs.innerHTML = '<strong>' + s.hours.weekdays + '</strong>: ' + s.hours.weekdayHours + '<br><strong>' + s.hours.sunday + '</strong>: ' + s.hours.sundayHours + (s.holidayNotice ? '<br><em>' + s.holidayNotice + '</em>' : '');
+      var form = document.querySelector('form[action*="formspree"]');
+      if(form && s.integrations && s.integrations.formspreeId) form.action = 'https://formspree.io/f/' + s.integrations.formspreeId;
+      var mapLink = document.getElementById('ct-map-link');
+      if(mapLink && s.googleMapsLink) mapLink.href = s.googleMapsLink;
+    })
+    .catch(function(e){ console.warn('settings.json load failed', e); });
+})();
 </script>
 <script src="nav.js"></script>
 </body>

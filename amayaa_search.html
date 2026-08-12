@@ -757,6 +757,30 @@ if (document.readyState === 'loading') {
 
 })();
 </script>
+<script>
+/* ── Populate filter dropdowns from data/categories.json ── */
+(function(){
+  fetch('data/categories.json')
+    .then(function(r){ return r.json(); })
+    .then(function(cats) {
+      function populateSelect(el, items, firstLabel) {
+        if(!el) return;
+        el.innerHTML = '<option value="">'+firstLabel+'</option>' +
+          items.map(function(it){ return '<option value="'+it.label+'">'+it.label+'</option>'; }).join('');
+      }
+      var regionFilter  = cats.filters.find(function(f){ return f.id==='region'; });
+      var fabricFilter  = cats.filters.find(function(f){ return f.id==='fabric'; });
+      var occasionFilter= cats.filters.find(function(f){ return f.id==='occasion'; });
+      var typeEl    = document.getElementById('flt-type');
+      var fabricEl  = document.getElementById('flt-fabric');
+      var occasionEl= document.getElementById('flt-occasion');
+      if(regionFilter)   populateSelect(typeEl,    regionFilter.items,   'Weave / Type');
+      if(fabricFilter)   populateSelect(fabricEl,  fabricFilter.items,   'Fabric');
+      if(occasionFilter) populateSelect(occasionEl,occasionFilter.items, 'Occasion');
+    })
+    .catch(function(e){ console.warn('categories.json load failed', e); });
+})();
+</script>
 <script src="nav.js"></script>
 
 <!-- Footer injected by nav.js from id="footer-wrap" -->

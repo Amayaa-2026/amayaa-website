@@ -197,12 +197,8 @@ if(!sessionStorage.getItem('amayaa_admin')){
     <div class="card" style="margin-bottom:20px;padding:0;overflow:hidden;">
       <table class="tbl">
         <thead><tr><th>Title</th><th>Category</th><th>Date</th><th>Read Time</th><th>Status</th><th>Actions</th></tr></thead>
-        <tbody>
-          <tr><td style="font-weight:500;color:#1A0A04;">The Art of Banarasi Weaving — 15 Centuries of Brocade</td><td>Weaves</td><td>Jun 12, 2026</td><td>8 min</td><td><span class="badge badge-active">Published</span> <span class="badge badge-new">Featured</span></td><td><div style="display:flex;gap:6px;"><button class="btn btn-ghost btn-sm">✏ Edit</button><button class="btn btn-danger btn-sm">🗑</button></div></td></tr>
-          <tr><td style="font-weight:500;color:#1A0A04;">Tussar vs Kosa Silk — Understanding India's Wild Silks</td><td>Threads</td><td>May 28, 2026</td><td>5 min</td><td><span class="badge badge-active">Published</span></td><td><div style="display:flex;gap:6px;"><button class="btn btn-ghost btn-sm">✏ Edit</button><button class="btn btn-danger btn-sm">🗑</button></div></td></tr>
-          <tr><td style="font-weight:500;color:#1A0A04;">The Weavers of Bishnupur — Keepers of Baluchari</td><td>Heritage</td><td>May 14, 2026</td><td>6 min</td><td><span class="badge badge-active">Published</span></td><td><div style="display:flex;gap:6px;"><button class="btn btn-ghost btn-sm">✏ Edit</button><button class="btn btn-danger btn-sm">🗑</button></div></td></tr>
-          <tr><td style="font-weight:500;color:#1A0A04;">How to Store and Care for Your Silk Sarees</td><td>Care Tips</td><td>Apr 30, 2026</td><td>4 min</td><td><span class="badge badge-active">Published</span></td><td><div style="display:flex;gap:6px;"><button class="btn btn-ghost btn-sm">✏ Edit</button><button class="btn btn-danger btn-sm">🗑</button></div></td></tr>
-          <tr><td style="font-weight:500;color:#1A0A04;">Kanjivaram vs Mysore Silk — A Weaver's Perspective</td><td>Weaves</td><td>Apr 15, 2026</td><td>7 min</td><td><span class="badge badge-draft">Draft</span></td><td><div style="display:flex;gap:6px;"><button class="btn btn-ghost btn-sm">✏ Edit</button><button class="btn btn-success btn-sm">Publish</button></div></td></tr>
+        <tbody id="blogTableBody">
+          <tr><td colspan="6" style="text-align:center;color:#9A8070;padding:24px;">Loading posts…</td></tr>
         </tbody>
       </table>
     </div>
@@ -212,12 +208,13 @@ if(!sessionStorage.getItem('amayaa_admin')){
       <h3 style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:#1A0A04;margin-bottom:20px;">Write New Blog Post</h3>
       <div style="display:grid;grid-template-columns:2fr 1fr;gap:24px;">
         <div>
-          <div class="fg"><label>Post Title *</label><input class="fi" placeholder="e.g. The Art of Banarasi Weaving"></div>
+          <input type="hidden" id="bf-editidx" value="-1">
+          <div class="fg"><label>Post Title *</label><input id="bf-title" class="fi" placeholder="e.g. The Art of Banarasi Weaving"></div>
           <div class="form-grid">
             <div class="fg"><label>Category *</label>
-              <select class="fse"><option>Weaves</option><option>Threads</option><option>Heritage</option><option>Care Tips</option><option>Styling</option></select>
+              <select id="bf-category" class="fse"><option>Weaves</option><option>Threads</option><option>Heritage</option><option>Care Tips</option><option>Styling</option></select>
             </div>
-            <div class="fg"><label>Publish Date</label><input class="fi" type="date"></div>
+            <div class="fg"><label>Publish Date</label><input id="bf-date" class="fi" type="date"></div>
           </div>
           <div class="fg"><label>Thumbnail Image</label>
             <div style="height:80px;border:2px dashed rgba(255,255,255,.15);border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;margin-bottom:8px;">
@@ -233,22 +230,22 @@ if(!sessionStorage.getItem('amayaa_admin')){
               <button class="rte-btn">🔗 Link</button><button class="rte-btn">🖼 Image</button>
               <button class="rte-btn">— Divider</button>
             </div>
-            <div class="rte-area" contenteditable="true" style="min-height:280px;">Start writing your article here. Use the toolbar above to format text, add headings, images, and links.</div>
+            <div id="bf-body" class="rte-area" contenteditable="true" style="min-height:280px;">Start writing your article here. Use the toolbar above to format text, add headings, images, and links.</div>
           </div>
         </div>
         <div>
-          <div class="fg"><label>SEO Title (optional)</label><input class="fi" placeholder="Defaults to post title"></div>
-          <div class="fg"><label>SEO Description (150 chars)</label><textarea class="fta" style="min-height:70px;" placeholder="Short description for Google"></textarea></div>
-          <div class="fg"><label>Estimated Read Time</label><input class="fi" placeholder="e.g. 8 min read"></div>
+          <div class="fg"><label>SEO Title (optional)</label><input id="bf-seotitle" class="fi" placeholder="Defaults to post title"></div>
+          <div class="fg"><label>SEO Description (150 chars)</label><textarea id="bf-seodesc" class="fta" style="min-height:70px;" placeholder="Short description for Google"></textarea></div>
+          <div class="fg"><label>Estimated Read Time</label><input id="bf-readtime" class="fi" placeholder="e.g. 8 min read"></div>
           <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:18px;">
             <div class="toggle-wrap">
-              <label class="toggle"><input type="checkbox"><div class="toggle-slider"></div></label>
+              <label class="toggle"><input id="bf-featured" type="checkbox"><div class="toggle-slider"></div></label>
               <span class="toggle-label">Feature on Homepage</span>
             </div>
           </div>
           <div style="display:flex;flex-direction:column;gap:10px;">
-            <button class="btn btn-primary" style="justify-content:center;" onclick="alert('Post published!')">🌐 Publish Now</button>
-            <button class="btn btn-ghost" style="justify-content:center;" onclick="alert('Saved as draft!')">💾 Save as Draft</button>
+            <button id="bf-publish" class="btn btn-primary" style="justify-content:center;" onclick="_publishPost(true)">🌐 Publish Now</button>
+            <button id="bf-draft" class="btn btn-ghost" style="justify-content:center;" onclick="_publishPost(false)">💾 Save as Draft</button>
             <button class="btn btn-ghost" style="justify-content:center;">👁 Preview</button>
           </div>
         </div>
@@ -259,4 +256,154 @@ if(!sessionStorage.getItem('amayaa_admin')){
 </div>
 <script data-goatcounter="https://amayaa.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 <script src="sidebar.js"></script>
+<script>
+/* ── Blog Manager — dynamic data + GitHub API ── */
+var _blogData = [];
+
+var GH_REPO = 'Amayaa-2026/amayaa-website';
+var GH_BRANCH = 'main';
+function _b64ToUtf8(b64){var raw=atob(b64.replace(/\n/g,''));var bytes=new Uint8Array(raw.length);for(var i=0;i<raw.length;i++)bytes[i]=raw.charCodeAt(i);return new TextDecoder('utf-8',{fatal:false}).decode(bytes);}
+function _utf8ToB64(str){var bytes=new TextEncoder().encode(str);var bin='';for(var i=0;i<bytes.length;i++)bin+=String.fromCharCode(bytes[i]);return btoa(bin);}
+function _ghTok(){return localStorage.getItem('amayaa_gh_token')||'';}
+function _ghHdrs(){return{Authorization:'token '+_ghTok(),Accept:'application/vnd.github.v3+json','Content-Type':'application/json'};}
+function _ghSave(filePath,dat,msg,btnEl){
+  var tok=_ghTok();
+  if(!tok){alert('No GitHub token. Set it in Admin → Settings first.');return;}
+  var orig=btnEl?btnEl.textContent:'';
+  if(btnEl){btnEl.textContent='Saving…';btnEl.disabled=true;}
+  fetch('https://api.github.com/repos/'+GH_REPO+'/contents/'+filePath+'?ref='+GH_BRANCH,{headers:_ghHdrs()})
+    .then(function(r){return r.json();})
+    .then(function(ex){
+      if(!ex.sha)throw new Error(ex.message||'No SHA');
+      return fetch('https://api.github.com/repos/'+GH_REPO+'/contents/'+filePath,{method:'PUT',headers:_ghHdrs(),body:JSON.stringify({message:msg,content:_utf8ToB64(JSON.stringify(dat,null,2)),sha:ex.sha,branch:GH_BRANCH})});
+    })
+    .then(function(r){return r.json();})
+    .then(function(res){
+      if(res.content){
+        if(btnEl){btnEl.textContent='✅ Saved!';setTimeout(function(){btnEl.textContent=orig;btnEl.disabled=false;},2500);}
+        else{var t=document.createElement('div');t.style.cssText='position:fixed;top:20px;right:20px;z-index:9999;padding:12px 20px;border-radius:10px;background:#D4F0DD;border:1px solid #1A7A40;color:#1A7A40;font-family:Jost,sans-serif;font-weight:600;font-size:14px;';t.textContent='✅ Saved to GitHub!';document.body.appendChild(t);setTimeout(function(){t.remove();},3000);}
+      }else{throw new Error(res.message||'Write failed');}
+    })
+    .catch(function(e){alert('Save failed: '+(e.message||e));if(btnEl){btnEl.textContent=orig;btnEl.disabled=false;}});
+}
+
+function _esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+function _renderTable(){
+  var tbody=document.getElementById('blogTableBody');
+  if(!tbody)return;
+  if(!_blogData.length){
+    tbody.innerHTML='<tr><td colspan="6" style="text-align:center;color:#9A8070;padding:24px;">No posts yet. Click “+ Write New Post” to get started.</td></tr>';
+  }else{
+    tbody.innerHTML=_blogData.map(function(p,idx){
+      var statusBadge=p.published
+        ?'<span class="badge badge-active">Published</span>'+(p.featured?' <span class="badge badge-new">Featured</span>':'')
+        :'<span class="badge badge-draft">Draft</span>';
+      return '<tr>'
+        +'<td style="font-weight:500;color:#1A0A04;">'+_esc(p.title)+'</td>'
+        +'<td>'+_esc(p.category)+'</td>'
+        +'<td>'+_esc(p.date)+'</td>'
+        +'<td>'+_esc(p.readTime||'')+'</td>'
+        +'<td>'+statusBadge+'</td>'
+        +'<td><div style="display:flex;gap:6px;">'
+        +'<button class="btn btn-ghost btn-sm" onclick="_editPost('+idx+')">&#9999; Edit</button>'
+        +'<button class="btn btn-danger btn-sm" onclick="_deletePost('+idx+')">🗑</button>'
+        +'</div></td>'
+        +'</tr>';
+    }).join('');
+  }
+  // Update topbar subtitle
+  var pub=_blogData.filter(function(p){return p.published;}).length;
+  var draft=_blogData.filter(function(p){return !p.published;}).length;
+  var sub=document.querySelector('.topbar-sub');
+  if(sub)sub.textContent=pub+' published · '+draft+' draft';
+}
+
+function _clearForm(){
+  document.getElementById('bf-editidx').value='-1';
+  document.getElementById('bf-title').value='';
+  document.getElementById('bf-category').value='Weaves';
+  document.getElementById('bf-date').value='';
+  document.getElementById('bf-readtime').value='';
+  document.getElementById('bf-featured').checked=false;
+  document.getElementById('bf-body').innerHTML='Start writing your article here. Use the toolbar above to format text, add headings, images, and links.';
+  document.getElementById('bf-seotitle').value='';
+  document.getElementById('bf-seodesc').value='';
+}
+
+function _editPost(idx){
+  var p=_blogData[idx];
+  if(!p)return;
+  document.getElementById('bf-editidx').value=idx;
+  document.getElementById('bf-title').value=p.title||'';
+  document.getElementById('bf-category').value=p.category||'Weaves';
+  document.getElementById('bf-date').value='';
+  document.getElementById('bf-readtime').value=p.readTime||'';
+  document.getElementById('bf-featured').checked=!!p.featured;
+  document.getElementById('bf-body').innerHTML=p.body||'';
+  document.getElementById('bf-seotitle').value=p.title||'';
+  document.getElementById('bf-seodesc').value=p.excerpt||'';
+  var form=document.getElementById('blogForm');
+  form.style.display='block';
+  form.scrollIntoView({behavior:'smooth'});
+}
+
+function _deletePost(idx){
+  var p=_blogData[idx];
+  if(!p||!confirm('Delete “'+p.title+'”? This cannot be undone.'))return;
+  _blogData.splice(idx,1);
+  _renderTable();
+  _ghSave('data/blog.json',_blogData,'Admin: delete blog post',null);
+}
+
+function _slugify(s){return s.toLowerCase().trim().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');}
+
+function _publishPost(published){
+  var btn=published?document.getElementById('bf-publish'):document.getElementById('bf-draft');
+  var title=document.getElementById('bf-title').value.trim();
+  if(!title){alert('Post title is required.');return;}
+  var category=document.getElementById('bf-category').value;
+  var dateVal=document.getElementById('bf-date').value;
+  var readTime=document.getElementById('bf-readtime').value.trim()||'5 min read';
+  var featured=document.getElementById('bf-featured').checked;
+  var body=document.getElementById('bf-body').innerHTML;
+  var seoDesc=document.getElementById('bf-seodesc').value.trim();
+  var excerpt=seoDesc||body.replace(/<[^>]*>/g,'').slice(0,140)+'…';
+  var editIdx=parseInt(document.getElementById('bf-editidx').value);
+  var dateStr=dateVal
+    ?new Date(dateVal+'T12:00:00').toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})
+    :new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+  var existingPost=(editIdx>=0&&editIdx<_blogData.length)?_blogData[editIdx]:{};
+  var post={
+    id:existingPost.id||'BLG-'+Date.now(),
+    category:category,
+    title:title,
+    date:dateStr,
+    readTime:readTime,
+    gradientFrom:existingPost.gradientFrom||'#8B1A4A',
+    gradientTo:existingPost.gradientTo||'#C4622D',
+    excerpt:excerpt,
+    body:body,
+    featured:featured,
+    slug:_slugify(title),
+    published:published
+  };
+  if(editIdx>=0&&editIdx<_blogData.length){_blogData[editIdx]=post;}
+  else{_blogData.push(post);}
+  _renderTable();
+  _ghSave('data/blog.json',_blogData,published?'Admin: publish blog post':'Admin: save blog draft',btn);
+}
+
+// Wire topbar "New Post" button to clear form
+document.querySelector('.topbar-actions .btn-primary').addEventListener('click',function(){
+  _clearForm();
+});
+
+document.addEventListener('DOMContentLoaded',function(){
+  fetch('../data/blog.json?_='+Date.now())
+    .then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json();})
+    .then(function(data){_blogData=Array.isArray(data)?data:[];_renderTable();})
+    .catch(function(e){console.warn('blog.json load failed:',e);_renderTable();});
+});
+</script>
 </body></html>

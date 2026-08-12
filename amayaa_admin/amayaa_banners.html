@@ -195,14 +195,14 @@ if(!sessionStorage.getItem('amayaa_admin')){
     <div><div class="topbar-title">Banner Manager</div><div class="topbar-sub">Edit homepage rotating slider — 5 slides</div></div>
     <div class="topbar-actions">
       <a href="/index.html" class="btn btn-ghost" target="_blank">👁 Preview Homepage</a>
-      <button class="btn btn-primary" onclick="alert('All banners saved and live!')">💾 Save All Banners</button>
+      <button class="btn btn-primary" onclick="saveBanners()">💾 Save All Banners</button>
     </div>
   </div>
   <div class="content">
     <div class="alert alert-info">💡 Changes apply to the live website immediately after saving. Each slide auto-advances every 5.5 seconds.</div>
 
     <!-- SLIDE SELECTOR -->
-    <div class="banner-grid"><div class="banner-card active-slide" onclick="selectSlide(0)"><div class="banner-preview" style="background:linear-gradient(135deg,#8B1A4A,#C4622D);">Slide 1</div><div class="banner-num">New Arrivals — Summer …</div></div><div class="banner-card" onclick="selectSlide(1)"><div class="banner-preview" style="background:linear-gradient(135deg,#1A0A4A,#5A1A8A);">Slide 2</div><div class="banner-num">Varanasi Collection…</div></div><div class="banner-card" onclick="selectSlide(2)"><div class="banner-preview" style="background:linear-gradient(135deg,#0A3A1A,#C4A010);">Slide 3</div><div class="banner-num">South India Exclusive…</div></div><div class="banner-card" onclick="selectSlide(3)"><div class="banner-preview" style="background:linear-gradient(135deg,#3A0A0A,#C4622D);">Slide 4</div><div class="banner-num">Bengal Heritage…</div></div><div class="banner-card" onclick="selectSlide(4)"><div class="banner-preview" style="background:linear-gradient(135deg,#0A1A3A,#8B0050);">Slide 5</div><div class="banner-num">Wedding Season Special…</div></div></div>
+    <div class="banner-grid" id="bannerGrid"></div>
 
     <!-- SELECTED SLIDE EDITOR -->
     <div class="card">
@@ -224,17 +224,17 @@ if(!sessionStorage.getItem('amayaa_admin')){
             <button class="btn btn-ghost" style="width:100%;justify-content:center;">📁 Upload New Image</button>
             <p style="font-size:11px;color:#B0967E;margin-top:6px;text-align:center;">JPG/PNG · Recommended: 1600×900px · Max 2MB</p>
           </div>
-          <div class="fg"><label>Eyebrow Text (small label above title)</label><input class="fi" value="New Arrivals — Summer 2026" placeholder="e.g. Varanasi Collection"></div>
-          <div class="fg"><label>Headline *</label><input class="fi" value="Where Every Thread Tells a Story" placeholder="Main banner headline"></div>
-          <div class="fg"><label>Italic word/phrase (shown in terracotta)</label><input class="fi" value="Story" placeholder="e.g. Queens — this part becomes italic coloured"></div>
-          <div class="fg"><label>Sub-text (supporting paragraph)</label><textarea class="fta" style="min-height:80px;">Master weavers. Ancient looms. Sarees that carry the soul of India.</textarea></div>
+          <div class="fg"><label>Eyebrow Text (small label above title)</label><input id="bi-eyebrow" class="fi" value="New Arrivals — Summer 2026" placeholder="e.g. Varanasi Collection"></div>
+          <div class="fg"><label>Headline *</label><input id="bi-headline" class="fi" value="Where Every Thread Tells a Story" placeholder="Main banner headline"></div>
+          <div class="fg"><label>Italic word/phrase (shown in terracotta)</label><input id="bi-title" class="fi" value="Story" placeholder="e.g. Queens — this part becomes italic coloured"></div>
+          <div class="fg"><label>Sub-text (supporting paragraph)</label><textarea id="bi-subtitle" class="fta" style="min-height:80px;">Master weavers. Ancient looms. Sarees that carry the soul of India.</textarea></div>
           <div class="form-grid">
-            <div class="fg"><label>Primary Button Label</label><input class="fi" value="Explore &amp; Shop"></div>
-            <div class="fg"><label>Primary Button Link</label><input class="fi" value="../amayaa_sarees.html"></div>
+            <div class="fg"><label>Primary Button Label</label><input id="bi-cta1-label" class="fi" value="Explore &amp; Shop"></div>
+            <div class="fg"><label>Primary Button Link</label><input id="bi-cta1-href" class="fi" value="../amayaa_sarees.html"></div>
           </div>
           <div class="form-grid">
-            <div class="fg"><label>Secondary Button Label</label><input class="fi" value="WhatsApp Us"></div>
-            <div class="fg"><label>Secondary Button Link</label><input class="fi" value="https://wa.me/919583946000"></div>
+            <div class="fg"><label>Secondary Button Label</label><input id="bi-cta2-label" class="fi" value="WhatsApp Us"></div>
+            <div class="fg"><label>Secondary Button Link</label><input id="bi-cta2-href" class="fi" value="https://wa.me/919583946000"></div>
           </div>
         </div>
 
@@ -256,7 +256,7 @@ if(!sessionStorage.getItem('amayaa_admin')){
           <div style="margin-top:14px;">
             <div style="display:flex;gap:8px;align-items:center;margin-bottom:10px;">
               <span style="font-size:11px;color:#9A8070;">Slide active:</span>
-              <label class="toggle"><input type="checkbox" checked><div class="toggle-slider"></div></label>
+              <label class="toggle"><input id="bi-active" type="checkbox" checked><div class="toggle-slider"></div></label>
               <span class="toggle-label" style="font-size:12px;">Show this slide</span>
             </div>
             <div style="font-size:11px;color:#B0967E;line-height:1.7;">
@@ -279,9 +279,138 @@ if(!sessionStorage.getItem('amayaa_admin')){
   </div>
 </div>
 <script>
-function selectSlide(i){
-  document.querySelectorAll('.banner-card').forEach((c,j)=>c.classList.toggle('active-slide',i===j));
+var _banners = [];
+var _curIdx = 0;
+
+/* ── GitHub API helpers ── */
+var GH_REPO = 'Amayaa-2026/amayaa-website';
+var GH_BRANCH = 'main';
+function _b64ToUtf8(b64){var raw=atob(b64.replace(/\n/g,''));var bytes=new Uint8Array(raw.length);for(var i=0;i<raw.length;i++)bytes[i]=raw.charCodeAt(i);return new TextDecoder('utf-8',{fatal:false}).decode(bytes);}
+function _utf8ToB64(str){var bytes=new TextEncoder().encode(str);var bin='';for(var i=0;i<bytes.length;i++)bin+=String.fromCharCode(bytes[i]);return btoa(bin);}
+function _ghTok(){return localStorage.getItem('amayaa_gh_token')||'';}
+function _ghHdrs(){return{Authorization:'token '+_ghTok(),Accept:'application/vnd.github.v3+json','Content-Type':'application/json'};}
+function _ghSave(filePath,dat,msg,btnEl){
+  var tok=_ghTok();
+  if(!tok){alert('No GitHub token. Set it in Admin → Settings first.');return;}
+  var orig=btnEl?btnEl.textContent:'';
+  if(btnEl){btnEl.textContent='Saving…';btnEl.disabled=true;}
+  fetch('https://api.github.com/repos/'+GH_REPO+'/contents/'+filePath+'?ref='+GH_BRANCH,{headers:_ghHdrs()})
+    .then(function(r){return r.json();})
+    .then(function(ex){
+      if(!ex.sha)throw new Error(ex.message||'No SHA');
+      return fetch('https://api.github.com/repos/'+GH_REPO+'/contents/'+filePath,{method:'PUT',headers:_ghHdrs(),body:JSON.stringify({message:msg,content:_utf8ToB64(JSON.stringify(dat,null,2)),sha:ex.sha,branch:GH_BRANCH})});
+    })
+    .then(function(r){return r.json();})
+    .then(function(res){
+      if(res.content){
+        if(btnEl){btnEl.textContent='✅ Saved!';setTimeout(function(){btnEl.textContent=orig;btnEl.disabled=false;},2500);}
+        else{var t=document.createElement('div');t.style.cssText='position:fixed;top:20px;right:20px;z-index:9999;padding:12px 20px;border-radius:10px;background:#D4F0DD;border:1px solid #1A7A40;color:#1A7A40;font-family:Jost,sans-serif;font-weight:600;font-size:14px;';t.textContent='✅ Saved to GitHub!';document.body.appendChild(t);setTimeout(function(){t.remove();},3000);}
+      }else{throw new Error(res.message||'Write failed');}
+    })
+    .catch(function(e){alert('Save failed: '+(e.message||e));if(btnEl){btnEl.textContent=orig;btnEl.disabled=false;}});
 }
+
+/* ── Banner gradient palette (cycles by index) ── */
+var _GRADS = [
+  'linear-gradient(135deg,#8B1A4A,#C4622D)',
+  'linear-gradient(135deg,#1A0A4A,#5A1A8A)',
+  'linear-gradient(135deg,#0A3A1A,#C4A010)',
+  'linear-gradient(135deg,#3A0A0A,#C4622D)',
+  'linear-gradient(135deg,#0A1A3A,#8B0050)',
+  'linear-gradient(135deg,#1A2A0A,#5A8B00)',
+  'linear-gradient(135deg,#2A1A0A,#8B4A00)',
+  'linear-gradient(135deg,#0A2A2A,#006B6B)'
+];
+
+function _renderThumbs() {
+  var grid = document.getElementById('bannerGrid');
+  if (!grid) return;
+  grid.innerHTML = '';
+  _banners.forEach(function(b, i) {
+    var grad = _GRADS[i % _GRADS.length];
+    var card = document.createElement('div');
+    card.className = 'banner-card' + (i === _curIdx ? ' active-slide' : '');
+    card.setAttribute('onclick', 'selectSlide(' + i + ')');
+    card.innerHTML =
+      '<div class="banner-preview" style="background:' + grad + '">Slide ' + (i + 1) + '</div>' +
+      '<div class="banner-num">' + _escHtml(b.eyebrow || ('Slide ' + (i + 1))) + '</div>';
+    grid.appendChild(card);
+  });
+}
+
+function selectSlide(idx) {
+  _curIdx = idx;
+  document.querySelectorAll('.banner-card').forEach(function(c, j) {
+    c.classList.toggle('active-slide', j === idx);
+  });
+  _populateForm(idx);
+}
+
+function _escHtml(s) {
+  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function _set(id, val) {
+  var el = document.getElementById(id);
+  if (el) el.value = val || '';
+}
+
+function _populateForm(idx) {
+  var b = _banners[idx];
+  if (!b) return;
+  _set('bi-eyebrow',   b.eyebrow);
+  _set('bi-headline',  b.headline);
+  _set('bi-title',     b.title);
+  _set('bi-subtitle',  b.subtitle);
+  _set('bi-cta1-label', b.ctaPrimary   && b.ctaPrimary.label);
+  _set('bi-cta1-href',  b.ctaPrimary   && b.ctaPrimary.href);
+  _set('bi-cta2-label', b.ctaSecondary && b.ctaSecondary.label);
+  _set('bi-cta2-href',  b.ctaSecondary && b.ctaSecondary.href);
+  var tog = document.getElementById('bi-active');
+  if (tog) tog.checked = (b.active !== false);
+  var titleEl = document.getElementById('slideTitle');
+  if (titleEl) titleEl.textContent = 'Slide ' + (idx + 1) + (b.eyebrow ? ' — ' + b.eyebrow : '');
+}
+
+function _collectForm() {
+  var b = _banners[_curIdx];
+  if (!b) return;
+  var get = function(id) { var el = document.getElementById(id); return el ? el.value.trim() : ''; };
+  b.eyebrow  = get('bi-eyebrow');
+  b.headline = get('bi-headline');
+  b.title    = get('bi-title');
+  b.subtitle = get('bi-subtitle');
+  if (!b.ctaPrimary)   b.ctaPrimary   = {};
+  if (!b.ctaSecondary) b.ctaSecondary = {};
+  b.ctaPrimary.label   = get('bi-cta1-label');
+  b.ctaPrimary.href    = get('bi-cta1-href');
+  b.ctaSecondary.label = get('bi-cta2-label');
+  b.ctaSecondary.href  = get('bi-cta2-href');
+  var tog = document.getElementById('bi-active');
+  b.active = tog ? tog.checked : true;
+}
+
+function saveBanners() {
+  _collectForm();
+  var btn = document.querySelector('.topbar-actions .btn-primary');
+  _ghSave('data/banners.json', _banners, 'Admin: update banners', btn);
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  fetch('../data/banners.json?_=' + Date.now())
+    .then(function(r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    })
+    .then(function(data) {
+      _banners = Array.isArray(data) ? data : [];
+      _renderThumbs();
+      if (_banners.length) _populateForm(0);
+    })
+    .catch(function(e) {
+      console.warn('Could not load banners.json:', e);
+    });
+});
 </script>
 <script data-goatcounter="https://amayaa.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 <script src="sidebar.js"></script>

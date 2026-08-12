@@ -213,6 +213,9 @@ if(!sessionStorage.getItem('amayaa_admin')){
 <div class="main">
   <div class="topbar">
     <div><div class="topbar-title">Category Manager</div><div class="topbar-sub">Manage Regions, Fabric Types, Colours, Occasions — these feed all product dropdowns</div></div>
+    <div class="topbar-actions">
+      <button class="btn btn-primary" onclick="saveCategories()">💾 Save Categories</button>
+    </div>
   </div>
   <div class="content">
     <div class="alert alert-info">💡 All dropdowns in the product form pull from these lists. Add, rename, or remove categories here — changes apply immediately across all products.</div>
@@ -223,27 +226,15 @@ if(!sessionStorage.getItem('amayaa_admin')){
       <div class="card">
         <div class="card-header">
           <div><div class="card-title">🗺 Regions / Weaves</div><div class="card-sub">12 regions · feeds Region filter and product form</div></div>
-          <button class="btn btn-primary btn-sm" onclick="addCat('region')">+ Add Region</button>
+          <button class="btn btn-primary btn-sm" onclick="addItem('region')">+ Add Region</button>
         </div>
         <table class="tbl">
           <thead><tr><th>Region Name</th><th>Code</th><th>Products</th><th></th></tr></thead>
-          <tbody>
-            <tr><td style="font-weight:600;">Banarasi</td><td style="color:#9A8070;">BAN</td><td>48</td><td><button class="btn btn-ghost btn-sm">✏</button> <button class="btn btn-danger btn-sm">🗑</button></td></tr>
-            <tr><td style="font-weight:600;">Kanjivaram</td><td style="color:#9A8070;">KAN</td><td>52</td><td><button class="btn btn-ghost btn-sm">✏</button> <button class="btn btn-danger btn-sm">🗑</button></td></tr>
-            <tr><td style="font-weight:600;">Baluchari</td><td style="color:#9A8070;">BAL</td><td>24</td><td><button class="btn btn-ghost btn-sm">✏</button> <button class="btn btn-danger btn-sm">🗑</button></td></tr>
-            <tr><td style="font-weight:600;">Chanderi</td><td style="color:#9A8070;">CHA</td><td>36</td><td><button class="btn btn-ghost btn-sm">✏</button> <button class="btn btn-danger btn-sm">🗑</button></td></tr>
-            <tr><td style="font-weight:600;">Sambalpuri</td><td style="color:#9A8070;">SAM</td><td>28</td><td><button class="btn btn-ghost btn-sm">✏</button> <button class="btn btn-danger btn-sm">🗑</button></td></tr>
-            <tr><td style="font-weight:600;">Paithani</td><td style="color:#9A8070;">PAI</td><td>22</td><td><button class="btn btn-ghost btn-sm">✏</button> <button class="btn btn-danger btn-sm">🗑</button></td></tr>
-            <tr><td style="font-weight:600;">Pochampally</td><td style="color:#9A8070;">POC</td><td>19</td><td><button class="btn btn-ghost btn-sm">✏</button> <button class="btn btn-danger btn-sm">🗑</button></td></tr>
-            <tr><td style="font-weight:600;">Maheshwari</td><td style="color:#9A8070;">MAH</td><td>17</td><td><button class="btn btn-ghost btn-sm">✏</button> <button class="btn btn-danger btn-sm">🗑</button></td></tr>
-            <tr><td style="font-weight:600;">Bhagalpuri</td><td style="color:#9A8070;">BHA</td><td>29</td><td><button class="btn btn-ghost btn-sm">✏</button> <button class="btn btn-danger btn-sm">🗑</button></td></tr>
-            <tr><td style="font-weight:600;">Jamdani</td><td style="color:#9A8070;">JAM</td><td>14</td><td><button class="btn btn-ghost btn-sm">✏</button> <button class="btn btn-danger btn-sm">🗑</button></td></tr>
-          </tbody>
+          <tbody id="region-tbody"><tr><td colspan="4" style="color:#B0967E;font-size:12px;padding:12px;">Loading…</td></tr></tbody>
         </table>
         <div style="display:flex;gap:8px;margin-top:14px;">
-          <input class="fi" placeholder="New region name" id="newRegion" style="flex:1;">
-          <input class="fi" placeholder="Code (3 letters)" style="width:90px;" maxlength="3">
-          <button class="btn btn-primary btn-sm" onclick="alert('Region added!')">Add</button>
+          <input class="fi" placeholder="New region name" id="add-input-region" style="flex:1;">
+          <button class="btn btn-primary btn-sm" onclick="addItem('region')">Add</button>
         </div>
         <p style="font-size:11px;color:#B0967E;margin-top:6px;">⚠ Cannot delete a region that has products assigned. Reassign products first.</p>
       </div>
@@ -252,81 +243,210 @@ if(!sessionStorage.getItem('amayaa_admin')){
       <div class="card">
         <div class="card-header">
           <div><div class="card-title">🪡 Fabric Types</div><div class="card-sub">9 types · feeds Fabric filter and product form</div></div>
-          <button class="btn btn-primary btn-sm" onclick="addCat('fabric')">+ Add Fabric</button>
+          <button class="btn btn-primary btn-sm" onclick="addItem('fabric')">+ Add Fabric</button>
         </div>
         <table class="tbl">
           <thead><tr><th>Fabric Name</th><th>Products</th><th></th></tr></thead>
-          <tbody>
-            <tr><td style="font-weight:600;">Katan Silk</td><td>64</td><td><button class="btn btn-ghost btn-sm">✏</button> <button class="btn btn-danger btn-sm">🗑</button></td></tr>
-            <tr><td style="font-weight:600;">Pure Silk</td><td>122</td><td><button class="btn btn-ghost btn-sm">✏</button> <button class="btn btn-danger btn-sm">🗑</button></td></tr>
-            <tr><td style="font-weight:600;">Cotton</td><td>124</td><td><button class="btn btn-ghost btn-sm">✏</button> <button class="btn btn-danger btn-sm">🗑</button></td></tr>
-            <tr><td style="font-weight:600;">Tussar Silk</td><td>58</td><td><button class="btn btn-ghost btn-sm">✏</button> <button class="btn btn-danger btn-sm">🗑</button></td></tr>
-            <tr><td style="font-weight:600;">Kosa Silk</td><td>31</td><td><button class="btn btn-ghost btn-sm">✏</button> <button class="btn btn-danger btn-sm">🗑</button></td></tr>
-            <tr><td style="font-weight:600;">Linen</td><td>43</td><td><button class="btn btn-ghost btn-sm">✏</button> <button class="btn btn-danger btn-sm">🗑</button></td></tr>
-            <tr><td style="font-weight:600;">Tissue</td><td>27</td><td><button class="btn btn-ghost btn-sm">✏</button> <button class="btn btn-danger btn-sm">🗑</button></td></tr>
-            <tr><td style="font-weight:600;">Organza</td><td>22</td><td><button class="btn btn-ghost btn-sm">✏</button> <button class="btn btn-danger btn-sm">🗑</button></td></tr>
-            <tr><td style="font-weight:600;">Muslin</td><td>18</td><td><button class="btn btn-ghost btn-sm">✏</button> <button class="btn btn-danger btn-sm">🗑</button></td></tr>
-          </tbody>
+          <tbody id="fabric-tbody"><tr><td colspan="3" style="color:#B0967E;font-size:12px;padding:12px;">Loading…</td></tr></tbody>
         </table>
         <div style="display:flex;gap:8px;margin-top:14px;">
-          <input class="fi" placeholder="New fabric type" style="flex:1;">
-          <button class="btn btn-primary btn-sm" onclick="alert('Fabric added!')">Add</button>
+          <input class="fi" placeholder="New fabric type" id="add-input-fabric" style="flex:1;">
+          <button class="btn btn-primary btn-sm" onclick="addItem('fabric')">Add</button>
         </div>
       </div>
 
-      <!-- COLOUR TEMPLATES -->
+      <!-- OCCASION (mapped from categories.json occasion filter) -->
       <div class="card">
         <div class="card-header">
-          <div><div class="card-title">🎨 Colour Templates</div><div class="card-sub">Saved colour descriptions for autocomplete in product form</div></div>
-          <button class="btn btn-primary btn-sm">+ Add Colour</button>
+          <div><div class="card-title">🎉 Occasions</div><div class="card-sub">Feeds Occasion filter and product form</div></div>
+          <button class="btn btn-primary btn-sm" onclick="addItem('occasion')">+ Add Occasion</button>
         </div>
         <table class="tbl">
-          <thead><tr><th>Swatch</th><th>Colour Name / Description</th><th></th></tr></thead>
-          <tbody>
-            <tr><td><div style="width:22px;height:22px;border-radius:50%;background:#C41E3A;"></div></td><td>Deep Red with Gold Zari Border</td><td><button class="btn btn-danger btn-sm">🗑</button></td></tr>
-            <tr><td><div style="width:22px;height:22px;border-radius:50%;background:#FFF8DC;border:1px solid #DDD;"></div></td><td>Ivory with Silver Zari</td><td><button class="btn btn-danger btn-sm">🗑</button></td></tr>
-            <tr><td><div style="width:22px;height:22px;border-radius:50%;background:#2E8B57;"></div></td><td>Peacock Green with Gold Border</td><td><button class="btn btn-danger btn-sm">🗑</button></td></tr>
-            <tr><td><div style="width:22px;height:22px;border-radius:50%;background:#003153;"></div></td><td>Navy Blue with Copper Zari</td><td><button class="btn btn-danger btn-sm">🗑</button></td></tr>
-            <tr><td><div style="width:22px;height:22px;border-radius:50%;background:#FFD700;"></div></td><td>Gold with Red Border</td><td><button class="btn btn-danger btn-sm">🗑</button></td></tr>
-            <tr><td><div style="width:22px;height:22px;border-radius:50%;background:#9370DB;"></div></td><td>Purple with Silver Motifs</td><td><button class="btn btn-danger btn-sm">🗑</button></td></tr>
-          </tbody>
+          <thead><tr><th>Occasion Name</th><th>Products</th><th></th></tr></thead>
+          <tbody id="occasion-tbody"><tr><td colspan="3" style="color:#B0967E;font-size:12px;padding:12px;">Loading…</td></tr></tbody>
         </table>
         <div style="display:flex;gap:8px;margin-top:14px;">
-          <input type="color" style="width:44px;height:38px;border-radius:8px;border:1.5px solid rgba(0,0,0,.1);padding:3px;cursor:pointer;">
-          <input class="fi" placeholder="Colour description e.g. Deep Red with Gold Zari" style="flex:1;">
-          <button class="btn btn-primary btn-sm" onclick="alert('Colour template saved!')">Add</button>
+          <input class="fi" placeholder="New occasion e.g. Wedding" id="add-input-occasion" style="flex:1;">
+          <button class="btn btn-primary btn-sm" onclick="addItem('occasion')">Add</button>
         </div>
       </div>
 
-      <!-- PRODUCT NAME TEMPLATES -->
+      <!-- SHOW ONLY (mapped from categories.json showonly filter) -->
       <div class="card">
         <div class="card-header">
-          <div><div class="card-title">📝 Product Name Templates</div><div class="card-sub">Saved names that autocomplete in the product form</div></div>
-          <button class="btn btn-primary btn-sm">+ Add Template</button>
+          <div><div class="card-title">✨ Show Only</div><div class="card-sub">Special display filters (e.g. New Arrivals, On Sale)</div></div>
+          <button class="btn btn-primary btn-sm" onclick="addItem('showonly')">+ Add Filter</button>
         </div>
         <table class="tbl">
-          <thead><tr><th>Product Name Template</th><th>Used</th><th></th></tr></thead>
-          <tbody>
-            <tr><td style="font-weight:500;">Katan Silk Banarasi Saree</td><td>12</td><td><button class="btn btn-danger btn-sm">🗑</button></td></tr>
-            <tr><td style="font-weight:500;">Pure Kanjivaram Silk Saree</td><td>8</td><td><button class="btn btn-danger btn-sm">🗑</button></td></tr>
-            <tr><td style="font-weight:500;">Baluchari Silk Saree</td><td>6</td><td><button class="btn btn-danger btn-sm">🗑</button></td></tr>
-            <tr><td style="font-weight:500;">Chanderi Cotton Silk Saree</td><td>14</td><td><button class="btn btn-danger btn-sm">🗑</button></td></tr>
-            <tr><td style="font-weight:500;">Sambalpuri Ikat Silk Saree</td><td>9</td><td><button class="btn btn-danger btn-sm">🗑</button></td></tr>
-            <tr><td style="font-weight:500;">Bhagalpuri Tussar Silk Saree</td><td>7</td><td><button class="btn btn-danger btn-sm">🗑</button></td></tr>
-            <tr><td style="font-weight:500;">Paithani Pure Silk Saree</td><td>5</td><td><button class="btn btn-danger btn-sm">🗑</button></td></tr>
-          </tbody>
+          <thead><tr><th>Filter Label</th><th>Count</th><th></th></tr></thead>
+          <tbody id="showonly-tbody"><tr><td colspan="3" style="color:#B0967E;font-size:12px;padding:12px;">Loading…</td></tr></tbody>
         </table>
         <div style="display:flex;gap:8px;margin-top:14px;">
-          <input class="fi" placeholder="New product name template" style="flex:1;">
-          <button class="btn btn-primary btn-sm" onclick="alert('Template saved!')">Add</button>
+          <input class="fi" placeholder="New filter label e.g. New Arrivals" id="add-input-showonly" style="flex:1;">
+          <button class="btn btn-primary btn-sm" onclick="addItem('showonly')">Add</button>
         </div>
-        <p style="font-size:11px;color:#B0967E;margin-top:6px;">These appear as suggestions when typing a product name. Saves time with 3,000+ products.</p>
+        <p style="font-size:11px;color:#B0967E;margin-top:6px;">These appear as quick-filter chips on the Sarees page.</p>
       </div>
 
     </div>
   </div>
 </div>
-<script data-goatcounter="https://amayaa.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<script>
+var _cats = null;
+
+/* ── GitHub API helpers ── */
+var GH_REPO = 'Amayaa-2026/amayaa-website';
+var GH_BRANCH = 'main';
+function _b64ToUtf8(b64){var raw=atob(b64.replace(/\n/g,''));var bytes=new Uint8Array(raw.length);for(var i=0;i<raw.length;i++)bytes[i]=raw.charCodeAt(i);return new TextDecoder('utf-8',{fatal:false}).decode(bytes);}
+function _utf8ToB64(str){var bytes=new TextEncoder().encode(str);var bin='';for(var i=0;i<bytes.length;i++)bin+=String.fromCharCode(bytes[i]);return btoa(bin);}
+function _ghTok(){return localStorage.getItem('amayaa_gh_token')||'';}
+function _ghHdrs(){return{Authorization:'token '+_ghTok(),Accept:'application/vnd.github.v3+json','Content-Type':'application/json'};}
+function _ghSave(filePath,dat,msg,btnEl){
+  var tok=_ghTok();
+  if(!tok){alert('No GitHub token. Set it in Admin → Settings first.');return;}
+  var orig=btnEl?btnEl.textContent:'';
+  if(btnEl){btnEl.textContent='Saving…';btnEl.disabled=true;}
+  fetch('https://api.github.com/repos/'+GH_REPO+'/contents/'+filePath+'?ref='+GH_BRANCH,{headers:_ghHdrs()})
+    .then(function(r){return r.json();})
+    .then(function(ex){
+      if(!ex.sha)throw new Error(ex.message||'No SHA');
+      return fetch('https://api.github.com/repos/'+GH_REPO+'/contents/'+filePath,{method:'PUT',headers:_ghHdrs(),body:JSON.stringify({message:msg,content:_utf8ToB64(JSON.stringify(dat,null,2)),sha:ex.sha,branch:GH_BRANCH})});
+    })
+    .then(function(r){return r.json();})
+    .then(function(res){
+      if(res.content){
+        if(btnEl){btnEl.textContent='✅ Saved!';setTimeout(function(){btnEl.textContent=orig;btnEl.disabled=false;},2500);}
+        else{var t=document.createElement('div');t.style.cssText='position:fixed;top:20px;right:20px;z-index:9999;padding:12px 20px;border-radius:10px;background:#D4F0DD;border:1px solid #1A7A40;color:#1A7A40;font-family:Jost,sans-serif;font-weight:600;font-size:14px;';t.textContent='✅ Saved to GitHub!';document.body.appendChild(t);setTimeout(function(){t.remove();},3000);}
+      }else{throw new Error(res.message||'Write failed');}
+    })
+    .catch(function(e){alert('Save failed: '+(e.message||e));if(btnEl){btnEl.textContent=orig;btnEl.disabled=false;}});
+}
+
+/* ── Helpers ── */
+function _escHtml(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+function _getFilter(id){
+  if(!_cats||!_cats.filters)return null;
+  return _cats.filters.find(function(f){return f.id===id;});
+}
+
+/* ── Render a generic 3-col filter table: label | count | actions ── */
+function _renderTable3(filterId, tbodyId){
+  var tbody = document.getElementById(tbodyId);
+  if(!tbody)return;
+  var f = _getFilter(filterId);
+  if(!f){tbody.innerHTML='<tr><td colspan="3" style="color:#B0967E;font-size:12px;padding:12px;">No data for "'+filterId+'"</td></tr>';return;}
+  if(!f.items||!f.items.length){tbody.innerHTML='<tr><td colspan="3" style="color:#B0967E;font-size:12px;padding:12px;">No items yet.</td></tr>';return;}
+  tbody.innerHTML = f.items.map(function(item,idx){
+    return '<tr data-filter="'+filterId+'" data-idx="'+idx+'">'
+      +'<td style="font-weight:600;" class="item-label">'+_escHtml(item.label)+'</td>'
+      +'<td>'+_escHtml(item.count)+'</td>'
+      +'<td><button class="btn btn-ghost btn-sm" onclick="editItem(\''+filterId+'\','+idx+')">✏</button> '
+      +'<button class="btn btn-danger btn-sm" onclick="deleteItem(\''+filterId+'\','+idx+')">🗑</button></td>'
+      +'</tr>';
+  }).join('');
+}
+
+/* ── Render the region table (4-col: name | code placeholder | count | actions) ── */
+function _renderRegionTable(){
+  var tbody = document.getElementById('region-tbody');
+  if(!tbody)return;
+  var f = _getFilter('region');
+  if(!f){tbody.innerHTML='<tr><td colspan="4" style="color:#B0967E;font-size:12px;padding:12px;">No data for "region"</td></tr>';return;}
+  if(!f.items||!f.items.length){tbody.innerHTML='<tr><td colspan="4" style="color:#B0967E;font-size:12px;padding:12px;">No items yet.</td></tr>';return;}
+  tbody.innerHTML = f.items.map(function(item,idx){
+    return '<tr data-filter="region" data-idx="'+idx+'">'
+      +'<td style="font-weight:600;" class="item-label">'+_escHtml(item.label)+'</td>'
+      +'<td style="color:#9A8070;">—</td>'
+      +'<td>'+_escHtml(item.count)+'</td>'
+      +'<td><button class="btn btn-ghost btn-sm" onclick="editItem(\'region\','+idx+')">✏</button> '
+      +'<button class="btn btn-danger btn-sm" onclick="deleteItem(\'region\','+idx+')">🗑</button></td>'
+      +'</tr>';
+  }).join('');
+}
+
+function _renderAll(){
+  _renderRegionTable();
+  _renderTable3('fabric',   'fabric-tbody');
+  _renderTable3('occasion', 'occasion-tbody');
+  _renderTable3('showonly', 'showonly-tbody');
+}
+
+/* ── Inline edit: click ✏ makes label cell contenteditable ── */
+function editItem(filterId, idx){
+  var tbodyId = filterId + '-tbody';
+  var tbody = document.getElementById(tbodyId);
+  if(!tbody)return;
+  var row = tbody.querySelector('tr[data-filter="'+filterId+'"][data-idx="'+idx+'"]');
+  if(!row)return;
+  var labelCell = row.querySelector('.item-label');
+  if(!labelCell)return;
+  labelCell.contentEditable = 'true';
+  labelCell.style.background  = 'rgba(196,98,45,.05)';
+  labelCell.style.borderRadius = '4px';
+  labelCell.style.outline      = '1.5px solid #C4622D';
+  labelCell.focus();
+  var save = function(){
+    var f = _getFilter(filterId);
+    if(f && f.items[idx]) f.items[idx].label = labelCell.textContent.trim();
+    labelCell.contentEditable = 'false';
+    labelCell.style.background  = '';
+    labelCell.style.borderRadius = '';
+    labelCell.style.outline      = '';
+    labelCell.onblur  = null;
+    labelCell.onkeydown = null;
+  };
+  labelCell.onblur = save;
+  labelCell.onkeydown = function(e){if(e.key==='Enter'){e.preventDefault();save();}};
+}
+
+/* ── Delete item from filter array and re-render ── */
+function deleteItem(filterId, idx){
+  var f = _getFilter(filterId);
+  if(!f||!f.items[idx])return;
+  if(!confirm('Delete "'+f.items[idx].label+'"?'))return;
+  f.items.splice(idx,1);
+  _renderAll();
+}
+
+/* ── Add item from the relevant input field ── */
+function addItem(filterId){
+  var el = document.getElementById('add-input-'+filterId);
+  if(!el)return;
+  var label = el.value.trim();
+  if(!label){el.focus();return;}
+  var f = _getFilter(filterId);
+  if(!f){alert('Categories not loaded yet.');return;}
+  if(!f.items) f.items = [];
+  f.items.push({label:label,count:0});
+  el.value = '';
+  _renderAll();
+}
+
+/* ── Save all to GitHub ── */
+function saveCategories(){
+  var btn = document.querySelector('.topbar-actions .btn-primary');
+  _ghSave('data/categories.json', _cats, 'Admin: update categories', btn);
+}
+
+/* ── Init: fetch categories.json ── */
+document.addEventListener('DOMContentLoaded', function(){
+  fetch('../data/categories.json?_='+Date.now())
+    .then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json();})
+    .then(function(data){
+      _cats = data;
+      _renderAll();
+    })
+    .catch(function(e){
+      console.warn('Could not load categories.json:',e);
+      var tbodies=['region-tbody','fabric-tbody','occasion-tbody','showonly-tbody'];
+      tbodies.forEach(function(id){
+        var el=document.getElementById(id);
+        if(el)el.innerHTML='<tr><td colspan="4" style="color:#CC3333;font-size:12px;padding:12px;">Failed to load — '+_escHtml(e.message)+'</td></tr>';
+      });
+    });
+});
+</script>
 <script data-goatcounter="https://amayaa.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 <script src="sidebar.js"></script>
 </body>

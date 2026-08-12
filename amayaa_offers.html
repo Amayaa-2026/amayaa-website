@@ -531,7 +531,7 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
   </div>
 
   <!-- PRODUCTS GRID -->
-  <div class="pg4" id="offersGrid">
+  <div class="pg4" id="offers-product-grid">
     <div class="pc">
   <div class="pi"><div class="gf" style="background:linear-gradient(160deg,#1A0A4A,#8B4A00);height:240px;"></div>
   <div class="pbadges"><span class="badge b-offer">Special Offer</span></div></div>
@@ -680,6 +680,41 @@ function slowScrollTo(targetId){
       btn.classList.remove('hidden');
     }
   }, {passive:true});
+})();
+</script>
+<script>
+/* ── Offers products loader: renders offer cards from products_index.json ── */
+(function(){
+  function _buildCard(p){
+    var saveStr = '<span class="badge b-offer">Special Offer</span>';
+    var savePct = p.originalPrice ? Math.round((p.originalPrice-p.price)/p.originalPrice*100) : 0;
+    return '<div class="pc" onclick="ProductDrawer.open(\''+p.id+'\')" style="cursor:pointer">'+
+      '<div class="pi"><div class="gf" style="background:linear-gradient(160deg,'+p.gradientFrom+','+p.gradientTo+');height:240px;"></div>'+
+      '<div class="pbadges">'+saveStr+
+      (p.badges&&p.badges.includes('new')?'<span class="badge b-new">New</span>':'')+
+      (p.status==='sold-out'?'<span class="badge b-sold">Sold Out</span>':'')+
+      '</div></div>'+
+      '<div class="pinfo"><div class="preg">'+p.region+'</div><div class="pname">'+p.name+'</div>'+
+      '<div class="pfab">'+p.fabric+' &middot; '+p.colour+'</div>'+
+      '<div class="ppr"><span class="pnew">&#8377; '+p.price.toLocaleString('en-IN')+'</span>'+
+      '<span class="pold">&#8377; '+p.originalPrice.toLocaleString('en-IN')+'</span>'+
+      '<span class="psave">Save '+savePct+'%</span>'+
+      '</div>'+
+      '<a href="https://wa.me/919583946000?text=Hello!%20Interested%20in%3A%20'+encodeURIComponent(p.name)+'%20(%E2%82%B9'+p.price.toLocaleString('en-IN')+').%20Please%20share%20availability." class="be" target="_blank" rel="noopener">&#128172; Enquire on WhatsApp</a>'+
+      '</div></div>';
+  }
+  fetch('data/products_index.json')
+    .then(function(r){ return r.ok ? r.json() : null; })
+    .then(function(data){
+      if(!data) return;
+      var offerItems = data.filter(function(p){
+        return p.originalPrice !== null && p.originalPrice !== undefined && p.originalPrice > p.price;
+      }).slice(0,8);
+      if(!offerItems.length) return;
+      var grid = document.getElementById('offers-product-grid');
+      if(grid) grid.innerHTML = offerItems.map(_buildCard).join('');
+    })
+    .catch(function(){/* silently keep fallback */});
 })();
 </script>
 <script src="nav.js"></script>

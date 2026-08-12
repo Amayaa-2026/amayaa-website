@@ -730,5 +730,44 @@ function slowScrollTo(targetId){
 })();
 </script>
 <script src="nav.js"></script>
+<script>
+/* ── Dynamic blog grid from data/blog.json ── */
+(function(){
+  var grid=document.querySelector('.bgrid');
+  if(!grid)return;
+
+  function _esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+  function _renderCards(posts){
+    // Show published only; featured posts first
+    var published=posts.filter(function(p){return p.published!==false;});
+    published.sort(function(a,b){return (b.featured?1:0)-(a.featured?1:0);});
+    if(!published.length){
+      grid.innerHTML='<p style="text-align:center;color:#7A6050;padding:40px 0;grid-column:1/-1;">No blog posts yet. Check back soon!</p>';
+      return;
+    }
+    grid.innerHTML=published.map(function(p){
+      var gFrom=p.gradientFrom||'#8B1A4A';
+      var gTo=p.gradientTo||'#C4622D';
+      var featuredStyle=p.featured?'grid-column:span 1;':'' ; // keep same width; featured sorted first
+      return '<a href="#" class="bcard" style="'+featuredStyle+'">'
+        +'<div class="bt" style="background:linear-gradient(135deg,'+_esc(gFrom)+','+_esc(gTo)+')"></div>'
+        +'<div class="bb">'
+        +'<div class="bcat">'+_esc(p.category)+'</div>'
+        +'<div class="bttl">'+_esc(p.title)+'</div>'
+        +(p.excerpt?'<p class="bexc">'+_esc(p.excerpt)+'</p>':'')
+        +'<div class="bmeta">'+_esc(p.date)+' &middot; '+_esc(p.readTime||'')+'</div>'
+        +'<div class="brm">Read More &rarr;</div>'
+        +'</div>'
+        +'</a>';
+    }).join('');
+  }
+
+  fetch('data/blog.json?_='+Date.now())
+    .then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json();})
+    .then(function(data){_renderCards(Array.isArray(data)?data:[]);})
+    .catch(function(e){console.warn('blog.json load failed, keeping static HTML:',e);});
+})();
+</script>
 </body>
 </html>

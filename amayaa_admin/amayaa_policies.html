@@ -251,6 +251,34 @@ if(!sessionStorage.getItem('amayaa_admin')){
 
 <script>
 var _data = { sections: [], pageTitle: '', pageSubtitle: '', lastUpdated: '' };
+
+var GH_REPO = 'Amayaa-2026/amayaa-website';
+var GH_BRANCH = 'main';
+function _b64ToUtf8(b64){var raw=atob(b64.replace(/\n/g,''));var bytes=new Uint8Array(raw.length);for(var i=0;i<raw.length;i++)bytes[i]=raw.charCodeAt(i);return new TextDecoder('utf-8',{fatal:false}).decode(bytes);}
+function _utf8ToB64(str){var bytes=new TextEncoder().encode(str);var bin='';for(var i=0;i<bytes.length;i++)bin+=String.fromCharCode(bytes[i]);return btoa(bin);}
+function _ghTok(){return localStorage.getItem('amayaa_gh_token')||'';}
+function _ghHdrs(){return{Authorization:'token '+_ghTok(),Accept:'application/vnd.github.v3+json','Content-Type':'application/json'};}
+function _ghSave(filePath,data,msg,btnEl){
+  var tok=_ghTok();
+  if(!tok){alert('No GitHub token. Set it in Admin → Settings first.');return;}
+  var orig=btnEl?btnEl.textContent:'';
+  if(btnEl){btnEl.textContent='Saving…';btnEl.disabled=true;}
+  fetch('https://api.github.com/repos/'+GH_REPO+'/contents/'+filePath+'?ref='+GH_BRANCH,{headers:_ghHdrs()})
+    .then(function(r){return r.json();})
+    .then(function(ex){
+      if(!ex.sha)throw new Error(ex.message||'No SHA');
+      return fetch('https://api.github.com/repos/'+GH_REPO+'/contents/'+filePath,{method:'PUT',headers:_ghHdrs(),body:JSON.stringify({message:msg,content:_utf8ToB64(JSON.stringify(data,null,2)),sha:ex.sha,branch:GH_BRANCH})});
+    })
+    .then(function(r){return r.json();})
+    .then(function(res){
+      if(res.content){
+        if(btnEl){btnEl.textContent='✅ Saved!';setTimeout(function(){btnEl.textContent=orig;btnEl.disabled=false;},2500);}
+        else{var t=document.createElement('div');t.style.cssText='position:fixed;top:20px;right:20px;z-index:9999;padding:12px 20px;border-radius:10px;background:#D4F0DD;border:1px solid #1A7A40;color:#1A7A40;font-family:Jost,sans-serif;font-weight:600;font-size:14px;';t.textContent='✅ Saved to GitHub!';document.body.appendChild(t);setTimeout(function(){t.remove();},3000);}
+      }else{throw new Error(res.message||'Write failed');}
+    })
+    .catch(function(e){alert('Save failed: '+(e.message||e));if(btnEl){btnEl.textContent=orig;btnEl.disabled=false;}});
+}
+
 var _activeIdx = 0;
 
 fetch('../data/policies.json')
@@ -400,10 +428,14 @@ function saveSection(idx) {
 
   // Update form header
   document.getElementById('formSectionTitle').textContent = sec.title;
+
+  // Auto-save to GitHub after updating section
+  _ghSave('data/policies.json', _data, 'Admin: update Policies section - '+sec.title, null);
 }
 
 function saveAll() {
-  alert('Changes saved!\n\nIn production, this button writes to data/policies.json via the server API (GitHub API through the Netlify proxy). For now, your edits are stored in the browser and will be wired to the backend in a future update.');
+  var btn = document.querySelector('.topbar-actions .btn-primary');
+  _ghSave('data/policies.json', _data, 'Admin: update Policies content', btn);
 }
 </script>
 <script src="sidebar.js"></script>

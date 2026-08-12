@@ -265,24 +265,24 @@ tr.hidden{display:none;}
   <td></td>
 </tr>
 
-<tr data-page="index.html" data-json="no">
+<tr data-page="index.html" data-json="yes">
   <td><span class="page-chip">Home</span></td>
   <td><strong>Featured Product Cards</strong><br><small>Homepage product grid (New Arrivals)</small></td>
-  <td><span class="badge badge-no">Hardcoded</span></td>
-  <td>—</td>
-  <td>—</td>
-  <td>—</td>
-  <td><div class="gap-note">GAP: Homepage product grid uses a hardcoded JS array (5 products) embedded in index.html, NOT fetched from products_index.json. ProductDrawer is wired. Fix: replace inline array with fetch('data/products_index.json').</div></td>
+  <td><span class="badge badge-yes">Connected</span></td>
+  <td>Admin › Products</td>
+  <td>Name, Price, Region, Status, Featured flag</td>
+  <td>products_index.json (featured/active items, up to 4)</td>
+  <td><div class="note">✅ Fetches products_index.json on load. Shows up to 4 active/featured items (featured first). ProductDrawer wired. Silent fallback to hardcoded on error.</div></td>
 </tr>
 
-<tr data-page="index.html" data-json="no">
+<tr data-page="index.html" data-json="yes">
   <td><span class="page-chip">Home</span></td>
   <td><strong>Blog Preview Cards</strong><br><small>3 latest posts shown on homepage</small></td>
-  <td><span class="badge badge-no">Hardcoded</span></td>
-  <td>—</td>
-  <td>—</td>
-  <td>—</td>
-  <td><div class="gap-note">GAP: Homepage blog cards are hardcoded HTML. blog.json exists but homepage does not fetch it.</div></td>
+  <td><span class="badge badge-yes">Connected</span></td>
+  <td>Admin › Blog</td>
+  <td>Title, Category, Date, Excerpt, Featured</td>
+  <td>blog.json (published posts, up to 3)</td>
+  <td><div class="note">✅ Fetches blog.json on load. Shows up to 3 published posts. Silent fallback to hardcoded on error.</div></td>
 </tr>
 
 <tr data-page="index.html" data-json="na">
@@ -307,7 +307,7 @@ tr.hidden{display:none;}
   <td>Admin › Products / Product Edit</td>
   <td>All product fields</td>
   <td>products_index.json · data/products/{id}.json</td>
-  <td><div class="note">Fully data-driven. _boot() + fetch() pattern. Filter + sort engine in JS. ⚠️ Admin Products page is DUMMY — does not write to products_index.json.</div></td>
+  <td><div class="note">✅ Fully data-driven. _boot() + fetch() pattern. Filter + sort engine in JS. Admin Products page now connected — reads and writes products_index.json via GitHub API.</div></td>
 </tr>
 
 <tr data-page="amayaa_sarees.html" data-json="yes">
@@ -317,7 +317,7 @@ tr.hidden{display:none;}
   <td>Admin › Categories</td>
   <td>Regions · Fabric Types · Occasions</td>
   <td>categories.json › regions[] · fabrics[] · occasions[]</td>
-  <td><div class="note">Filter chips fetched from categories.json and injected dynamically. ⚠️ Admin Categories page is DUMMY — does not write to categories.json.</div></td>
+  <td><div class="note">✅ Filter chips fetched from categories.json and injected dynamically. Admin Categories page now connected — reads and writes categories.json via GitHub API.</div></td>
 </tr>
 
 <tr data-page="amayaa_sarees.html" data-json="na">
@@ -335,44 +335,44 @@ tr.hidden{display:none;}
 <!-- ═══════════════════════════════════════════════════ -->
 <tr class="pg-row"><td colspan="7">amayaa_about.html — Our Story (Public)</td></tr>
 
-<tr data-page="amayaa_about.html" data-json="no">
+<tr data-page="amayaa_about.html" data-json="yes">
   <td><span class="page-chip">About</span></td>
   <td><strong>Story Sections</strong><br><small>2 alternating text+image blocks</small></td>
-  <td><span class="badge badge-no">Hardcoded</span></td>
+  <td><span class="badge badge-yes">Connected</span></td>
   <td>Admin › About</td>
   <td>Label, Heading, Body, Image position, Gradient</td>
   <td>about.json › story[]</td>
-  <td><div class="gap-note">GAP: Public amayaa_about.html has zero fetch calls — entirely hardcoded HTML. about.json exists. Admin About page saves to localStorage only, not to about.json, and public page does not read it. Full rewire needed on both sides.</div></td>
+  <td><div class="note">✅ Public page fetches about.json on load and renders story sections dynamically (respects imgPos left/right and imgGradient). Silent fallback to hardcoded HTML on error.</div></td>
 </tr>
 
-<tr data-page="amayaa_about.html" data-json="no">
+<tr data-page="amayaa_about.html" data-json="yes">
   <td><span class="page-chip">About</span></td>
   <td><strong>Values Strip</strong><br><small>4 value cards with icons</small></td>
-  <td><span class="badge badge-no">Hardcoded</span></td>
+  <td><span class="badge badge-yes">Connected</span></td>
   <td>Admin › About</td>
   <td>Icon, Title, Description</td>
   <td>about.json › values[]</td>
-  <td><div class="gap-note">Same gap as Story Sections above.</div></td>
+  <td><div class="note">✅ Fetched and rendered dynamically from about.json. Silent fallback on error.</div></td>
 </tr>
 
-<tr data-page="amayaa_about.html" data-json="no">
+<tr data-page="amayaa_about.html" data-json="yes">
   <td><span class="page-chip">About</span></td>
   <td><strong>Weaver Profiles</strong><br><small>4 artisan cards</small></td>
-  <td><span class="badge badge-no">Hardcoded</span></td>
+  <td><span class="badge badge-yes">Connected</span></td>
   <td>Admin › About</td>
   <td>Name, Region, Specialty, Story</td>
   <td>about.json › weavers[]</td>
-  <td><div class="gap-note">Same gap as Story Sections above.</div></td>
+  <td><div class="note">✅ Fetched and rendered dynamically from about.json with cycling gradient colours. Silent fallback on error.</div></td>
 </tr>
 
-<tr data-page="amayaa_about.html" data-json="no">
+<tr data-page="amayaa_about.html" data-json="yes">
   <td><span class="page-chip">About</span></td>
   <td><strong>Promise Section</strong><br><small>3 promise cards with icons</small></td>
-  <td><span class="badge badge-no">Hardcoded</span></td>
+  <td><span class="badge badge-yes">Connected</span></td>
   <td>Admin › About</td>
   <td>Icon, Title, Description</td>
   <td>about.json › promise[]</td>
-  <td><div class="gap-note">Same gap as Story Sections above.</div></td>
+  <td><div class="note">✅ Fetched and rendered dynamically from about.json. Silent fallback on error.</div></td>
 </tr>
 
 <!-- ═══════════════════════════════════════════════════ -->
@@ -380,14 +380,14 @@ tr.hidden{display:none;}
 <!-- ═══════════════════════════════════════════════════ -->
 <tr class="pg-row"><td colspan="7">amayaa_blog.html — Blog (Public)</td></tr>
 
-<tr data-page="amayaa_blog.html" data-json="no">
+<tr data-page="amayaa_blog.html" data-json="yes">
   <td><span class="page-chip">Blog</span></td>
   <td><strong>Blog Post Cards</strong><br><small>Featured post + grid of posts</small></td>
-  <td><span class="badge badge-no">Hardcoded</span></td>
+  <td><span class="badge badge-yes">Connected</span></td>
   <td>Admin › Blog</td>
   <td>Title, Category, Date, Read Time, Excerpt, Body, Gradient, Published</td>
   <td>blog.json › []</td>
-  <td><div class="gap-note">GAP: Public blog page is fully hardcoded HTML. blog.json exists. Admin Blog page is DUMMY (alert-only saves). Neither side is wired. Both need rewiring.</div></td>
+  <td><div class="note">✅ Public blog page fetches blog.json, filters published posts (featured first), renders dynamically using existing CSS classes. Admin Blog page fully wired — CRUD, publish/draft toggle, GitHub API save.</div></td>
 </tr>
 
 <tr data-page="amayaa_blog.html" data-json="no">
@@ -405,34 +405,34 @@ tr.hidden{display:none;}
 <!-- ═══════════════════════════════════════════════════ -->
 <tr class="pg-row"><td colspan="7">amayaa_contact.html — Contact</td></tr>
 
-<tr data-page="amayaa_contact.html" data-json="no">
+<tr data-page="amayaa_contact.html" data-json="yes">
   <td><span class="page-chip">Contact</span></td>
   <td><strong>Store Address, Hours, Phone, Email</strong></td>
-  <td><span class="badge badge-no">Hardcoded</span></td>
+  <td><span class="badge badge-yes">Connected</span></td>
   <td>Admin › Settings</td>
   <td>Address · Store Hours · WhatsApp · Phone · Email</td>
   <td>settings.json › address.* · hours.* · contact.*</td>
-  <td><div class="gap-note">GAP: Although settings.json has all this data and the admin can edit it, amayaa_contact.html does NOT fetch settings.json — it shows hardcoded HTML. Needs a fetch+populate script added to contact page.</div></td>
+  <td><div class="note">✅ amayaa_contact.html now fetches settings.json on load and populates address, hours, phone, email dynamically via element IDs (ct-address, ct-phone, ct-email, ct-hours, ct-map-link).</div></td>
 </tr>
 
-<tr data-page="amayaa_contact.html" data-json="no">
+<tr data-page="amayaa_contact.html" data-json="yes">
   <td><span class="page-chip">Contact</span></td>
   <td><strong>Contact Form</strong><br><small>Name, email, phone, message → Formspree</small></td>
-  <td><span class="badge badge-no">Hardcoded</span></td>
+  <td><span class="badge badge-yes">Connected</span></td>
   <td>Admin › Settings › Contact Details</td>
   <td>Formspree Form ID</td>
   <td>settings.json › integrations.formspreeId</td>
-  <td><div class="gap-note">GAP: Formspree endpoint is hardcoded in contact page HTML. settings.json has formspreeId but contact page does not read it.</div></td>
+  <td><div class="note">✅ Formspree form action is set dynamically from settings.json › integrations.formspreeId on page load.</div></td>
 </tr>
 
-<tr data-page="amayaa_contact.html" data-json="no">
+<tr data-page="amayaa_contact.html" data-json="yes">
   <td><span class="page-chip">Contact</span></td>
   <td><strong>Google Maps Embed</strong></td>
-  <td><span class="badge badge-no">Hardcoded</span></td>
+  <td><span class="badge badge-yes">Connected</span></td>
   <td>Admin › Settings › Store Address</td>
   <td>Google Maps Link</td>
   <td>settings.json › googleMapsLink</td>
-  <td><div class="gap-note">GAP: Map iframe src is hardcoded. settings.json has googleMapsLink but page does not read it.</div></td>
+  <td><div class="note">✅ Map link (ct-map-link) populated from settings.json on load.</div></td>
 </tr>
 
 <!-- ═══════════════════════════════════════════════════ -->
@@ -470,14 +470,14 @@ tr.hidden{display:none;}
   <td><div class="note">Filter chips fetched and injected from offers.json.</div></td>
 </tr>
 
-<tr data-page="amayaa_offers.html" data-json="no">
+<tr data-page="amayaa_offers.html" data-json="yes">
   <td><span class="page-chip">Offers</span></td>
-  <td><strong>Offers Product Grid</strong><br><small>6 offer product cards</small></td>
-  <td><span class="badge badge-no">Hardcoded</span></td>
+  <td><strong>Offers Product Grid</strong><br><small>Up to 8 offer product cards</small></td>
+  <td><span class="badge badge-yes">Connected</span></td>
   <td>Admin › Products</td>
   <td>Original Price, Offer Price, Status</td>
-  <td>products_index.json (not yet wired)</td>
-  <td><div class="gap-note">GAP: Offers page product grid is hardcoded HTML (6 cards). Should filter products_index.json for items where originalPrice &gt; price. Admin Products is also DUMMY.</div></td>
+  <td>products_index.json (filtered: originalPrice &gt; price)</td>
+  <td><div class="note">✅ Fetches products_index.json, filters items where originalPrice &gt; price, renders up to 8 cards with "Special Offer" badge and price comparison. Silent fallback on error.</div></td>
 </tr>
 
 <!-- ═══════════════════════════════════════════════════ -->
@@ -495,14 +495,14 @@ tr.hidden{display:none;}
   <td><div class="note">Fetches all products, filters client-side by query string. ProductDrawer wired.</div></td>
 </tr>
 
-<tr data-page="amayaa_search.html" data-json="no">
+<tr data-page="amayaa_search.html" data-json="yes">
   <td><span class="page-chip">Search</span></td>
-  <td><strong>Filter Dropdowns</strong><br><small>Type, Colour, Fabric, Occasion, Price toggles</small></td>
-  <td><span class="badge badge-no">Hardcoded</span></td>
+  <td><strong>Filter Dropdowns</strong><br><small>Type, Fabric, Occasion dropdowns</small></td>
+  <td><span class="badge badge-yes">Connected</span></td>
   <td>Admin › Categories</td>
-  <td>—</td>
-  <td>categories.json (not yet wired)</td>
-  <td><div class="gap-note">GAP: Dropdown options are hardcoded HTML, not fetched from categories.json.</div></td>
+  <td>Regions · Fabric Types · Occasions</td>
+  <td>categories.json › filters[region, fabric, occasion]</td>
+  <td><div class="note">✅ Fetches categories.json on load and populates Type (#flt-type), Fabric (#flt-fabric), Occasion (#flt-occasion) dropdowns. Colour and Price filters remain static (UX logic, not data-driven by design).</div></td>
 </tr>
 
 <!-- ═══════════════════════════════════════════════════ -->
@@ -517,7 +517,7 @@ tr.hidden{display:none;}
   <td>Admin › FAQ</td>
   <td>Group label, Group icon, Question, Answer</td>
   <td>faq.json › groups[].{id, label, icon, items[].{question, answer}}</td>
-  <td><div class="note">Public page fetches faq.json and renders dynamically. ⚠️ Admin FAQ page reads faq.json but Save button is not wired — edits are lost on reload.</div></td>
+  <td><div class="note">✅ Public page fetches faq.json and renders dynamically. Admin FAQ page reads faq.json and Save is wired to GitHub API PUT — edits persist.</div></td>
 </tr>
 
 <tr data-page="amayaa_faq.html" data-json="yes">
@@ -542,7 +542,7 @@ tr.hidden{display:none;}
   <td>Admin › Policies</td>
   <td>Section Title, Highlight text, HTML content, Last Updated</td>
   <td>policies.json › sections[].{id, title, highlight, content, lastUpdated}</td>
-  <td><div class="note">Public page fetches policies.json and renders all sections dynamically. ⚠️ Admin Policies page reads policies.json but Save button is not wired — edits are lost on reload.</div></td>
+  <td><div class="note">✅ Public page fetches policies.json and renders all sections dynamically. Admin Policies page reads policies.json and Save is wired to GitHub API PUT — edits persist.</div></td>
 </tr>
 
 <!-- ═══════════════════════════════════════════════════ -->
@@ -575,64 +575,64 @@ tr.hidden{display:none;}
   <td><div class="note">✅ FULLY WIRED. Reads on load via GitHub API. Each Save card writes via PUT. Requires GitHub PAT in localStorage. Token stored client-side only.</div></td>
 </tr>
 
-<tr data-page="Admin — FAQ" data-json="partial">
+<tr data-page="Admin — FAQ" data-json="yes">
   <td><span class="page-chip">Admin</span><br><small>amayaa_faq.html</small></td>
   <td><strong>FAQ Admin Page</strong><br><small>Edit/add/delete Q&amp;A groups and items</small></td>
-  <td><span class="badge badge-partial">Partial</span></td>
+  <td><span class="badge badge-yes">Connected</span></td>
   <td>amayaa_faq.html</td>
   <td>In-memory CRUD, drag reorder</td>
-  <td>faq.json (read only)</td>
-  <td><div class="warn-note">Reads faq.json on load ✅. Save button shows alert only — does NOT write to faq.json. Edits are lost on page reload. Needs GitHub API PUT wired to Save button.</div></td>
+  <td>faq.json (read + write via GitHub API)</td>
+  <td><div class="note">✅ Reads faq.json on load. Save button wired to GitHub API PUT — writes full _data object to faq.json. Requires PAT in localStorage. Full CRUD (add/edit/delete/drag-reorder) with persistent saves.</div></td>
 </tr>
 
-<tr data-page="Admin — Policies" data-json="partial">
+<tr data-page="Admin — Policies" data-json="yes">
   <td><span class="page-chip">Admin</span><br><small>amayaa_policies.html</small></td>
   <td><strong>Policies Admin Page</strong><br><small>Edit each policy section</small></td>
-  <td><span class="badge badge-partial">Partial</span></td>
+  <td><span class="badge badge-yes">Connected</span></td>
   <td>amayaa_policies.html</td>
   <td>Per-section edit form</td>
-  <td>policies.json (read only)</td>
-  <td><div class="warn-note">Reads policies.json on load ✅. Save button shows alert only — does NOT write to policies.json. Edits are lost on reload. Needs GitHub API PUT wired.</div></td>
+  <td>policies.json (read + write via GitHub API)</td>
+  <td><div class="note">✅ Reads policies.json on load. Save button and per-section auto-save both wired to GitHub API PUT — edits persist. Requires PAT in localStorage.</div></td>
 </tr>
 
-<tr data-page="Admin — About" data-json="partial">
+<tr data-page="Admin — About" data-json="yes">
   <td><span class="page-chip">Admin</span><br><small>amayaa_about.html</small></td>
   <td><strong>About Admin Page</strong><br><small>Story sections, values, weavers, promise cards</small></td>
-  <td><span class="badge badge-local">localStorage</span></td>
+  <td><span class="badge badge-yes">Connected</span></td>
   <td>amayaa_about.html</td>
-  <td>Full CRUD edit UI, JSON export button</td>
-  <td>about.json (neither read nor written)</td>
-  <td><div class="warn-note">Does NOT fetch about.json — uses hardcoded JS defaults + localStorage. Save writes to localStorage only (browser-local). Public amayaa_about.html is fully hardcoded and does not read about.json either. Both sides need rewiring.</div></td>
+  <td>Full CRUD edit UI — all 4 tabs (Story, Values, Weavers, Promise)</td>
+  <td>about.json (read + write via GitHub API)</td>
+  <td><div class="note">✅ Fetches about.json on DOMContentLoaded — overrides defaults and calls all render functions. Save button wired to GitHub API PUT. All 4 tabs (Story, Values, Weavers, Promise) fully connected. Requires PAT in localStorage.</div></td>
 </tr>
 
-<tr data-page="Admin — Banners" data-json="dummy">
+<tr data-page="Admin — Banners" data-json="yes">
   <td><span class="page-chip">Admin</span><br><small>amayaa_banners.html</small></td>
   <td><strong>Banners Admin Page</strong><br><small>Slide editor: headline, eyebrow, CTA, image</small></td>
-  <td><span class="badge badge-dummy">Dummy</span></td>
+  <td><span class="badge badge-yes">Connected</span></td>
   <td>amayaa_banners.html</td>
-  <td>Form fields + slide selector thumbnails</td>
-  <td>banners.json (not connected)</td>
-  <td><div class="gap-note">Does NOT fetch banners.json. Save button calls alert() only. All slide data is hardcoded HTML. Public index.html DOES correctly fetch banners.json. Admin needs full GitHub API wiring.</div></td>
+  <td>Form fields + dynamic slide selector thumbnails</td>
+  <td>banners.json (read + write via GitHub API)</td>
+  <td><div class="note">✅ Fetches banners.json on load — renders dynamic thumbnails and populates form. All form fields have IDs. Save button wired to GitHub API PUT. Requires PAT in localStorage.</div></td>
 </tr>
 
-<tr data-page="Admin — Blog" data-json="dummy">
+<tr data-page="Admin — Blog" data-json="yes">
   <td><span class="page-chip">Admin</span><br><small>amayaa_blog.html</small></td>
   <td><strong>Blog Admin Page</strong><br><small>Post list + new post form</small></td>
-  <td><span class="badge badge-dummy">Dummy</span></td>
+  <td><span class="badge badge-yes">Connected</span></td>
   <td>amayaa_blog.html</td>
-  <td>Post table + write form</td>
-  <td>blog.json (not connected)</td>
-  <td><div class="gap-note">Does NOT fetch blog.json. Publish/Save buttons call alert() only. 5 hardcoded rows in table. Public amayaa_blog.html is also fully hardcoded. Both sides need rewiring.</div></td>
+  <td>Post table + write form (title, category, date, readtime, featured, body, SEO)</td>
+  <td>blog.json (read + write via GitHub API)</td>
+  <td><div class="note">✅ Fetches blog.json on load — renders dynamic table. Full CRUD: add, edit, delete, publish/draft toggle. All form fields have IDs. Save wired to GitHub API PUT. Requires PAT in localStorage.</div></td>
 </tr>
 
-<tr data-page="Admin — Products" data-json="dummy">
+<tr data-page="Admin — Products" data-json="yes">
   <td><span class="page-chip">Admin</span><br><small>amayaa_products.html</small></td>
   <td><strong>Products Admin Page</strong><br><small>Product list table + filters</small></td>
-  <td><span class="badge badge-dummy">Dummy</span></td>
+  <td><span class="badge badge-yes">Connected</span></td>
   <td>amayaa_products.html</td>
-  <td>Table rows + filter pills</td>
-  <td>products_index.json (not connected)</td>
-  <td><div class="gap-note">Does NOT fetch products_index.json. Shows 5 hardcoded rows with fake counts (547 products). All action buttons (Sold Out, Delete, etc.) are inert or call confirm() only. Needs full GitHub API wiring.</div></td>
+  <td>Table rows with real stat cards, filter pills, search</td>
+  <td>products_index.json (read + write via GitHub API)</td>
+  <td><div class="note">✅ Fetches products_index.json on load — renders dynamic table with gradient thumbnails, real stat cards (total, active, sold, hidden), search filter, status toggle (Active/Sold), and Delete with GitHub API PUT. Requires PAT in localStorage.</div></td>
 </tr>
 
 <tr data-page="Admin — Products" data-json="dummy">
@@ -645,14 +645,14 @@ tr.hidden{display:none;}
   <td><div class="gap-note">Does NOT fetch any product JSON. Pre-filled with one hardcoded product (SKU AMY-BAN-547). Save &amp; Publish calls alert() only. Region/Fabric dropdowns hardcoded, not from categories.json. Image upload areas are inert.</div></td>
 </tr>
 
-<tr data-page="Admin — Categories" data-json="dummy">
+<tr data-page="Admin — Categories" data-json="yes">
   <td><span class="page-chip">Admin</span><br><small>amayaa_categories.html</small></td>
-  <td><strong>Categories Admin Page</strong><br><small>Regions, Fabrics, Colour Templates, Name Templates</small></td>
-  <td><span class="badge badge-dummy">Dummy</span></td>
+  <td><strong>Categories Admin Page</strong><br><small>Regions, Fabrics, Occasions, Show Only filters</small></td>
+  <td><span class="badge badge-yes">Connected</span></td>
   <td>amayaa_categories.html</td>
-  <td>4 table sections + Add buttons</td>
-  <td>categories.json (not connected)</td>
-  <td><div class="gap-note">Does NOT fetch categories.json. All Add buttons call alert(). Hardcoded rows with fake product counts. Public sarees page DOES correctly fetch categories.json for filter chips.</div></td>
+  <td>4 dynamic table sections + Add/Edit/Delete buttons + Save</td>
+  <td>categories.json (read + write via GitHub API)</td>
+  <td><div class="note">✅ Fetches categories.json on load — renders 4 dynamic table sections (Region/Weave, Fabric, Occasion, Show Only). Full CRUD per item (add/edit/delete). "💾 Save Categories" button wired to GitHub API PUT. Requires PAT in localStorage.</div></td>
 </tr>
 
 <tr data-page="Admin — Typography" data-json="dummy">
@@ -665,14 +665,14 @@ tr.hidden{display:none;}
   <td><div class="gap-note">Does NOT fetch typography.json. Save Draft updates a timestamp span only. Changes are lost on reload. typography.json exists but no public page fetches it either. Both sides need rewiring.</div></td>
 </tr>
 
-<tr data-page="Admin — Dashboard" data-json="dummy">
+<tr data-page="Admin — Dashboard" data-json="partial">
   <td><span class="page-chip">Admin</span><br><small>amayaa_dashboard.html</small></td>
   <td><strong>Dashboard Stats &amp; Tables</strong><br><small>Product count, blog posts, visitors, enquiries, recent lists</small></td>
-  <td><span class="badge badge-dummy">Dummy</span></td>
+  <td><span class="badge badge-partial">Partial</span></td>
   <td>amayaa_dashboard.html</td>
   <td>Stat cards + recent products/blog tables</td>
-  <td>—</td>
-  <td><div class="gap-note">All numbers (547 products, 6 posts, 12,847 visitors, 38 enquiries) are hardcoded HTML placeholders. Dashboard does not fetch or aggregate any JSON file. Purely decorative.</div></td>
+  <td>products_index.json · blog.json (partial)</td>
+  <td><div class="note">✅ Fetches products_index.json → real total count, active count, recent 5 rows. Fetches blog.json → real published count, recent 3 rows. ⚠️ Visitor count and WA Enquiry count remain hardcoded — no data source (GoatCounter API not yet integrated).</div></td>
 </tr>
 
 </tbody>

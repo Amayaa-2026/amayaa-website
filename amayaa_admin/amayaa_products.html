@@ -194,7 +194,13 @@ if(!sessionStorage.getItem('amayaa_admin')){
   </div>
   <div class="content">
 
-    <div class="alert alert-success">✅ Baluchari Silk Saree marked as Sold Out successfully.</div>
+    <!-- STAT CARDS -->
+    <div class="stats-grid" style="margin-bottom:18px;">
+      <div class="stat s1"><div class="stat-val" id="stat-total">—</div><div class="stat-label">Total Products</div></div>
+      <div class="stat s2"><div class="stat-val" id="stat-active">—</div><div class="stat-label">Active</div></div>
+      <div class="stat s3"><div class="stat-val" id="stat-sold">—</div><div class="stat-label">Sold Out</div></div>
+      <div class="stat s4"><div class="stat-val" id="stat-hidden">—</div><div class="stat-label">Hidden</div></div>
+    </div>
 
     <!-- FILTERS -->
     <div class="filter-row">
@@ -209,7 +215,7 @@ if(!sessionStorage.getItem('amayaa_admin')){
     <!-- SEARCH -->
     <div class="search-bar">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      <input type="text" placeholder="Search by name, SKU, region, fabric...">
+      <input id="prodSearch" type="text" placeholder="Search by name, SKU, region, fabric...">
     </div>
 
     <!-- FILTER PILLS ROW 2 -->
@@ -238,82 +244,8 @@ if(!sessionStorage.getItem('amayaa_admin')){
             <th>Product</th><th>Region</th><th>Fabric</th><th>Price</th><th>Status</th><th>Actions</th>
           </tr>
         </thead>
-        <tbody>
-          <tr>
-            <td><input type="checkbox" style="accent-color:#C4622D;"></td>
-            <td><div style="display:flex;align-items:center;gap:10px;">
-              <div class="prod-thumb-placeholder" style="background:linear-gradient(135deg,#8B1A4A,#C4622D)"></div>
-              <div><div style="font-weight:600;color:#1A0A04;font-size:13px;">Katan Silk Banarasi Saree</div><div style="font-size:11px;color:#9A8070;">AMY-BAN-001</div></div>
-            </div></td>
-            <td style="color:#5A4030;">Banarasi</td>
-            <td style="color:#5A4030;">Katan Silk</td>
-            <td style="color:#1A0A04;font-weight:600;">₹ 8,500</td>
-            <td><span class="badge badge-active">Active</span> <span class="badge badge-new">New</span></td>
-            <td><div style="display:flex;gap:6px;">
-              <a href="amayaa_product_edit.html" class="btn btn-ghost btn-sm">✏ Edit</a>
-              <button class="btn btn-danger btn-sm" onclick="confirm('Mark as Sold Out?')">🔴 Sold Out</button>
-            </div></td>
-          </tr>
-          <tr>
-            <td><input type="checkbox" style="accent-color:#C4622D;"></td>
-            <td><div style="display:flex;align-items:center;gap:10px;">
-              <div class="prod-thumb-placeholder" style="background:linear-gradient(135deg,#1A0A4A,#8B4A00)"></div>
-              <div><div style="font-weight:600;color:#1A0A04;font-size:13px;">Pure Kanjivaram Silk Saree</div><div style="font-size:11px;color:#9A8070;">AMY-KAN-001</div></div>
-            </div></td>
-            <td style="color:#5A4030;">Kanjivaram</td>
-            <td style="color:#5A4030;">Pure Silk</td>
-            <td><span style="text-decoration:line-through;color:#B0967E;font-size:11px;">₹14,200</span><br><strong style="color:#F4A460;">₹11,500</strong></td>
-            <td><span class="badge badge-offer">Special Offer</span></td>
-            <td><div style="display:flex;gap:6px;">
-              <a href="amayaa_product_edit.html" class="btn btn-ghost btn-sm">✏ Edit</a>
-              <button class="btn btn-ghost btn-sm">👁 Hide</button>
-            </div></td>
-          </tr>
-          <tr>
-            <td><input type="checkbox" style="accent-color:#C4622D;"></td>
-            <td><div style="display:flex;align-items:center;gap:10px;">
-              <div class="prod-thumb-placeholder" style="background:linear-gradient(135deg,#0A2A4A,#1A5A8A)"></div>
-              <div><div style="font-weight:600;color:#1A0A04;font-size:13px;">Baluchari Silk Saree</div><div style="font-size:11px;color:#9A8070;">AMY-BAL-001</div></div>
-            </div></td>
-            <td style="color:#5A4030;">Baluchari</td>
-            <td style="color:#5A4030;">Pure Silk</td>
-            <td style="color:#7A6050;">₹ 11,800</td>
-            <td><span class="badge badge-sold">Sold Out</span></td>
-            <td><div style="display:flex;gap:6px;">
-              <a href="amayaa_product_edit.html" class="btn btn-ghost btn-sm">✏ Edit</a>
-              <button class="btn btn-success btn-sm" onclick="confirm('Mark as In Stock?')">🟢 Restock</button>
-            </div></td>
-          </tr>
-          <tr>
-            <td><input type="checkbox" style="accent-color:#C4622D;"></td>
-            <td><div style="display:flex;align-items:center;gap:10px;">
-              <div class="prod-thumb-placeholder" style="background:linear-gradient(135deg,#0A3A1A,#2A7A3A)"></div>
-              <div><div style="font-weight:600;color:#1A0A04;font-size:13px;">Chanderi Cotton Silk Saree</div><div style="font-size:11px;color:#9A8070;">AMY-CHA-001</div></div>
-            </div></td>
-            <td style="color:#5A4030;">Chanderi</td>
-            <td style="color:#5A4030;">Cotton Silk</td>
-            <td style="color:#1A0A04;font-weight:600;">₹ 4,200</td>
-            <td><span class="badge badge-active">Active</span></td>
-            <td><div style="display:flex;gap:6px;">
-              <a href="amayaa_product_edit.html" class="btn btn-ghost btn-sm">✏ Edit</a>
-              <button class="btn btn-danger btn-sm">🗑 Delete</button>
-            </div></td>
-          </tr>
-          <tr>
-            <td><input type="checkbox" style="accent-color:#C4622D;"></td>
-            <td><div style="display:flex;align-items:center;gap:10px;">
-              <div class="prod-thumb-placeholder" style="background:linear-gradient(135deg,#0A2A3A,#1A7A6A)"></div>
-              <div><div style="font-weight:600;color:#1A0A04;font-size:13px;">Sambalpuri Ikat Silk</div><div style="font-size:11px;color:#9A8070;">AMY-SAM-001</div></div>
-            </div></td>
-            <td style="color:#5A4030;">Sambalpuri</td>
-            <td style="color:#5A4030;">Pure Silk</td>
-            <td style="color:#1A0A04;font-weight:600;">₹ 7,800</td>
-            <td><span class="badge badge-hidden">Hidden</span></td>
-            <td><div style="display:flex;gap:6px;">
-              <a href="amayaa_product_edit.html" class="btn btn-ghost btn-sm">✏ Edit</a>
-              <button class="btn btn-success btn-sm">👁 Show</button>
-            </div></td>
-          </tr>
+        <tbody id="productsTableBody">
+          <tr><td colspan="7" style="text-align:center;color:#9A8070;padding:30px;">Loading products…</td></tr>
         </tbody>
       </table>
     </div>
@@ -341,5 +273,154 @@ if(!sessionStorage.getItem('amayaa_admin')){
   </div>
 </div>
 <script data-goatcounter="https://amayaa.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<script>
+/* ── GitHub API helpers ── */
+var GH_REPO = 'Amayaa-2026/amayaa-website';
+var GH_BRANCH = 'main';
+function _b64ToUtf8(b64){var raw=atob(b64.replace(/\n/g,''));var bytes=new Uint8Array(raw.length);for(var i=0;i<raw.length;i++)bytes[i]=raw.charCodeAt(i);return new TextDecoder('utf-8',{fatal:false}).decode(bytes);}
+function _utf8ToB64(str){var bytes=new TextEncoder().encode(str);var bin='';for(var i=0;i<bytes.length;i++)bin+=String.fromCharCode(bytes[i]);return btoa(bin);}
+function _ghTok(){return localStorage.getItem('amayaa_gh_token')||'';}
+function _ghHdrs(){return{Authorization:'token '+_ghTok(),Accept:'application/vnd.github.v3+json','Content-Type':'application/json'};}
+function _ghSave(filePath,dat,msg,btnEl){
+  var tok=_ghTok();
+  if(!tok){alert('No GitHub token. Set it in Admin → Settings first.');return;}
+  var orig=btnEl?btnEl.textContent:'';
+  if(btnEl){btnEl.textContent='Saving…';btnEl.disabled=true;}
+  fetch('https://api.github.com/repos/'+GH_REPO+'/contents/'+filePath+'?ref='+GH_BRANCH,{headers:_ghHdrs()})
+    .then(function(r){return r.json();})
+    .then(function(ex){
+      if(!ex.sha)throw new Error(ex.message||'No SHA');
+      return fetch('https://api.github.com/repos/'+GH_REPO+'/contents/'+filePath,{method:'PUT',headers:_ghHdrs(),body:JSON.stringify({message:msg,content:_utf8ToB64(JSON.stringify(dat,null,2)),sha:ex.sha,branch:GH_BRANCH})});
+    })
+    .then(function(r){return r.json();})
+    .then(function(res){
+      if(res.content){
+        if(btnEl){btnEl.textContent='✅ Saved!';setTimeout(function(){btnEl.textContent=orig;btnEl.disabled=false;},2500);}
+        else{var t=document.createElement('div');t.style.cssText='position:fixed;top:20px;right:20px;z-index:9999;padding:12px 20px;border-radius:10px;background:#D4F0DD;border:1px solid #1A7A40;color:#1A7A40;font-family:Jost,sans-serif;font-weight:600;font-size:14px;';t.textContent='✅ Saved to GitHub!';document.body.appendChild(t);setTimeout(function(){t.remove();},3000);}
+      }else{throw new Error(res.message||'Write failed');}
+    })
+    .catch(function(e){alert('Save failed: '+(e.message||e));if(btnEl){btnEl.textContent=orig;btnEl.disabled=false;}});
+}
+
+/* ── Product manager ── */
+var _products = [];
+var _filtered = [];
+var _activeFilter = 'all';
+
+function _renderTable() {
+  var tbody = document.getElementById('productsTableBody');
+  if (!tbody) return;
+  if (_filtered.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:#9A8070;padding:30px;">No products found.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = _filtered.map(function(p) {
+    var priceHtml = p.originalPrice
+      ? '<span style="text-decoration:line-through;color:#B0967E;font-size:11px;">&#8377;' + p.originalPrice.toLocaleString('en-IN') + '</span><br><strong style="color:#C4622D;">&#8377;' + p.price.toLocaleString('en-IN') + '</strong>'
+      : '<span style="font-weight:600;color:#1A0A04;">&#8377; ' + p.price.toLocaleString('en-IN') + '</span>';
+    var statusBadge = p.status === 'active'
+      ? '<span class="badge badge-active">Active</span>'
+      : p.status === 'sold-out'
+        ? '<span class="badge badge-sold">Sold Out</span>'
+        : '<span class="badge badge-hidden">Hidden</span>';
+    var toggleBtn = p.status === 'active'
+      ? '<button class="btn btn-danger btn-sm" onclick="_toggleStatus(\'' + p.id + '\')">&#128308; Mark Sold</button>'
+      : '<button class="btn btn-success btn-sm" onclick="_toggleStatus(\'' + p.id + '\')">&#128994; Mark Active</button>';
+    var gFrom = p.gradientFrom || '#8B1A4A';
+    var gTo = p.gradientTo || '#C4622D';
+    return '<tr>' +
+      '<td><input type="checkbox" style="accent-color:#C4622D;"></td>' +
+      '<td><div style="display:flex;align-items:center;gap:10px;">' +
+        '<div class="prod-thumb" style="background:linear-gradient(135deg,' + gFrom + ',' + gTo + ');"></div>' +
+        '<div><div style="font-weight:600;color:#1A0A04;font-size:13px;">' + p.name + '</div><div style="font-size:11px;color:#9A8070;">' + p.id + '</div></div>' +
+      '</div></td>' +
+      '<td style="color:#5A4030;">' + (p.region || '') + '</td>' +
+      '<td style="color:#5A4030;">' + (p.fabric || '') + '</td>' +
+      '<td>' + priceHtml + '</td>' +
+      '<td>' + statusBadge + '</td>' +
+      '<td><div style="display:flex;gap:6px;">' +
+        '<a href="amayaa_product_edit.html?id=' + encodeURIComponent(p.id) + '" class="btn btn-ghost btn-sm">&#9999; Edit</a>' +
+        toggleBtn +
+        '<button class="btn btn-danger btn-sm" onclick="_deleteProduct(\'' + p.id + '\')">&#128465; Delete</button>' +
+      '</div></td>' +
+      '</tr>';
+  }).join('');
+}
+
+function _updateStats() {
+  var total = _products.length;
+  var active = _products.filter(function(p){ return p.status === 'active'; }).length;
+  var sold = _products.filter(function(p){ return p.status === 'sold-out'; }).length;
+  var hidden = _products.filter(function(p){ return p.status === 'hidden'; }).length;
+  var elT = document.getElementById('stat-total'); if(elT) elT.textContent = total;
+  var elA = document.getElementById('stat-active'); if(elA) elA.textContent = active;
+  var elS = document.getElementById('stat-sold'); if(elS) elS.textContent = sold;
+  var elH = document.getElementById('stat-hidden'); if(elH) elH.textContent = hidden;
+}
+
+function _applyFilter(filter) {
+  _activeFilter = filter || 'all';
+  var searchEl = document.getElementById('prodSearch');
+  var q = searchEl ? searchEl.value.toLowerCase().trim() : '';
+  _filtered = _products.filter(function(p) {
+    var matchFilter = _activeFilter === 'all' || p.status === _activeFilter;
+    var matchSearch = !q ||
+      (p.name && p.name.toLowerCase().indexOf(q) > -1) ||
+      (p.type && p.type.toLowerCase().indexOf(q) > -1) ||
+      (p.region && p.region.toLowerCase().indexOf(q) > -1);
+    return matchFilter && matchSearch;
+  });
+  _renderTable();
+}
+
+function _toggleStatus(id) {
+  var p = null;
+  for (var i = 0; i < _products.length; i++) { if (_products[i].id === id) { p = _products[i]; break; } }
+  if (!p) return;
+  p.status = p.status === 'active' ? 'sold-out' : 'active';
+  _updateStats();
+  _applyFilter(_activeFilter);
+  _ghSave('data/products_index.json', _products, 'Update status for ' + id, null);
+}
+
+function _deleteProduct(id) {
+  if (!confirm('Delete product ' + id + '? This cannot be undone.')) return;
+  _products = _products.filter(function(p){ return p.id !== id; });
+  _filtered = _filtered.filter(function(p){ return p.id !== id; });
+  _updateStats();
+  _renderTable();
+  _ghSave('data/products_index.json', _products, 'Delete product ' + id, null);
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  fetch('../data/products_index.json')
+    .then(function(r){ return r.json(); })
+    .then(function(data) {
+      _products = data;
+      _filtered = _products.slice();
+      _updateStats();
+      _renderTable();
+    })
+    .catch(function(e){ console.error('Failed to load products:', e); });
+
+  var searchEl = document.getElementById('prodSearch');
+  if (searchEl) {
+    searchEl.addEventListener('keyup', function() { _applyFilter(_activeFilter); });
+  }
+
+  var pills = document.querySelectorAll('.filter-pill');
+  pills.forEach(function(pill) {
+    pill.addEventListener('click', function() {
+      pills.forEach(function(p){ p.classList.remove('active'); });
+      pill.classList.add('active');
+      var txt = pill.textContent.toLowerCase();
+      if (txt.indexOf('sold') > -1) { _applyFilter('sold-out'); }
+      else if (txt.indexOf('hidden') > -1) { _applyFilter('hidden'); }
+      else if (txt.indexOf('active') > -1) { _applyFilter('active'); }
+      else { _applyFilter('all'); }
+    });
+  });
+});
+</script>
 <script src="sidebar.js"></script>
 </body></html>

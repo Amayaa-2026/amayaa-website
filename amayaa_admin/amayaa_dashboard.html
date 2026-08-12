@@ -220,8 +220,8 @@ if(!sessionStorage.getItem('amayaa_admin')){
   </div>
   <div class="content">
     <div class="stats-grid">
-      <div class="stat s1"><div class="stat-val">547</div><div class="stat-label">Total Products</div><div class="stat-sub">12 hidden · 8 sold out · 24 on offer</div></div>
-      <div class="stat s2"><div class="stat-val">6</div><div class="stat-label">Blog Posts</div><div class="stat-sub">5 published · 1 draft</div></div>
+      <div class="stat s1"><div class="stat-val" id="dash-products">547</div><div class="stat-label">Total Products</div><div class="stat-sub" id="dash-active">12 hidden · 8 sold out</div></div>
+      <div class="stat s2"><div class="stat-val" id="dash-posts">6</div><div class="stat-label">Blog Posts</div><div class="stat-sub">5 published · 1 draft</div></div>
       <div class="stat s3"><div class="stat-val">12,847</div><div class="stat-label">Total Visitors</div><div class="stat-sub">+342 this week</div></div>
       <div class="stat s4"><div class="stat-val">38</div><div class="stat-label">WA Enquiries</div><div class="stat-sub">This month via website</div></div>
     </div>
@@ -237,7 +237,7 @@ if(!sessionStorage.getItem('amayaa_admin')){
         <div class="card-header"><div><div class="card-title">Recent Products</div><div class="card-sub">Last 5 added</div></div><a href="amayaa_products.html" class="btn btn-ghost btn-sm">View All</a></div>
         <table class="tbl">
           <thead><tr><th>Product</th><th>Price</th><th>Status</th></tr></thead>
-          <tbody>
+          <tbody id="dash-recent-products">
             <tr><td><div style="display:flex;align-items:center;gap:9px;"><div class="prod-thumb" style="background:linear-gradient(135deg,#8B1A4A,#C4622D);"></div><div><div style="font-weight:600;font-size:13px;">Katan Silk Banarasi</div><div style="font-size:11px;color:#B0967E;">AMY-BAN-001</div></div></div></td><td>₹ 8,500</td><td><span class="badge badge-active">Active</span></td></tr>
             <tr><td><div style="display:flex;align-items:center;gap:9px;"><div class="prod-thumb" style="background:linear-gradient(135deg,#1A0A4A,#8B4A00);"></div><div><div style="font-weight:600;font-size:13px;">Pure Kanjivaram</div><div style="font-size:11px;color:#B0967E;">AMY-KAN-001</div></div></div></td><td><span style="text-decoration:line-through;color:#C0A888;font-size:11px;">₹14,200</span> <b style="color:#C4622D;">₹11,500</b></td><td><span class="badge badge-offer">On Offer</span></td></tr>
             <tr><td><div style="display:flex;align-items:center;gap:9px;"><div class="prod-thumb" style="background:linear-gradient(135deg,#0A2A4A,#1A5A8A);"></div><div><div style="font-weight:600;font-size:13px;">Baluchari Silk</div><div style="font-size:11px;color:#B0967E;">AMY-BAL-001</div></div></div></td><td>₹ 11,800</td><td><span class="badge badge-sold">Sold Out</span></td></tr>
@@ -250,7 +250,7 @@ if(!sessionStorage.getItem('amayaa_admin')){
         <div class="card-header"><div><div class="card-title">Blog Posts</div><div class="card-sub">Published & drafts</div></div><a href="amayaa_blog.html" class="btn btn-ghost btn-sm">View All</a></div>
         <table class="tbl">
           <thead><tr><th>Title</th><th>Category</th><th>Status</th></tr></thead>
-          <tbody>
+          <tbody id="dash-recent-posts">
             <tr><td style="font-weight:500;">The Art of Banarasi Weaving</td><td>Weaves</td><td><span class="badge badge-active">Published</span></td></tr>
             <tr><td style="font-weight:500;">Tussar vs Kosa Silk</td><td>Threads</td><td><span class="badge badge-active">Published</span></td></tr>
             <tr><td style="font-weight:500;">Weavers of Bishnupur</td><td>Heritage</td><td><span class="badge badge-active">Published</span></td></tr>
@@ -273,7 +273,55 @@ if(!sessionStorage.getItem('amayaa_admin')){
   </div>
 </div>
 <script data-goatcounter="https://amayaa.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-<script data-goatcounter="https://amayaa.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Products count
+  fetch('../data/products_index.json')
+    .then(function(r){ return r.json(); })
+    .then(function(products) {
+      var total = products.length;
+      var active = products.filter(function(p){ return p.status === 'active'; }).length;
+      var sold = products.filter(function(p){ return p.status === 'sold-out'; }).length;
+      var el = document.getElementById('dash-products');
+      if(el) el.textContent = total;
+      var ela = document.getElementById('dash-active');
+      if(ela) ela.textContent = active + ' active · ' + sold + ' sold out';
+    }).catch(function(){});
+
+  // Blog posts count
+  fetch('../data/blog.json')
+    .then(function(r){ return r.json(); })
+    .then(function(posts) {
+      var published = posts.filter(function(p){ return p.published; }).length;
+      var el = document.getElementById('dash-posts');
+      if(el) el.textContent = published;
+    }).catch(function(){});
+
+  // Recent products table
+  fetch('../data/products_index.json')
+    .then(function(r){ return r.json(); })
+    .then(function(products) {
+      var tbody = document.getElementById('dash-recent-products');
+      if(!tbody) return;
+      var recent = products.slice(0, 5);
+      tbody.innerHTML = recent.map(function(p) {
+        return '<tr><td><div style="display:flex;align-items:center;gap:10px;"><div style="width:32px;height:38px;border-radius:6px;background:linear-gradient(135deg,'+(p.gradientFrom||'#8B1A4A')+','+(p.gradientTo||'#C4622D')+');flex-shrink:0;"></div><span style="font-weight:500;">'+p.name+'</span></div></td><td>'+p.type+'</td><td>&#8377; '+p.price.toLocaleString('en-IN')+'</td><td><span class="badge badge-'+(p.status==='active'?'active':p.status==='sold-out'?'sold':'hidden')+'">'+p.status+'</span></td></tr>';
+      }).join('');
+    }).catch(function(){});
+
+  // Recent blog posts
+  fetch('../data/blog.json')
+    .then(function(r){ return r.json(); })
+    .then(function(posts) {
+      var tbody = document.getElementById('dash-recent-posts');
+      if(!tbody) return;
+      var recent = posts.slice(0, 3);
+      tbody.innerHTML = recent.map(function(p) {
+        return '<tr><td style="font-weight:500;">'+p.title+'</td><td>'+(p.category||'')+'</td><td>'+(p.date||'')+'</td><td><span class="badge badge-'+(p.published?'active':'draft')+'">'+(p.published?'Published':'Draft')+'</span></td></tr>';
+      }).join('');
+    }).catch(function(){});
+});
+</script>
 <script src="sidebar.js"></script>
 </body>
 </html>

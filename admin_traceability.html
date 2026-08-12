@@ -8,15 +8,11 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:'Jost',sans-serif;background:#F5F0E8;color:#1A1208;font-size:14px;}
-
-/* ── Header ── */
 .hdr{background:linear-gradient(135deg,#1A0A04,#3A1A08);color:#fff;padding:36px 48px 32px;}
 .hdr-label{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:8px;}
 .hdr-title{font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:400;margin-bottom:6px;}
 .hdr-sub{font-size:13px;color:rgba(255,255,255,.6);margin-bottom:24px;}
 .hdr-meta{font-size:11px;color:rgba(255,255,255,.4);letter-spacing:.5px;}
-
-/* ── Summary cards ── */
 .summary{display:flex;gap:16px;padding:28px 48px;flex-wrap:wrap;background:#EDE7DA;border-bottom:1px solid rgba(0,0,0,.08);}
 .scard{background:#fff;border-radius:12px;padding:16px 24px;min-width:140px;border:1px solid rgba(0,0,0,.06);text-align:center;}
 .scard-num{font-size:32px;font-weight:700;line-height:1;}
@@ -25,20 +21,15 @@ body{font-family:'Jost',sans-serif;background:#F5F0E8;color:#1A1208;font-size:14
 .scard.amber .scard-num{color:#B87A00;}
 .scard.red .scard-num{color:#C4622D;}
 .scard.blue .scard-num{color:#1A5A8A;}
-
-/* ── Controls ── */
+.scard.purple .scard-num{color:#6A2A8A;}
 .controls{padding:20px 48px;display:flex;gap:12px;flex-wrap:wrap;align-items:center;background:#F5F0E8;border-bottom:1px solid rgba(0,0,0,.06);}
 .controls label{font-size:12px;font-weight:600;color:#5A4030;letter-spacing:.5px;}
 select,input[type=text]{font-family:'Jost',sans-serif;font-size:13px;padding:8px 12px;border:1px solid rgba(0,0,0,.12);border-radius:8px;background:#fff;color:#1A1208;outline:none;}
 select:focus,input:focus{border-color:#C4622D;}
 .btn-reset{padding:8px 16px;border-radius:8px;border:1px solid rgba(196,98,45,.3);background:transparent;color:#C4622D;font-family:'Jost',sans-serif;font-size:13px;cursor:pointer;}
 .btn-reset:hover{background:rgba(196,98,45,.08);}
-
-/* ── Legend ── */
 .legend{padding:12px 48px;display:flex;gap:20px;flex-wrap:wrap;font-size:12px;color:#5A4030;background:#F5F0E8;}
 .leg{display:flex;align-items:center;gap:6px;}
-
-/* ── Table wrapper ── */
 .tbl-wrap{padding:0 48px 60px;overflow-x:auto;}
 table{width:100%;border-collapse:collapse;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.07);margin-top:24px;}
 thead{background:#1A0A04;color:#fff;}
@@ -47,40 +38,24 @@ tbody tr{border-bottom:1px solid rgba(0,0,0,.05);}
 tbody tr:last-child{border-bottom:none;}
 tbody tr:hover{background:#FBF7F2;}
 td{padding:11px 14px;font-size:13px;vertical-align:top;line-height:1.5;}
-
-/* Page group header */
 .pg-row td{background:#F5F0E8;font-weight:700;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:#5A4030;padding:8px 14px;border-top:2px solid rgba(0,0,0,.08);}
-
-/* Badges */
 .badge{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:600;letter-spacing:.3px;white-space:nowrap;}
 .badge-yes{background:#D4F0DD;color:#1A7A40;}
 .badge-no{background:#FDDDD5;color:#C4622D;}
 .badge-partial{background:#FFF0C0;color:#8A6000;}
 .badge-planned{background:#D8E8F8;color:#1A5A8A;}
 .badge-na{background:#EEE;color:#888;}
-.badge-gap{background:#FFE0E0;color:#A00000;font-weight:700;}
-
-/* Configurable cell */
+.badge-dummy{background:#FFE0F0;color:#8A0060;font-weight:700;}
+.badge-local{background:#F0E0FF;color:#5A0090;}
 .cfg-yes{color:#1A7A40;font-weight:600;}
 .cfg-no{color:#C4622D;}
 .cfg-partial{color:#8A6000;font-weight:600;}
-
-/* Note text */
 .note{font-size:11px;color:#9A8070;margin-top:3px;line-height:1.4;}
 .gap-note{font-size:11px;color:#A00000;margin-top:3px;font-weight:600;}
-
-/* Hidden rows */
+.warn-note{font-size:11px;color:#7A5000;margin-top:3px;font-weight:600;}
 tr.hidden{display:none;}
-
-/* Section chip */
 .page-chip{display:inline-block;font-size:10px;padding:1px 7px;border-radius:10px;background:rgba(196,98,45,.1);color:#C4622D;font-weight:600;margin-right:4px;}
-
-/* Typography gap */
-.typo-gap{background:#FFF8E0;}
-
-@media(max-width:900px){
-  .hdr,.summary,.controls,.legend,.tbl-wrap{padding-left:20px;padding-right:20px;}
-}
+@media(max-width:900px){.hdr,.summary,.controls,.legend,.tbl-wrap{padding-left:20px;padding-right:20px;}}
 </style>
 </head>
 <body>
@@ -88,35 +63,18 @@ tr.hidden{display:none;}
 <div class="hdr">
   <div class="hdr-label">Internal Reference Document</div>
   <h1 class="hdr-title">Admin Traceability Matrix</h1>
-  <p class="hdr-sub">Maps every configurable UI element across all public pages to its Admin panel control, JSON data source, and implementation status.</p>
-  <p class="hdr-meta">Last updated: August 12, 2026 &nbsp;·&nbsp; Site: amayaabypolkadots.in &nbsp;·&nbsp; Nav Links, Footer Columns, Collections Grid now fully configurable</p>
+  <p class="hdr-sub">Every UI element on every public page mapped to its admin control, JSON source, and live connectivity status. Includes admin page backend audit.</p>
+  <p class="hdr-meta">Last updated: August 12, 2026 &nbsp;·&nbsp; Audited against live codebase &nbsp;·&nbsp; amayaabypolkadots.in</p>
 </div>
 
-<!-- Summary -->
 <div class="summary">
-  <div class="scard green">
-    <div class="scard-num" id="cnt-yes">0</div>
-    <div class="scard-lbl">JSON Implemented</div>
-  </div>
-  <div class="scard red">
-    <div class="scard-num" id="cnt-no">0</div>
-    <div class="scard-lbl">JSON Not Implemented</div>
-  </div>
-  <div class="scard amber">
-    <div class="scard-num" id="cnt-partial">0</div>
-    <div class="scard-lbl">Partial / Planned</div>
-  </div>
-  <div class="scard blue">
-    <div class="scard-num" id="cnt-gap">0</div>
-    <div class="scard-lbl">Admin Page Missing</div>
-  </div>
-  <div class="scard" style="border-color:#C4622D;">
-    <div class="scard-num" id="cnt-total" style="color:#C4622D;">0</div>
-    <div class="scard-lbl">Total Elements</div>
-  </div>
+  <div class="scard green"><div class="scard-num" id="cnt-yes">0</div><div class="scard-lbl">Fully Connected</div></div>
+  <div class="scard amber"><div class="scard-num" id="cnt-partial">0</div><div class="scard-lbl">Partial / Read-only</div></div>
+  <div class="scard red"><div class="scard-num" id="cnt-no">0</div><div class="scard-lbl">Hardcoded</div></div>
+  <div class="scard purple"><div class="scard-num" id="cnt-dummy">0</div><div class="scard-lbl">Admin Dummy</div></div>
+  <div class="scard blue"><div class="scard-num" id="cnt-total">0</div><div class="scard-lbl">Total Elements</div></div>
 </div>
 
-<!-- Controls -->
 <div class="controls">
   <label>PAGE</label>
   <select id="filterPage" onchange="applyFilters()">
@@ -129,711 +87,592 @@ tr.hidden{display:none;}
     <option>amayaa_contact.html</option>
     <option>amayaa_offers.html</option>
     <option>amayaa_search.html</option>
-    <option>amayaa_product.html</option>
     <option>amayaa_faq.html</option>
     <option>amayaa_policies.html</option>
+    <option>Admin — Settings</option>
+    <option>Admin — Products</option>
+    <option>Admin — Banners</option>
+    <option>Admin — Blog</option>
+    <option>Admin — About</option>
+    <option>Admin — Categories</option>
     <option>Admin — Typography</option>
+    <option>Admin — FAQ</option>
+    <option>Admin — Policies</option>
+    <option>Admin — Dashboard</option>
   </select>
-
-  <label>JSON STATUS</label>
+  <label>STATUS</label>
   <select id="filterJson" onchange="applyFilters()">
     <option value="">All</option>
-    <option value="yes">Implemented</option>
-    <option value="no">Not Implemented</option>
+    <option value="yes">Connected</option>
+    <option value="no">Hardcoded</option>
     <option value="partial">Partial</option>
-    <option value="planned">Planned</option>
+    <option value="dummy">Admin Dummy</option>
   </select>
-
-  <label>CONFIGURABLE</label>
-  <select id="filterCfg" onchange="applyFilters()">
-    <option value="">All</option>
-    <option value="yes">Yes</option>
-    <option value="no">No</option>
-    <option value="partial">Partial</option>
-  </select>
-
   <button class="btn-reset" onclick="resetFilters()">Reset</button>
 </div>
 
-<!-- Legend -->
 <div class="legend">
-  <div class="leg"><span class="badge badge-yes">Yes</span> Fully implemented</div>
-  <div class="leg"><span class="badge badge-no">No</span> Not implemented</div>
-  <div class="leg"><span class="badge badge-partial">Partial</span> Partially done</div>
-  <div class="leg"><span class="badge badge-planned">Planned</span> Designed, not built</div>
-  <div class="leg"><span class="badge badge-gap">GAP</span> Admin page missing</div>
-  <div class="leg"><span class="badge badge-na">N/A</span> Not applicable</div>
+  <div class="leg"><span class="badge badge-yes">Connected</span> Reads &amp; writes real JSON / GitHub API</div>
+  <div class="leg"><span class="badge badge-partial">Partial</span> Reads real JSON but save not wired</div>
+  <div class="leg"><span class="badge badge-no">Hardcoded</span> Static HTML — no data source</div>
+  <div class="leg"><span class="badge badge-dummy">Dummy</span> Admin UI exists but has no backend at all</div>
+  <div class="leg"><span class="badge badge-local">localStorage</span> Saves to browser only, not to site</div>
+  <div class="leg"><span class="badge badge-na">N/A</span> Not applicable / intentionally static</div>
 </div>
 
-<!-- Table -->
 <div class="tbl-wrap">
 <table id="mainTable">
 <thead>
   <tr>
-    <th style="width:14%">Page</th>
+    <th style="width:13%">Page / Location</th>
     <th style="width:18%">UI Element / Section</th>
-    <th style="width:8%">Configurable?</th>
-    <th style="width:14%">Admin Page</th>
-    <th style="width:16%">Admin Field(s)</th>
-    <th style="width:8%">JSON Done?</th>
-    <th style="width:14%">JSON File / Key</th>
-    <th>Notes / Gaps</th>
+    <th style="width:9%">Live Status</th>
+    <th style="width:13%">Admin Page</th>
+    <th style="width:15%">Admin Field(s)</th>
+    <th style="width:14%">JSON File → Key</th>
+    <th>Notes &amp; Gaps</th>
   </tr>
 </thead>
 <tbody id="tableBody">
 
-<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- ═══════════════════════════════════════════════════ -->
 <!-- GLOBAL nav.js -->
-<!-- ══════════════════════════════════════════════════════════════════════ -->
-<tr class="pg-row"><td colspan="8">GLOBAL — nav.js (appears on all pages)</td></tr>
+<!-- ═══════════════════════════════════════════════════ -->
+<tr class="pg-row"><td colspan="7">GLOBAL — nav.js (injected on all pages)</td></tr>
 
-<tr data-page="Global (nav.js)" data-json="yes" data-cfg="yes">
+<tr data-page="Global (nav.js)" data-json="yes">
   <td><span class="page-chip">Global</span></td>
   <td><strong>Logo / Brand Name</strong></td>
-  <td class="cfg-yes">Yes</td>
+  <td><span class="badge badge-yes">Connected</span></td>
   <td>Admin › Settings</td>
-  <td>Store Name</td>
-  <td><span class="badge badge-yes">Yes</span></td>
+  <td>Store Name field</td>
   <td>settings.json › storeName</td>
-  <td><div class="note">Logo seal is a base64 PNG in nav.js (not yet admin-changeable). Brand text comes from settings.</div></td>
+  <td><div class="note">Logo image is base64 PNG baked into nav.js (not admin-changeable). Brand text comes from storeName.</div></td>
 </tr>
 
-<tr data-page="Global (nav.js)" data-json="yes" data-cfg="yes">
+<tr data-page="Global (nav.js)" data-json="yes">
   <td><span class="page-chip">Global</span></td>
-  <td><strong>Nav Links</strong><br><small>Sarees, Blog, Our Story, Special Offers, Contact</small></td>
-  <td class="cfg-yes">Yes</td>
-  <td>Admin › Settings</td>
-  <td>Nav Links &amp; Footer Columns card — Label, URL, Highlight, Icon per link</td>
-  <td><span class="badge badge-yes">Yes</span></td>
+  <td><strong>Nav Links</strong><br><small>Sarees, Blog, Our Story, Special Offers 🎁, Contact</small></td>
+  <td><span class="badge badge-yes">Connected</span></td>
+  <td>Admin › Settings › Nav Links &amp; Footer card</td>
+  <td>Label, URL, Highlight toggle, Icon per link</td>
   <td>settings.json › nav.links[]</td>
-  <td><div class="note">✅ nav.js fetches settings.json on every page load and rebuilds the nav UL from nav.links[]. Admin card added to amayaa_settings.html (Aug 2026).</div></td>
+  <td><div class="note">nav.js fetches settings.json and rewrites #nav-links-ul on every page. Admin card added Aug 2026.</div></td>
 </tr>
 
-<tr data-page="Global (nav.js)" data-json="yes" data-cfg="yes">
+<tr data-page="Global (nav.js)" data-json="yes">
   <td><span class="page-chip">Global</span></td>
   <td><strong>WhatsApp FAB</strong><br><small>Floating action button</small></td>
-  <td class="cfg-yes">Yes</td>
-  <td>Admin › Settings</td>
+  <td><span class="badge badge-yes">Connected</span></td>
+  <td>Admin › Settings › Contact Details card</td>
   <td>WhatsApp Number · Show WhatsApp FAB toggle</td>
-  <td><span class="badge badge-yes">Yes</span></td>
   <td>settings.json › contact.whatsapp · siteControls.showWhatsAppFab</td>
   <td><div class="note">Number and visibility both wired.</div></td>
 </tr>
 
-<tr data-page="Global (nav.js)" data-json="yes" data-cfg="yes">
+<tr data-page="Global (nav.js)" data-json="yes">
   <td><span class="page-chip">Global</span></td>
-  <td><strong>Footer — Store Info</strong><br><small>Name, tagline, copyright</small></td>
-  <td class="cfg-yes">Yes</td>
-  <td>Admin › Settings</td>
-  <td>Store Name · Footer Tagline · Footer Copyright</td>
-  <td><span class="badge badge-yes">Yes</span></td>
-  <td>settings.json › storeName · footerTagline · footerCopyright</td>
-  <td></td>
+  <td><strong>Footer — Copyright &amp; Tagline</strong></td>
+  <td><span class="badge badge-yes">Connected</span></td>
+  <td>Admin › Settings › Nav Links &amp; Footer card</td>
+  <td>footer.copyright · footer.tagline</td>
+  <td>settings.json › footer.copyright · footer.tagline</td>
+  <td><div class="note">Updated by nav.js fetch. HTML entities (©, ♥) supported.</div></td>
 </tr>
 
-<tr data-page="Global (nav.js)" data-json="yes" data-cfg="yes">
+<tr data-page="Global (nav.js)" data-json="yes">
+  <td><span class="page-chip">Global</span></td>
+  <td><strong>Footer — 3 Column Links</strong><br><small>Shop, Discover, Connect</small></td>
+  <td><span class="badge badge-yes">Connected</span></td>
+  <td>Admin › Settings › Nav Links &amp; Footer card</td>
+  <td>Column heading + label/URL per link row</td>
+  <td>settings.json › footer.columns[].{heading, links[]}</td>
+  <td><div class="note">nav.js rebuilds #ft-col-0/1/2 from settings.json. Admin card added Aug 2026.</div></td>
+</tr>
+
+<tr data-page="Global (nav.js)" data-json="yes">
   <td><span class="page-chip">Global</span></td>
   <td><strong>Footer — Social Links</strong><br><small>Instagram, Facebook, YouTube, Pinterest</small></td>
-  <td class="cfg-yes">Yes</td>
-  <td>Admin › Settings</td>
-  <td>Instagram URL · Facebook URL · YouTube URL · Pinterest URL</td>
-  <td><span class="badge badge-yes">Yes</span></td>
+  <td><span class="badge badge-yes">Connected</span></td>
+  <td>Admin › Settings › Social Media card</td>
+  <td>Instagram / Facebook / YouTube / Pinterest URL</td>
   <td>settings.json › social.*</td>
   <td></td>
 </tr>
 
-<tr data-page="Global (nav.js)" data-json="yes" data-cfg="yes">
+<tr data-page="Global (nav.js)" data-json="yes">
   <td><span class="page-chip">Global</span></td>
-  <td><strong>Footer — Contact Info</strong><br><small>WhatsApp, Phone, Email</small></td>
-  <td class="cfg-yes">Yes</td>
-  <td>Admin › Settings</td>
-  <td>WhatsApp Number · Store Phone · Store Email</td>
-  <td><span class="badge badge-yes">Yes</span></td>
+  <td><strong>Footer — Contact Info</strong><br><small>WhatsApp, Phone, Email in footer</small></td>
+  <td><span class="badge badge-yes">Connected</span></td>
+  <td>Admin › Settings › Contact Details card</td>
+  <td>WhatsApp · Phone · Email</td>
   <td>settings.json › contact.*</td>
   <td></td>
 </tr>
 
-<tr data-page="Global (nav.js)" data-json="yes" data-cfg="yes">
+<tr data-page="Global (nav.js)" data-json="yes">
   <td><span class="page-chip">Global</span></td>
   <td><strong>Footer — Store Hours</strong></td>
-  <td class="cfg-yes">Yes</td>
-  <td>Admin › Settings</td>
+  <td><span class="badge badge-yes">Connected</span></td>
+  <td>Admin › Settings › Store Hours card</td>
   <td>Mon–Sat Hours · Sunday Hours · Holiday Notice</td>
-  <td><span class="badge badge-yes">Yes</span></td>
   <td>settings.json › hours.*</td>
   <td></td>
 </tr>
 
-<tr data-page="Global (nav.js)" data-json="yes" data-cfg="yes">
+<tr data-page="Global (nav.js)" data-json="yes">
   <td><span class="page-chip">Global</span></td>
-  <td><strong>Footer — Column Links</strong><br><small>Shop, Discover, Connect columns</small></td>
-  <td class="cfg-yes">Yes</td>
-  <td>Admin › Settings</td>
-  <td>Nav Links &amp; Footer Columns card — Column heading + Label/URL per link row</td>
-  <td><span class="badge badge-yes">Yes</span></td>
-  <td>settings.json › footer.columns[].{heading, links[]}</td>
-  <td><div class="note">✅ nav.js fetches settings.json and rebuilds all 3 footer columns from footer.columns[]. Admin card added to amayaa_settings.html (Aug 2026).</div></td>
+  <td><strong>Coming Soon Gate</strong><br><small>Redirects all visitors until disabled</small></td>
+  <td><span class="badge badge-yes">Connected</span></td>
+  <td>Admin › Settings › Site Controls card</td>
+  <td>Coming Soon Mode toggle</td>
+  <td>settings.json › siteControls.comingSoon</td>
+  <td><div class="note">gate.js makes synchronous XHR to settings.json before page renders. Toggle in admin writes to GitHub via API (~30s propagation).</div></td>
 </tr>
 
-<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- ═══════════════════════════════════════════════════ -->
 <!-- index.html -->
-<!-- ══════════════════════════════════════════════════════════════════════ -->
-<tr class="pg-row"><td colspan="8">index.html — Home Page</td></tr>
+<!-- ═══════════════════════════════════════════════════ -->
+<tr class="pg-row"><td colspan="7">index.html — Home Page</td></tr>
 
-<tr data-page="index.html" data-json="yes" data-cfg="yes">
+<tr data-page="index.html" data-json="yes">
   <td><span class="page-chip">Home</span></td>
-  <td><strong>Hero Banner</strong><br><small>6 slides: eyebrow, headline, subtitle, CTA buttons, image</small></td>
-  <td class="cfg-yes">Yes</td>
+  <td><strong>Hero Banner Slider</strong><br><small>6 slides: eyebrow, headline, subtitle, CTA, image</small></td>
+  <td><span class="badge badge-yes">Connected</span></td>
   <td>Admin › Banners</td>
-  <td>Background Image · Eyebrow Text · Headline · Sub-text · Primary/Secondary CTA</td>
-  <td><span class="badge badge-yes">Yes</span></td>
-  <td>banners.json › [].{eyebrow, title, subtitle, ctaPrimary, ctaSecondary, backgroundImage, backgroundAlt, active}</td>
-  <td><div class="note">✅ Complete. banners.json updated to 6 slides with image paths. index.html hero now renders dynamically via JS fetch with inline fallback. dots rebuilt dynamically. active flag supported.</div></td>
+  <td>Background Image, Eyebrow, Headline, Sub-text, CTA labels/links, Active flag</td>
+  <td>banners.json › [].{eyebrow, title, subtitle, ctaPrimary, ctaSecondary, backgroundImage, active}</td>
+  <td><div class="note">index.html fetches banners.json and renders slides dynamically with fallback slide. ⚠️ Admin › Banners page does NOT write to banners.json — it is DUMMY UI.</div></td>
 </tr>
 
-<tr data-page="index.html" data-json="yes" data-cfg="yes">
-  <td><span class="page-chip">Home</span></td>
-  <td><strong>Visitor Counter Strip</strong><br><small>"Woven with love for X visitors"</small></td>
-  <td class="cfg-yes">Yes</td>
-  <td>Admin › Settings</td>
-  <td>GoatCounter Code · Show Visitor Counter toggle</td>
-  <td><span class="badge badge-yes">Yes</span></td>
-  <td>settings.json › visitorStripText · siteControls.showVisitorCounter · integrations.goatcounterSite</td>
-  <td></td>
-</tr>
-
-<tr data-page="index.html" data-json="yes" data-cfg="yes">
+<tr data-page="index.html" data-json="yes">
   <td><span class="page-chip">Home</span></td>
   <td><strong>Collections Grid</strong><br><small>6 regional cards (Banarasi, Kanjivaram…)</small></td>
-  <td class="cfg-yes">Yes</td>
-  <td>Admin › Settings</td>
-  <td>Collections Grid card — Name, Count, Filter Param, Gradient per card; Section Label &amp; Title</td>
-  <td><span class="badge badge-yes">Yes</span></td>
-  <td>data/collections.json › {sectionLabel, sectionTitle, items[]}</td>
-  <td><div class="note">✅ index.html fetches collections.json and renders grid dynamically. Admin card added to amayaa_settings.html writes directly to collections.json via GitHub API (Aug 2026).</div></td>
+  <td><span class="badge badge-yes">Connected</span></td>
+  <td>Admin › Settings › Collections Grid card</td>
+  <td>Name, Count, Filter Param, Gradient CSS per card; Section Label &amp; Title</td>
+  <td>collections.json › {sectionLabel, sectionTitle, items[]}</td>
+  <td><div class="note">index.html fetches collections.json. Admin card in Settings page writes to collections.json via GitHub API.</div></td>
 </tr>
 
-<tr data-page="index.html" data-json="no" data-cfg="no">
+<tr data-page="index.html" data-json="yes">
   <td><span class="page-chip">Home</span></td>
-  <td><strong>Trust Strip</strong><br><small>4 bullet points (GI Tagged, Free Returns…)</small></td>
-  <td class="cfg-no">No</td>
-  <td>—</td>
-  <td>Hardcoded in index.html</td>
-  <td><span class="badge badge-no">No</span></td>
-  <td>—</td>
-  <td><div class="note">Low priority. Static marketing copy.</div></td>
+  <td><strong>Visitor Counter Strip</strong><br><small>"Woven with love for X visitors"</small></td>
+  <td><span class="badge badge-yes">Connected</span></td>
+  <td>Admin › Settings › Site Controls card</td>
+  <td>Show Visitor Counter toggle · GoatCounter Site ID</td>
+  <td>settings.json › siteControls.showVisitorCounter · visitorStripText · integrations.goatcounterSite</td>
+  <td></td>
 </tr>
 
-<tr data-page="index.html" data-json="yes" data-cfg="yes">
+<tr data-page="index.html" data-json="no">
   <td><span class="page-chip">Home</span></td>
-  <td><strong>New Arrivals</strong><br><small>4 featured product cards</small></td>
-  <td class="cfg-yes">Yes</td>
-  <td>Admin › Products</td>
-  <td>Product featured flag · All product fields</td>
-  <td><span class="badge badge-yes">Yes</span></td>
-  <td>products_index.json › [featured=true]</td>
-  <td><div class="note">Cards rendered from products_index.json. ProductDrawer wired. Image loading via ImageKit TBD (#69).</div></td>
+  <td><strong>Featured Product Cards</strong><br><small>Homepage product grid (New Arrivals)</small></td>
+  <td><span class="badge badge-no">Hardcoded</span></td>
+  <td>—</td>
+  <td>—</td>
+  <td>—</td>
+  <td><div class="gap-note">GAP: Homepage product grid uses a hardcoded JS array (5 products) embedded in index.html, NOT fetched from products_index.json. ProductDrawer is wired. Fix: replace inline array with fetch('data/products_index.json').</div></td>
 </tr>
 
-<tr data-page="index.html" data-json="yes" data-cfg="yes">
+<tr data-page="index.html" data-json="no">
   <td><span class="page-chip">Home</span></td>
-  <td><strong>Blog Preview</strong><br><small>3 latest post cards</small></td>
-  <td class="cfg-yes">Yes</td>
-  <td>Admin › Blog</td>
-  <td>Title · Date · Excerpt · Category · Gradient</td>
-  <td><span class="badge badge-yes">Yes</span></td>
-  <td>blog.json › [].{title, date, excerpt, category, gradientFrom, gradientTo}</td>
-  <td><div class="note">JSON structure complete. Read logic in index.html TBD — currently static HTML.</div></td>
-</tr>
-
-<!-- ══════════════════════════════════════════════════════════════════════ -->
-<!-- amayaa_sarees.html -->
-<!-- ══════════════════════════════════════════════════════════════════════ -->
-<tr class="pg-row"><td colspan="8">amayaa_sarees.html — Sarees Catalogue</td></tr>
-
-<tr data-page="amayaa_sarees.html" data-json="yes" data-cfg="yes">
-  <td><span class="page-chip">Sarees</span></td>
-  <td><strong>Product Grid</strong><br><small>Cards: name, price, badges, colour, enquire</small></td>
-  <td class="cfg-yes">Yes</td>
-  <td>Admin › Products / Product Edit</td>
-  <td>All product fields (name, price, region, fabric, colour, occasion, badges, status)</td>
-  <td><span class="badge badge-yes">Yes</span></td>
-  <td>products_index.json · data/products/{id}.json</td>
-  <td><div class="note">Fully data-driven. _boot() + fetch() pattern. Filter + sort engine in JS.</div></td>
-</tr>
-
-<tr data-page="amayaa_sarees.html" data-json="no" data-cfg="partial">
-  <td><span class="page-chip">Sarees</span></td>
-  <td><strong>Filter Chips — Desktop Overlay</strong><br><small>Weave/Region, Fabric, Occasion, Colour, Price, Show Only</small></td>
-  <td class="cfg-partial">Partial</td>
-  <td>Admin › Categories</td>
-  <td>Regions · Fabric Types · Colour Templates</td>
-  <td><span class="badge badge-no">No</span></td>
+  <td><strong>Blog Preview Cards</strong><br><small>3 latest posts shown on homepage</small></td>
+  <td><span class="badge badge-no">Hardcoded</span></td>
   <td>—</td>
-  <td><div class="gap-note">Filter values hardcoded in HTML. Categories admin exists but filter chips not driven from it. Planned: drive from categories JSON.</div></td>
+  <td>—</td>
+  <td>—</td>
+  <td><div class="gap-note">GAP: Homepage blog cards are hardcoded HTML. blog.json exists but homepage does not fetch it.</div></td>
 </tr>
 
-<tr data-page="amayaa_sarees.html" data-json="no" data-cfg="partial">
-  <td><span class="page-chip">Sarees</span></td>
-  <td><strong>Filter Chips — Mobile Sidebar</strong><br><small>Same dimensions, mobile FAB</small></td>
-  <td class="cfg-partial">Partial</td>
-  <td>Admin › Categories</td>
-  <td>Same as desktop filters</td>
-  <td><span class="badge badge-no">No</span></td>
-  <td>—</td>
-  <td><div class="note">Same gap as desktop — hardcoded checkboxes not yet driven from JSON.</div></td>
-</tr>
-
-<tr data-page="amayaa_sarees.html" data-json="no" data-cfg="no">
-  <td><span class="page-chip">Sarees</span></td>
-  <td><strong>Sort Dropdown</strong><br><small>Low→High, High→Low, A→Z, Newest</small></td>
-  <td class="cfg-no">No</td>
-  <td>—</td>
-  <td>Hardcoded</td>
+<tr data-page="index.html" data-json="na">
+  <td><span class="page-chip">Home</span></td>
+  <td><strong>Trust Strip</strong><br><small>GI Tagged, Free Returns, Artisan Direct, Secure Pay</small></td>
   <td><span class="badge badge-na">N/A</span></td>
   <td>—</td>
-  <td><div class="note">Sort options are functional controls, not content — not configurable by design.</div></td>
+  <td>Hardcoded — static marketing copy</td>
+  <td>—</td>
+  <td><div class="note">Low priority. Intentionally static.</div></td>
 </tr>
 
-<!-- ══════════════════════════════════════════════════════════════════════ -->
-<!-- amayaa_about.html -->
-<!-- ══════════════════════════════════════════════════════════════════════ -->
-<tr class="pg-row"><td colspan="8">amayaa_about.html — Our Story</td></tr>
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- amayaa_sarees.html -->
+<!-- ═══════════════════════════════════════════════════ -->
+<tr class="pg-row"><td colspan="7">amayaa_sarees.html — Sarees Catalogue</td></tr>
 
-<tr data-page="amayaa_about.html" data-json="yes" data-cfg="yes">
+<tr data-page="amayaa_sarees.html" data-json="yes">
+  <td><span class="page-chip">Sarees</span></td>
+  <td><strong>Product Grid</strong><br><small>Cards: name, price, badges, colour, enquire</small></td>
+  <td><span class="badge badge-yes">Connected</span></td>
+  <td>Admin › Products / Product Edit</td>
+  <td>All product fields</td>
+  <td>products_index.json · data/products/{id}.json</td>
+  <td><div class="note">Fully data-driven. _boot() + fetch() pattern. Filter + sort engine in JS. ⚠️ Admin Products page is DUMMY — does not write to products_index.json.</div></td>
+</tr>
+
+<tr data-page="amayaa_sarees.html" data-json="yes">
+  <td><span class="page-chip">Sarees</span></td>
+  <td><strong>Filter Chips — Regions, Fabrics, Occasions</strong><br><small>Desktop overlay + mobile sidebar</small></td>
+  <td><span class="badge badge-yes">Connected</span></td>
+  <td>Admin › Categories</td>
+  <td>Regions · Fabric Types · Occasions</td>
+  <td>categories.json › regions[] · fabrics[] · occasions[]</td>
+  <td><div class="note">Filter chips fetched from categories.json and injected dynamically. ⚠️ Admin Categories page is DUMMY — does not write to categories.json.</div></td>
+</tr>
+
+<tr data-page="amayaa_sarees.html" data-json="na">
+  <td><span class="page-chip">Sarees</span></td>
+  <td><strong>Sort Dropdown</strong><br><small>Low→High, High→Low, A→Z, Newest</small></td>
+  <td><span class="badge badge-na">N/A</span></td>
+  <td>—</td>
+  <td>Functional control, not content</td>
+  <td>—</td>
+  <td><div class="note">Sort options are UI controls, not configurable content by design.</div></td>
+</tr>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- amayaa_about.html -->
+<!-- ═══════════════════════════════════════════════════ -->
+<tr class="pg-row"><td colspan="7">amayaa_about.html — Our Story (Public)</td></tr>
+
+<tr data-page="amayaa_about.html" data-json="no">
   <td><span class="page-chip">About</span></td>
   <td><strong>Story Sections</strong><br><small>2 alternating text+image blocks</small></td>
-  <td class="cfg-yes">Yes</td>
-  <td>Admin › About › Story tab</td>
-  <td>Label · Heading · Body · Image Position · Gradient</td>
-  <td><span class="badge badge-yes">Yes</span></td>
-  <td>about.json › story[].{label, heading, body, imgPos, imgGradient}</td>
-  <td></td>
+  <td><span class="badge badge-no">Hardcoded</span></td>
+  <td>Admin › About</td>
+  <td>Label, Heading, Body, Image position, Gradient</td>
+  <td>about.json › story[]</td>
+  <td><div class="gap-note">GAP: Public amayaa_about.html has zero fetch calls — entirely hardcoded HTML. about.json exists. Admin About page saves to localStorage only, not to about.json, and public page does not read it. Full rewire needed on both sides.</div></td>
 </tr>
 
-<tr data-page="amayaa_about.html" data-json="yes" data-cfg="yes">
+<tr data-page="amayaa_about.html" data-json="no">
   <td><span class="page-chip">About</span></td>
-  <td><strong>Values</strong><br><small>4 value cards with icons</small></td>
-  <td class="cfg-yes">Yes</td>
-  <td>Admin › About › Values tab</td>
-  <td>Icon · Title · Description</td>
-  <td><span class="badge badge-yes">Yes</span></td>
-  <td>about.json › values[].{icon, title, desc}</td>
-  <td></td>
+  <td><strong>Values Strip</strong><br><small>4 value cards with icons</small></td>
+  <td><span class="badge badge-no">Hardcoded</span></td>
+  <td>Admin › About</td>
+  <td>Icon, Title, Description</td>
+  <td>about.json › values[]</td>
+  <td><div class="gap-note">Same gap as Story Sections above.</div></td>
 </tr>
 
-<tr data-page="amayaa_about.html" data-json="yes" data-cfg="yes">
+<tr data-page="amayaa_about.html" data-json="no">
   <td><span class="page-chip">About</span></td>
   <td><strong>Weaver Profiles</strong><br><small>4 artisan cards</small></td>
-  <td class="cfg-yes">Yes</td>
-  <td>Admin › About › Weavers tab</td>
-  <td>Name · Region · Specialty · Story</td>
-  <td><span class="badge badge-yes">Yes</span></td>
-  <td>about.json › weavers[].{name, region, specialty, story}</td>
-  <td></td>
+  <td><span class="badge badge-no">Hardcoded</span></td>
+  <td>Admin › About</td>
+  <td>Name, Region, Specialty, Story</td>
+  <td>about.json › weavers[]</td>
+  <td><div class="gap-note">Same gap as Story Sections above.</div></td>
 </tr>
 
-<tr data-page="amayaa_about.html" data-json="yes" data-cfg="yes">
+<tr data-page="amayaa_about.html" data-json="no">
   <td><span class="page-chip">About</span></td>
   <td><strong>Promise Section</strong><br><small>3 promise cards with icons</small></td>
-  <td class="cfg-yes">Yes</td>
-  <td>Admin › About › Promise tab</td>
-  <td>Icon · Title · Description</td>
-  <td><span class="badge badge-yes">Yes</span></td>
-  <td>about.json › promise[].{icon, title, desc}</td>
-  <td></td>
+  <td><span class="badge badge-no">Hardcoded</span></td>
+  <td>Admin › About</td>
+  <td>Icon, Title, Description</td>
+  <td>about.json › promise[]</td>
+  <td><div class="gap-note">Same gap as Story Sections above.</div></td>
 </tr>
 
-<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- ═══════════════════════════════════════════════════ -->
 <!-- amayaa_blog.html -->
-<!-- ══════════════════════════════════════════════════════════════════════ -->
-<tr class="pg-row"><td colspan="8">amayaa_blog.html — Blog</td></tr>
+<!-- ═══════════════════════════════════════════════════ -->
+<tr class="pg-row"><td colspan="7">amayaa_blog.html — Blog (Public)</td></tr>
 
-<tr data-page="amayaa_blog.html" data-json="yes" data-cfg="yes">
+<tr data-page="amayaa_blog.html" data-json="no">
   <td><span class="page-chip">Blog</span></td>
-  <td><strong>Blog Post Cards</strong><br><small>Title, category, date, excerpt, gradient</small></td>
-  <td class="cfg-yes">Yes</td>
+  <td><strong>Blog Post Cards</strong><br><small>Featured post + grid of posts</small></td>
+  <td><span class="badge badge-no">Hardcoded</span></td>
   <td>Admin › Blog</td>
-  <td>Title · Category · Date · Read Time · Excerpt · Body · Gradient · Published flag</td>
-  <td><span class="badge badge-yes">Yes</span></td>
-  <td>blog.json › [].{title, category, date, readTime, excerpt, body, gradientFrom, gradientTo, published}</td>
-  <td></td>
+  <td>Title, Category, Date, Read Time, Excerpt, Body, Gradient, Published</td>
+  <td>blog.json › []</td>
+  <td><div class="gap-note">GAP: Public blog page is fully hardcoded HTML. blog.json exists. Admin Blog page is DUMMY (alert-only saves). Neither side is wired. Both need rewiring.</div></td>
 </tr>
 
-<tr data-page="amayaa_blog.html" data-json="no" data-cfg="no">
+<tr data-page="amayaa_blog.html" data-json="no">
   <td><span class="page-chip">Blog</span></td>
-  <td><strong>Hero Band</strong><br><small>"Our Blog" title text</small></td>
-  <td class="cfg-no">No</td>
+  <td><strong>Sidebar Product Mini-Cards</strong></td>
+  <td><span class="badge badge-no">Hardcoded</span></td>
   <td>—</td>
-  <td>Hardcoded</td>
-  <td><span class="badge badge-no">No</span></td>
   <td>—</td>
-  <td><div class="note">Static page title. Low priority to configure.</div></td>
+  <td>—</td>
+  <td><div class="note">Hardcoded JS array in blog page script. Low priority.</div></td>
 </tr>
 
-<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- ═══════════════════════════════════════════════════ -->
 <!-- amayaa_contact.html -->
-<!-- ══════════════════════════════════════════════════════════════════════ -->
-<tr class="pg-row"><td colspan="8">amayaa_contact.html — Contact</td></tr>
+<!-- ═══════════════════════════════════════════════════ -->
+<tr class="pg-row"><td colspan="7">amayaa_contact.html — Contact</td></tr>
 
-<tr data-page="amayaa_contact.html" data-json="yes" data-cfg="yes">
+<tr data-page="amayaa_contact.html" data-json="no">
   <td><span class="page-chip">Contact</span></td>
-  <td><strong>Store Info Panel</strong><br><small>Address, hours, phone, email, WhatsApp</small></td>
-  <td class="cfg-yes">Yes</td>
+  <td><strong>Store Address, Hours, Phone, Email</strong></td>
+  <td><span class="badge badge-no">Hardcoded</span></td>
   <td>Admin › Settings</td>
-  <td>Address · Google Maps Link · Mon–Sat Hours · Sunday Hours · Holiday Notice · WhatsApp · Phone · Email</td>
-  <td><span class="badge badge-yes">Yes</span></td>
+  <td>Address · Store Hours · WhatsApp · Phone · Email</td>
   <td>settings.json › address.* · hours.* · contact.*</td>
-  <td></td>
+  <td><div class="gap-note">GAP: Although settings.json has all this data and the admin can edit it, amayaa_contact.html does NOT fetch settings.json — it shows hardcoded HTML. Needs a fetch+populate script added to contact page.</div></td>
 </tr>
 
-<tr data-page="amayaa_contact.html" data-json="yes" data-cfg="yes">
+<tr data-page="amayaa_contact.html" data-json="no">
   <td><span class="page-chip">Contact</span></td>
   <td><strong>Contact Form</strong><br><small>Name, email, phone, message → Formspree</small></td>
-  <td class="cfg-yes">Yes</td>
-  <td>Admin › Settings</td>
+  <td><span class="badge badge-no">Hardcoded</span></td>
+  <td>Admin › Settings › Contact Details</td>
   <td>Formspree Form ID</td>
-  <td><span class="badge badge-yes">Yes</span></td>
   <td>settings.json › integrations.formspreeId</td>
-  <td><div class="note">Formspree endpoint wired in JSON. Live test pending (Task #71).</div></td>
+  <td><div class="gap-note">GAP: Formspree endpoint is hardcoded in contact page HTML. settings.json has formspreeId but contact page does not read it.</div></td>
 </tr>
 
-<tr data-page="amayaa_contact.html" data-json="yes" data-cfg="yes">
+<tr data-page="amayaa_contact.html" data-json="no">
   <td><span class="page-chip">Contact</span></td>
   <td><strong>Google Maps Embed</strong></td>
-  <td class="cfg-yes">Yes</td>
-  <td>Admin › Settings</td>
+  <td><span class="badge badge-no">Hardcoded</span></td>
+  <td>Admin › Settings › Store Address</td>
   <td>Google Maps Link</td>
-  <td><span class="badge badge-yes">Yes</span></td>
   <td>settings.json › googleMapsLink</td>
-  <td></td>
+  <td><div class="gap-note">GAP: Map iframe src is hardcoded. settings.json has googleMapsLink but page does not read it.</div></td>
 </tr>
 
-<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- ═══════════════════════════════════════════════════ -->
 <!-- amayaa_offers.html -->
-<!-- ══════════════════════════════════════════════════════════════════════ -->
-<tr class="pg-row"><td colspan="8">amayaa_offers.html — Special Offers</td></tr>
+<!-- ═══════════════════════════════════════════════════ -->
+<tr class="pg-row"><td colspan="7">amayaa_offers.html — Special Offers</td></tr>
 
-<tr data-page="amayaa_offers.html" data-json="no" data-cfg="no">
+<tr data-page="amayaa_offers.html" data-json="yes">
   <td><span class="page-chip">Offers</span></td>
-  <td><strong>Hero Banner</strong><br><small>Festive Offers title, subtitle, decorative circles</small></td>
-  <td class="cfg-no">No</td>
+  <td><strong>Hero Banner</strong><br><small>Eyebrow, headline, subtitle, CTA</small></td>
+  <td><span class="badge badge-yes">Connected</span></td>
   <td>—</td>
-  <td>Hardcoded</td>
-  <td><span class="badge badge-no">No</span></td>
   <td>—</td>
-  <td><div class="note">Static festive banner. Could link to banners.json in future.</div></td>
+  <td>offers.json › hero.{eyebrow, headline, subtitle, ctaLabel, ctaHref}</td>
+  <td><div class="note">Fetched and injected dynamically. No dedicated admin editor yet — edit offers.json directly.</div></td>
 </tr>
 
-<tr data-page="amayaa_offers.html" data-json="no" data-cfg="no">
+<tr data-page="amayaa_offers.html" data-json="yes">
   <td><span class="page-chip">Offers</span></td>
-  <td><strong>Offer Stats Bar</strong><br><small>4 stats: "Up to 40% off", "Free shipping"…</small></td>
-  <td class="cfg-no">No</td>
+  <td><strong>Stats Strip</strong><br><small>3 stat cards: discount %, sarees count, max saving</small></td>
+  <td><span class="badge badge-yes">Connected</span></td>
   <td>—</td>
-  <td>Hardcoded</td>
-  <td><span class="badge badge-no">No</span></td>
   <td>—</td>
-  <td><div class="note">Marketing copy. Candidate for settings.json in future.</div></td>
+  <td>offers.json › stats[]</td>
+  <td><div class="note">Fetched and injected dynamically.</div></td>
 </tr>
 
-<tr data-page="amayaa_offers.html" data-json="yes" data-cfg="yes">
+<tr data-page="amayaa_offers.html" data-json="yes">
   <td><span class="page-chip">Offers</span></td>
-  <td><strong>Offers Product Grid</strong><br><small>Cards where originalPrice &gt; offerPrice</small></td>
-  <td class="cfg-yes">Yes</td>
-  <td>Admin › Products / Product Edit</td>
-  <td>Original Price · Offer Price · Valid Until · Status</td>
-  <td><span class="badge badge-yes">Yes</span></td>
-  <td>products_index.json › [originalPrice &gt; price]</td>
-  <td><div class="note">Filter logic reads originalPrice from JSON. Products with discount appear here.</div></td>
+  <td><strong>Occasion Filter Chips</strong></td>
+  <td><span class="badge badge-yes">Connected</span></td>
+  <td>—</td>
+  <td>—</td>
+  <td>offers.json › filters[]</td>
+  <td><div class="note">Filter chips fetched and injected from offers.json.</div></td>
 </tr>
 
-<tr data-page="amayaa_offers.html" data-json="no" data-cfg="no">
+<tr data-page="amayaa_offers.html" data-json="no">
   <td><span class="page-chip">Offers</span></td>
-  <td><strong>Occasion Filter Row</strong><br><small>Wedding, Casual, Festive…</small></td>
-  <td class="cfg-no">No</td>
-  <td>—</td>
-  <td>Hardcoded</td>
-  <td><span class="badge badge-no">No</span></td>
-  <td>—</td>
-  <td><div class="note">Hardcoded filter chips. Same gap as Sarees page.</div></td>
+  <td><strong>Offers Product Grid</strong><br><small>6 offer product cards</small></td>
+  <td><span class="badge badge-no">Hardcoded</span></td>
+  <td>Admin › Products</td>
+  <td>Original Price, Offer Price, Status</td>
+  <td>products_index.json (not yet wired)</td>
+  <td><div class="gap-note">GAP: Offers page product grid is hardcoded HTML (6 cards). Should filter products_index.json for items where originalPrice &gt; price. Admin Products is also DUMMY.</div></td>
 </tr>
 
-<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- ═══════════════════════════════════════════════════ -->
 <!-- amayaa_search.html -->
-<!-- ══════════════════════════════════════════════════════════════════════ -->
-<tr class="pg-row"><td colspan="8">amayaa_search.html — Search Results</td></tr>
+<!-- ═══════════════════════════════════════════════════ -->
+<tr class="pg-row"><td colspan="7">amayaa_search.html — Search Results</td></tr>
 
-<tr data-page="amayaa_search.html" data-json="yes" data-cfg="yes">
+<tr data-page="amayaa_search.html" data-json="yes">
   <td><span class="page-chip">Search</span></td>
-  <td><strong>Product Grid</strong><br><small>Search results with filters</small></td>
-  <td class="cfg-yes">Yes</td>
+  <td><strong>Search Results Grid</strong></td>
+  <td><span class="badge badge-yes">Connected</span></td>
   <td>Admin › Products</td>
   <td>All product fields</td>
-  <td><span class="badge badge-yes">Yes</span></td>
   <td>products_index.json</td>
-  <td></td>
+  <td><div class="note">Fetches all products, filters client-side by query string. ProductDrawer wired.</div></td>
 </tr>
 
-<tr data-page="amayaa_search.html" data-json="no" data-cfg="no">
+<tr data-page="amayaa_search.html" data-json="no">
   <td><span class="page-chip">Search</span></td>
-  <td><strong>Filter Dropdowns</strong><br><small>Type, Colour, Fabric, Occasion, Price, New/Offer/GI toggles</small></td>
-  <td class="cfg-no">No</td>
+  <td><strong>Filter Dropdowns</strong><br><small>Type, Colour, Fabric, Occasion, Price toggles</small></td>
+  <td><span class="badge badge-no">Hardcoded</span></td>
+  <td>Admin › Categories</td>
   <td>—</td>
-  <td>Hardcoded in HTML</td>
-  <td><span class="badge badge-no">No</span></td>
-  <td>—</td>
-  <td><div class="gap-note">Same gap as Sarees page filters. Dropdown options hardcoded, not from categories JSON.</div></td>
+  <td>categories.json (not yet wired)</td>
+  <td><div class="gap-note">GAP: Dropdown options are hardcoded HTML, not fetched from categories.json.</div></td>
 </tr>
 
-<tr data-page="amayaa_search.html" data-json="yes" data-cfg="yes">
-  <td><span class="page-chip">Search</span></td>
-  <td><strong>Typography / Orb Colours</strong></td>
-  <td class="cfg-yes">Yes</td>
-  <td>Admin › Typography</td>
-  <td>Orb Colours — Search page (4 swatches)</td>
-  <td><span class="badge badge-yes">Yes</span></td>
-  <td>typography.json › orbColours.search[0..3]</td>
-  <td><div class="note">✅ Added to typography.json as 4-colour array. Admin orb picker section added to amayaa_typography.html.</div></td>
-</tr>
-
-<!-- ══════════════════════════════════════════════════════════════════════ -->
-<!-- amayaa_product.html -->
-<!-- ══════════════════════════════════════════════════════════════════════ -->
-<tr class="pg-row"><td colspan="8">amayaa_product.html — Product Detail</td></tr>
-
-<tr data-page="amayaa_product.html" data-json="yes" data-cfg="yes">
-  <td><span class="page-chip">Product</span></td>
-  <td><strong>Product Detail — All Fields</strong><br><small>Name, price, description, care, weave story, badges, colour swatches</small></td>
-  <td class="cfg-yes">Yes</td>
-  <td>Admin › Product Edit</td>
-  <td>SKU · Name · Region · Fabric · Colour · Occasion · Pricing · Short Desc · Full Desc · Weave Story · Care · Status</td>
-  <td><span class="badge badge-yes">Yes</span></td>
-  <td>data/products/{id}.json</td>
-  <td><div class="note">Individual product files in data/products/ folder. ProductDrawer reads these on open.</div></td>
-</tr>
-
-<tr data-page="amayaa_product.html" data-json="no" data-cfg="no">
-  <td><span class="page-chip">Product</span></td>
-  <td><strong>Related Products</strong></td>
-  <td class="cfg-no">No</td>
-  <td>—</td>
-  <td>Not implemented</td>
-  <td><span class="badge badge-no">No</span></td>
-  <td>—</td>
-  <td><div class="note">Not yet built. Future: same-type products from products_index.json.</div></td>
-</tr>
-
-<tr data-page="amayaa_product.html" data-json="no" data-cfg="no">
-  <td><span class="page-chip">Product</span></td>
-  <td><strong>Typography / Orb Colours</strong></td>
-  <td class="cfg-partial">Partial</td>
-  <td>Admin › Typography</td>
-  <td>Orb Colours — Product page</td>
-  <td><span class="badge badge-yes">Yes</span></td>
-  <td>typography.json › orbColours.product</td>
-  <td><div class="note">Product orb colour is in typography.json. Typography admin page coverage needs verification.</div></td>
-</tr>
-
-<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- ═══════════════════════════════════════════════════ -->
 <!-- amayaa_faq.html -->
-<!-- ══════════════════════════════════════════════════════════════════════ -->
-<tr class="pg-row"><td colspan="8">amayaa_faq.html — FAQ</td></tr>
+<!-- ═══════════════════════════════════════════════════ -->
+<tr class="pg-row"><td colspan="7">amayaa_faq.html — FAQ (Public)</td></tr>
 
-<tr data-page="amayaa_faq.html" data-json="yes" data-cfg="yes">
+<tr data-page="amayaa_faq.html" data-json="yes">
   <td><span class="page-chip">FAQ</span></td>
-  <td><strong>All Q&amp;A Items</strong><br><small>25 questions across 6 groups</small></td>
-  <td class="cfg-yes">Yes</td>
+  <td><strong>All Q&amp;A Items + Groups</strong><br><small>25 questions, 6 groups</small></td>
+  <td><span class="badge badge-yes">Connected</span></td>
   <td>Admin › FAQ</td>
-  <td>Group · Question · Answer (HTML)</td>
-  <td><span class="badge badge-yes">Yes</span></td>
-  <td>data/faq.json › groups[].items[].{question, answer}</td>
-  <td><div class="note">✅ Complete. data/faq.json created (25 Q&As, 6 groups). amayaa_admin/amayaa_faq.html built with edit/delete UI. Public amayaa_faq.html fetches JSON with inline fallback.</div></td>
+  <td>Group label, Group icon, Question, Answer</td>
+  <td>faq.json › groups[].{id, label, icon, items[].{question, answer}}</td>
+  <td><div class="note">Public page fetches faq.json and renders dynamically. ⚠️ Admin FAQ page reads faq.json but Save button is not wired — edits are lost on reload.</div></td>
 </tr>
 
-<tr data-page="amayaa_faq.html" data-json="yes" data-cfg="yes">
+<tr data-page="amayaa_faq.html" data-json="yes">
   <td><span class="page-chip">FAQ</span></td>
-  <td><strong>Category Groups</strong><br><small>Ordering, Shipping, Returns, About Sarees, Care, Payment</small></td>
-  <td class="cfg-yes">Yes</td>
-  <td>Admin › FAQ</td>
-  <td>Group label · Group icon</td>
-  <td><span class="badge badge-yes">Yes</span></td>
-  <td>data/faq.json › groups[].{id, label, icon}</td>
-  <td><div class="note">✅ Group names and icons come from faq.json. Category filter chips wired to JSON groups dynamically.</div></td>
-</tr>
-
-<tr data-page="amayaa_faq.html" data-json="yes" data-cfg="yes">
-  <td><span class="page-chip">FAQ</span></td>
-  <td><strong>Hero Text</strong><br><small>"Frequently Asked Questions" + subtitle</small></td>
-  <td class="cfg-yes">Yes</td>
+  <td><strong>Hero Text</strong><br><small>Page title + subtitle</small></td>
+  <td><span class="badge badge-yes">Connected</span></td>
   <td>Admin › FAQ</td>
   <td>Page Title · Page Subtitle</td>
-  <td><span class="badge badge-yes">Yes</span></td>
-  <td>data/faq.json › {pageTitle, pageSubtitle}</td>
-  <td><div class="note">✅ Page title, subtitle and CTA text rendered from faq.json.</div></td>
+  <td>faq.json › {pageTitle, pageSubtitle}</td>
+  <td></td>
 </tr>
 
-<tr data-page="amayaa_faq.html" data-json="yes" data-cfg="yes">
-  <td><span class="page-chip">FAQ</span></td>
-  <td><strong>Typography / Orb Colours</strong></td>
-  <td class="cfg-yes">Yes</td>
-  <td>Admin › Typography</td>
-  <td>Orb Colours — FAQ page (4 swatches)</td>
-  <td><span class="badge badge-yes">Yes</span></td>
-  <td>typography.json › orbColours.faq[0..3]</td>
-  <td><div class="note">✅ Added to typography.json as 4-colour array. Admin orb picker section added to amayaa_typography.html.</div></td>
-</tr>
-
-<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- ═══════════════════════════════════════════════════ -->
 <!-- amayaa_policies.html -->
-<!-- ══════════════════════════════════════════════════════════════════════ -->
-<tr class="pg-row"><td colspan="8">amayaa_policies.html — Policies &amp; T&C</td></tr>
+<!-- ═══════════════════════════════════════════════════ -->
+<tr class="pg-row"><td colspan="7">amayaa_policies.html — Policies &amp; T&amp;C (Public)</td></tr>
 
-<tr data-page="amayaa_policies.html" data-json="yes" data-cfg="yes">
+<tr data-page="amayaa_policies.html" data-json="yes">
   <td><span class="page-chip">Policies</span></td>
-  <td><strong>Shipping &amp; Delivery Policy</strong></td>
-  <td class="cfg-yes">Yes</td>
+  <td><strong>All Policy Sections</strong><br><small>Shipping, Cancellation, T&amp;C, Privacy, Disclaimer</small></td>
+  <td><span class="badge badge-yes">Connected</span></td>
   <td>Admin › Policies</td>
-  <td>Section Title · Highlight Text · Section Content (HTML)</td>
-  <td><span class="badge badge-yes">Yes</span></td>
-  <td>data/policies.json › sections[id=shipping].{title, highlight, content}</td>
-  <td><div class="note">✅ Complete. data/policies.json created. amayaa_admin/amayaa_policies.html built with section edit form. Public page fetches JSON with fallback.</div></td>
+  <td>Section Title, Highlight text, HTML content, Last Updated</td>
+  <td>policies.json › sections[].{id, title, highlight, content, lastUpdated}</td>
+  <td><div class="note">Public page fetches policies.json and renders all sections dynamically. ⚠️ Admin Policies page reads policies.json but Save button is not wired — edits are lost on reload.</div></td>
 </tr>
 
-<tr data-page="amayaa_policies.html" data-json="yes" data-cfg="yes">
-  <td><span class="page-chip">Policies</span></td>
-  <td><strong>Cancellation &amp; Refund Policy</strong></td>
-  <td class="cfg-yes">Yes</td>
-  <td>Admin › Policies</td>
-  <td>Section Title · Highlight Text · Section Content (HTML)</td>
-  <td><span class="badge badge-yes">Yes</span></td>
-  <td>data/policies.json › sections[id=cancellation]</td>
-  <td></td>
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- PRODUCT DETAIL OVERLAY (ProductDrawer) -->
+<!-- ═══════════════════════════════════════════════════ -->
+<tr class="pg-row"><td colspan="7">Product Detail Overlay (ProductDrawer — appears on Sarees, Search, Home pages)</td></tr>
+
+<tr data-page="amayaa_sarees.html" data-json="yes">
+  <td><span class="page-chip">Product Overlay</span></td>
+  <td><strong>Product Detail — All Fields</strong><br><small>Name, price, description, care, weave story, colour swatches</small></td>
+  <td><span class="badge badge-yes">Connected</span></td>
+  <td>Admin › Product Edit</td>
+  <td>SKU, Name, Region, Fabric, Colour, Occasion, Pricing, Short/Full Desc, Weave Story, Care, Status</td>
+  <td>data/products/{id}.json</td>
+  <td><div class="note">ProductDrawer fetches per-product JSON on open. Deep-link ?id= support wired. ⚠️ Admin Product Edit page does not write to data/products/{id}.json — it is DUMMY.</div></td>
 </tr>
 
-<tr data-page="amayaa_policies.html" data-json="yes" data-cfg="yes">
-  <td><span class="page-chip">Policies</span></td>
-  <td><strong>Terms &amp; Conditions</strong></td>
-  <td class="cfg-yes">Yes</td>
-  <td>Admin › Policies</td>
-  <td>Section Title · Highlight Text · Section Content (HTML)</td>
-  <td><span class="badge badge-yes">Yes</span></td>
-  <td>data/policies.json › sections[id=terms]</td>
-  <td></td>
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- ADMIN PAGES — BACKEND CONNECTIVITY AUDIT -->
+<!-- ═══════════════════════════════════════════════════ -->
+<tr class="pg-row"><td colspan="7">ADMIN PAGES — Backend Connectivity Audit</td></tr>
+
+<tr data-page="Admin — Settings" data-json="yes">
+  <td><span class="page-chip">Admin</span><br><small>amayaa_settings.html</small></td>
+  <td><strong>Settings Page</strong><br><small>Contact, Address, Hours, Social, Controls, Nav/Footer, Collections</small></td>
+  <td><span class="badge badge-yes">Connected</span></td>
+  <td>amayaa_settings.html</td>
+  <td>All cards have Edit → Save flow</td>
+  <td>settings.json · collections.json via GitHub API PUT</td>
+  <td><div class="note">✅ FULLY WIRED. Reads on load via GitHub API. Each Save card writes via PUT. Requires GitHub PAT in localStorage. Token stored client-side only.</div></td>
 </tr>
 
-<tr data-page="amayaa_policies.html" data-json="yes" data-cfg="yes">
-  <td><span class="page-chip">Policies</span></td>
-  <td><strong>Privacy Policy</strong></td>
-  <td class="cfg-yes">Yes</td>
-  <td>Admin › Policies</td>
-  <td>Section Title · Highlight Text · Section Content (HTML)</td>
-  <td><span class="badge badge-yes">Yes</span></td>
-  <td>data/policies.json › sections[id=privacy]</td>
-  <td></td>
-</tr>
-
-<tr data-page="amayaa_policies.html" data-json="yes" data-cfg="yes">
-  <td><span class="page-chip">Policies</span></td>
-  <td><strong>Disclaimer</strong></td>
-  <td class="cfg-yes">Yes</td>
-  <td>Admin › Policies</td>
-  <td>Section Title · Highlight Text · Section Content (HTML)</td>
-  <td><span class="badge badge-yes">Yes</span></td>
-  <td>data/policies.json › sections[id=disclaimer]</td>
-  <td></td>
-</tr>
-
-<tr data-page="amayaa_policies.html" data-json="yes" data-cfg="yes">
-  <td><span class="page-chip">Policies</span></td>
-  <td><strong>Typography / Orb Colours</strong></td>
-  <td class="cfg-yes">Yes</td>
-  <td>Admin › Typography</td>
-  <td>Orb Colours — Policies page (4 swatches)</td>
-  <td><span class="badge badge-yes">Yes</span></td>
-  <td>typography.json › orbColours.policies[0..3]</td>
-  <td><div class="note">✅ Added to typography.json as 4-colour array. Admin orb picker section added to amayaa_typography.html.</div></td>
-</tr>
-
-<!-- ══════════════════════════════════════════════════════════════════════ -->
-<!-- Admin Typography -->
-<!-- ══════════════════════════════════════════════════════════════════════ -->
-<tr class="pg-row"><td colspan="8">Admin — Typography Page (Re-verification Required)</td></tr>
-
-<tr data-page="Admin — Typography" data-json="yes" data-cfg="yes">
-  <td><span class="page-chip">Typography</span></td>
-  <td><strong>Primary Font (Body &amp; UI)</strong></td>
-  <td class="cfg-yes">Yes</td>
-  <td>Admin › Typography</td>
-  <td>Primary Font — Body &amp; UI dropdown</td>
-  <td><span class="badge badge-yes">Yes</span></td>
-  <td>typography.json › fonts.ff-primary</td>
-  <td></td>
-</tr>
-
-<tr data-page="Admin — Typography" data-json="yes" data-cfg="yes">
-  <td><span class="page-chip">Typography</span></td>
-  <td><strong>Display Font (Headings)</strong></td>
-  <td class="cfg-yes">Yes</td>
-  <td>Admin › Typography</td>
-  <td>Display Font — Headings &amp; Titles dropdown</td>
-  <td><span class="badge badge-yes">Yes</span></td>
-  <td>typography.json › fonts.ff-body</td>
-  <td></td>
-</tr>
-
-<tr data-page="Admin — Typography" data-json="yes" data-cfg="yes">
-  <td><span class="page-chip">Typography</span></td>
-  <td><strong>Font Sizes (14 settings)</strong><br><small>Body, Title, Heading, TH, TD, Labels, Inputs, Buttons, Badges, Meta, Brand, BrandSub, SectionLabel, NavLink</small></td>
-  <td class="cfg-yes">Yes</td>
-  <td>Admin › Typography</td>
-  <td>Individual size sliders/inputs</td>
-  <td><span class="badge badge-yes">Yes</span></td>
-  <td>typography.json › fontSizes.*</td>
-  <td></td>
-</tr>
-
-<tr data-page="Admin — Typography" data-json="yes" data-cfg="yes">
-  <td><span class="page-chip">Typography</span></td>
-  <td><strong>Colour Palette (8 colours)</strong><br><small>Body, Title, Label, Input, Link, Muted, NavLink, Active</small></td>
-  <td class="cfg-yes">Yes</td>
-  <td>Admin › Typography</td>
-  <td>Colour pickers</td>
-  <td><span class="badge badge-yes">Yes</span></td>
-  <td>typography.json › colours.*</td>
-  <td></td>
-</tr>
-
-<tr data-page="Admin — Typography" data-json="yes" data-cfg="yes">
-  <td><span class="page-chip">Typography</span></td>
-  <td><strong>Spacing (Line Height, Letter Spacing, Label Transform)</strong></td>
-  <td class="cfg-yes">Yes</td>
-  <td>Admin › Typography</td>
-  <td>Line Height · Letter Spacing · Label Transform</td>
-  <td><span class="badge badge-yes">Yes</span></td>
-  <td>typography.json › spacing.*</td>
-  <td></td>
-</tr>
-
-<tr data-page="Admin — Typography" data-json="yes" data-cfg="yes">
-  <td><span class="page-chip">Typography</span></td>
-  <td><strong>Orb Colours — All Pages (10)</strong><br><small>home, sarees, product, blog, about, contact, offers, search, faq, policies</small></td>
-  <td class="cfg-yes">Yes</td>
-  <td>Admin › Typography</td>
-  <td>Orb colour pickers per page (1 swatch for 7 legacy pages; 4 swatches for search/faq/policies)</td>
-  <td><span class="badge badge-yes">Yes</span></td>
-  <td>typography.json › orbColours.{home,sarees,product,blog,about,contact,offers} + orbColours.{search,faq,policies}[0..3]</td>
-  <td><div class="note">✅ All 10 pages now covered. Search, FAQ, Policies added to typography.json as 4-colour arrays. Orb picker section card added to amayaa_typography.html covering all pages.</div></td>
-</tr>
-
-<tr data-page="Admin — Typography" data-json="no" data-cfg="no" class="typo-gap">
-  <td><span class="page-chip">Typography</span></td>
-  <td><strong>Live Preview Coverage</strong><br><small>Preview shows Admin UI styles only</small></td>
-  <td class="cfg-no">No</td>
-  <td>Admin › Typography</td>
-  <td>Preview panel</td>
+<tr data-page="Admin — FAQ" data-json="partial">
+  <td><span class="page-chip">Admin</span><br><small>amayaa_faq.html</small></td>
+  <td><strong>FAQ Admin Page</strong><br><small>Edit/add/delete Q&amp;A groups and items</small></td>
   <td><span class="badge badge-partial">Partial</span></td>
+  <td>amayaa_faq.html</td>
+  <td>In-memory CRUD, drag reorder</td>
+  <td>faq.json (read only)</td>
+  <td><div class="warn-note">Reads faq.json on load ✅. Save button shows alert only — does NOT write to faq.json. Edits are lost on page reload. Needs GitHub API PUT wired to Save button.</div></td>
+</tr>
+
+<tr data-page="Admin — Policies" data-json="partial">
+  <td><span class="page-chip">Admin</span><br><small>amayaa_policies.html</small></td>
+  <td><strong>Policies Admin Page</strong><br><small>Edit each policy section</small></td>
+  <td><span class="badge badge-partial">Partial</span></td>
+  <td>amayaa_policies.html</td>
+  <td>Per-section edit form</td>
+  <td>policies.json (read only)</td>
+  <td><div class="warn-note">Reads policies.json on load ✅. Save button shows alert only — does NOT write to policies.json. Edits are lost on reload. Needs GitHub API PUT wired.</div></td>
+</tr>
+
+<tr data-page="Admin — About" data-json="partial">
+  <td><span class="page-chip">Admin</span><br><small>amayaa_about.html</small></td>
+  <td><strong>About Admin Page</strong><br><small>Story sections, values, weavers, promise cards</small></td>
+  <td><span class="badge badge-local">localStorage</span></td>
+  <td>amayaa_about.html</td>
+  <td>Full CRUD edit UI, JSON export button</td>
+  <td>about.json (neither read nor written)</td>
+  <td><div class="warn-note">Does NOT fetch about.json — uses hardcoded JS defaults + localStorage. Save writes to localStorage only (browser-local). Public amayaa_about.html is fully hardcoded and does not read about.json either. Both sides need rewiring.</div></td>
+</tr>
+
+<tr data-page="Admin — Banners" data-json="dummy">
+  <td><span class="page-chip">Admin</span><br><small>amayaa_banners.html</small></td>
+  <td><strong>Banners Admin Page</strong><br><small>Slide editor: headline, eyebrow, CTA, image</small></td>
+  <td><span class="badge badge-dummy">Dummy</span></td>
+  <td>amayaa_banners.html</td>
+  <td>Form fields + slide selector thumbnails</td>
+  <td>banners.json (not connected)</td>
+  <td><div class="gap-note">Does NOT fetch banners.json. Save button calls alert() only. All slide data is hardcoded HTML. Public index.html DOES correctly fetch banners.json. Admin needs full GitHub API wiring.</div></td>
+</tr>
+
+<tr data-page="Admin — Blog" data-json="dummy">
+  <td><span class="page-chip">Admin</span><br><small>amayaa_blog.html</small></td>
+  <td><strong>Blog Admin Page</strong><br><small>Post list + new post form</small></td>
+  <td><span class="badge badge-dummy">Dummy</span></td>
+  <td>amayaa_blog.html</td>
+  <td>Post table + write form</td>
+  <td>blog.json (not connected)</td>
+  <td><div class="gap-note">Does NOT fetch blog.json. Publish/Save buttons call alert() only. 5 hardcoded rows in table. Public amayaa_blog.html is also fully hardcoded. Both sides need rewiring.</div></td>
+</tr>
+
+<tr data-page="Admin — Products" data-json="dummy">
+  <td><span class="page-chip">Admin</span><br><small>amayaa_products.html</small></td>
+  <td><strong>Products Admin Page</strong><br><small>Product list table + filters</small></td>
+  <td><span class="badge badge-dummy">Dummy</span></td>
+  <td>amayaa_products.html</td>
+  <td>Table rows + filter pills</td>
+  <td>products_index.json (not connected)</td>
+  <td><div class="gap-note">Does NOT fetch products_index.json. Shows 5 hardcoded rows with fake counts (547 products). All action buttons (Sold Out, Delete, etc.) are inert or call confirm() only. Needs full GitHub API wiring.</div></td>
+</tr>
+
+<tr data-page="Admin — Products" data-json="dummy">
+  <td><span class="page-chip">Admin</span><br><small>amayaa_product_edit.html</small></td>
+  <td><strong>Product Edit Page</strong><br><small>Full product form: SKU, pricing, images, description</small></td>
+  <td><span class="badge badge-dummy">Dummy</span></td>
+  <td>amayaa_product_edit.html</td>
+  <td>All product fields, image upload areas, colour picker</td>
+  <td>data/products/{id}.json (not connected)</td>
+  <td><div class="gap-note">Does NOT fetch any product JSON. Pre-filled with one hardcoded product (SKU AMY-BAN-547). Save &amp; Publish calls alert() only. Region/Fabric dropdowns hardcoded, not from categories.json. Image upload areas are inert.</div></td>
+</tr>
+
+<tr data-page="Admin — Categories" data-json="dummy">
+  <td><span class="page-chip">Admin</span><br><small>amayaa_categories.html</small></td>
+  <td><strong>Categories Admin Page</strong><br><small>Regions, Fabrics, Colour Templates, Name Templates</small></td>
+  <td><span class="badge badge-dummy">Dummy</span></td>
+  <td>amayaa_categories.html</td>
+  <td>4 table sections + Add buttons</td>
+  <td>categories.json (not connected)</td>
+  <td><div class="gap-note">Does NOT fetch categories.json. All Add buttons call alert(). Hardcoded rows with fake product counts. Public sarees page DOES correctly fetch categories.json for filter chips.</div></td>
+</tr>
+
+<tr data-page="Admin — Typography" data-json="dummy">
+  <td><span class="page-chip">Admin</span><br><small>amayaa_typography.html</small></td>
+  <td><strong>Typography Admin Page</strong><br><small>Fonts, sizes, colours, orb colours per page</small></td>
+  <td><span class="badge badge-dummy">Dummy</span></td>
+  <td>amayaa_typography.html</td>
+  <td>Font pickers, size sliders, colour pickers for all pages</td>
+  <td>typography.json (not connected)</td>
+  <td><div class="gap-note">Does NOT fetch typography.json. Save Draft updates a timestamp span only. Changes are lost on reload. typography.json exists but no public page fetches it either. Both sides need rewiring.</div></td>
+</tr>
+
+<tr data-page="Admin — Dashboard" data-json="dummy">
+  <td><span class="page-chip">Admin</span><br><small>amayaa_dashboard.html</small></td>
+  <td><strong>Dashboard Stats &amp; Tables</strong><br><small>Product count, blog posts, visitors, enquiries, recent lists</small></td>
+  <td><span class="badge badge-dummy">Dummy</span></td>
+  <td>amayaa_dashboard.html</td>
+  <td>Stat cards + recent products/blog tables</td>
   <td>—</td>
-  <td><div class="gap-note">Typography live preview currently reflects admin panel styles. Verify: does changing typography.json actually apply to public pages (index, sarees, etc.)? Wire-up check needed.</div></td>
+  <td><div class="gap-note">All numbers (547 products, 6 posts, 12,847 visitors, 38 enquiries) are hardcoded HTML placeholders. Dashboard does not fetch or aggregate any JSON file. Purely decorative.</div></td>
 </tr>
 
 </tbody>
@@ -841,44 +680,37 @@ tr.hidden{display:none;}
 </div>
 
 <script>
-// ── Count summary ──────────────────────────────────────────────────────────
 function countSummary(){
   var rows = document.querySelectorAll('#tableBody tr[data-page]');
-  var yes=0, no=0, partial=0, gap=0, total=0;
+  var yes=0, no=0, partial=0, dummy=0, total=0;
   rows.forEach(function(r){
     var j = r.dataset.json;
     total++;
     if(j==='yes') yes++;
     else if(j==='no') no++;
     else if(j==='partial') partial++;
-    else if(j==='planned') partial++;
-    // count gap badges
-    if(r.querySelector('.badge-gap')) gap++;
+    else if(j==='dummy') dummy++;
+    else if(j==='local') partial++;
+    else if(j==='na') { total--; } // don't count N/A in total
   });
   document.getElementById('cnt-yes').textContent = yes;
-  document.getElementById('cnt-no').textContent = no;
   document.getElementById('cnt-partial').textContent = partial;
-  document.getElementById('cnt-gap').textContent = gap;
+  document.getElementById('cnt-no').textContent = no;
+  document.getElementById('cnt-dummy').textContent = dummy;
   document.getElementById('cnt-total').textContent = total;
 }
 
-// ── Filters ──────────────────────────────────────────────────────────────
 function applyFilters(){
   var page = document.getElementById('filterPage').value;
   var json = document.getElementById('filterJson').value;
-  var cfg  = document.getElementById('filterCfg').value;
   var rows = document.querySelectorAll('#tableBody tr[data-page]');
   var pgRows = document.querySelectorAll('#tableBody tr.pg-row');
-
   rows.forEach(function(r){
     var show = true;
     if(page && r.dataset.page !== page) show = false;
     if(json && r.dataset.json !== json) show = false;
-    if(cfg  && r.dataset.cfg  !== cfg)  show = false;
     r.classList.toggle('hidden', !show);
   });
-
-  // Hide page group headers if all their rows are hidden
   pgRows.forEach(function(pg){
     var next = pg.nextElementSibling;
     var anyVisible = false;
@@ -893,7 +725,6 @@ function applyFilters(){
 function resetFilters(){
   document.getElementById('filterPage').value = '';
   document.getElementById('filterJson').value = '';
-  document.getElementById('filterCfg').value  = '';
   applyFilters();
 }
 

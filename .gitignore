@@ -13,3 +13,4 @@ Thumbs.db
 
 # Node (testing tools)
 node_modules/
+.DS_Store

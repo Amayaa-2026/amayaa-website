@@ -247,6 +247,7 @@ if(!sessionStorage.getItem('amayaa_admin')){
   <div class="topbar">
     <div><div class="topbar-title">Site Settings</div><div class="topbar-sub">Click Edit on any section to change its details. Save each section individually.</div></div>
     <div class="topbar-actions">
+      <a href="../admin_traceability.html" class="btn btn-ghost" target="_blank" title="See which admin field controls which page element">📊 Element Map</a>
       <a href="/index.html" class="btn btn-ghost" target="_blank">🌐 View Website</a>
     </div>
   </div>
@@ -494,15 +495,18 @@ function clearToken() {
   _checkToken();
 }
 
+/* Use TextDecoder/TextEncoder — handles all Unicode correctly */
 function _b64ToUtf8(b64) {
   var raw = atob(b64.replace(/\n/g, ''));
-  return decodeURIComponent(raw.split('').map(function(c){
-    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-  }).join(''));
+  var bytes = new Uint8Array(raw.length);
+  for (var i = 0; i < raw.length; i++) bytes[i] = raw.charCodeAt(i);
+  return new TextDecoder('utf-8', { fatal: false }).decode(bytes);
 }
 function _utf8ToB64(str) {
-  var bytes = encodeURIComponent(str).replace(/%([0-9A-F]{2})/gi, function(m,p){ return String.fromCharCode(parseInt(p,16)); });
-  return btoa(bytes);
+  var bytes = new TextEncoder().encode(str);
+  var bin = '';
+  for (var i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+  return btoa(bin);
 }
 
 document.addEventListener('DOMContentLoaded', function () {

@@ -440,7 +440,12 @@ document.addEventListener('DOMContentLoaded', function () {
     .then(function (r) { return r.json(); })
     .then(function (data) {
       _sha = data.sha;
-      _cfg = JSON.parse(atob(data.content.replace(/\n/g, '')));
+      // Decode base64 → UTF-8 properly (handles en-dashes, emoji, etc.)
+      var _raw = atob(data.content.replace(/\n/g, ''));
+      var _utf = decodeURIComponent(_raw.split('').map(function(c){
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join(''));
+      _cfg = JSON.parse(_utf);
       _populate();
     })
     .catch(function (e) { console.warn('Settings load failed', e); });
@@ -553,7 +558,10 @@ function _write(cardId) {
 
   var encoded;
   try {
-    encoded = btoa(unescape(encodeURIComponent(JSON.stringify(_cfg, null, 2))));
+    // Encode UTF-8 → base64 properly (handles en-dashes, emoji, etc.)
+    var _json = JSON.stringify(_cfg, null, 2);
+    var _bytes = encodeURIComponent(_json).replace(/%([0-9A-F]{2})/gi, function(m, p){ return String.fromCharCode(parseInt(p, 16)); });
+    encoded = btoa(_bytes);
   } catch(e) {
     si.textContent = '❌ Encoding error';
     btn.textContent = '💾 Save'; btn.disabled = false;

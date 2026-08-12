@@ -41,7 +41,7 @@
     }
   },
   "siteControls": {
-    "comingSoon": true,
+    "comingSoon": false,
     "comingSoonPreviewKey": "amayaa2026",
     "maintenanceMode": false,
     "showVisitorCounter": true,

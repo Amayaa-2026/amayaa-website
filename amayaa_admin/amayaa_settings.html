@@ -210,6 +210,16 @@ body{font-family:'Jost',sans-serif;background:linear-gradient(135deg,#E4DFD9 0%,
 .save-indicator{font-size:11px;color:#1A7A40;display:none;align-items:center;gap:4px;}
 .save-indicator.show{display:flex;}
 
+
+.token-banner{display:none;align-items:center;gap:12px;background:linear-gradient(135deg,#FFF8F0,#FFF0E0);border:1.5px solid rgba(196,98,45,.3);border-radius:14px;padding:14px 18px;margin-bottom:20px;}
+.token-banner.show{display:flex;}
+.token-banner-text{font-size:13px;color:#5A4030;flex:1;}
+.token-banner-text strong{display:block;margin-bottom:2px;color:#C4622D;}
+.token-banner input{flex:2;padding:8px 12px;border-radius:9px;border:1.5px solid rgba(0,0,0,.12);font-family:'Jost',sans-serif;font-size:13px;background:white;}
+.token-banner button{padding:8px 16px;border-radius:9px;border:none;background:linear-gradient(135deg,#C4622D,#E8843D);color:white;font-family:'Jost',sans-serif;font-size:12px;font-weight:700;letter-spacing:1px;cursor:pointer;white-space:nowrap;}
+.token-set-wrap{display:flex;align-items:center;gap:10px;font-size:12px;color:#7A6050;}
+.token-set-wrap a{color:#C4622D;cursor:pointer;text-decoration:underline;}
+
 </style>
 </head>
 <body>
@@ -229,6 +239,20 @@ if(!sessionStorage.getItem('amayaa_admin')){
   </div>
   <div class="content">
 
+
+    <!-- GitHub Token Setup Banner -->
+    <div class="token-banner" id="token-banner">
+      <div class="token-banner-text">
+        <strong>🔑 GitHub Token Required for Live Saves</strong>
+        Paste your token once — it stays in this browser only, never in the repo.
+      </div>
+      <input type="password" id="token-input" placeholder="github_pat_…" autocomplete="off">
+      <button onclick="saveToken()">Save Token</button>
+    </div>
+    <div class="token-set-wrap" id="token-set-wrap" style="display:none;margin-bottom:16px;">
+      ✅ GitHub token active — saves go live in ~30s &nbsp;·&nbsp; <a onclick="clearToken()">Change token</a>
+    </div>
+
     <!-- CARD 1: CONTACT DETAILS -->
     <div class="settings-card locked" id="card-contact">
       <div class="settings-card-header">
@@ -239,12 +263,12 @@ if(!sessionStorage.getItem('amayaa_admin')){
         </div>
       </div>
       <div class="form-grid">
-        <div class="fg"><label>WhatsApp Number *</label><input class="fi" value="+91 95839 46000" disabled><p style="font-size:11px;color:#B0967E;margin-top:4px;">Used on ALL enquiry buttons site-wide</p></div>
-        <div class="fg"><label>Store Phone (Call Us button)</label><input class="fi" value="+91 95839 46000" disabled></div>
+        <div class="fg"><label>WhatsApp Number *</label><input class="fi" id="fi-whatsapp" value="+91 95839 46000" disabled><p style="font-size:11px;color:#B0967E;margin-top:4px;">Used on ALL enquiry buttons site-wide</p></div>
+        <div class="fg"><label>Store Phone (Call Us button)</label><input class="fi" id="fi-phone" value="+91 95839 46000" disabled></div>
       </div>
       <div class="form-grid">
-        <div class="fg"><label>Store Email *</label><input class="fi" value="stylewithpolkadots@gmail.com" disabled></div>
-        <div class="fg"><label>Formspree Form ID</label><input class="fi" value="xrgvkpdw" disabled><p style="font-size:11px;color:#B0967E;margin-top:4px;">Get from formspree.io — for contact form</p></div>
+        <div class="fg"><label>Store Email *</label><input class="fi" id="fi-email" value="stylewithpolkadots@gmail.com" disabled></div>
+        <div class="fg"><label>Formspree Form ID</label><input class="fi" id="fi-formspree" value="xrgvkpdw" disabled><p style="font-size:11px;color:#B0967E;margin-top:4px;">Get from formspree.io — for contact form</p></div>
       </div>
     </div>
 
@@ -257,12 +281,14 @@ if(!sessionStorage.getItem('amayaa_admin')){
           <button class="btn btn-edit btn-sm" id="btn-address" onclick="editCard('address')">✏ Edit</button>
         </div>
       </div>
-      <div class="fg"><label>Address Line 1</label><input class="fi" value="Block DS IV, Civic Center, Shop No. G5 & G11" disabled></div>
-      <div class="fg"><label>Address Line 2</label><input class="fi" value="Uttarapan Market Complex, Scheme No VII (M), CIT Rd" disabled></div>
-      <div class="form-grid">
-        <div class="fg"><label>City, State, PIN</label><input class="fi" value="Kolkata, West Bengal 700054" disabled></div>
-        <div class="fg"><label>Google Maps Link</label><input class="fi" value="https://share.google/FHosHWQwB2snGhLTw" disabled></div>
+      <div class="fg"><label>Address Line 1</label><input class="fi" id="fi-addr1" value="Block DS IV, Civic Center, Shop No. G5 & G11" disabled></div>
+      <div class="fg"><label>Address Line 2</label><input class="fi" id="fi-addr2" value="Uttarapan Market Complex, Scheme No VII (M), CIT Rd" disabled></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 110px;gap:12px;margin-bottom:14px;">
+        <div class="fg" style="margin-bottom:0;"><label>City</label><input class="fi" id="fi-city" value="Kolkata" disabled></div>
+        <div class="fg" style="margin-bottom:0;"><label>State</label><input class="fi" id="fi-state" value="West Bengal" disabled></div>
+        <div class="fg" style="margin-bottom:0;"><label>PIN</label><input class="fi" id="fi-pin" value="700054" disabled></div>
       </div>
+      <div class="fg"><label>Google Maps Link</label><input class="fi" id="fi-maps" value="https://share.google/FHosHWQwB2snGhLTw" disabled></div>
     </div>
 
     <!-- CARD 3: STORE HOURS -->
@@ -275,10 +301,10 @@ if(!sessionStorage.getItem('amayaa_admin')){
         </div>
       </div>
       <div class="form-grid">
-        <div class="fg"><label>Monday – Saturday</label><input class="fi" value="10:00 AM – 8:00 PM" disabled></div>
-        <div class="fg"><label>Sunday</label><input class="fi" value="11:00 AM – 6:00 PM" disabled></div>
+        <div class="fg"><label>Monday – Saturday</label><input class="fi" id="fi-weekday-hours" value="10:00 AM – 8:00 PM" disabled></div>
+        <div class="fg"><label>Sunday</label><input class="fi" id="fi-sunday-hours" value="11:00 AM – 6:00 PM" disabled></div>
       </div>
-      <div class="fg"><label>Holiday / Closure Notice (optional)</label><input class="fi" value="" placeholder="e.g. Closed 15th Aug for Independence Day" disabled></div>
+      <div class="fg"><label>Holiday / Closure Notice (optional)</label><input class="fi" id="fi-holiday" value="" placeholder="e.g. Closed 15th Aug for Independence Day" disabled></div>
     </div>
 
     <!-- CARD 4: SOCIAL MEDIA -->
@@ -291,12 +317,12 @@ if(!sessionStorage.getItem('amayaa_admin')){
         </div>
       </div>
       <div class="form-grid">
-        <div class="fg"><label>Instagram URL</label><input class="fi" value="https://instagram.com/stylewithpolkadots" disabled></div>
-        <div class="fg"><label>Facebook URL</label><input class="fi" value="https://facebook.com/stylewithpolkadots" disabled></div>
+        <div class="fg"><label>Instagram URL</label><input class="fi" id="fi-instagram" value="https://instagram.com/stylewithpolkadots" disabled></div>
+        <div class="fg"><label>Facebook URL</label><input class="fi" id="fi-facebook" value="https://facebook.com/stylewithpolkadots" disabled></div>
       </div>
       <div class="form-grid">
-        <div class="fg"><label>YouTube URL</label><input class="fi" value="https://www.youtube.com/@polkadots.617" disabled></div>
-        <div class="fg"><label>Pinterest URL (optional)</label><input class="fi" value="" placeholder="https://pinterest.com/..." disabled></div>
+        <div class="fg"><label>YouTube URL</label><input class="fi" id="fi-youtube" value="https://www.youtube.com/@polkadots.617" disabled></div>
+        <div class="fg"><label>Pinterest URL (optional)</label><input class="fi" id="fi-pinterest" value="" placeholder="https://pinterest.com/..." disabled></div>
       </div>
     </div>
 
@@ -337,12 +363,12 @@ if(!sessionStorage.getItem('amayaa_admin')){
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
         <div style="display:flex;flex-direction:column;gap:14px;">
-          <div class="toggle-wrap"><label class="toggle"><input type="checkbox" disabled><div class="toggle-slider"></div></label><div><div class="toggle-label">Maintenance Mode</div><div style="font-size:11px;color:#9A8070;">Shows "Coming Soon" while updating</div></div></div>
-          <div class="toggle-wrap"><label class="toggle"><input type="checkbox" checked disabled><div class="toggle-slider"></div></label><div><div class="toggle-label">Show Visitor Counter</div><div style="font-size:11px;color:#9A8070;">Homepage "Woven with love for X visitors"</div></div></div>
+          <div class="toggle-wrap"><label class="toggle"><input type="checkbox" id="tog-comingSoon" disabled><div class="toggle-slider"></div></label><div><div class="toggle-label">Coming Soon Mode</div><div style="font-size:11px;color:#9A8070;">Redirects all visitors to coming soon page</div></div></div>
+          <div class="toggle-wrap"><label class="toggle"><input type="checkbox" id="tog-showVisitorCounter" checked disabled><div class="toggle-slider"></div></label><div><div class="toggle-label">Show Visitor Counter</div><div style="font-size:11px;color:#9A8070;">Homepage "Woven with love for X visitors"</div></div></div>
         </div>
         <div style="display:flex;flex-direction:column;gap:14px;">
-          <div class="toggle-wrap"><label class="toggle"><input type="checkbox" checked disabled><div class="toggle-slider"></div></label><div><div class="toggle-label">WhatsApp FAB Button</div><div style="font-size:11px;color:#9A8070;">Floating button on all pages</div></div></div>
-          <div class="toggle-wrap"><label class="toggle"><input type="checkbox" checked disabled><div class="toggle-slider"></div></label><div><div class="toggle-label">Special Offers in Nav</div><div style="font-size:11px;color:#9A8070;">Show 🎁 Special Offers menu item</div></div></div>
+          <div class="toggle-wrap"><label class="toggle"><input type="checkbox" id="tog-showWhatsAppFab" checked disabled><div class="toggle-slider"></div></label><div><div class="toggle-label">WhatsApp FAB Button</div><div style="font-size:11px;color:#9A8070;">Floating button on all pages</div></div></div>
+          <div class="toggle-wrap"><label class="toggle"><input type="checkbox" id="tog-showSpecialOffersInNav" checked disabled><div class="toggle-slider"></div></label><div><div class="toggle-label">Special Offers in Nav</div><div style="font-size:11px;color:#9A8070;">Show 🎁 Special Offers menu item</div></div></div>
         </div>
       </div>
     </div>
@@ -370,33 +396,205 @@ if(!sessionStorage.getItem('amayaa_admin')){
 </div>
 
 <script>
+/* ── GitHub API Config ─────────────────────────────────────────────────────── */
+var GH = {
+  token  : localStorage.getItem('amayaa_gh_token') || '',
+  repo   : 'Amayaa-2026/amayaa-website',
+  branch : 'main',
+  file   : 'data/settings.json'
+};
+var _cfg = null;   // parsed settings.json object
+var _sha = null;   // current file SHA (needed for writes)
 var editing = {};
-function editCard(id){
-  var card = document.getElementById("card-"+id);
-  var btn = document.getElementById("btn-"+id);
-  var si = document.getElementById("si-"+id);
-  if(!editing[id]){
-    // Enter edit mode
-    card.classList.remove("locked");
-    card.querySelectorAll(".fi,.fta,.fse").forEach(function(el){el.disabled=false;});
-    card.querySelectorAll(".toggle input").forEach(function(el){el.disabled=false;});
-    btn.textContent = "💾 Save";
-    btn.className = "btn btn-save btn-sm";
-    si.classList.remove("show");
+
+/* ── Boot: load settings from GitHub and populate form ─────────────────────── */
+
+/* ── Token management ──────────────────────────────────────────────────────── */
+function _checkToken() {
+  var t = localStorage.getItem('amayaa_gh_token');
+  if (t) {
+    document.getElementById('token-banner').classList.remove('show');
+    document.getElementById('token-set-wrap').style.display = 'flex';
+  } else {
+    document.getElementById('token-banner').classList.add('show');
+    document.getElementById('token-set-wrap').style.display = 'none';
+  }
+}
+function saveToken() {
+  var val = document.getElementById('token-input').value.trim();
+  if (!val) { alert('Please paste your GitHub token first.'); return; }
+  localStorage.setItem('amayaa_gh_token', val);
+  document.getElementById('token-input').value = '';
+  _checkToken();
+}
+function clearToken() {
+  localStorage.removeItem('amayaa_gh_token');
+  _checkToken();
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  _checkToken();
+  var url = 'https://api.github.com/repos/' + GH.repo + '/contents/' + GH.file + '?ref=' + GH.branch;
+  fetch(url, { headers: { Authorization: 'token ' + GH.token, Accept: 'application/vnd.github.v3+json' } })
+    .then(function (r) { return r.json(); })
+    .then(function (data) {
+      _sha = data.sha;
+      _cfg = JSON.parse(atob(data.content.replace(/\n/g, '')));
+      _populate();
+    })
+    .catch(function (e) { console.warn('Settings load failed', e); });
+});
+
+/* ── Populate all form inputs from _cfg ────────────────────────────────────── */
+function _populate() {
+  var c = _cfg;
+  function s(id, v) { var el = document.getElementById(id); if (el && v !== undefined) el.value = v || ''; }
+  function k(id, v) { var el = document.getElementById(id); if (el) el.checked = !!v; }
+
+  // Contact
+  s('fi-whatsapp',      c.contact && c.contact.whatsapp);
+  s('fi-phone',         c.contact && c.contact.phone);
+  s('fi-email',         c.contact && c.contact.email);
+  s('fi-formspree',     c.integrations && c.integrations.formspreeId);
+  // Address
+  s('fi-addr1',  c.address && c.address.line1);
+  s('fi-addr2',  c.address && ((c.address.line2 || '') + (c.address.line3 ? ', ' + c.address.line3 : '')));
+  s('fi-city',   c.address && c.address.city);
+  s('fi-state',  c.address && c.address.state);
+  s('fi-pin',    c.address && c.address.pincode);
+  s('fi-maps',   c.googleMapsLink);
+  // Hours
+  s('fi-weekday-hours', c.hours && c.hours.weekdayHours);
+  s('fi-sunday-hours',  c.hours && c.hours.sundayHours);
+  s('fi-holiday',       c.holidayNotice);
+  // Social
+  s('fi-instagram', c.social && c.social.instagram);
+  s('fi-facebook',  c.social && c.social.facebook);
+  s('fi-youtube',   c.social && c.social.youtube);
+  s('fi-pinterest', c.social && c.social.pinterest);
+  // Site Controls
+  k('tog-comingSoon',            c.siteControls && c.siteControls.comingSoon);
+  k('tog-showVisitorCounter',    c.siteControls && c.siteControls.showVisitorCounter);
+  k('tog-showWhatsAppFab',       c.siteControls && c.siteControls.showWhatsAppFab);
+  k('tog-showSpecialOffersInNav',c.siteControls && c.siteControls.showSpecialOffersInNav);
+}
+
+/* ── Collect form values into _cfg for a given card ────────────────────────── */
+function _collect(id) {
+  function g(fid) { var el = document.getElementById(fid); return el ? el.value.trim() : ''; }
+  function c(fid) { var el = document.getElementById(fid); return el ? el.checked : false; }
+  if (!_cfg) _cfg = {};
+
+  if (id === 'contact') {
+    _cfg.contact       = _cfg.contact       || {};
+    _cfg.integrations  = _cfg.integrations  || {};
+    _cfg.contact.whatsapp        = g('fi-whatsapp');
+    _cfg.contact.phone           = g('fi-phone');
+    _cfg.contact.email           = g('fi-email');
+    _cfg.integrations.formspreeId= g('fi-formspree');
+  }
+  if (id === 'address') {
+    _cfg.address = _cfg.address || {};
+    _cfg.address.line1   = g('fi-addr1');
+    _cfg.address.line2   = g('fi-addr2');
+    _cfg.address.line3   = '';
+    _cfg.address.city    = g('fi-city');
+    _cfg.address.state   = g('fi-state');
+    _cfg.address.pincode = g('fi-pin');
+    _cfg.googleMapsLink  = g('fi-maps');
+  }
+  if (id === 'hours') {
+    _cfg.hours = _cfg.hours || {};
+    _cfg.hours.weekdayHours = g('fi-weekday-hours');
+    _cfg.hours.sundayHours  = g('fi-sunday-hours');
+    _cfg.holidayNotice      = g('fi-holiday');
+  }
+  if (id === 'social') {
+    _cfg.social = _cfg.social || {};
+    _cfg.social.instagram = g('fi-instagram');
+    _cfg.social.facebook  = g('fi-facebook');
+    _cfg.social.youtube   = g('fi-youtube');
+    _cfg.social.pinterest = g('fi-pinterest');
+  }
+  if (id === 'controls') {
+    _cfg.siteControls = _cfg.siteControls || {};
+    _cfg.siteControls.comingSoon             = c('tog-comingSoon');
+    _cfg.siteControls.showVisitorCounter     = c('tog-showVisitorCounter');
+    _cfg.siteControls.showWhatsAppFab        = c('tog-showWhatsAppFab');
+    _cfg.siteControls.showSpecialOffersInNav = c('tog-showSpecialOffersInNav');
+  }
+}
+
+/* ── Write _cfg to GitHub and update SHA ───────────────────────────────────── */
+function _write(cardId) {
+  var btn = document.getElementById('btn-' + cardId);
+  var si  = document.getElementById('si-'  + cardId);
+
+  btn.textContent = '⏳ Saving…';
+  btn.disabled = true;
+  si.textContent = '⏳ Saving…';
+  si.classList.add('show');
+
+  var encoded;
+  try {
+    encoded = btoa(unescape(encodeURIComponent(JSON.stringify(_cfg, null, 2))));
+  } catch(e) {
+    si.textContent = '❌ Encoding error';
+    btn.textContent = '💾 Save'; btn.disabled = false;
+    return;
+  }
+
+  fetch('https://api.github.com/repos/' + GH.repo + '/contents/' + GH.file, {
+    method  : 'PUT',
+    headers : { Authorization: 'token ' + GH.token, Accept: 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
+    body    : JSON.stringify({ message: 'Admin: update ' + cardId, content: encoded, sha: _sha, branch: GH.branch })
+  })
+  .then(function (r) { return r.json(); })
+  .then(function (data) {
+    if (data.content && data.content.sha) {
+      _sha = data.content.sha;  // keep SHA current for next write
+    }
+    btn.textContent = '✏ Edit';
+    btn.className   = 'btn btn-edit btn-sm';
+    btn.disabled    = false;
+    si.textContent  = '✅ Saved — live in ~30s';
+    setTimeout(function () { si.classList.remove('show'); }, 5000);
+  })
+  .catch(function () {
+    btn.textContent = '💾 Save';
+    btn.disabled = false;
+    si.textContent = '❌ Save failed — check connection';
+    setTimeout(function () { si.classList.remove('show'); }, 4000);
+  });
+}
+
+/* ── editCard: Edit ↔ Save toggle ──────────────────────────────────────────── */
+function editCard(id) {
+  var card = document.getElementById('card-' + id);
+  var btn  = document.getElementById('btn-'  + id);
+  var si   = document.getElementById('si-'   + id);
+
+  if (!editing[id]) {
+    // → Enter edit mode
+    card.classList.remove('locked');
+    card.querySelectorAll('.fi,.fta,.fse').forEach(function (el) { el.disabled = false; });
+    card.querySelectorAll('.toggle input').forEach(function (el) { el.disabled = false; });
+    btn.textContent = '💾 Save';
+    btn.className   = 'btn btn-save btn-sm';
+    si.classList.remove('show');
     editing[id] = true;
   } else {
-    // Save
-    card.classList.add("locked");
-    card.querySelectorAll(".fi,.fta,.fse").forEach(function(el){el.disabled=true;});
-    card.querySelectorAll(".toggle input").forEach(function(el){el.disabled=true;});
-    btn.textContent = "✏ Edit";
-    btn.className = "btn btn-edit btn-sm";
-    si.classList.add("show");
+    // → Save: collect → lock → write to GitHub
+    _collect(id);
+    card.classList.add('locked');
+    card.querySelectorAll('.fi,.fta,.fse').forEach(function (el) { el.disabled = true; });
+    card.querySelectorAll('.toggle input').forEach(function (el) { el.disabled = true; });
     editing[id] = false;
-    setTimeout(function(){si.classList.remove("show");},3000);
+    _write(id);
   }
 }
 </script>
+
 <script data-goatcounter="https://amayaa.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 <script data-goatcounter="https://amayaa.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 <script src="sidebar.js"></script>

@@ -641,6 +641,42 @@ input[type=color].fi{padding:4px 6px;height:40px;cursor:pointer;}
 </div>
 
 <script>
+/* ── Init: load saved values from typography.json ── */
+document.addEventListener('DOMContentLoaded',function(){
+  fetch('../data/typography.json?_='+Date.now())
+    .then(function(r){return r.json();})
+    .then(function(t){
+      /* font selects */
+      if(t.fonts){
+        var fp=document.getElementById('ff-primary'); if(fp&&t.fonts['ff-primary']) fp.value=t.fonts['ff-primary'];
+        var fd=document.getElementById('ff-display'); if(fd&&t.fonts['ff-body']) fd.value=t.fonts['ff-body'];
+      }
+      /* admin font sizes */
+      if(t.fontSizes) Object.keys(t.fontSizes).forEach(function(k){var el=document.getElementById(k);if(el) el.textContent=t.fontSizes[k];});
+      /* admin colours */
+      if(t.colours) Object.keys(t.colours).forEach(function(k){
+        var hex=document.getElementById('hex-'+k.replace('col-','')); if(hex) hex.value=t.colours[k];
+        var col=document.getElementById(k); if(col) col.value=t.colours[k];
+      });
+      /* public site sizes */
+      if(t.publicSite){
+        var sizeMap={'heroHeadingSize':'pw-hero-h','heroSubtitleSize':'pw-hero-sub','sectionTitleSize':'pw-sec-title','sectionLabelSize':'pw-sec-lbl','bodySize':'pw-body','productNameSize':'pw-prod-name','productPriceSize':'pw-prod-price','metaSize':'pw-meta','btnSize':'pw-btn'};
+        Object.keys(sizeMap).forEach(function(k){var el=document.getElementById(sizeMap[k]);if(el&&t.publicSite[k]) el.textContent=t.publicSite[k];});
+        /* public colours */
+        if(t.publicSite.colours){
+          var colMap={'brand':'pw-hex-brand','brandDark':'pw-hex-brand-dark','deepText':'pw-hex-deep','bodyText':'pw-hex-body','muted':'pw-hex-muted','background':'pw-hex-bg','heroText':'pw-hex-hero'};
+          Object.keys(colMap).forEach(function(k){
+            var hex=document.getElementById(colMap[k]); if(hex&&t.publicSite.colours[k]) hex.value=t.publicSite.colours[k];
+            /* also update the color picker sibling */
+            var pickId=colMap[k].replace('-hex-','-col-').replace('pw-hex-','pw-col-'); var pick=document.getElementById(pickId); if(pick&&t.publicSite.colours[k]) pick.value=t.publicSite.colours[k];
+          });
+        }
+      }
+      updatePreview();
+    })
+    .catch(function(e){console.warn('typography.json load failed:',e);});
+});
+
 function step(id,dir){const el=document.getElementById(id);const v=parseInt(el.textContent);const n=Math.max(8,Math.min(60,v+dir));el.textContent=n+'px';updatePreview();}
 function syncHex(picker,hexId){document.getElementById(hexId).value=picker.value;}
 function syncColor(hex,pickerId){const v=hex.value;if(/^#[0-9A-Fa-f]{6}$/.test(v))document.getElementById(pickerId).value=v;}
@@ -707,7 +743,105 @@ function pwUpdatePreview(){
   var pr=document.getElementById('pw-prev-region');
   if(pr){pr.style.fontSize=meta;pr.style.color=muted;}
 }
-function saveDraft(){document.getElementById('save-status').textContent='✓ Draft saved — '+new Date().toLocaleTimeString();}
+/* ── GitHub helpers ── */
+var GH_REPO='Amayaa-2026/amayaa-website';
+var GH_BRANCH='main';
+function _ghTok(){return localStorage.getItem('amayaa_gh_token')||'';}
+function _ghHdrs(){return{Authorization:'token '+_ghTok(),Accept:'application/vnd.github.v3+json','Content-Type':'application/json'};}
+function _utf8ToB64(str){var bytes=new TextEncoder().encode(str);var bin='';for(var i=0;i<bytes.length;i++)bin+=String.fromCharCode(bytes[i]);return btoa(bin);}
+function _ghSave(filePath,dat,msg,onDone){
+  var tok=_ghTok();
+  if(!tok){alert('No GitHub token — go to Admin → Settings.');return;}
+  var si=document.getElementById('save-status');
+  if(si){si.textContent='Saving…';}
+  fetch('https://api.github.com/repos/'+GH_REPO+'/contents/'+filePath+'?ref='+GH_BRANCH,{headers:_ghHdrs()})
+    .then(function(r){return r.json();})
+    .then(function(ex){
+      if(!ex.sha)throw new Error(ex.message||'No SHA');
+      return fetch('https://api.github.com/repos/'+GH_REPO+'/contents/'+filePath,{method:'PUT',headers:_ghHdrs(),body:JSON.stringify({message:msg,content:_utf8ToB64(JSON.stringify(dat,null,2)),sha:ex.sha,branch:GH_BRANCH})});
+    })
+    .then(function(r){return r.json();})
+    .then(function(res){
+      if(res.content){
+        if(si){si.textContent='✅ Saved to GitHub — '+new Date().toLocaleTimeString();}
+        if(onDone) onDone();
+      }else{throw new Error(res.message||'Write failed');}
+    })
+    .catch(function(e){alert('Save failed: '+(e.message||e));if(si){si.textContent='Save failed.';}});
+}
+
+function _getEl(id){var el=document.getElementById(id);return el?el.value||el.textContent:'';}
+function _getSz(id){var el=document.getElementById(id);return el?el.textContent.trim():'';}
+
+function saveDraft(){
+  /* collect current state from DOM */
+  var dat={
+    fonts:{
+      'ff-primary':_getEl('ff-primary'),
+      'ff-body':_getEl('ff-display')
+    },
+    fontSizes:{
+      'sz-body':_getSz('sz-body'),
+      'sz-title':_getSz('sz-title'),
+      'sz-heading':_getSz('sz-heading'),
+      'sz-th':_getSz('sz-th'),
+      'sz-td':_getSz('sz-td'),
+      'sz-label':_getSz('sz-label'),
+      'sz-input':_getSz('sz-input'),
+      'sz-btn':_getSz('sz-btn'),
+      'sz-badge':_getSz('sz-badge'),
+      'sz-meta':_getSz('sz-meta'),
+      'sz-brand':_getSz('sz-brand'),
+      'sz-brandsub':_getSz('sz-brandsub'),
+      'sz-seclabel':_getSz('sz-seclabel'),
+      'sz-navlink':_getSz('sz-navlink')
+    },
+    colours:{
+      'col-body':_getEl('hex-body'),
+      'col-title':_getEl('hex-title'),
+      'col-label':_getEl('hex-label'),
+      'col-input':_getEl('hex-input'),
+      'col-link':_getEl('hex-link'),
+      'col-muted':_getEl('hex-muted'),
+      'col-navlink':_getEl('hex-navlink'),
+      'col-active':_getEl('hex-active')
+    },
+    spacing:{lineHeight:'1.6',letterSpacing:'1px',labelTransform:'uppercase'},
+    publicSite:{
+      heroHeadingSize:_getSz('pw-hero-h'),
+      heroSubtitleSize:_getSz('pw-hero-sub'),
+      sectionTitleSize:_getSz('pw-sec-title'),
+      sectionLabelSize:_getSz('pw-sec-lbl'),
+      bodySize:_getSz('pw-body'),
+      productNameSize:_getSz('pw-prod-name'),
+      productPriceSize:_getSz('pw-prod-price'),
+      metaSize:_getSz('pw-meta'),
+      btnSize:_getSz('pw-btn'),
+      colours:{
+        brand:_getEl('pw-hex-brand'),
+        brandDark:_getEl('pw-hex-brand-dark'),
+        deepText:_getEl('pw-hex-deep'),
+        bodyText:_getEl('pw-hex-body'),
+        muted:_getEl('pw-hex-muted'),
+        background:_getEl('pw-hex-bg'),
+        heroText:_getEl('pw-hex-hero'),
+        heroMuted:'rgba(255,248,238,0.85)'
+      }
+    }
+  };
+  /* preserve orbColours from existing JSON — fetch then merge */
+  var si=document.getElementById('save-status');
+  if(si) si.textContent='Saving…';
+  fetch('../data/typography.json?_='+Date.now())
+    .then(function(r){return r.json();})
+    .then(function(existing){
+      if(existing.orbColours) dat.orbColours=existing.orbColours;
+      _ghSave('data/typography.json',dat,'Admin: update typography');
+    })
+    .catch(function(){
+      _ghSave('data/typography.json',dat,'Admin: update typography');
+    });
+}
 function resetAll(){location.reload();}
 
 function updatePreview(){

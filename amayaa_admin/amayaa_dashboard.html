@@ -281,11 +281,12 @@ document.addEventListener('DOMContentLoaded', function() {
     .then(function(products) {
       var total = products.length;
       var active = products.filter(function(p){ return p.status === 'active'; }).length;
-      var sold = products.filter(function(p){ return p.status === 'sold-out'; }).length;
+      var sold = products.filter(function(p){ return p.status === 'sold_out'; }).length;
+      var hidden = products.filter(function(p){ return p.status === 'hidden'; }).length;
       var el = document.getElementById('dash-products');
       if(el) el.textContent = total;
       var ela = document.getElementById('dash-active');
-      if(ela) ela.textContent = active + ' active · ' + sold + ' sold out';
+      if(ela) ela.textContent = active + ' active · ' + sold + ' sold out · ' + hidden + ' hidden';
     }).catch(function(){});
 
   // Blog posts count
@@ -305,7 +306,9 @@ document.addEventListener('DOMContentLoaded', function() {
       if(!tbody) return;
       var recent = products.slice(0, 5);
       tbody.innerHTML = recent.map(function(p) {
-        return '<tr><td><div style="display:flex;align-items:center;gap:10px;"><div style="width:32px;height:38px;border-radius:6px;background:linear-gradient(135deg,'+(p.gradientFrom||'#8B1A4A')+','+(p.gradientTo||'#C4622D')+');flex-shrink:0;"></div><span style="font-weight:500;">'+p.name+'</span></div></td><td>'+p.type+'</td><td>&#8377; '+p.price.toLocaleString('en-IN')+'</td><td><span class="badge badge-'+(p.status==='active'?'active':p.status==='sold-out'?'sold':'hidden')+'">'+p.status+'</span></td></tr>';
+        var statusLabel=p.status==='active'?'Active':p.status==='sold_out'?'Sold Out':'Hidden';
+        var statusClass=p.status==='active'?'active':p.status==='sold_out'?'sold':'hidden';
+        return '<tr><td><div style="display:flex;align-items:center;gap:10px;"><div style="width:32px;height:38px;border-radius:6px;background:linear-gradient(135deg,'+(p.gradientFrom||'#8B1A4A')+','+(p.gradientTo||'#C4622D')+');flex-shrink:0;"></div><span style="font-weight:500;">'+p.name+'</span></div></td><td>'+p.type+'</td><td>&#8377; '+p.price.toLocaleString('en-IN')+'</td><td><span class="badge badge-'+statusClass+'">'+statusLabel+'</span></td></tr>';
       }).join('');
     }).catch(function(){});
 

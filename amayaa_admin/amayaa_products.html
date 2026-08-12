@@ -188,7 +188,7 @@ if(!sessionStorage.getItem('amayaa_admin')){
   <div class="topbar">
     <div><div class="topbar-title">Product Manager</div><div class="topbar-sub">547 products total &middot; 12 hidden &middot; 8 sold out &middot; 24 on offer</div></div>
     <div class="topbar-actions">
-      <a href="#" class="btn btn-ghost">📥 Bulk Upload CSV</a>
+      <button class="btn btn-ghost" onclick="_csvUpload()">📥 Bulk Upload CSV</button>
       <a href="amayaa_product_edit.html" class="btn btn-primary">+ Add New Product</a>
     </div>
   </div>
@@ -203,13 +203,13 @@ if(!sessionStorage.getItem('amayaa_admin')){
     </div>
 
     <!-- FILTERS -->
-    <div class="filter-row">
-      <div class="filter-pill active">All (547)</div>
-      <div class="filter-pill">Active (527)</div>
-      <div class="filter-pill">Special Offer (24)</div>
-      <div class="filter-pill">Sold Out (8)</div>
-      <div class="filter-pill">Hidden (12)</div>
-      <div class="filter-pill">New Arrival (34)</div>
+    <div class="filter-row" id="filterPillsRow">
+      <div class="filter-pill active" data-filter="all">All</div>
+      <div class="filter-pill" data-filter="active">Active</div>
+      <div class="filter-pill" data-filter="offer">Special Offer</div>
+      <div class="filter-pill" data-filter="sold_out">Sold Out</div>
+      <div class="filter-pill" data-filter="hidden">Hidden</div>
+      <div class="filter-pill" data-filter="new">New Arrival</div>
     </div>
 
     <!-- SEARCH -->
@@ -220,18 +220,20 @@ if(!sessionStorage.getItem('amayaa_admin')){
 
     <!-- FILTER PILLS ROW 2 -->
     <div class="filter-row" style="margin-bottom:14px;">
-      <select class="fse" style="width:auto;padding:7px 32px 7px 12px;font-size:11px;">
-        <option>All Regions</option>
+      <select id="filterRegion" class="fse" style="width:auto;padding:7px 32px 7px 12px;font-size:11px;">
+        <option value="">All Regions</option>
         <option>Banarasi</option><option>Kanjivaram</option><option>Baluchari</option>
         <option>Chanderi</option><option>Sambalpuri</option><option>Paithani</option>
       </select>
-      <select class="fse" style="width:auto;padding:7px 32px 7px 12px;font-size:11px;">
-        <option>All Fabrics</option>
+      <select id="filterFabric" class="fse" style="width:auto;padding:7px 32px 7px 12px;font-size:11px;">
+        <option value="">All Fabrics</option>
         <option>Silk</option><option>Cotton</option><option>Tussar Silk</option><option>Linen</option>
       </select>
-      <select class="fse" style="width:auto;padding:7px 32px 7px 12px;font-size:11px;">
-        <option>Sort: Newest First</option>
-        <option>Name A–Z</option><option>Price Low–High</option><option>Price High–Low</option>
+      <select id="filterSort" class="fse" style="width:auto;padding:7px 32px 7px 12px;font-size:11px;">
+        <option value="newest">Sort: Newest First</option>
+        <option value="az">Name A–Z</option>
+        <option value="price-asc">Price Low–High</option>
+        <option value="price-desc">Price High–Low</option>
       </select>
     </div>
 
@@ -240,7 +242,7 @@ if(!sessionStorage.getItem('amayaa_admin')){
       <table class="tbl">
         <thead>
           <tr>
-            <th style="width:32px;"><input type="checkbox" style="accent-color:#C4622D;"></th>
+            <th style="width:32px;"><input type="checkbox" id="chkAll" style="accent-color:#C4622D;" onchange="_selectAll(this.checked)"></th>
             <th>Product</th><th>Region</th><th>Fabric</th><th>Price</th><th>Status</th><th>Actions</th>
           </tr>
         </thead>
@@ -254,10 +256,10 @@ if(!sessionStorage.getItem('amayaa_admin')){
     <div style="display:flex;justify-content:space-between;align-items:center;margin-top:16px;">
       <div style="display:flex;gap:8px;align-items:center;">
         <span style="font-size:12px;color:#9A8070;">Bulk actions:</span>
-        <button class="btn btn-ghost btn-sm">👁 Show Selected</button>
-        <button class="btn btn-ghost btn-sm">🙈 Hide Selected</button>
-        <button class="btn btn-ghost btn-sm">🎁 Mark as Offer</button>
-        <button class="btn btn-danger btn-sm">🗑 Delete Selected</button>
+        <button class="btn btn-ghost btn-sm" onclick="_bulkStatus('active')">👁 Show Selected</button>
+        <button class="btn btn-ghost btn-sm" onclick="_bulkStatus('hidden')">🙈 Hide Selected</button>
+        <button class="btn btn-ghost btn-sm" onclick="_bulkBadge('offer')">🎁 Mark as Offer</button>
+        <button class="btn btn-danger btn-sm" onclick="_bulkDelete()">🗑 Delete Selected</button>
       </div>
       <div class="pag">
         <div class="pag-btn">&#8592;</div>
@@ -306,118 +308,189 @@ function _ghSave(filePath,dat,msg,btnEl){
 var _products = [];
 var _filtered = [];
 var _activeFilter = 'all';
+var PAGE_SIZE = 50;
+var _curPage = 0;
 
-function _renderTable() {
-  var tbody = document.getElementById('productsTableBody');
-  if (!tbody) return;
-  if (_filtered.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:#9A8070;padding:30px;">No products found.</td></tr>';
+function _statusBadge(status){
+  if(status==='active') return '<span class="badge badge-active">Active</span>';
+  if(status==='sold_out') return '<span class="badge badge-sold">Sold Out</span>';
+  return '<span class="badge badge-hidden">Hidden</span>';
+}
+
+function _renderTable(){
+  var tbody=document.getElementById('productsTableBody');
+  if(!tbody)return;
+  var page=_filtered.slice(_curPage*PAGE_SIZE,(_curPage+1)*PAGE_SIZE);
+  if(!page.length){
+    tbody.innerHTML='<tr><td colspan="7" style="text-align:center;color:#9A8070;padding:30px;">No products found.</td></tr>';
     return;
   }
-  tbody.innerHTML = _filtered.map(function(p) {
-    var priceHtml = p.originalPrice
-      ? '<span style="text-decoration:line-through;color:#B0967E;font-size:11px;">&#8377;' + p.originalPrice.toLocaleString('en-IN') + '</span><br><strong style="color:#C4622D;">&#8377;' + p.price.toLocaleString('en-IN') + '</strong>'
-      : '<span style="font-weight:600;color:#1A0A04;">&#8377; ' + p.price.toLocaleString('en-IN') + '</span>';
-    var statusBadge = p.status === 'active'
-      ? '<span class="badge badge-active">Active</span>'
-      : p.status === 'sold-out'
-        ? '<span class="badge badge-sold">Sold Out</span>'
-        : '<span class="badge badge-hidden">Hidden</span>';
-    var toggleBtn = p.status === 'active'
-      ? '<button class="btn btn-danger btn-sm" onclick="_toggleStatus(\'' + p.id + '\')">&#128308; Mark Sold</button>'
-      : '<button class="btn btn-success btn-sm" onclick="_toggleStatus(\'' + p.id + '\')">&#128994; Mark Active</button>';
-    var gFrom = p.gradientFrom || '#8B1A4A';
-    var gTo = p.gradientTo || '#C4622D';
-    return '<tr>' +
-      '<td><input type="checkbox" style="accent-color:#C4622D;"></td>' +
-      '<td><div style="display:flex;align-items:center;gap:10px;">' +
-        '<div class="prod-thumb" style="background:linear-gradient(135deg,' + gFrom + ',' + gTo + ');"></div>' +
-        '<div><div style="font-weight:600;color:#1A0A04;font-size:13px;">' + p.name + '</div><div style="font-size:11px;color:#9A8070;">' + p.id + '</div></div>' +
-      '</div></td>' +
-      '<td style="color:#5A4030;">' + (p.region || '') + '</td>' +
-      '<td style="color:#5A4030;">' + (p.fabric || '') + '</td>' +
-      '<td>' + priceHtml + '</td>' +
-      '<td>' + statusBadge + '</td>' +
-      '<td><div style="display:flex;gap:6px;">' +
-        '<a href="amayaa_product_edit.html?id=' + encodeURIComponent(p.id) + '" class="btn btn-ghost btn-sm">&#9999; Edit</a>' +
-        toggleBtn +
-        '<button class="btn btn-danger btn-sm" onclick="_deleteProduct(\'' + p.id + '\')">&#128465; Delete</button>' +
-      '</div></td>' +
-      '</tr>';
+  tbody.innerHTML=page.map(function(p){
+    var priceHtml=p.originalPrice
+      ?'<span style="text-decoration:line-through;color:#B0967E;font-size:11px;">&#8377;'+p.originalPrice.toLocaleString('en-IN')+'</span><br><strong style="color:#C4622D;">&#8377;'+p.price.toLocaleString('en-IN')+'</strong>'
+      :'<span style="font-weight:600;color:#1A0A04;">&#8377;'+p.price.toLocaleString('en-IN')+'</span>';
+    var toggleBtn=p.status==='active'
+      ?'<button class="btn btn-danger btn-sm" onclick="_toggleStatus(\''+p.id+'\')">&#128308; Mark Sold</button>'
+      :'<button class="btn btn-success btn-sm" onclick="_toggleStatus(\''+p.id+'\')">&#128994; Mark Active</button>';
+    return '<tr>'
+      +'<td><input type="checkbox" class="row-chk" data-id="'+p.id+'" style="accent-color:#C4622D;"></td>'
+      +'<td><div style="display:flex;align-items:center;gap:10px;">'
+        +'<div class="prod-thumb" style="background:linear-gradient(135deg,'+(p.gradientFrom||'#8B1A4A')+','+(p.gradientTo||'#C4622D')+');"></div>'
+        +'<div><div style="font-weight:600;color:#1A0A04;font-size:13px;">'+p.name+'</div><div style="font-size:11px;color:#9A8070;">'+p.id+'</div></div>'
+      +'</div></td>'
+      +'<td style="color:#5A4030;">'+(p.type||'')+'</td>'
+      +'<td style="color:#5A4030;">'+(p.fabric||'')+'</td>'
+      +'<td>'+priceHtml+'</td>'
+      +'<td>'+_statusBadge(p.status)+'</td>'
+      +'<td><div style="display:flex;gap:6px;">'
+        +'<a href="amayaa_product_edit.html?id='+encodeURIComponent(p.id)+'" class="btn btn-ghost btn-sm">&#9999; Edit</a>'
+        +toggleBtn
+        +'<button class="btn btn-danger btn-sm" onclick="_deleteProduct(\''+p.id+'\')">&#128465;</button>'
+      +'</div></td>'
+      +'</tr>';
   }).join('');
+  _renderPagination();
 }
 
-function _updateStats() {
-  var total = _products.length;
-  var active = _products.filter(function(p){ return p.status === 'active'; }).length;
-  var sold = _products.filter(function(p){ return p.status === 'sold-out'; }).length;
-  var hidden = _products.filter(function(p){ return p.status === 'hidden'; }).length;
-  var elT = document.getElementById('stat-total'); if(elT) elT.textContent = total;
-  var elA = document.getElementById('stat-active'); if(elA) elA.textContent = active;
-  var elS = document.getElementById('stat-sold'); if(elS) elS.textContent = sold;
-  var elH = document.getElementById('stat-hidden'); if(elH) elH.textContent = hidden;
-}
-
-function _applyFilter(filter) {
-  _activeFilter = filter || 'all';
-  var searchEl = document.getElementById('prodSearch');
-  var q = searchEl ? searchEl.value.toLowerCase().trim() : '';
-  _filtered = _products.filter(function(p) {
-    var matchFilter = _activeFilter === 'all' || p.status === _activeFilter;
-    var matchSearch = !q ||
-      (p.name && p.name.toLowerCase().indexOf(q) > -1) ||
-      (p.type && p.type.toLowerCase().indexOf(q) > -1) ||
-      (p.region && p.region.toLowerCase().indexOf(q) > -1);
-    return matchFilter && matchSearch;
-  });
-  _renderTable();
-}
-
-function _toggleStatus(id) {
-  var p = null;
-  for (var i = 0; i < _products.length; i++) { if (_products[i].id === id) { p = _products[i]; break; } }
-  if (!p) return;
-  p.status = p.status === 'active' ? 'sold-out' : 'active';
-  _updateStats();
-  _applyFilter(_activeFilter);
-  _ghSave('data/products_index.json', _products, 'Update status for ' + id, null);
-}
-
-function _deleteProduct(id) {
-  if (!confirm('Delete product ' + id + '? This cannot be undone.')) return;
-  _products = _products.filter(function(p){ return p.id !== id; });
-  _filtered = _filtered.filter(function(p){ return p.id !== id; });
-  _updateStats();
-  _renderTable();
-  _ghSave('data/products_index.json', _products, 'Delete product ' + id, null);
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-  fetch('../data/products_index.json')
-    .then(function(r){ return r.json(); })
-    .then(function(data) {
-      _products = data;
-      _filtered = _products.slice();
-      _updateStats();
-      _renderTable();
-    })
-    .catch(function(e){ console.error('Failed to load products:', e); });
-
-  var searchEl = document.getElementById('prodSearch');
-  if (searchEl) {
-    searchEl.addEventListener('keyup', function() { _applyFilter(_activeFilter); });
+function _renderPagination(){
+  var pagEl=document.querySelector('.pag');
+  if(!pagEl)return;
+  var pages=Math.ceil(_filtered.length/PAGE_SIZE)||1;
+  var btns='<div class="pag-btn" onclick="_goPage('+(Math.max(0,_curPage-1))+')">&#8592;</div>';
+  for(var i=0;i<pages;i++){
+    btns+='<div class="pag-btn'+(i===_curPage?' active':'')+'" onclick="_goPage('+i+')">'+(i+1)+'</div>';
+    if(i===2&&pages>5){btns+='<span style="color:#B0967E;font-size:12px;">…</span>';i=pages-2;}
   }
+  btns+='<div class="pag-btn" onclick="_goPage('+(Math.min(pages-1,_curPage+1))+')">&#8594;</div>';
+  pagEl.innerHTML=btns;
+}
 
-  var pills = document.querySelectorAll('.filter-pill');
-  pills.forEach(function(pill) {
-    pill.addEventListener('click', function() {
-      pills.forEach(function(p){ p.classList.remove('active'); });
+function _goPage(n){_curPage=n;_renderTable();}
+
+function _updateStats(){
+  var total=_products.length;
+  var active=_products.filter(function(p){return p.status==='active';}).length;
+  var sold=_products.filter(function(p){return p.status==='sold_out';}).length;
+  var hidden=_products.filter(function(p){return p.status==='hidden';}).length;
+  var elT=document.getElementById('stat-total');if(elT)elT.textContent=total;
+  var elA=document.getElementById('stat-active');if(elA)elA.textContent=active;
+  var elS=document.getElementById('stat-sold');if(elS)elS.textContent=sold;
+  var elH=document.getElementById('stat-hidden');if(elH)elH.textContent=hidden;
+  // update pill counts
+  document.querySelectorAll('[data-filter]').forEach(function(pill){
+    var f=pill.dataset.filter;
+    var cnt=f==='all'?total:f==='active'?active:f==='sold_out'?sold:f==='hidden'?hidden
+      :f==='offer'?_products.filter(function(p){return p.badges&&p.badges.indexOf('offer')>-1;}).length
+      :f==='new'?_products.filter(function(p){return p.badges&&p.badges.indexOf('new')>-1;}).length:0;
+    pill.textContent=pill.textContent.replace(/\s*\(\d+\)/,'');
+    pill.textContent+=' ('+cnt+')';
+  });
+}
+
+function _applyFilter(){
+  var q=(document.getElementById('prodSearch')||{}).value||'';
+  q=q.toLowerCase().trim();
+  var region=(document.getElementById('filterRegion')||{}).value||'';
+  var fabric=(document.getElementById('filterFabric')||{}).value||'';
+  var sort=(document.getElementById('filterSort')||{}).value||'newest';
+
+  _filtered=_products.filter(function(p){
+    var mf=true;
+    if(_activeFilter==='active') mf=p.status==='active';
+    else if(_activeFilter==='sold_out') mf=p.status==='sold_out';
+    else if(_activeFilter==='hidden') mf=p.status==='hidden';
+    else if(_activeFilter==='offer') mf=p.badges&&p.badges.indexOf('offer')>-1;
+    else if(_activeFilter==='new') mf=p.badges&&p.badges.indexOf('new')>-1;
+    var mq=!q||(p.name&&p.name.toLowerCase().indexOf(q)>-1)||(p.type&&p.type.toLowerCase().indexOf(q)>-1)||(p.id&&p.id.toLowerCase().indexOf(q)>-1)||(p.fabric&&p.fabric.toLowerCase().indexOf(q)>-1);
+    var mr=!region||(p.type&&p.type===region);
+    var mfab=!fabric||(p.fabric&&p.fabric.indexOf(fabric)>-1);
+    return mf&&mq&&mr&&mfab;
+  });
+
+  if(sort==='az') _filtered.sort(function(a,b){return (a.name||'').localeCompare(b.name||'');});
+  else if(sort==='price-asc') _filtered.sort(function(a,b){return (a.price||0)-(b.price||0);});
+  else if(sort==='price-desc') _filtered.sort(function(a,b){return (b.price||0)-(a.price||0);});
+  // 'newest' = original order (as loaded from JSON)
+
+  _curPage=0;
+  _renderTable();
+}
+
+function _toggleStatus(id){
+  var p=_products.find(function(x){return x.id===id;});
+  if(!p)return;
+  p.status=p.status==='active'?'sold_out':'active';
+  _updateStats();_applyFilter();
+  _ghSave('data/products_index.json',_products,'Update status: '+id,null);
+}
+
+function _deleteProduct(id){
+  if(!confirm('Delete '+id+'? Cannot be undone.'))return;
+  _products=_products.filter(function(p){return p.id!==id;});
+  _updateStats();_applyFilter();
+  _ghSave('data/products_index.json',_products,'Delete product: '+id,null);
+}
+
+function _selectAll(checked){
+  document.querySelectorAll('.row-chk').forEach(function(c){c.checked=checked;});
+}
+
+function _selectedIds(){
+  return Array.from(document.querySelectorAll('.row-chk:checked')).map(function(c){return c.dataset.id;});
+}
+
+function _bulkStatus(newStatus){
+  var ids=_selectedIds();
+  if(!ids.length){alert('Select at least one product.');return;}
+  ids.forEach(function(id){var p=_products.find(function(x){return x.id===id;});if(p)p.status=newStatus;});
+  _updateStats();_applyFilter();
+  _ghSave('data/products_index.json',_products,'Bulk status → '+newStatus,null);
+}
+
+function _bulkBadge(badge){
+  var ids=_selectedIds();
+  if(!ids.length){alert('Select at least one product.');return;}
+  ids.forEach(function(id){
+    var p=_products.find(function(x){return x.id===id;});
+    if(p){p.badges=p.badges||[];if(p.badges.indexOf(badge)<0)p.badges.push(badge);}
+  });
+  _updateStats();_applyFilter();
+  _ghSave('data/products_index.json',_products,'Bulk badge: '+badge,null);
+}
+
+function _bulkDelete(){
+  var ids=_selectedIds();
+  if(!ids.length){alert('Select at least one product.');return;}
+  if(!confirm('Delete '+ids.length+' product(s)? Cannot be undone.'))return;
+  _products=_products.filter(function(p){return ids.indexOf(p.id)<0;});
+  _updateStats();_applyFilter();
+  _ghSave('data/products_index.json',_products,'Bulk delete '+ids.length+' products',null);
+}
+
+function _csvUpload(){
+  alert('CSV bulk upload: prepare a CSV with columns id,name,type,fabric,price,originalPrice,status\nThen paste or upload — coming soon.\n\nFor now, edit products one by one using the ✎ Edit button.');
+}
+
+document.addEventListener('DOMContentLoaded',function(){
+  fetch('../data/products_index.json?_='+Date.now())
+    .then(function(r){return r.json();})
+    .then(function(data){_products=Array.isArray(data)?data:[];_updateStats();_applyFilter();})
+    .catch(function(e){console.error('Failed to load products:',e);});
+
+  var searchEl=document.getElementById('prodSearch');
+  if(searchEl) searchEl.addEventListener('keyup',_applyFilter);
+
+  ['filterRegion','filterFabric','filterSort'].forEach(function(id){
+    var el=document.getElementById(id);
+    if(el) el.addEventListener('change',_applyFilter);
+  });
+
+  document.querySelectorAll('[data-filter]').forEach(function(pill){
+    pill.addEventListener('click',function(){
+      document.querySelectorAll('[data-filter]').forEach(function(p){p.classList.remove('active');});
       pill.classList.add('active');
-      var txt = pill.textContent.toLowerCase();
-      if (txt.indexOf('sold') > -1) { _applyFilter('sold-out'); }
-      else if (txt.indexOf('hidden') > -1) { _applyFilter('hidden'); }
-      else if (txt.indexOf('active') > -1) { _applyFilter('active'); }
-      else { _applyFilter('all'); }
+      _activeFilter=pill.dataset.filter;
+      _applyFilter();
     });
   });
 });

@@ -340,6 +340,13 @@ function _ghSave(filePath,dat,msg,btnEl){
     .catch(function(e){alert('Save failed: '+(e.message||e));if(btnEl){btnEl.textContent=orig;btnEl.disabled=false;}});
 }
 
+/* ═══ IMAGE URL HELPER — encodes spaces and special chars ═══ */
+function _imgUrl(path){
+  if(!path) return '';
+  // encode each path segment separately to preserve slashes
+  return '../' + path.split('/').map(function(seg){ return encodeURIComponent(seg); }).join('/');
+}
+
 /* ═══ GRADIENT PALETTE ═══ */
 var _GRADS = [
   'linear-gradient(135deg,#8B1A4A,#C4622D)',
@@ -363,13 +370,17 @@ function _renderThumbs(){
   }
   _banners.forEach(function(b,i){
     var grad = _GRADS[i % _GRADS.length];
-    var inactive = b.active === false ? ' style="opacity:.5"' : '';
+    // Use actual image if available, gradient as fallback
+    var bgStyle = b.backgroundImage
+      ? 'background-image:url("'+_imgUrl(b.backgroundImage)+'");background-size:cover;background-position:center;'
+      : 'background:'+grad+';';
+    var opacity = b.active === false ? 'opacity:.5;' : '';
     var card = document.createElement('div');
     card.className = 'banner-card' + (i === _curIdx ? ' active-slide' : '');
     card.onclick = function(){ selectSlide(i); };
     card.innerHTML =
-      '<div class="banner-preview" style="background:'+grad+';"'+inactive+'>' +
-        '<span style="font-size:13px;font-weight:600;color:white;">'+( i+1 )+'</span>' +
+      '<div class="banner-preview" style="'+bgStyle+opacity+'">' +
+        '<span style="font-size:13px;font-weight:700;color:white;text-shadow:0 1px 4px rgba(0,0,0,.7);background:rgba(0,0,0,.35);padding:2px 8px;border-radius:6px;">'+( i+1 )+'</span>' +
       '</div>' +
       '<div class="banner-num" style="font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' +
         _esc(b.eyebrow || ('Slide '+(i+1))) + (b.active===false?' 🔕':'') +
@@ -426,17 +437,31 @@ function _populateForm(idx){
 }
 
 function _updateImgPreview(path){
+  var url   = path ? '"'+_imgUrl(path)+'"' : '';
+  // small left-column preview box
   var box   = document.getElementById('img-preview-box');
   var label = document.getElementById('img-preview-label');
-  if(!box) return;
-  if(path){
-    box.style.backgroundImage = 'url(../'+path+')';
-    box.style.backgroundSize  = 'cover';
-    box.style.backgroundPosition = 'center';
-    if(label) label.textContent = '';
-  } else {
-    box.style.backgroundImage = '';
-    if(label) label.textContent = 'No image set';
+  if(box){
+    if(path){
+      box.style.backgroundImage    = 'url('+url+')';
+      box.style.backgroundSize     = 'cover';
+      box.style.backgroundPosition = 'center';
+      if(label) label.textContent  = '';
+    } else {
+      box.style.backgroundImage = '';
+      if(label) label.textContent = 'No image set';
+    }
+  }
+  // large right-column live preview — update background behind the overlay
+  var preview = document.getElementById('livePreview');
+  if(preview){
+    if(path){
+      preview.style.backgroundImage    = 'url('+url+')';
+      preview.style.backgroundSize     = 'cover';
+      preview.style.backgroundPosition = 'center';
+    } else {
+      preview.style.backgroundImage = 'linear-gradient(135deg,#8B1A4A,#C4622D)';
+    }
   }
 }
 

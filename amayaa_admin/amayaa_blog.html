@@ -217,9 +217,11 @@ if(!sessionStorage.getItem('amayaa_admin')){
             <div class="fg"><label>Publish Date</label><input id="bf-date" class="fi" type="date"></div>
           </div>
           <div class="fg"><label>Thumbnail Image</label>
-            <div style="height:80px;border:2px dashed rgba(255,255,255,.15);border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;margin-bottom:8px;">
-              <span style="font-size:12px;color:#B0967E;">📁 Click to upload thumbnail image</span>
+            <div id="thumb-preview-box" onclick="uploadThumb()" style="height:80px;border:2px dashed rgba(196,98,45,.3);border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;margin-bottom:6px;background-size:cover;background-position:center;position:relative;overflow:hidden;">
+              <span id="thumb-preview-label" style="font-size:12px;color:#B0967E;z-index:1;">📁 Click to upload thumbnail</span>
             </div>
+            <input id="bf-thumbnail" class="fi" style="font-size:11px;" placeholder="Or paste image path: images/blog/filename.jpg">
+            <p id="thumb-status" style="font-size:11px;color:#B0967E;margin-top:4px;min-height:14px;"></p>
           </div>
           <div class="fg">
             <label>Article Body *</label>
@@ -246,7 +248,8 @@ if(!sessionStorage.getItem('amayaa_admin')){
           <div style="display:flex;flex-direction:column;gap:10px;">
             <button id="bf-publish" class="btn btn-primary" style="justify-content:center;" onclick="_publishPost(true)">🌐 Publish Now</button>
             <button id="bf-draft" class="btn btn-ghost" style="justify-content:center;" onclick="_publishPost(false)">💾 Save as Draft</button>
-            <button class="btn btn-ghost" style="justify-content:center;">👁 Preview</button>
+            <button class="btn btn-ghost" style="justify-content:center;" onclick="previewPost()">👁 Preview</button>
+            <button class="btn btn-ghost" style="justify-content:center;" onclick="cancelEdit()">✕ Cancel</button>
           </div>
         </div>
       </div>
@@ -257,16 +260,17 @@ if(!sessionStorage.getItem('amayaa_admin')){
 <script data-goatcounter="https://amayaa.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 <script src="sidebar.js"></script>
 <script>
-/* ── Blog Manager — dynamic data + GitHub API ── */
+/* ═══ BLOG MANAGER ═══ */
 var _blogData = [];
-
 var GH_REPO = 'Amayaa-2026/amayaa-website';
 var GH_BRANCH = 'main';
+
+/* ── GH helpers ── */
 function _b64ToUtf8(b64){var raw=atob(b64.replace(/\n/g,''));var bytes=new Uint8Array(raw.length);for(var i=0;i<raw.length;i++)bytes[i]=raw.charCodeAt(i);return new TextDecoder('utf-8',{fatal:false}).decode(bytes);}
 function _utf8ToB64(str){var bytes=new TextEncoder().encode(str);var bin='';for(var i=0;i<bytes.length;i++)bin+=String.fromCharCode(bytes[i]);return btoa(bin);}
 function _ghTok(){return localStorage.getItem('amayaa_gh_token')||'';}
 function _ghHdrs(){return{Authorization:'token '+_ghTok(),Accept:'application/vnd.github.v3+json','Content-Type':'application/json'};}
-function _ghSave(filePath,dat,msg,btnEl){
+function _ghSave(filePath,dat,msg,btnEl,onSuccess){
   var tok=_ghTok();
   if(!tok){alert('No GitHub token. Set it in Admin → Settings first.');return;}
   var orig=btnEl?btnEl.textContent:'';
@@ -280,45 +284,46 @@ function _ghSave(filePath,dat,msg,btnEl){
     .then(function(r){return r.json();})
     .then(function(res){
       if(res.content){
-        if(btnEl){btnEl.textContent='✅ Saved!';setTimeout(function(){btnEl.textContent=orig;btnEl.disabled=false;},2500);}
-        else{var t=document.createElement('div');t.style.cssText='position:fixed;top:20px;right:20px;z-index:9999;padding:12px 20px;border-radius:10px;background:#D4F0DD;border:1px solid #1A7A40;color:#1A7A40;font-family:Jost,sans-serif;font-weight:600;font-size:14px;';t.textContent='✅ Saved to GitHub!';document.body.appendChild(t);setTimeout(function(){t.remove();},3000);}
+        if(btnEl){btnEl.textContent='✅ Saved!';setTimeout(function(){btnEl.textContent=orig;btnEl.disabled=false;},2000);}
+        if(typeof onSuccess==='function') setTimeout(onSuccess,500);
       }else{throw new Error(res.message||'Write failed');}
     })
     .catch(function(e){alert('Save failed: '+(e.message||e));if(btnEl){btnEl.textContent=orig;btnEl.disabled=false;}});
 }
 
 function _esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function _slugify(s){return s.toLowerCase().trim().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');}
 
+/* ── Table render ── */
 function _renderTable(){
   var tbody=document.getElementById('blogTableBody');
   if(!tbody)return;
   if(!_blogData.length){
-    tbody.innerHTML='<tr><td colspan="6" style="text-align:center;color:#9A8070;padding:24px;">No posts yet. Click “+ Write New Post” to get started.</td></tr>';
+    tbody.innerHTML='<tr><td colspan=”6” style=”text-align:center;color:#9A8070;padding:24px;”>No posts yet. Click “+ Write New Post”.</td></tr>';
   }else{
     tbody.innerHTML=_blogData.map(function(p,idx){
-      var statusBadge=p.published
-        ?'<span class="badge badge-active">Published</span>'+(p.featured?' <span class="badge badge-new">Featured</span>':'')
-        :'<span class="badge badge-draft">Draft</span>';
+      var sb=p.published
+        ?'<span class=”badge badge-active”>Published</span>'+(p.featured?' <span class=”badge badge-new”>Featured</span>':'')
+        :'<span class=”badge badge-draft”>Draft</span>';
       return '<tr>'
-        +'<td style="font-weight:500;color:#1A0A04;">'+_esc(p.title)+'</td>'
+        +'<td style=”font-weight:500;color:#1A0A04;”>'+_esc(p.title)+'</td>'
         +'<td>'+_esc(p.category)+'</td>'
         +'<td>'+_esc(p.date)+'</td>'
         +'<td>'+_esc(p.readTime||'')+'</td>'
-        +'<td>'+statusBadge+'</td>'
-        +'<td><div style="display:flex;gap:6px;">'
-        +'<button class="btn btn-ghost btn-sm" onclick="_editPost('+idx+')">&#9999; Edit</button>'
-        +'<button class="btn btn-danger btn-sm" onclick="_deletePost('+idx+')">🗑</button>'
-        +'</div></td>'
-        +'</tr>';
+        +'<td>'+sb+'</td>'
+        +'<td><div style=”display:flex;gap:6px;”>'
+        +'<button class=”btn btn-ghost btn-sm” onclick=”_editPost('+idx+')”>✎ Edit</button>'
+        +'<button class=”btn btn-danger btn-sm” onclick=”_deletePost('+idx+')”>🗑</button>'
+        +'</div></td></tr>';
     }).join('');
   }
-  // Update topbar subtitle
   var pub=_blogData.filter(function(p){return p.published;}).length;
-  var draft=_blogData.filter(function(p){return !p.published;}).length;
+  var draft=_blogData.length-pub;
   var sub=document.querySelector('.topbar-sub');
-  if(sub)sub.textContent=pub+' published · '+draft+' draft';
+  if(sub) sub.textContent=pub+' published · '+draft+' draft';
 }
 
+/* ── Form helpers ── */
 function _clearForm(){
   document.getElementById('bf-editidx').value='-1';
   document.getElementById('bf-title').value='';
@@ -326,9 +331,19 @@ function _clearForm(){
   document.getElementById('bf-date').value='';
   document.getElementById('bf-readtime').value='';
   document.getElementById('bf-featured').checked=false;
-  document.getElementById('bf-body').innerHTML='Start writing your article here. Use the toolbar above to format text, add headings, images, and links.';
+  document.getElementById('bf-body').innerHTML='';
   document.getElementById('bf-seotitle').value='';
   document.getElementById('bf-seodesc').value='';
+  document.getElementById('bf-thumbnail').value='';
+  var box=document.getElementById('thumb-preview-box');
+  if(box){box.style.backgroundImage='';document.getElementById('thumb-preview-label').style.display='';}
+  var h=document.querySelector('#blogForm h3');
+  if(h) h.textContent='Write New Blog Post';
+}
+
+function cancelEdit(){
+  document.getElementById('blogForm').style.display='none';
+  _clearForm();
 }
 
 function _editPost(idx){
@@ -337,12 +352,23 @@ function _editPost(idx){
   document.getElementById('bf-editidx').value=idx;
   document.getElementById('bf-title').value=p.title||'';
   document.getElementById('bf-category').value=p.category||'Weaves';
-  document.getElementById('bf-date').value='';
+  document.getElementById('bf-date').value=p.dateRaw||'';   // restore raw YYYY-MM-DD
   document.getElementById('bf-readtime').value=p.readTime||'';
   document.getElementById('bf-featured').checked=!!p.featured;
   document.getElementById('bf-body').innerHTML=p.body||'';
-  document.getElementById('bf-seotitle').value=p.title||'';
+  document.getElementById('bf-seotitle').value=p.seoTitle||p.title||'';
   document.getElementById('bf-seodesc').value=p.excerpt||'';
+  document.getElementById('bf-thumbnail').value=p.thumbnail||'';
+  // show thumbnail preview if exists
+  var box=document.getElementById('thumb-preview-box');
+  if(box && p.thumbnail){
+    box.style.backgroundImage='url(../'+p.thumbnail+')';
+    box.style.backgroundSize='cover';
+    box.style.backgroundPosition='center';
+    document.getElementById('thumb-preview-label').style.display='none';
+  }
+  var h=document.querySelector('#blogForm h3');
+  if(h) h.textContent='Editing: '+p.title;
   var form=document.getElementById('blogForm');
   form.style.display='block';
   form.scrollIntoView({behavior:'smooth'});
@@ -356,50 +382,123 @@ function _deletePost(idx){
   _ghSave('data/blog.json',_blogData,'Admin: delete blog post',null);
 }
 
-function _slugify(s){return s.toLowerCase().trim().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');}
-
+/* ── Publish / Draft ── */
 function _publishPost(published){
   var btn=published?document.getElementById('bf-publish'):document.getElementById('bf-draft');
   var title=document.getElementById('bf-title').value.trim();
   if(!title){alert('Post title is required.');return;}
-  var category=document.getElementById('bf-category').value;
   var dateVal=document.getElementById('bf-date').value;
-  var readTime=document.getElementById('bf-readtime').value.trim()||'5 min read';
-  var featured=document.getElementById('bf-featured').checked;
+  var dateStr=dateVal
+    ?new Date(dateVal+'T12:00:00').toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})
+    :new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
   var body=document.getElementById('bf-body').innerHTML;
   var seoDesc=document.getElementById('bf-seodesc').value.trim();
   var excerpt=seoDesc||body.replace(/<[^>]*>/g,'').slice(0,140)+'…';
   var editIdx=parseInt(document.getElementById('bf-editidx').value);
-  var dateStr=dateVal
-    ?new Date(dateVal+'T12:00:00').toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})
-    :new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
-  var existingPost=(editIdx>=0&&editIdx<_blogData.length)?_blogData[editIdx]:{};
+  var existing=(editIdx>=0&&editIdx<_blogData.length)?_blogData[editIdx]:{};
   var post={
-    id:existingPost.id||'BLG-'+Date.now(),
-    category:category,
-    title:title,
-    date:dateStr,
-    readTime:readTime,
-    gradientFrom:existingPost.gradientFrom||'#8B1A4A',
-    gradientTo:existingPost.gradientTo||'#C4622D',
-    excerpt:excerpt,
-    body:body,
-    featured:featured,
-    slug:_slugify(title),
-    published:published
+    id: existing.id||'BLG-'+Date.now(),
+    category: document.getElementById('bf-category').value,
+    title: title,
+    date: dateStr,
+    dateRaw: dateVal,
+    readTime: document.getElementById('bf-readtime').value.trim()||'5 min read',
+    gradientFrom: existing.gradientFrom||'#8B1A4A',
+    gradientTo: existing.gradientTo||'#C4622D',
+    thumbnail: document.getElementById('bf-thumbnail').value.trim()||existing.thumbnail||'',
+    excerpt: excerpt,
+    body: body,
+    seoTitle: document.getElementById('bf-seotitle').value.trim()||title,
+    featured: document.getElementById('bf-featured').checked,
+    slug: _slugify(title),
+    published: published
   };
   if(editIdx>=0&&editIdx<_blogData.length){_blogData[editIdx]=post;}
   else{_blogData.push(post);}
   _renderTable();
-  _ghSave('data/blog.json',_blogData,published?'Admin: publish blog post':'Admin: save blog draft',btn);
+  _ghSave('data/blog.json',_blogData,
+    published?'Admin: publish “'+title+'”':'Admin: draft “'+title+'”',
+    btn,
+    function(){ document.getElementById('blogForm').style.display='none'; _clearForm(); }
+  );
 }
 
-// Wire topbar "New Post" button to clear form
-document.querySelector('.topbar-actions .btn-primary').addEventListener('click',function(){
-  _clearForm();
-});
+/* ── Preview ── */
+function previewPost(){
+  window.open('../amayaa_blog.html','_blank');
+}
 
+/* ── Thumbnail upload ── */
+function uploadThumb(){
+  var tok=_ghTok();
+  if(!tok){alert('No GitHub token. Go to Admin → Settings.');return;}
+  var fi=document.createElement('input');
+  fi.type='file'; fi.accept='image/jpeg,image/png,image/webp';
+  fi.onchange=function(e){
+    var file=e.target.files[0];
+    if(!file)return;
+    if(file.size>2*1024*1024){alert('Image must be under 2MB.');return;}
+    var statusEl=document.getElementById('thumb-status');
+    if(statusEl) statusEl.textContent='Uploading…';
+    var reader=new FileReader();
+    reader.onload=function(ev){
+      var b64=ev.target.result.split(',')[1];
+      var path='images/blog/'+file.name.replace(/\s/g,'_');
+      fetch('https://api.github.com/repos/'+GH_REPO+'/contents/'+path+'?ref='+GH_BRANCH,{headers:_ghHdrs()})
+        .then(function(r){return r.json();})
+        .then(function(ex){
+          var body={message:'Admin: upload blog thumbnail',content:b64,branch:GH_BRANCH};
+          if(ex.sha) body.sha=ex.sha;
+          return fetch('https://api.github.com/repos/'+GH_REPO+'/contents/'+path,{method:'PUT',headers:_ghHdrs(),body:JSON.stringify(body)});
+        })
+        .then(function(r){return r.json();})
+        .then(function(res){
+          if(res.content){
+            document.getElementById('bf-thumbnail').value=path;
+            var box=document.getElementById('thumb-preview-box');
+            if(box){box.style.backgroundImage='url(../'+path+')';box.style.backgroundSize='cover';box.style.backgroundPosition='center';document.getElementById('thumb-preview-label').style.display='none';}
+            if(statusEl) statusEl.textContent='✅ Uploaded!';
+            setTimeout(function(){if(statusEl)statusEl.textContent='';},4000);
+          }else{if(statusEl) statusEl.textContent='Upload failed: '+(res.message||'error');}
+        })
+        .catch(function(err){if(statusEl) statusEl.textContent='Upload failed: '+err.message;});
+    };
+    reader.readAsDataURL(file);
+  };
+  fi.click();
+}
+
+/* ── RTE toolbar ── */
+function _setupRTE(){
+  var rteArea=document.getElementById('bf-body');
+  var toolbar=document.querySelector('.rte-toolbar');
+  if(!toolbar||!rteArea)return;
+  var cmds=[
+    function(){document.execCommand('bold',false,null);},
+    function(){document.execCommand('italic',false,null);},
+    function(){document.execCommand('formatBlock',false,'h2');},
+    function(){document.execCommand('formatBlock',false,'h3');},
+    function(){document.execCommand('insertUnorderedList',false,null);},
+    function(){document.execCommand('insertOrderedList',false,null);},
+    function(){var u=prompt('Enter URL (https://…):');if(u)document.execCommand('createLink',false,u);},
+    function(){var s=prompt('Enter image URL:');if(s)document.execCommand('insertImage',false,s);},
+    function(){document.execCommand('insertHorizontalRule',false,null);}
+  ];
+  toolbar.querySelectorAll('.rte-btn').forEach(function(btn,i){
+    if(cmds[i]) btn.addEventListener('mousedown',function(e){e.preventDefault();rteArea.focus();cmds[i]();});
+  });
+}
+
+/* ── Wire “New Post” topbar button ── */
 document.addEventListener('DOMContentLoaded',function(){
+  var newBtn=document.querySelector('.topbar-actions .btn-primary');
+  if(newBtn) newBtn.addEventListener('click',function(){
+    _clearForm();
+    var form=document.getElementById('blogForm');
+    form.style.display='block';
+    form.scrollIntoView({behavior:'smooth'});
+  });
+  _setupRTE();
   fetch('../data/blog.json?_='+Date.now())
     .then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json();})
     .then(function(data){_blogData=Array.isArray(data)?data:[];_renderTable();})

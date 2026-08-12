@@ -350,7 +350,10 @@ function renderList() {
     html += '<div class="group-card" id="grp-' + group.id + '">';
     html += '<div class="group-header" onclick="toggleGroup(\'' + group.id + '\')">';
     html += '<div class="group-title">' + (group.icon || '') + ' ' + escHtml(group.label) + ' <span style="font-size:13px;font-weight:400;color:#9A8070;font-family:\'Jost\',sans-serif;">(' + group.items.length + ')</span></div>';
-    html += '<span class="group-toggle open" id="toggle-' + group.id + '">&#9650;</span>';
+    html += '<div style="display:flex;align-items:center;gap:8px;" onclick="event.stopPropagation()">';
+    html += '<button class="btn btn-danger btn-sm" onclick="deleteGroup(\'' + group.id + '\')">🗑 Delete Group</button>';
+    html += '<span class="group-toggle open" id="toggle-' + group.id + '" onclick="toggleGroup(\'' + group.id + '\')">&#9650;</span>';
+    html += '</div>';
     html += '</div>';
     html += '<div class="group-body" id="body-' + group.id + '">';
     if (group.items.length === 0) {
@@ -546,6 +549,15 @@ function dragDrop(event, groupId, toIdx) {
   var items = group.items;
   var moved = items.splice(_dragFromIdx, 1)[0];
   items.splice(toIdx, 0, moved);
+  renderList();
+}
+
+function deleteGroup(groupId) {
+  var group = _data.groups.find(function(g){ return g.id === groupId; });
+  if (!group) return;
+  if (!confirm('Delete group "' + group.label + '" and all ' + group.items.length + ' questions in it?')) return;
+  _data.groups = _data.groups.filter(function(g){ return g.id !== groupId; });
+  if (_editingGroupId === groupId) cancelEdit();
   renderList();
 }
 

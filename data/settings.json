@@ -17,10 +17,10 @@
     "email": "stylewithpolkadots@gmail.com"
   },
   "hours": {
-    "weekdays": "Monday – Saturday",
-    "weekdayHours": "10:00 AM – 8:00 PM",
+    "weekdays": "Monday â Saturday",
+    "weekdayHours": "10:00 AM â 8:00 PM",
     "sunday": "Sunday",
-    "sundayHours": "11:00 AM – 6:00 PM"
+    "sundayHours": "11:00 AM â 6:00 PM"
   },
   "holidayNotice": "",
   "social": {
@@ -41,7 +41,7 @@
     }
   },
   "siteControls": {
-    "comingSoon": true,
+    "comingSoon": false,
     "comingSoonPreviewKey": "amayaa2026",
     "maintenanceMode": false,
     "showVisitorCounter": true,
@@ -49,20 +49,37 @@
     "showSpecialOffersInNav": true
   },
   "seo": {
-    "title": "Amayaa by Polka Dots — Handloom Sarees from India's Finest Weavers",
-    "description": "Authentic handloom sarees handpicked from India's finest weaver communities. Banarasi, Kanjivaram, Baluchari, Chanderi and more — delivered to your door from Kolkata.",
+    "title": "Amayaa by Polka Dots â Handloom Sarees from India's Finest Weavers",
+    "description": "Authentic handloom sarees handpicked from India's finest weaver communities. Banarasi, Kanjivaram, Baluchari, Chanderi and more â delivered to your door from Kolkata.",
     "keywords": "handloom sarees, Banarasi saree, Kanjivaram silk, Baluchari, Chanderi, Kolkata saree boutique, authentic handloom"
   },
-  "footerCopyright": "2026 Amayaa by Polka Dots · All Rights Reserved · Kolkata, India",
-  "footerTagline": "Made with ♥ for Indian Handloom",
+  "footerCopyright": "2026 Amayaa by Polka Dots Â· All Rights Reserved Â· Kolkata, India",
+  "footerTagline": "Made with â¥ for Indian Handloom",
   "visitorStripText": "Woven with love for {count} visitors",
   "nav": {
     "links": [
-      { "label": "Sarees",         "href": "amayaa_sarees.html" },
-      { "label": "Blog",           "href": "amayaa_blog.html" },
-      { "label": "Our Story",      "href": "amayaa_about.html" },
-      { "label": "Special Offers", "href": "amayaa_offers.html", "highlight": true, "icon": "🎁" },
-      { "label": "Contact",        "href": "amayaa_contact.html" }
+      {
+        "label": "Sarees",
+        "href": "amayaa_sarees.html"
+      },
+      {
+        "label": "Blog",
+        "href": "amayaa_blog.html"
+      },
+      {
+        "label": "Our Story",
+        "href": "amayaa_about.html"
+      },
+      {
+        "label": "Special Offers",
+        "href": "amayaa_offers.html",
+        "highlight": true,
+        "icon": "ð"
+      },
+      {
+        "label": "Contact",
+        "href": "amayaa_contact.html"
+      }
     ]
   },
   "footer": {
@@ -72,27 +89,60 @@
       {
         "heading": "Shop",
         "links": [
-          { "label": "All Sarees",     "href": "amayaa_sarees.html" },
-          { "label": "New Arrivals",   "href": "amayaa_sarees.html?filter=new" },
-          { "label": "Special Offers", "href": "amayaa_offers.html" },
-          { "label": "Wedding",        "href": "amayaa_sarees.html?occasion=wedding" }
+          {
+            "label": "All Sarees",
+            "href": "amayaa_sarees.html"
+          },
+          {
+            "label": "New Arrivals",
+            "href": "amayaa_sarees.html?filter=new"
+          },
+          {
+            "label": "Special Offers",
+            "href": "amayaa_offers.html"
+          },
+          {
+            "label": "Wedding",
+            "href": "amayaa_sarees.html?occasion=wedding"
+          }
         ]
       },
       {
         "heading": "Discover",
         "links": [
-          { "label": "Our Story",      "href": "amayaa_about.html" },
-          { "label": "Blog",           "href": "amayaa_blog.html" },
-          { "label": "Care Guide",     "href": "amayaa_blog.html?cat=care" },
-          { "label": "Policies & T&C", "href": "amayaa_policies.html" }
+          {
+            "label": "Our Story",
+            "href": "amayaa_about.html"
+          },
+          {
+            "label": "Blog",
+            "href": "amayaa_blog.html"
+          },
+          {
+            "label": "Care Guide",
+            "href": "amayaa_blog.html?cat=care"
+          },
+          {
+            "label": "Policies & T&C",
+            "href": "amayaa_policies.html"
+          }
         ]
       },
       {
         "heading": "Connect",
         "links": [
-          { "label": "Contact Us",  "href": "amayaa_contact.html" },
-          { "label": "Visit Store", "href": "amayaa_contact.html" },
-          { "label": "FAQ",         "href": "amayaa_faq.html" }
+          {
+            "label": "Contact Us",
+            "href": "amayaa_contact.html"
+          },
+          {
+            "label": "Visit Store",
+            "href": "amayaa_contact.html"
+          },
+          {
+            "label": "FAQ",
+            "href": "amayaa_faq.html"
+          }
         ]
       }
     ]

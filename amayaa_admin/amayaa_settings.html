@@ -426,6 +426,7 @@ function saveToken() {
   localStorage.setItem('amayaa_gh_token', val);
   document.getElementById('token-input').value = '';
   _checkToken();
+  _load(); // fetch settings.json now to get _sha + populate form
 }
 function clearToken() {
   localStorage.removeItem('amayaa_gh_token');
@@ -435,7 +436,7 @@ function clearToken() {
 document.addEventListener('DOMContentLoaded', function () {
   _checkToken();
   var url = 'https://api.github.com/repos/' + GH.repo + '/contents/' + GH.file + '?ref=' + GH.branch;
-  fetch(url, { headers: { Authorization: 'token ' + GH.token, Accept: 'application/vnd.github.v3+json' } })
+  fetch(url, { headers: { Authorization: 'token ' + _token, Accept: 'application/vnd.github.v3+json' } })
     .then(function (r) { return r.json(); })
     .then(function (data) {
       _sha = data.sha;
@@ -530,6 +531,21 @@ function _write(cardId) {
   var btn = document.getElementById('btn-' + cardId);
   var si  = document.getElementById('si-'  + cardId);
 
+  // Read token dynamically — works even if it was pasted after page load
+  var _token = localStorage.getItem('amayaa_gh_token') || '';
+  if (!_token) {
+    si.textContent = '❌ No token — paste your GitHub token above first';
+    si.classList.add('show');
+    setTimeout(function () { si.classList.remove('show'); }, 5000);
+    return;
+  }
+  if (!_sha) {
+    si.textContent = '❌ Page not ready — please reload and try again';
+    si.classList.add('show');
+    setTimeout(function () { si.classList.remove('show'); }, 5000);
+    return;
+  }
+
   btn.textContent = '⏳ Saving…';
   btn.disabled = true;
   si.textContent = '⏳ Saving…';
@@ -546,7 +562,7 @@ function _write(cardId) {
 
   fetch('https://api.github.com/repos/' + GH.repo + '/contents/' + GH.file, {
     method  : 'PUT',
-    headers : { Authorization: 'token ' + GH.token, Accept: 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
+    headers : { Authorization: 'token ' + _token, Accept: 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
     body    : JSON.stringify({ message: 'Admin: update ' + cardId, content: encoded, sha: _sha, branch: GH.branch })
   })
   .then(function (r) { return r.json(); })

@@ -1218,6 +1218,9 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')mobFltClose(
   /* ── Card HTML ────────────────────────────────────────── */
   function _card(p){
     var grad = 'linear-gradient(160deg,' + (p.gradientFrom||'#8B1A4A') + ',' + (p.gradientTo||'#C4622D') + ')';
+    var imgHtml = p.thumbnail
+      ? '<img src="'+p.thumbnail+'" alt="'+p.name+'" style="width:100%;height:240px;object-fit:cover;display:block;">'
+      : '<div class="gf" style="height:240px;background:'+grad+';"></div>';
     var badges = (p.badges||[]).map(function(b){
       if(b==='new')      return '<span class="badge b-new">New</span>';
       if(b==='offer')    return '<span class="badge b-offer">Special Offer</span>';
@@ -1234,7 +1237,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')mobFltClose(
       ? '<div class="bso">Sold Out &mdash; Check Back Soon</div>' : '';
     return '<div class="pc" onclick="ProductDrawer.open(\''+p.id+'\')" style="cursor:pointer">'
       +'<div class="pi">'
-      +'<div class="gf" style="height:240px;background:'+grad+';"></div>'
+      +imgHtml
       +'<div class="pbadges">'+badges+'</div>'
       +'</div>'
       +'<div class="pinfo">'

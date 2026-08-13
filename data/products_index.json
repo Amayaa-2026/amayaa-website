@@ -30,7 +30,8 @@
       "red",
       "varanasi",
       "gi-tagged"
-    ]
+    ],
+    "thumbnail": "images/products/AMY-BAN-001.jpg"
   },
   {
     "id": "AMY-KAN-001",
@@ -61,7 +62,8 @@
       "wedding",
       "south india",
       "gi-tagged"
-    ]
+    ],
+    "thumbnail": "images/products/AMY-KAN-001.jpg"
   },
   {
     "id": "AMY-BAL-001",
@@ -90,7 +92,8 @@
       "collector",
       "brocade",
       "gi-tagged"
-    ]
+    ],
+    "thumbnail": "images/products/AMY-BAL-001.jpg"
   },
   {
     "id": "AMY-CHA-001",
@@ -122,7 +125,8 @@
       "festive",
       "ivory",
       "gi-tagged"
-    ]
+    ],
+    "thumbnail": "images/products/AMY-CHA-001.jpg"
   },
   {
     "id": "AMY-SAM-001",
@@ -154,7 +158,8 @@
       "handloom",
       "geometric",
       "gi-tagged"
-    ]
+    ],
+    "thumbnail": "images/products/AMY-SAM-001.jpg"
   },
   {
     "id": "AMY-PAI-001",
@@ -187,7 +192,8 @@
       "wedding",
       "featured",
       "gi-tagged"
-    ]
+    ],
+    "thumbnail": "images/products/AMY-PAI-001.jpg"
   },
   {
     "id": "AMY-TUS-001",
@@ -217,7 +223,8 @@
       "gold",
       "brown",
       "casual"
-    ]
+    ],
+    "thumbnail": "images/products/AMY-TUS-001.jpg"
   },
   {
     "id": "AMY-IKA-001",
@@ -248,7 +255,8 @@
       "telangana",
       "geometric",
       "gi-tagged"
-    ]
+    ],
+    "thumbnail": "images/products/AMY-IKA-001.jpg"
   },
   {
     "id": "AMY-MAH-001",
@@ -278,7 +286,8 @@
       "casual",
       "pink",
       "gi-tagged"
-    ]
+    ],
+    "thumbnail": "images/products/AMY-MAH-001.jpg"
   },
   {
     "id": "AMY-MYS-001",
@@ -311,7 +320,8 @@
       "festive",
       "coral",
       "gi-tagged"
-    ]
+    ],
+    "thumbnail": "images/products/AMY-MYS-001.jpg"
   },
   {
     "id": "AMY-JAM-001",
@@ -340,7 +350,8 @@
       "west bengal",
       "sheer",
       "gi-tagged"
-    ]
+    ],
+    "thumbnail": "images/products/AMY-JAM-001.jpg"
   },
   {
     "id": "AMY-TAN-001",
@@ -369,6 +380,7 @@
       "casual",
       "lightweight",
       "blue"
-    ]
+    ],
+    "thumbnail": "images/products/AMY-TAN-001.jpg"
   }
 ]

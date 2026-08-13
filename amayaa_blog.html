@@ -750,8 +750,11 @@ function slowScrollTo(targetId){
       var gFrom=p.gradientFrom||'#8B1A4A';
       var gTo=p.gradientTo||'#C4622D';
       var featuredStyle=p.featured?'grid-column:span 1;':'' ; // keep same width; featured sorted first
+      var thumbHtml = p.thumbnailImage
+        ? '<img src="'+p.thumbnailImage+'" alt="'+_esc(p.title)+'" class="bt" style="object-fit:cover;width:100%;display:block;">'
+        : '<div class="bt" style="background:linear-gradient(135deg,'+_esc(gFrom)+','+_esc(gTo)+')"></div>';
       return '<a href="#" class="bcard" style="'+featuredStyle+'">'
-        +'<div class="bt" style="background:linear-gradient(135deg,'+_esc(gFrom)+','+_esc(gTo)+')"></div>'
+        +thumbHtml
         +'<div class="bb">'
         +'<div class="bcat">'+_esc(p.category)+'</div>'
         +'<div class="bttl">'+_esc(p.title)+'</div>'

@@ -231,7 +231,7 @@ body{font-family:'Jost',sans-serif;background:linear-gradient(135deg,#E4DFD9 0%,
             </div>
             <div style="display:flex;gap:8px;align-items:center;">
               <button class="btn btn-ghost btn-sm" onclick="uploadImage()" style="flex:1;justify-content:center;">📁 Upload Image</button>
-              <input id="bi-bgimage" class="fi" style="flex:2;font-size:11px;" placeholder="images/filename.jpg" oninput="_updatePreview()">
+              <input id="bi-bgimage" class="fi" style="flex:2;font-size:11px;" placeholder="images/banners/filename.jpg" oninput="_updatePreview()">
             </div>
             <p id="img-status" style="font-size:11px;color:#B0967E;margin-top:4px;min-height:16px;"></p>
           </div>
@@ -559,7 +559,7 @@ function uploadImage(){
     var reader = new FileReader();
     reader.onload = function(ev){
       var b64 = ev.target.result.split(',')[1];
-      var path = 'images/' + file.name.replace(/\s/g,'_');
+      var path = 'images/banners/' + file.name.replace(/\s/g,'_');
       if(statusEl) statusEl.textContent = 'Uploading to GitHub…';
       fetch('https://api.github.com/repos/'+GH_REPO+'/contents/'+path+'?ref='+GH_BRANCH,{headers:_ghHdrs()})
         .then(function(r){ return r.json(); })

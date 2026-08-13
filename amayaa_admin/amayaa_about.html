@@ -316,8 +316,8 @@ function _ghSave(filePath,dat,msg,btnEl){
 
 var data = {
   story: [
-    {id:1, label:'OUR BEGINNING', heading:'A Boutique Born from a Love of Handloom', body:'Polka Dots began as a small boutique in Kolkata, built on the founder\'s lifelong passion for Indian textiles. What started as a personal collection of handloom sarees grew into a mission — to bring the finest weaves of India directly to women who value authenticity over mass production.\n\nAmayaa, meaning "one without blemish" in Sanskrit, reflects our commitment to purity — of craft, of origin, and of purpose.', imgPos:'left', imgGradient:'#8B4A1A,#C4622D'},
-    {id:2, label:'OUR PHILOSOPHY', heading:'Why Handloom Matters', body:'India\'s handloom sector employs over 35 lakh weavers — the second largest workforce in the country after agriculture. Yet handloom sarees account for a shrinking share of the market, displaced by power loom imitations that look similar but carry none of the craft.\n\nAt Amayaa, every purchase directly supports a weaver family.', imgPos:'right', imgGradient:'#1A4A2A,#2E7D32'}
+    {id:1, label:'OUR BEGINNING', heading:'A Boutique Born from a Love of Handloom', body:'Polka Dots began as a small boutique in Kolkata, built on the founder\'s lifelong passion for Indian textiles. What started as a personal collection of handloom sarees grew into a mission — to bring the finest weaves of India directly to women who value authenticity over mass production.\n\nAmayaa, meaning "one without blemish" in Sanskrit, reflects our commitment to purity — of craft, of origin, and of purpose.', imgPos:'left', imgUrl:'images/OurStory/story-1.jpg'},
+    {id:2, label:'OUR PHILOSOPHY', heading:'Why Handloom Matters', body:'India\'s handloom sector employs over 35 lakh weavers — the second largest workforce in the country after agriculture. Yet handloom sarees account for a shrinking share of the market, displaced by power loom imitations that look similar but carry none of the craft.\n\nAt Amayaa, every purchase directly supports a weaver family.', imgPos:'right', imgUrl:'images/OurStory/story-2.jpg'}
   ],
   values: [
     {id:1, icon:'🌿', title:'100% Handwoven', desc:'Every saree is hand-woven on traditional pit looms by master artisans'},
@@ -391,7 +391,13 @@ function renderStory() {
       '</div>'+
       '<div class="form-row full"><div class="fg"><label>Section Heading</label><input class="fi" value="'+esc(s.heading)+'" onchange="data.story['+i+'].heading=this.value;autoSave()"></div></div>'+
       '<div class="form-row full"><div class="fg"><label>Body Text (use new line for paragraphs)</label><textarea class="fi" rows="4" onchange="data.story['+i+'].body=this.value;autoSave()">'+esc(s.body)+'</textarea></div></div>'+
-      '<div class="form-row"><div class="fg"><label>Image Gradient (from,to hex)</label><input class="fi" value="'+esc(s.imgGradient||'')+'" placeholder="#8B4A1A,#C4622D" onchange="data.story['+i+'].imgGradient=this.value;autoSave()"></div></div>'+
+      '<div class="form-row"><div class="fg"><label>Section Image</label>'+
+        '<div style="display:flex;gap:8px;align-items:center;">'+
+          '<input class="fi" id="story-img-'+i+'" value="'+esc(s.imgUrl||'')+'" placeholder="images/OurStory/filename.jpg" onchange="data.story['+i+'].imgUrl=this.value;autoSave()" style="flex:1;">'+
+          '<button class="btn btn-ghost btn-sm" onclick="uploadStoryImg('+i+')">📁 Upload</button>'+
+        '</div>'+
+        (s.imgUrl?'<img src="../'+esc(s.imgUrl)+'" style="margin-top:6px;height:80px;object-fit:cover;border-radius:8px;width:100%;">':'')+
+      '</div></div>'+
     '</div>';
   }).join('');
 }
@@ -420,7 +426,14 @@ function renderWeavers() {
       '<div class="fg" style="margin-bottom:8px"><label>Name</label><input class="fi" value="'+esc(w.name)+'" onchange="data.weavers['+i+'].name=this.value;autoSave()"></div>'+
       '<div class="fg" style="margin-bottom:8px"><label>Region</label><input class="fi" value="'+esc(w.region)+'" onchange="data.weavers['+i+'].region=this.value;autoSave()"></div>'+
       '<div class="fg" style="margin-bottom:8px"><label>Specialty</label><input class="fi" value="'+esc(w.specialty)+'" onchange="data.weavers['+i+'].specialty=this.value;autoSave()"></div>'+
-      '<div class="fg"><label>Story</label><textarea class="fi" rows="3" onchange="data.weavers['+i+'].story=this.value;autoSave()">'+esc(w.story)+'</textarea></div>'+
+      '<div class="fg" style="margin-bottom:8px"><label>Story</label><textarea class="fi" rows="3" onchange="data.weavers['+i+'].story=this.value;autoSave()">'+esc(w.story)+'</textarea></div>'+
+      '<div class="fg"><label>Profile Photo</label>'+
+        '<div style="display:flex;gap:8px;align-items:center;">'+
+          '<input class="fi" id="weaver-photo-'+i+'" value="'+esc(w.photo||'')+'" placeholder="images/WeaverProfiles/weaver-1.jpg" onchange="data.weavers['+i+'].photo=this.value;autoSave()" style="flex:1;">'+
+          '<button class="btn btn-ghost btn-sm" onclick="uploadWeaverPhoto('+i+')">📁 Upload</button>'+
+        '</div>'+
+        (w.photo?'<img src="../'+esc(w.photo)+'" style="margin-top:6px;height:80px;width:80px;object-fit:cover;border-radius:50%;">':'')+
+      '</div>'+
     '</div>';
   }).join('')+'</div>';
 }
@@ -442,7 +455,7 @@ function renderPromise() {
 function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
 function addStorySection(){
-  data.story.push({id:Date.now(),label:'NEW SECTION',heading:'Section Heading',body:'Enter body text here.',imgPos:'left',imgGradient:'#C4622D,#E8843D'});
+  data.story.push({id:Date.now(),label:'NEW SECTION',heading:'Section Heading',body:'Enter body text here.',imgPos:'left',imgUrl:''});
   renderStory(); autoSave();
 }
 function addValue(){
@@ -457,6 +470,50 @@ function addPromise(){
   data.promise.push({id:Date.now(),icon:'✓',title:'Promise Title',desc:'Description here'});
   renderPromise(); autoSave();
 }
+function _uploadImg(folder, onDone){
+  var tok=_ghTok();
+  if(!tok){alert('No GitHub token. Go to Admin → Settings first.');return;}
+  var fi=document.createElement('input'); fi.type='file'; fi.accept='image/jpeg,image/png,image/webp';
+  fi.onchange=function(e){
+    var file=e.target.files[0]; if(!file)return;
+    if(file.size>3*1024*1024){alert('Image must be under 3 MB.');return;}
+    var reader=new FileReader();
+    reader.onload=function(ev){
+      var b64=ev.target.result.split(',')[1];
+      var path=folder+'/'+file.name.replace(/\s/g,'_');
+      fetch('https://api.github.com/repos/'+GH_REPO+'/contents/'+path+'?ref='+GH_BRANCH,{headers:_ghHdrs()})
+        .then(function(r){return r.json();})
+        .then(function(ex){
+          var body={message:'Admin: upload image '+file.name,content:b64,branch:GH_BRANCH};
+          if(ex.sha) body.sha=ex.sha;
+          return fetch('https://api.github.com/repos/'+GH_REPO+'/contents/'+path,{method:'PUT',headers:_ghHdrs(),body:JSON.stringify(body)});
+        })
+        .then(function(r){return r.json();})
+        .then(function(res){
+          if(res.content) onDone(path);
+          else alert('Upload failed: '+(res.message||'unknown error'));
+        })
+        .catch(function(e){alert('Upload error: '+e.message);});
+    };
+    reader.readAsDataURL(file);
+  };
+  fi.click();
+}
+
+function uploadStoryImg(i){
+  _uploadImg('images/OurStory',function(path){
+    data.story[i].imgUrl=path;
+    renderStory(); autoSave();
+  });
+}
+
+function uploadWeaverPhoto(i){
+  _uploadImg('images/WeaverProfiles',function(path){
+    data.weavers[i].photo=path;
+    renderWeavers(); autoSave();
+  });
+}
+
 function removeSection(i){ if(!confirm('Remove this section?'))return; data.story.splice(i,1); renderStory(); autoSave(); }
 function removeItem(key,i){ if(!confirm('Remove?'))return; data[key].splice(i,1); if(key==='values')renderValues(); if(key==='weavers')renderWeavers(); if(key==='promise')renderPromise(); autoSave(); }
 function moveSection(i,dir){ var tmp=data.story[i]; data.story[i]=data.story[i+dir]; data.story[i+dir]=tmp; renderStory(); autoSave(); }

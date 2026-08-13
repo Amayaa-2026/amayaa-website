@@ -574,16 +574,19 @@ function slowScrollTo(t){var e=document.getElementById(t);if(!e)return;var s=win
 /* ── Home page: New Arrivals from products_index.json ── */
 (function(){
   function _buildCard(p){
+    var imgHtml = p.thumbnail
+      ? '<img src="'+p.thumbnail+'" alt="'+p.name+'" style="width:100%;height:240px;object-fit:cover;display:block;">'
+      : '<div class="gf" style="background:linear-gradient(160deg,'+(p.gradientFrom||'#8B1A4A')+','+(p.gradientTo||'#C4622D')+');height:240px;"></div>';
     return '<div class="pc" onclick="ProductDrawer.open(\''+p.id+'\')" style="cursor:pointer">'+
-      '<div class="pi"><div class="gf" style="background:linear-gradient(160deg,'+p.gradientFrom+','+p.gradientTo+');height:240px;"></div>'+
+      '<div class="pi">'+imgHtml+
       '<div class="pbadges">'+(p.badges&&p.badges.length?'<span class="badge b-'+p.badges[0]+'">'+p.badges[0].charAt(0).toUpperCase()+p.badges[0].slice(1)+'</span>':'')+
-      (p.status==='sold-out'?'<span class="badge b-sold">Sold Out</span>':'')+
+      (p.status==='sold_out'?'<span class="badge b-sold">Sold Out</span>':'')+
       (p.originalPrice?'<span class="badge b-offer">Special Offer</span>':'')+'</div></div>'+
       '<div class="pinfo"><div class="preg">'+p.region+'</div><div class="pname">'+p.name+'</div>'+
       '<div class="pfab">'+p.fabric+' &middot; '+p.colour+'</div>'+
       '<div class="ppr"><span class="pnew">&#8377; '+p.price.toLocaleString('en-IN')+'</span>'+
       (p.originalPrice?'<span class="pold">&#8377; '+p.originalPrice.toLocaleString('en-IN')+'</span><span class="psave">Save '+Math.round((p.originalPrice-p.price)/p.originalPrice*100)+'%</span>':'')+
-      '</div>'+(p.status==='sold-out'?'<div class="bso">Sold Out &mdash; Check Back Soon</div>':'')+
+      '</div>'+(p.status==='sold_out'?'<div class="bso">Sold Out &mdash; Check Back Soon</div>':'')+
       '</div></div>';
   }
   fetch('data/products_index.json')
@@ -604,8 +607,11 @@ function slowScrollTo(t){var e=document.getElementById(t);if(!e)return;var s=win
 /* ── Home page: Stories from the Loom from blog.json ── */
 (function(){
   function _buildBlogCard(p){
+    var thumbHtml = p.thumbnailImage
+      ? '<img src="'+p.thumbnailImage+'" alt="'+p.title+'" class="bt" style="object-fit:cover;width:100%;display:block;">'
+      : '<div class="bt" style="background:linear-gradient(135deg,'+(p.gradientFrom||'#8B1A4A')+','+(p.gradientTo||'#C4622D')+')"></div>';
     return '<a href="amayaa_blog.html" class="bc">'+
-      '<div class="bt" style="background:linear-gradient(135deg,'+p.gradientFrom+','+p.gradientTo+')"></div>'+
+      thumbHtml+
       '<div class="bb"><div class="bcat">'+p.category+'</div>'+
       '<div class="bttl">'+p.title+'</div>'+
       '<div class="bmeta">'+p.date+' &middot; '+p.readTime+'</div>'+

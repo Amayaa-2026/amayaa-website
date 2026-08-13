@@ -335,7 +335,7 @@ function _renderTable(){
     return '<tr>'
       +'<td><input type="checkbox" class="row-chk" data-id="'+p.id+'" style="accent-color:#C4622D;"></td>'
       +'<td><div style="display:flex;align-items:center;gap:10px;">'
-        +'<div class="prod-thumb" style="background:linear-gradient(135deg,'+(p.gradientFrom||'#8B1A4A')+','+(p.gradientTo||'#C4622D')+');"></div>'
+        +(p.thumbnail?'<div class="prod-thumb" style="overflow:hidden;"><img src="../'+p.thumbnail+'" alt="'+p.name+'" style="width:100%;height:100%;object-fit:cover;display:block;"></div>':'<div class="prod-thumb" style="background:linear-gradient(135deg,'+(p.gradientFrom||'#8B1A4A')+','+(p.gradientTo||'#C4622D')+');"></div>')
         +'<div><div style="font-weight:600;color:#1A0A04;font-size:13px;">'+p.name+'</div><div style="font-size:11px;color:#9A8070;">'+p.id+'</div></div>'
       +'</div></td>'
       +'<td style="color:#5A4030;">'+(p.type||'')+'</td>'

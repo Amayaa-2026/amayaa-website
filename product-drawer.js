@@ -7,7 +7,7 @@
   'use strict';
 
   /* ── Constants ──────────────────────────────────────────── */
-  const LOGO_SRC     = 'Amayaa_Logo_-_circle-removebg-preview.png';
+  const LOGO_SRC     = 'images/logos/Amayaa_Logo_-_circle-removebg-preview.png';
   const DUMMY_IMGS   = ['images/1.jpg','images/2.jpg','images/3.jpg','images/4.jpg'];
   const DUMMY_LABELS = ['Look 1','Look 2','Look 3','Look 4'];
   const WA_NUMBER    = '919583946000';

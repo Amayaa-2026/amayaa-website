@@ -311,9 +311,9 @@ function _renderTable(){
         +'<td>'+_esc(p.date)+'</td>'
         +'<td>'+_esc(p.readTime||'')+'</td>'
         +'<td>'+sb+'</td>'
-        +'<td><div style=”display:flex;gap:10px;”>'
-        +'<button class=”btn btn-ghost btn-sm” onclick=”_editPost('+idx+')”>✎ Edit</button>'
-        +'<button class=”btn btn-danger btn-sm” onclick=”_deletePost('+idx+')”>Delete</button>'
+        +'<td><div style=”display:flex;gap:6px;”>'
+        +'<button class=”btn btn-edit btn-sm” onclick=”_editPost('+idx+')”>&#9998; Edit</button>'
+        +'<button class=”btn btn-danger btn-sm” onclick=”_deletePost('+idx+')”>&#128465;</button>'
         +'</div></td></tr>';
     }).join('');
   }

@@ -604,6 +604,8 @@ document.addEventListener('DOMContentLoaded', function(){
       _renderThumbs();
       if(_banners.length){
         _populateForm(0);
+        var _ec=document.getElementById('editorCard'); if(_ec) _ec.style.display='';
+        var _sa=document.getElementById('slideActions'); if(_sa) _sa.style.display='flex';
       } else {
         var sub = document.getElementById('topbar-sub');
         if(sub) sub.textContent = '0 slides — use Add New Slide to start';

@@ -349,8 +349,8 @@ function _renderTable3(filterId, tbodyId){
     return '<tr data-filter="'+filterId+'" data-idx="'+idx+'">'
       +'<td style="font-weight:600;" class="item-label">'+_escHtml(item.label)+'</td>'
       +'<td>'+_escHtml(item.count)+'</td>'
-      +'<td><button class="btn btn-ghost btn-sm" onclick="editItem(\''+filterId+'\','+idx+')">✏</button> '
-      +'<button class="btn btn-danger btn-sm" onclick="deleteItem(\''+filterId+'\','+idx+')">🗑</button></td>'
+      +'<td><div style="display:flex;gap:6px;"><button class="btn btn-edit btn-sm" onclick="editItem(\''+filterId+'\','+idx+')">&#9998; Edit</button>'
+      +'<button class="btn btn-danger btn-sm" onclick="deleteItem(\''+filterId+'\','+idx+')">&#128465;</button></div></td>'
       +'</tr>';
   }).join('');
 }
@@ -367,8 +367,8 @@ function _renderRegionTable(){
       +'<td style="font-weight:600;" class="item-label">'+_escHtml(item.label)+'</td>'
       +'<td style="color:#9A8070;">—</td>'
       +'<td>'+_escHtml(item.count)+'</td>'
-      +'<td><button class="btn btn-ghost btn-sm" onclick="editItem(\'region\','+idx+')">✏</button> '
-      +'<button class="btn btn-danger btn-sm" onclick="deleteItem(\'region\','+idx+')">🗑</button></td>'
+      +'<td><div style="display:flex;gap:6px;"><button class="btn btn-edit btn-sm" onclick="editItem(\'region\','+idx+')">&#9998; Edit</button>'
+      +'<button class="btn btn-danger btn-sm" onclick="deleteItem(\'region\','+idx+')">&#128465;</button></div></td>'
       +'</tr>';
   }).join('');
 }

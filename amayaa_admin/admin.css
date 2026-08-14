@@ -40,13 +40,13 @@ aside.sidebar{position:fixed;top:0;left:0;width:240px;height:100vh;background:ra
 .btn-primary:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(196,98,45,.3);}
 .btn-ghost{background:rgba(0,0,0,.06);color:#5A4030;}
 .btn-ghost:hover{background:rgba(0,0,0,.1);}
-.btn-danger{background:rgba(200,50,50,.12);color:#C43232;border:1.5px solid rgba(200,50,50,.3);}
-.btn-danger:hover{background:rgba(200,50,50,.22);color:#A02020;}
+.btn.btn-danger{background:rgba(200,50,50,.12);color:#C43232;border:1.5px solid rgba(200,50,50,.3);}
+.btn.btn-danger:hover{background:rgba(200,50,50,.22);color:#A02020;}
 .btn-success{background:rgba(46,160,67,.12);color:#2E7D32;border:1.5px solid rgba(46,160,67,.3);}
 .btn-success:hover{background:rgba(46,160,67,.2);}
 .btn-sm{padding:6px 14px;font-size:12px;}
-.btn-edit{background:rgba(196,98,45,.1);color:#C4622D;border:1.5px solid rgba(196,98,45,.28);}
-.btn-edit:hover{background:rgba(196,98,45,.2);border-color:rgba(196,98,45,.45);}
+.btn.btn-edit{background:rgba(196,98,45,.1);color:#C4622D;border:1.5px solid rgba(196,98,45,.28);}
+.btn.btn-edit:hover{background:rgba(196,98,45,.2);border-color:rgba(196,98,45,.45);}
 
 /* BADGES */
 .badge{display:inline-block;padding:3px 9px;border-radius:10px;font-size:11px;font-weight:600;letter-spacing:.3px;}

@@ -169,6 +169,17 @@ body{font-family:'Jost',sans-serif;background:linear-gradient(135deg,#E4DFD9 0%,
 .bc span{color:#D0C0B0;}
 
 
+/* VIEW MODE PREVIEW */
+.preview-highlight{background:rgba(196,98,45,.07);border-left:3px solid #C4622D;border-radius:0 8px 8px 0;padding:12px 16px;margin-bottom:18px;font-size:14px;color:#3A2A1A;line-height:1.6;font-style:italic;}
+.preview-content{margin-top:4px;}
+.preview-content h4{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;color:#1A0A04;margin:18px 0 8px;}
+.preview-content h4:first-child{margin-top:0;}
+.preview-content p{font-size:14px;color:#3A2A1A;line-height:1.7;margin-bottom:12px;}
+.preview-content ul{padding-left:20px;margin-bottom:12px;}
+.preview-content li{font-size:14px;color:#3A2A1A;line-height:1.7;margin-bottom:4px;}
+.preview-content strong{color:#1A0A04;}
+.edit-mode-banner{background:rgba(196,98,45,.07);border:1px solid rgba(196,98,45,.2);border-radius:9px;padding:9px 14px;font-size:12px;color:#A04010;margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+
 /* Page-specific */
 .policies-layout{display:grid;grid-template-columns:25fr 75fr;gap:20px;align-items:start;}
 .section-nav{position:sticky;top:80px;}
@@ -207,7 +218,7 @@ if(!sessionStorage.getItem('amayaa_admin')){
   <div class="content">
 
     <div class="info-banner">
-      &#128204; Changes preview here. Click <strong>Save All</strong> to apply.
+      &#128204; Click a section to preview it. Hit <strong>Edit</strong> to make changes. <strong>Save Section</strong> or <strong>Save All</strong> write directly to the live website via GitHub — no extra deployment needed.
     </div>
 
     <div class="policies-layout">
@@ -228,9 +239,12 @@ if(!sessionStorage.getItem('amayaa_admin')){
           <div class="card-header">
             <div>
               <div class="card-title" id="formSectionTitle">Select a section</div>
-              <div class="card-sub" id="formSectionSub">Choose a section from the left to start editing.</div>
+              <div class="card-sub" id="formSectionSub">Choose a section from the left to preview it.</div>
             </div>
-            <span class="save-indicator" id="saveIndicator">&#10003; Saved</span>
+            <div style="display:flex;align-items:center;gap:14px;">
+              <span class="save-indicator" id="saveIndicator">&#10003; Saved</span>
+              <div id="sectionEditToggle"></div>
+            </div>
           </div>
 
           <div id="editFormArea">
@@ -247,6 +261,7 @@ if(!sessionStorage.getItem('amayaa_admin')){
 
 <script>
 var _data = { sections: [], pageTitle: '', pageSubtitle: '', lastUpdated: '' };
+var _editMode = false;
 
 var GH_REPO = 'Amayaa-2026/amayaa-website';
 var GH_BRANCH = 'main';
@@ -359,77 +374,89 @@ function renderNav() {
   list.innerHTML = html;
 }
 
-function selectSection(idx) {
-  _activeIdx = idx;
-
-  // Update nav highlighting
-  var items = document.querySelectorAll('.sec-nav-item');
-  items.forEach(function(el, i) {
-    el.classList.toggle('active', i === idx);
-  });
-
-  var sec = _data.sections[idx];
-  if (!sec) return;
-
-  document.getElementById('formSectionTitle').textContent = sec.title;
-  document.getElementById('formSectionSub').textContent = sec.label + ' — click Save This Section when done.';
-  document.getElementById('saveIndicator').classList.remove('show');
-
-  var formArea = document.getElementById('editFormArea');
-  formArea.innerHTML =
-    '<div class="html-tip">&#128161; Tip: Use <code>&lt;h4&gt;</code> for subheadings, <code>&lt;p&gt;</code> for paragraphs, <code>&lt;ul&gt;&lt;li&gt;</code> for lists, <code>&lt;strong&gt;</code> for bold text.</div>' +
-
+function _buildFormHtml(sec, idx) {
+  return '<div class="html-tip">&#128161; Tip: Use <code>&lt;h4&gt;</code> for subheadings, <code>&lt;p&gt;</code> for paragraphs, <code>&lt;ul&gt;&lt;li&gt;</code> for lists, <code>&lt;strong&gt;</code> for bold.</div>' +
     '<div class="meta-row" style="margin-bottom:16px;">' +
-      '<div class="fg" style="margin-bottom:0;">' +
-        '<label>Section Title</label>' +
-        '<input class="fi" id="editTitle" value="' + escHtml(sec.title) + '" placeholder="Section heading">' +
-      '</div>' +
-      '<div class="fg" style="margin-bottom:0;">' +
-        '<label>Last Updated</label>' +
-        '<input class="fi" id="editLastUpdated" value="' + escHtml(_data.lastUpdated || '') + '" placeholder="e.g. August 2026">' +
-      '</div>' +
+      '<div class="fg" style="margin-bottom:0;"><label>Section Title</label>' +
+        '<input class="fi" id="editTitle" value="' + escHtml(sec.title) + '" placeholder="Section heading"></div>' +
+      '<div class="fg" style="margin-bottom:0;"><label>Last Updated</label>' +
+        '<input class="fi" id="editLastUpdated" value="' + escHtml(_data.lastUpdated || '') + '" placeholder="e.g. August 2026"></div>' +
     '</div>' +
-
-    '<div class="fg">' +
-      '<label>Highlight / Intro</label>' +
-      '<textarea class="fta" id="editHighlight" rows="2" placeholder="Short introductory callout shown at the top of this section on the public page.">' + escHtml(sec.highlight || '') + '</textarea>' +
-    '</div>' +
-
-    '<div class="fg">' +
-      '<label>Content <span style="font-weight:400;text-transform:none;letter-spacing:0;color:#C0A888;">(HTML)</span></label>' +
-      '<textarea class="fta" id="editContent" rows="12" style="font-family:monospace;font-size:12px;" placeholder="Paste or type HTML content for this section.">' + escHtml(sec.content || '') + '</textarea>' +
-    '</div>' +
-
-    '<div style="display:flex;justify-content:flex-end;">' +
-      '<button class="btn btn-primary" onclick="saveSection(' + idx + ')">&#128190; Save This Section</button>' +
-    '</div>';
+    '<div class="fg"><label>Highlight / Intro</label>' +
+      '<textarea class="fta" id="editHighlight" rows="2" placeholder="Short intro shown at top of section.">' + escHtml(sec.highlight || '') + '</textarea></div>' +
+    '<div class="fg"><label>Content <span style="font-weight:400;text-transform:none;letter-spacing:0;color:#C0A888;">(HTML)</span></label>' +
+      '<textarea class="fta" id="editContent" rows="12" style="font-family:monospace;font-size:12px;" placeholder="Paste or type HTML content.">' + escHtml(sec.content || '') + '</textarea></div>';
 }
 
-function saveSection(idx) {
+function _buildToggle(idx, checked) {
+  return '<div class="toggle-wrap">' +
+    '<label class="toggle"><input type="checkbox" id="tog-edit-section"' + (checked ? ' checked' : '') + ' onchange="toggleEditSection(' + idx + ')">' +
+    '<div class="toggle-slider"></div></label>' +
+    '<div class="toggle-label" style="font-size:13px;color:#5A4030;font-weight:500;">Edit</div>' +
+  '</div>';
+}
+
+function selectSection(idx) {
+  _activeIdx = idx;
+  _editMode = false;
+
+  var items = document.querySelectorAll('.sec-nav-item');
+  items.forEach(function(el, i){ el.classList.toggle('active', i === idx); });
+
   var sec = _data.sections[idx];
   if (!sec) return;
 
-  sec.title = document.getElementById('editTitle').value.trim();
-  sec.highlight = document.getElementById('editHighlight').value.trim();
-  sec.content = document.getElementById('editContent').value.trim();
-  _data.lastUpdated = document.getElementById('editLastUpdated').value.trim();
-
-  // Refresh nav (title may have changed)
-  renderNav();
-
-  // Show saved indicator
-  var ind = document.getElementById('saveIndicator');
-  ind.classList.add('show');
-  setTimeout(function(){ ind.classList.remove('show'); }, 2500);
-
-  // Update form header
   document.getElementById('formSectionTitle').textContent = sec.title;
+  document.getElementById('formSectionSub').textContent = sec.label + ' — toggle Edit to make changes.';
+  document.getElementById('saveIndicator').classList.remove('show');
+  document.getElementById('sectionEditToggle').innerHTML = _buildToggle(idx, false);
 
-  // Auto-save to GitHub after updating section
-  _ghSave('data/policies.json', _data, 'Admin: update Policies section - '+sec.title, null);
+  var formArea = document.getElementById('editFormArea');
+  formArea.className = 'section-locked';
+  formArea.innerHTML = _buildFormHtml(sec, idx);
+}
+
+function toggleEditSection(idx) {
+  var tog = document.getElementById('tog-edit-section');
+  var formArea = document.getElementById('editFormArea');
+  var sec = _data.sections[idx];
+  if (!sec) return;
+
+  if (tog.checked) {
+    // Switch to EDIT mode
+    _editMode = true;
+    formArea.className = '';
+    document.getElementById('formSectionSub').textContent = sec.label + ' — editing. Toggle off to save.';
+  } else {
+    // Switch to READ-ONLY — collect values and save
+    _editMode = false;
+    sec.title = (document.getElementById('editTitle').value || '').trim();
+    sec.highlight = (document.getElementById('editHighlight').value || '').trim();
+    sec.content = (document.getElementById('editContent').value || '').trim();
+    _data.lastUpdated = (document.getElementById('editLastUpdated').value || '').trim();
+
+    formArea.className = 'section-locked';
+    renderNav();
+    document.getElementById('formSectionTitle').textContent = sec.title;
+    document.getElementById('formSectionSub').textContent = sec.label + ' — toggle Edit to make changes.';
+
+    var ind = document.getElementById('saveIndicator');
+    ind.classList.add('show');
+    setTimeout(function(){ ind.classList.remove('show'); }, 2500);
+
+    _ghSave('data/policies.json', _data, 'Admin: update Policies — ' + sec.title, null);
+  }
 }
 
 function saveAll() {
+  // Collect active section if still in edit mode
+  if (_editMode && _data.sections[_activeIdx]) {
+    var sec = _data.sections[_activeIdx];
+    sec.title = (document.getElementById('editTitle').value || '').trim();
+    sec.highlight = (document.getElementById('editHighlight').value || '').trim();
+    sec.content = (document.getElementById('editContent').value || '').trim();
+    _data.lastUpdated = (document.getElementById('editLastUpdated').value || '').trim();
+  }
   var btn = document.querySelector('.topbar-actions .btn-primary');
   _ghSave('data/policies.json', _data, 'Admin: update Policies content', btn);
 }

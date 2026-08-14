@@ -295,21 +295,21 @@ function _renderTable(){
   var tbody=document.getElementById('blogTableBody');
   if(!tbody)return;
   if(!_blogData.length){
-    tbody.innerHTML='<tr><td colspan=”6” style=”text-align:center;color:#9A8070;padding:24px;”>No posts yet. Click “+ Write New Post”.</td></tr>';
+    tbody.innerHTML='<tr><td colspan="6" style="text-align:center;color:#9A8070;padding:24px;">No posts yet. Click "+ Write New Post".</td></tr>';
   }else{
     tbody.innerHTML=_blogData.map(function(p,idx){
       var sb=p.published
-        ?'<span class=”badge badge-active”>Published</span>'+(p.featured?' <span class=”badge badge-new”>Featured</span>':'')
-        :'<span class=”badge badge-draft”>Draft</span>';
+        ?'<span class="badge badge-active">Published</span>'+(p.featured?' <span class="badge badge-new">Featured</span>':'')
+        :'<span class="badge badge-draft">Draft</span>';
       return '<tr>'
-        +'<td style=”font-weight:500;color:#1A0A04;”>'+_esc(p.title)+'</td>'
+        +'<td style="font-weight:500;color:#1A0A04;">'+_esc(p.title)+'</td>'
         +'<td>'+_esc(p.category)+'</td>'
         +'<td>'+_esc(p.date)+'</td>'
         +'<td>'+_esc(p.readTime||'')+'</td>'
         +'<td>'+sb+'</td>'
-        +'<td><div style=”display:flex;gap:6px;”>'
-        +'<button class=”btn btn-edit btn-sm” onclick=”_editPost('+idx+')”>&#9998; Edit</button>'
-        +'<button class=”btn btn-danger btn-sm” onclick=”_deletePost('+idx+')”>&#128465;</button>'
+        +'<td><div style="display:flex;gap:6px;">'
+        +'<button class="btn btn-edit btn-sm" onclick="_editPost('+idx+')">&#9998; Edit</button>'
+        +'<button class="btn btn-danger btn-sm" onclick="_deletePost('+idx+')">&#128465;</button>'
         +'</div></td></tr>';
     }).join('');
   }
@@ -372,7 +372,7 @@ function _editPost(idx){
 
 function _deletePost(idx){
   var p=_blogData[idx];
-  if(!p||!confirm('Delete “'+p.title+'”? This cannot be undone.'))return;
+  if(!p||!confirm('Delete "'+p.title+'"? This cannot be undone.'))return;
   _blogData.splice(idx,1);
   _renderTable();
   _ghSave('data/blog.json',_blogData,'Admin: delete blog post',null);
@@ -413,7 +413,7 @@ function _publishPost(published){
   else{_blogData.push(post);}
   _renderTable();
   _ghSave('data/blog.json',_blogData,
-    published?'Admin: publish “'+title+'”':'Admin: draft “'+title+'”',
+    published?'Admin: publish "'+title+'"':'Admin: draft "'+title+'"',
     btn,
     function(){ document.getElementById('blogForm').style.display='none'; _clearForm(); }
   );
@@ -485,7 +485,7 @@ function _setupRTE(){
   });
 }
 
-/* ── Wire “New Post” topbar button ── */
+/* ── Wire "New Post" topbar button ── */
 document.addEventListener('DOMContentLoaded',function(){
   var newBtn=document.querySelector('.topbar-actions .btn-primary');
   if(newBtn) newBtn.addEventListener('click',function(){

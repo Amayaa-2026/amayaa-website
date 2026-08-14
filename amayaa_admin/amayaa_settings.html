@@ -383,6 +383,7 @@ if(!sessionStorage.getItem('amayaa_admin')){
         <div style="display:flex;flex-direction:column;gap:14px;">
           <div class="toggle-wrap"><label class="toggle"><input type="checkbox" id="tog-showWhatsAppFab" checked disabled><div class="toggle-slider"></div></label><div><div class="toggle-label">WhatsApp FAB Button</div><div style="font-size:11px;color:#9A8070;">Floating button on all pages</div></div></div>
           <div class="toggle-wrap"><label class="toggle"><input type="checkbox" id="tog-showSpecialOffersInNav" checked disabled><div class="toggle-slider"></div></label><div><div class="toggle-label">Special Offers in Nav</div><div style="font-size:11px;color:#9A8070;">Show 🎁 Special Offers menu item</div></div></div>
+          <div class="toggle-wrap"><label class="toggle"><input type="checkbox" id="tog-auditTrailEnabled" disabled><div class="toggle-slider"></div></label><div><div class="toggle-label">Audit Trail</div><div style="font-size:11px;color:#9A8070;">Log every admin change to audit_trail.json — enable in production only</div></div></div>
         </div>
       </div>
     </div>
@@ -628,6 +629,7 @@ function _populate() {
   k('tog-showVisitorCounter',    c.siteControls && c.siteControls.showVisitorCounter);
   k('tog-showWhatsAppFab',       c.siteControls && c.siteControls.showWhatsAppFab);
   k('tog-showSpecialOffersInNav',c.siteControls && c.siteControls.showSpecialOffersInNav);
+  k('tog-auditTrailEnabled',     c.siteControls && c.siteControls.auditTrailEnabled);
   // Nav Links & Footer columns
   _renderNavLinks();
   _renderFooterCols();
@@ -676,6 +678,7 @@ function _collect(id) {
     _cfg.siteControls.showVisitorCounter     = c('tog-showVisitorCounter');
     _cfg.siteControls.showWhatsAppFab        = c('tog-showWhatsAppFab');
     _cfg.siteControls.showSpecialOffersInNav = c('tog-showSpecialOffersInNav');
+    _cfg.siteControls.auditTrailEnabled      = c('tog-auditTrailEnabled');
   }
   if (id === 'navfooter') {
     // Collect nav links

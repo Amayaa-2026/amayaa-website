@@ -46,7 +46,8 @@
     "maintenanceMode": false,
     "showVisitorCounter": true,
     "showWhatsAppFab": true,
-    "showSpecialOffersInNav": true
+    "showSpecialOffersInNav": true,
+    "auditTrailEnabled": false
   },
   "seo": {
     "title": "Amayaa by Polka Dots — Handloom Sarees from India's Finest Weavers",

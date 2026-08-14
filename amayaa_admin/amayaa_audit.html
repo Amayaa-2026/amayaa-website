@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Audit Trail — Amayaa Admin</title>
+<link rel="stylesheet" href="admin.css">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ── AMAYAA ADMIN SHARED SIDEBAR CSS ── */
+aside.sidebar{position:fixed;top:0;left:0;width:240px;height:100vh;background:radial-gradient(ellipse at 15% 25%,rgba(240,67,147,.55) 0%,transparent 55%),radial-gradient(ellipse at 85% 75%,rgba(240,67,147,.45) 0%,transparent 50%),radial-gradient(ellipse at 50% 10%,rgba(200,30,110,.40) 0%,transparent 45%),#2A0A1A;color:white;overflow-y:auto;z-index:100;display:flex;flex-direction:column;}
+.sb-brand{padding:20px 18px 16px;border-bottom:1px solid rgba(255,255,255,.1);display:flex;align-items:center;gap:12px;flex-shrink:0;}
+.sb-logo-img{width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,.2);flex-shrink:0;}
+.sb-text{display:flex;flex-direction:column;gap:2px;min-width:0;}
+.sb-name{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:white;letter-spacing:.3px;line-height:1.1;white-space:nowrap;}
+.sb-sub{font-size:10px;opacity:.55;letter-spacing:2.5px;text-transform:uppercase;color:white;white-space:nowrap;}
+.sb-nav{flex:1;padding:8px 0;overflow-y:auto;}
+.sb-section{font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;opacity:.45;padding:16px 20px 5px;color:white;}
+.sb-link{display:flex;align-items:center;gap:10px;padding:10px 20px;color:rgba(255,255,255,.72);text-decoration:none;font-size:14px;font-weight:500;transition:all .2s;border-left:3px solid transparent;white-space:nowrap;}
+.sb-link:hover{background:rgba(255,255,255,.08);color:white;border-left-color:rgba(196,98,45,.5);}
+.sb-link.active{background:rgba(196,98,45,.18);color:white;border-left-color:#C4622D;}
+.sb-icon{width:18px;text-align:center;font-size:15px;flex-shrink:0;}
+.sb-footer{padding:14px 18px;border-top:1px solid rgba(255,255,255,.1);flex-shrink:0;}
+.sb-logout{width:100%;padding:9px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:8px;color:rgba(255,255,255,.7);font-family:'Jost',sans-serif;font-size:13px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;}
+.sb-logout:hover{background:rgba(255,255,255,.15);color:white;}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Jost',sans-serif;background:linear-gradient(135deg,#E4DFD9 0%,#D8D2CB 100%);color:#1A1208;font-size:14px;min-height:100vh;}
+.layout{display:flex;min-height:100vh;}
+.main{margin-left:240px;flex:1;display:flex;flex-direction:column;min-height:100vh;}
+.topbar{background:white;border-bottom:1px solid rgba(0,0,0,.07);padding:0 28px;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;box-shadow:0 1px 8px rgba(0,0,0,.05);}
+.topbar-title{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:300;color:#1A0A04;}
+.topbar-sub{font-size:12px;color:#9A8070;margin-top:1px;}
+.topbar-actions{display:flex;align-items:center;gap:10px;}
+.content{padding:24px 28px;flex:1;}
+
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 16px;border-radius:9px;border:none;font-family:'Jost',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .2s;text-decoration:none;}
+.btn-primary{background:#C4622D;color:white;}
+.btn-primary:hover{background:#A04010;}
+.btn-ghost{background:white;color:#5A4030;border:1.5px solid rgba(0,0,0,.12);}
+.btn-ghost:hover{border-color:#C4622D;color:#C4622D;}
+.btn-danger{background:#FEE2E2;color:#991B1B;border:1px solid #FECACA;}
+.btn-danger:hover{background:#FCA5A5;}
+.btn-sm{padding:6px 12px;font-size:12px;}
+
+.card{background:white;border:1px solid rgba(0,0,0,.07);border-radius:16px;padding:22px;box-shadow:0 2px 12px rgba(0,0,0,.05);margin-bottom:20px;}
+.card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid rgba(0,0,0,.06);}
+.card-title{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:400;color:#1A0A04;}
+.card-sub{font-size:12px;color:#9A8070;margin-top:2px;}
+
+.filter-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:20px;}
+.filter-row label{font-size:12px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:#9A8070;}
+.fse{padding:7px 10px;border-radius:8px;border:1.5px solid rgba(0,0,0,.1);background:white;font-family:'Jost',sans-serif;font-size:13px;color:#1A1208;outline:none;cursor:pointer;}
+.fse:focus{border-color:#C4622D;}
+
+.tbl{width:100%;border-collapse:collapse;}
+.tbl th{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#9A8070;padding:9px 13px;text-align:left;border-bottom:1.5px solid rgba(0,0,0,.07);background:rgba(240,230,216,.5);position:sticky;top:0;z-index:1;}
+.tbl td{padding:10px 13px;border-bottom:1px solid rgba(0,0,0,.05);font-size:13px;color:#3A2A1A;vertical-align:top;}
+.tbl tr:hover td{background:rgba(196,98,45,.03);}
+.tbl tr:last-child td{border-bottom:none;}
+
+.badge{display:inline-block;font-size:10px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;padding:3px 8px;border-radius:20px;}
+.b-create{background:rgba(37,211,102,.1);color:#1A7A40;}
+.b-update{background:rgba(196,98,45,.1);color:#A04010;}
+.b-delete{background:rgba(239,68,68,.1);color:#991B1B;}
+
+.changes-wrap{margin-top:6px;}
+.change-row{display:flex;gap:8px;align-items:baseline;font-size:12px;color:#7A6050;margin-top:3px;}
+.change-field{font-weight:600;color:#5A4030;min-width:100px;}
+.change-before{color:#991B1B;text-decoration:line-through;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.change-after{color:#1A7A40;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.change-arrow{color:#B0967E;flex-shrink:0;}
+
+.empty-state{text-align:center;padding:60px 20px;color:#B0967E;}
+.empty-icon{font-size:48px;margin-bottom:16px;}
+.empty-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:#7A6050;margin-bottom:8px;}
+.empty-sub{font-size:13px;line-height:1.6;}
+
+.alert{padding:11px 15px;border-radius:9px;font-size:14px;margin-bottom:16px;display:flex;align-items:center;gap:9px;}
+.alert-warning{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.25);color:#92400E;}
+.alert-info{background:rgba(196,98,45,.08);border:1px solid rgba(196,98,45,.2);color:#A04010;}
+
+.ts{font-size:11px;color:#9A8070;white-space:nowrap;}
+.entity-id{font-size:11px;color:#B0967E;font-family:monospace;}
+
+.tbl-wrap{max-height:calc(100vh - 280px);overflow-y:auto;border-radius:10px;border:1px solid rgba(0,0,0,.07);}
+
+.bc{display:flex;align-items:center;gap:6px;font-size:13px;color:#B0967E;margin-bottom:18px;}
+.bc a{color:#C4622D;text-decoration:none;}
+.bc span{color:#D0C0B0;}
+</style>
+</head>
+<body>
+<script>if(!sessionStorage.getItem('amayaa_admin')){window.location.href='index.html';}</script>
+
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="main">
+    <div class="topbar">
+      <div>
+        <div class="topbar-title">Audit Trail</div>
+        <div class="topbar-sub" id="topbar-sub">Loading…</div>
+      </div>
+      <div class="topbar-actions">
+        <button class="btn btn-ghost" onclick="_refresh()">↻ Refresh</button>
+        <button class="btn btn-danger btn-sm" onclick="_clearTrail()">🗑 Clear All</button>
+      </div>
+    </div>
+    <div class="content">
+
+      <div class="bc"><a href="amayaa_dashboard.html">Dashboard</a><span>/</span>Audit Trail</div>
+
+      <div id="disabled-alert" class="alert alert-warning" style="display:none;">
+        ⚠ Audit Trail is currently <strong>disabled</strong>. Enable it under <a href="amayaa_settings.html" style="color:#A04010;font-weight:600;">Site Settings → Site Controls</a> to start logging changes. This page shows historical records only.
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div><div class="card-title">Change Log</div><div class="card-sub" id="record-count">Loading…</div></div>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <button class="btn btn-ghost btn-sm" onclick="_exportJson()">⬇ Export JSON</button>
+          </div>
+        </div>
+
+        <!-- FILTERS -->
+        <div class="filter-row">
+          <label>Period</label>
+          <select class="fse" id="fil-period" onchange="_applyFilters()">
+            <option value="7">Last 7 days</option>
+            <option value="1">Today</option>
+            <option value="2">Yesterday</option>
+            <option value="15">Last 15 days</option>
+            <option value="30">Last 30 days</option>
+            <option value="90">Last 3 months</option>
+            <option value="0">All time</option>
+          </select>
+          <label>Entity</label>
+          <select class="fse" id="fil-entity" onchange="_applyFilters()">
+            <option value="">All</option>
+            <option value="product">Sarees</option>
+            <option value="blog">Blog</option>
+            <option value="banner">Banners</option>
+            <option value="category">Categories</option>
+            <option value="settings">Settings</option>
+            <option value="about">Our Story</option>
+            <option value="faq">FAQ</option>
+            <option value="policy">Policies</option>
+            <option value="collection">Collections</option>
+          </select>
+          <label>Action</label>
+          <select class="fse" id="fil-action" onchange="_applyFilters()">
+            <option value="">All</option>
+            <option value="create">Created</option>
+            <option value="update">Updated</option>
+            <option value="delete">Deleted</option>
+          </select>
+        </div>
+
+        <!-- TABLE -->
+        <div class="tbl-wrap" id="tbl-wrap">
+          <table class="tbl">
+            <thead>
+              <tr>
+                <th style="width:155px;">Time</th>
+                <th style="width:70px;">Action</th>
+                <th style="width:110px;">Entity</th>
+                <th>ID / Title</th>
+                <th>Summary &amp; Changes</th>
+              </tr>
+            </thead>
+            <tbody id="audit-tbody">
+              <tr><td colspan="5" style="text-align:center;padding:30px;color:#9A8070;">Loading…</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="sidebar.js"></script>
+<script src="audit.js"></script>
+<script>
+
+var _trail   = [];
+var _filtered= [];
+
+/* ═══ HELPERS ═══ */
+function _esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+function _fmtTs(iso){
+  try{
+    var d=new Date(iso);
+    return d.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'})
+      +' '+d.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',hour12:true});
+  }catch(e){return iso||'';}
+}
+
+function _actionBadge(a){
+  var cls = a==='create'?'b-create':a==='delete'?'b-delete':'b-update';
+  return '<span class="badge '+cls+'">'+_esc(a)+'</span>';
+}
+
+function _changesHtml(changes){
+  if(!Array.isArray(changes)||!changes.length) return '';
+  var rows = changes.map(function(c){
+    var before = c.before!=null?String(c.before):'';
+    var after  = c.after!=null?String(c.after):'';
+    return '<div class="change-row">'
+      +'<span class="change-field">'+_esc(c.field)+'</span>'
+      +(before?'<span class="change-before">'+_esc(before)+'</span><span class="change-arrow">→</span>':'')
+      +(after?'<span class="change-after">'+_esc(after)+'</span>':'')
+      +'</div>';
+  }).join('');
+  return '<div class="changes-wrap">'+rows+'</div>';
+}
+
+/* ═══ FILTERS ═══ */
+function _applyFilters(){
+  var period = parseInt(document.getElementById('fil-period').value)||0;
+  var entity = document.getElementById('fil-entity').value;
+  var action = document.getElementById('fil-action').value;
+
+  var cutoff = null;
+  if(period>0){
+    var now = new Date();
+    if(period===2){
+      // yesterday
+      var y = new Date(now); y.setDate(y.getDate()-1); y.setHours(0,0,0,0);
+      var ye= new Date(now); ye.setDate(ye.getDate()-1); ye.setHours(23,59,59,999);
+      cutoff = {from:y, to:ye};
+    } else {
+      var from = new Date(now); from.setDate(from.getDate()-period); from.setHours(0,0,0,0);
+      cutoff = {from:from, to:new Date()};
+    }
+  }
+
+  _filtered = _trail.filter(function(r){
+    if(cutoff){
+      var ts = new Date(r.ts);
+      if(ts < cutoff.from || ts > cutoff.to) return false;
+    }
+    if(entity && r.entity !== entity) return false;
+    if(action && r.action !== action) return false;
+    return true;
+  });
+
+  _renderTable();
+}
+
+/* ═══ RENDER ═══ */
+function _renderTable(){
+  var tbody = document.getElementById('audit-tbody');
+  var sub   = document.getElementById('record-count');
+  if(!_filtered.length){
+    tbody.innerHTML = '<tr><td colspan="5"><div class="empty-state"><div class="empty-icon">📋</div><div class="empty-title">No records found</div><div class="empty-sub">'+
+      (_trail.length ? 'Try adjusting the filters above.' : 'No admin changes have been logged yet. Enable the Audit Trail in Site Settings to begin recording.')+'</div></div></td></tr>';
+    sub.textContent = '0 records';
+    return;
+  }
+  sub.textContent = _filtered.length + ' record' + (_filtered.length!==1?'s':'') + ((_filtered.length<_trail.length)?' (filtered from '+_trail.length+' total)':'');
+  tbody.innerHTML = _filtered.map(function(r){
+    return '<tr>'
+      +'<td class="ts">'+_esc(_fmtTs(r.ts))+'</td>'
+      +'<td>'+_actionBadge(r.action)+'</td>'
+      +'<td style="font-weight:500;text-transform:capitalize;">'+_esc(r.entity)+'</td>'
+      +'<td><div style="font-weight:500;">'+_esc(r.entityId||'—')+'</div><div class="entity-id">'+_esc(r.summary||'')+'</div></td>'
+      +'<td>'+_changesHtml(r.changes)+'</td>'
+      +'</tr>';
+  }).join('');
+}
+
+/* ═══ LOAD ═══ */
+function _refresh(){
+  document.getElementById('audit-tbody').innerHTML = '<tr><td colspan="5" style="text-align:center;padding:30px;color:#9A8070;">Loading…</td></tr>';
+  document.getElementById('topbar-sub').textContent = 'Loading…';
+
+  // Check if audit trail is enabled
+  var tok = localStorage.getItem('amayaa_gh_token')||'';
+  if(!tok){
+    document.getElementById('audit-tbody').innerHTML = '<tr><td colspan="5" style="text-align:center;padding:30px;color:#C4622D;">⚠ No GitHub token. Set it in Admin → Settings first.</td></tr>';
+    document.getElementById('topbar-sub').textContent = 'No token';
+    return;
+  }
+
+  // Read settings to check enabled flag
+  fetch('https://api.github.com/repos/Amayaa-2026/amayaa-website/contents/data/settings.json?ref=main',{
+    headers:{'Authorization':'Bearer '+tok,'Accept':'application/vnd.github+json'}
+  }).then(function(r){return r.json();}).then(function(f){
+    try{
+      var s=JSON.parse(atob(f.content.replace(/\s/g,'')));
+      if(!s.siteControls||!s.siteControls.auditTrailEnabled){
+        document.getElementById('disabled-alert').style.display='flex';
+      } else {
+        document.getElementById('disabled-alert').style.display='none';
+      }
+    }catch(e){}
+  }).catch(function(){});
+
+  // Read audit trail
+  AuditTrail.read().then(function(data){
+    _trail = Array.isArray(data)?data:[];
+    document.getElementById('topbar-sub').textContent = _trail.length + ' total records';
+    _applyFilters();
+  }).catch(function(e){
+    document.getElementById('audit-tbody').innerHTML = '<tr><td colspan="5" style="text-align:center;padding:30px;color:#C4622D;">⚠ Could not load audit_trail.json: '+_esc(String(e))+'</td></tr>';
+    document.getElementById('topbar-sub').textContent = 'Load failed';
+  });
+}
+
+/* ═══ EXPORT ═══ */
+function _exportJson(){
+  var blob = new Blob([JSON.stringify(_filtered,null,2)],{type:'application/json'});
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'amayaa_audit_trail_'+new Date().toISOString().slice(0,10)+'.json';
+  a.click();
+}
+
+/* ═══ CLEAR ═══ */
+function _clearTrail(){
+  if(!confirm('Clear ALL audit trail records? This cannot be undone.')) return;
+  var tok = localStorage.getItem('amayaa_gh_token')||'';
+  if(!tok){alert('No GitHub token set.');return;}
+  // Write empty array back
+  fetch('https://api.github.com/repos/Amayaa-2026/amayaa-website/contents/data/audit_trail.json?ref=main',{
+    headers:{'Authorization':'Bearer '+tok,'Accept':'application/vnd.github+json'}
+  }).then(function(r){return r.json();}).then(function(f){
+    var sha=f.sha;
+    var enc=btoa(unescape(encodeURIComponent('[]')));
+    return fetch('https://api.github.com/repos/Amayaa-2026/amayaa-website/contents/data/audit_trail.json',{
+      method:'PUT',
+      headers:{'Authorization':'Bearer '+tok,'Accept':'application/vnd.github+json','Content-Type':'application/json'},
+      body:JSON.stringify({message:'Admin: clear audit trail',content:enc,sha:sha,branch:'main'})
+    });
+  }).then(function(){
+    _trail=[];_filtered=[];_renderTable();
+    document.getElementById('topbar-sub').textContent='0 total records';
+  }).catch(function(e){alert('Clear failed: '+e.message);});
+}
+
+/* ═══ INIT ═══ */
+document.addEventListener('DOMContentLoaded', function(){
+  _refresh();
+});
+</script>
+
+</body>
+</html>

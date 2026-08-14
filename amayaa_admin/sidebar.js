@@ -14,6 +14,7 @@ var N=[
   {s:'System'},
   {h:'amayaa_settings.html',i:'⚙',l:'Site Settings'},
   {h:'amayaa_typography.html',i:'🔤',l:'Typography'},
+  {h:'amayaa_audit.html',i:'📋',l:'Audit Trail'},
   {h:'https://amayaa.goatcounter.com',i:'📈',l:'Analytics',t:'_blank'},
   {h:'/index.html',i:'🌐',l:'View Website',t:'_blank'}
 ];

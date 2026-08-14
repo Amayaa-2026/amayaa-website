@@ -228,10 +228,12 @@ if(!sessionStorage.getItem('amayaa_admin')){
           <div><div class="card-title">🗺 Regions / Weaves</div><div class="card-sub">12 regions · feeds Region filter and product form</div></div>
           <button class="btn btn-primary btn-sm" onclick="addItem('region')">+ Add Region</button>
         </div>
+        <div style="max-height:260px;overflow-y:auto;border-radius:8px;">
         <table class="tbl">
-          <thead><tr><th>Region Name</th><th>Code</th><th>Products</th><th></th></tr></thead>
+          <thead><tr><th style="position:sticky;top:0;z-index:1;background:rgba(240,230,216,.95);">Region Name</th><th style="position:sticky;top:0;z-index:1;background:rgba(240,230,216,.95);">Code</th><th style="position:sticky;top:0;z-index:1;background:rgba(240,230,216,.95);">Products</th><th style="position:sticky;top:0;z-index:1;background:rgba(240,230,216,.95);"></th></tr></thead>
           <tbody id="region-tbody"><tr><td colspan="4" style="color:#B0967E;font-size:12px;padding:12px;">Loading…</td></tr></tbody>
         </table>
+        </div>
         <div style="display:flex;gap:8px;margin-top:14px;">
           <input class="fi" placeholder="New region name" id="add-input-region" style="flex:1;">
           <button class="btn btn-primary btn-sm" onclick="addItem('region')">Add</button>
@@ -245,10 +247,12 @@ if(!sessionStorage.getItem('amayaa_admin')){
           <div><div class="card-title">🪡 Fabric Types</div><div class="card-sub">9 types · feeds Fabric filter and product form</div></div>
           <button class="btn btn-primary btn-sm" onclick="addItem('fabric')">+ Add Fabric</button>
         </div>
+        <div style="max-height:260px;overflow-y:auto;border-radius:8px;">
         <table class="tbl">
-          <thead><tr><th>Fabric Name</th><th>Products</th><th></th></tr></thead>
+          <thead><tr><th style="position:sticky;top:0;z-index:1;background:rgba(240,230,216,.95);">Fabric Name</th><th style="position:sticky;top:0;z-index:1;background:rgba(240,230,216,.95);">Products</th><th style="position:sticky;top:0;z-index:1;background:rgba(240,230,216,.95);"></th></tr></thead>
           <tbody id="fabric-tbody"><tr><td colspan="3" style="color:#B0967E;font-size:12px;padding:12px;">Loading…</td></tr></tbody>
         </table>
+        </div>
         <div style="display:flex;gap:8px;margin-top:14px;">
           <input class="fi" placeholder="New fabric type" id="add-input-fabric" style="flex:1;">
           <button class="btn btn-primary btn-sm" onclick="addItem('fabric')">Add</button>
@@ -261,10 +265,12 @@ if(!sessionStorage.getItem('amayaa_admin')){
           <div><div class="card-title">🎉 Occasions</div><div class="card-sub">Feeds Occasion filter and product form</div></div>
           <button class="btn btn-primary btn-sm" onclick="addItem('occasion')">+ Add Occasion</button>
         </div>
+        <div style="max-height:260px;overflow-y:auto;border-radius:8px;">
         <table class="tbl">
-          <thead><tr><th>Occasion Name</th><th>Products</th><th></th></tr></thead>
+          <thead><tr><th style="position:sticky;top:0;z-index:1;background:rgba(240,230,216,.95);">Occasion Name</th><th style="position:sticky;top:0;z-index:1;background:rgba(240,230,216,.95);">Products</th><th style="position:sticky;top:0;z-index:1;background:rgba(240,230,216,.95);"></th></tr></thead>
           <tbody id="occasion-tbody"><tr><td colspan="3" style="color:#B0967E;font-size:12px;padding:12px;">Loading…</td></tr></tbody>
         </table>
+        </div>
         <div style="display:flex;gap:8px;margin-top:14px;">
           <input class="fi" placeholder="New occasion e.g. Wedding" id="add-input-occasion" style="flex:1;">
           <button class="btn btn-primary btn-sm" onclick="addItem('occasion')">Add</button>
@@ -277,10 +283,12 @@ if(!sessionStorage.getItem('amayaa_admin')){
           <div><div class="card-title">✨ Show Only</div><div class="card-sub">Special display filters (e.g. New Arrivals, On Sale)</div></div>
           <button class="btn btn-primary btn-sm" onclick="addItem('showonly')">+ Add Filter</button>
         </div>
+        <div style="max-height:260px;overflow-y:auto;border-radius:8px;">
         <table class="tbl">
-          <thead><tr><th>Filter Label</th><th>Count</th><th></th></tr></thead>
+          <thead><tr><th style="position:sticky;top:0;z-index:1;background:rgba(240,230,216,.95);">Filter Label</th><th style="position:sticky;top:0;z-index:1;background:rgba(240,230,216,.95);">Count</th><th style="position:sticky;top:0;z-index:1;background:rgba(240,230,216,.95);"></th></tr></thead>
           <tbody id="showonly-tbody"><tr><td colspan="3" style="color:#B0967E;font-size:12px;padding:12px;">Loading…</td></tr></tbody>
         </table>
+        </div>
         <div style="display:flex;gap:8px;margin-top:14px;">
           <input class="fi" placeholder="New filter label e.g. New Arrivals" id="add-input-showonly" style="flex:1;">
           <button class="btn btn-primary btn-sm" onclick="addItem('showonly')">Add</button>

@@ -178,7 +178,14 @@ body{font-family:'Jost',sans-serif;background:linear-gradient(135deg,#E4DFD9 0%,
 
 /* Page-specific */
 
-.banner-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:24px;}
+/* TAB STRIP (replaces banner-grid) */
+.banner-tabs{display:flex;gap:0;margin-bottom:24px;border-bottom:2px solid rgba(0,0,0,.08);overflow-x:auto;-webkit-overflow-scrolling:touch;}
+.banner-tab{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border:none;background:none;cursor:pointer;font-family:'Jost',sans-serif;font-size:13px;font-weight:500;color:#9A8070;letter-spacing:.4px;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .2s;white-space:nowrap;flex-shrink:0;}
+.banner-tab:hover{color:#5A3020;}
+.banner-tab.active-slide{color:#C4622D;border-bottom-color:#C4622D;font-weight:600;}
+.banner-tab .tab-dot{width:8px;height:8px;border-radius:50%;background:rgba(0,0,0,.15);flex-shrink:0;}
+.banner-tab.active-slide .tab-dot{background:#C4622D;}
+.banner-tab .tab-off{font-size:10px;color:#B0967E;margin-left:2px;}
 .sec-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;}
 .sec-hdr-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:#1A0A04;}
 .sec-hdr-sub{font-size:12px;color:rgba(255,255,255,.35);margin-top:2px;}
@@ -201,9 +208,9 @@ body{font-family:'Jost',sans-serif;background:linear-gradient(135deg,#E4DFD9 0%,
 
     <div class="alert alert-info">💡 Edit a slide below then click <strong>Save All Banners</strong>. Changes go live on GitHub Pages within ~2 minutes. Requires GitHub token set in Admin → Settings.</div>
 
-    <!-- SLIDE SELECTOR THUMBNAILS -->
-    <div class="banner-grid" id="bannerGrid">
-      <div style="grid-column:1/-1;text-align:center;padding:30px;color:#9A8070;font-size:13px;">Loading slides…</div>
+    <!-- SLIDE TAB STRIP -->
+    <div class="banner-tabs" id="bannerGrid">
+      <span style="padding:12px 18px;color:#9A8070;font-size:13px;">Loading slides…</span>
     </div>
 
     <!-- EDITOR CARD -->
@@ -365,27 +372,17 @@ function _renderThumbs(){
   if(!grid) return;
   grid.innerHTML = '';
   if(!_banners.length){
-    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:20px;color:#9A8070;">No slides yet. Click "Add New Slide".</div>';
+    grid.innerHTML = '<span style="padding:12px 18px;color:#9A8070;font-size:13px;">No slides yet. Click "+ Add New Slide".</span>';
     return;
   }
   _banners.forEach(function(b,i){
-    var grad = _GRADS[i % _GRADS.length];
-    // Use actual image if available, gradient as fallback
-    var bgStyle = b.backgroundImage
-      ? 'background-image:url("'+_imgUrl(b.backgroundImage)+'");background-size:cover;background-position:center;'
-      : 'background:'+grad+';';
-    var opacity = b.active === false ? 'opacity:.5;' : '';
-    var card = document.createElement('div');
-    card.className = 'banner-card' + (i === _curIdx ? ' active-slide' : '');
-    card.onclick = function(){ selectSlide(i); };
-    card.innerHTML =
-      '<div class="banner-preview" style="'+bgStyle+opacity+'">' +
-        '<span style="font-size:13px;font-weight:700;color:white;text-shadow:0 1px 4px rgba(0,0,0,.7);background:rgba(0,0,0,.35);padding:2px 8px;border-radius:6px;">'+( i+1 )+'</span>' +
-      '</div>' +
-      '<div class="banner-num" style="font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' +
-        _esc(b.eyebrow || ('Slide '+(i+1))) + (b.active===false?' 🔕':'') +
-      '</div>';
-    grid.appendChild(card);
+    var tab = document.createElement('button');
+    tab.className = 'banner-tab' + (i === _curIdx ? ' active-slide' : '');
+    tab.onclick = function(){ selectSlide(i); };
+    var label = _esc(b.eyebrow || b.headline || ('Slide '+(i+1)));
+    var offBadge = b.active === false ? '<span class="tab-off">OFF</span>' : '';
+    tab.innerHTML = '<span class="tab-dot"></span>' + label + offBadge;
+    grid.appendChild(tab);
   });
   // update sub
   var sub = document.getElementById('topbar-sub');
@@ -617,7 +614,7 @@ document.addEventListener('DOMContentLoaded', function(){
     .catch(function(e){
       console.error('Could not load banners.json:', e);
       var grid = document.getElementById('bannerGrid');
-      if(grid) grid.innerHTML = '<div style="grid-column:1/-1;padding:20px;color:#C4622D;font-size:13px;">⚠ Could not load banners.json — check GitHub token is set in Settings.</div>';
+      if(grid) grid.innerHTML = '<span style="padding:12px 18px;color:#C4622D;font-size:13px;">⚠ Could not load banners.json — check GitHub token is set in Settings.</span>';
       var sub = document.getElementById('topbar-sub');
       if(sub) sub.textContent = 'Load error — check console';
     });

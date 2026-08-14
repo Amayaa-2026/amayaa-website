@@ -232,6 +232,36 @@ if(!sessionStorage.getItem('amayaa_admin')){
       <a href="amayaa_settings.html" class="qa"><div class="qa-icon">⚙️</div><div class="qa-label">Settings</div></a>
       <a href="amayaa_categories.html" class="qa"><div class="qa-icon">🏷</div><div class="qa-label">Categories</div></a>
     </div>
+    <!-- ACTIVITY SUMMARY (powered by audit trail) -->
+    <div class="card" id="activity-card" style="margin-bottom:18px;">
+      <div class="card-header">
+        <div><div class="card-title">Recent Activity</div><div class="card-sub" id="activity-sub">Powered by Audit Trail</div></div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <select id="dash-period" style="padding:6px 10px;border-radius:8px;border:1.5px solid rgba(0,0,0,.1);background:white;font-family:'Jost',sans-serif;font-size:12px;color:#5A4030;outline:none;cursor:pointer;" onchange="_loadActivity()">
+            <option value="1">Today</option>
+            <option value="7" selected>Last 7 days</option>
+            <option value="15">Last 15 days</option>
+            <option value="30">Last 30 days</option>
+            <option value="90">Last 3 months</option>
+          </select>
+          <select id="dash-entity" style="padding:6px 10px;border-radius:8px;border:1.5px solid rgba(0,0,0,.1);background:white;font-family:'Jost',sans-serif;font-size:12px;color:#5A4030;outline:none;cursor:pointer;" onchange="_loadActivity()">
+            <option value="">All</option>
+            <option value="product">Sarees</option>
+            <option value="blog">Blog</option>
+            <option value="banner">Banners</option>
+            <option value="category">Categories</option>
+            <option value="settings">Settings</option>
+          </select>
+          <a href="amayaa_audit.html" class="btn btn-ghost btn-sm">Full Log →</a>
+        </div>
+      </div>
+      <div id="activity-body">
+        <div style="text-align:center;padding:20px;color:#B0967E;font-size:13px;" id="activity-placeholder">
+          Enable Audit Trail in <a href="amayaa_settings.html" style="color:#C4622D;">Site Settings</a> to see activity here.
+        </div>
+      </div>
+    </div>
+
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px;">
       <div class="card">
         <div class="card-header"><div><div class="card-title">Recent Products</div><div class="card-sub">Last 5 added</div></div><a href="amayaa_products.html" class="btn btn-ghost btn-sm">View All</a></div>
@@ -258,7 +288,6 @@ if(!sessionStorage.getItem('amayaa_admin')){
             <tr><td style="font-weight:500;">Kanjivaram vs Mysore Silk</td><td>Weaves</td><td><span class="badge badge-draft">Draft</span></td></tr>
           </tbody>
         </table>
-        <div style="margin-top:14px;"><a href="amayaa_blog.html" class="btn btn-primary btn-sm">+ Write New Post</a></div>
       </div>
     </div>
     <div class="card">
@@ -323,8 +352,87 @@ document.addEventListener('DOMContentLoaded', function() {
         return '<tr><td style="font-weight:500;">'+p.title+'</td><td>'+(p.category||'')+'</td><td>'+(p.date||'')+'</td><td><span class="badge badge-'+(p.published?'active':'draft')+'">'+(p.published?'Published':'Draft')+'</span></td></tr>';
       }).join('');
     }).catch(function(){});
+
+  // Activity summary from audit trail
+  _loadActivity();
 });
+
+function _loadActivity(){
+  var tok = localStorage.getItem('amayaa_gh_token')||'';
+  var body = document.getElementById('activity-body');
+  var sub  = document.getElementById('activity-sub');
+  if(!tok || !body) return;
+
+  var period = parseInt(document.getElementById('dash-period').value)||7;
+  var entity = document.getElementById('dash-entity').value;
+
+  // Read settings to check if enabled
+  fetch('https://api.github.com/repos/Amayaa-2026/amayaa-website/contents/data/settings.json?ref=main',{
+    headers:{'Authorization':'Bearer '+tok,'Accept':'application/vnd.github+json'}
+  }).then(function(r){return r.json();}).then(function(f){
+    try{
+      var s=JSON.parse(atob(f.content.replace(/\s/g,'')));
+      if(!s.siteControls||!s.siteControls.auditTrailEnabled){
+        document.getElementById('activity-placeholder').style.display='block';
+        return;
+      }
+    }catch(e){}
+    document.getElementById('activity-placeholder').style.display='none';
+
+    // Read audit trail
+    fetch('https://api.github.com/repos/Amayaa-2026/amayaa-website/contents/data/audit_trail.json?ref=main',{
+      headers:{'Authorization':'Bearer '+tok,'Accept':'application/vnd.github+json'}
+    }).then(function(r){return r.json();}).then(function(f){
+      var trail=[];
+      try{trail=JSON.parse(atob(f.content.replace(/\s/g,'')));}catch(e){}
+      if(!Array.isArray(trail))trail=[];
+
+      // Filter by period
+      var from=new Date(); from.setDate(from.getDate()-period); from.setHours(0,0,0,0);
+      var filtered=trail.filter(function(r){
+        if(entity && r.entity!==entity) return false;
+        return new Date(r.ts)>=from;
+      });
+
+      if(!filtered.length){
+        body.innerHTML='<div style="text-align:center;padding:20px;color:#B0967E;font-size:13px;">No activity recorded in this period.</div>';
+        if(sub) sub.textContent='0 changes in selected period';
+        return;
+      }
+
+      // Count by action + entity
+      var counts={create:0,update:0,delete:0};
+      filtered.forEach(function(r){if(counts[r.action]!=null)counts[r.action]++;});
+      if(sub) sub.textContent=filtered.length+' change'+(filtered.length!==1?'s':'')+' — '+counts.create+' added · '+counts.update+' updated · '+counts.delete+' deleted';
+
+      // Show last 8 rows
+      var recent=filtered.slice(0,8);
+      var ENTITY_EMOJI={product:'🧣',blog:'📝',banner:'🖼',category:'🏷',settings:'⚙',about:'📖',faq:'❓',policy:'📋',collection:'🎨'};
+      body.innerHTML='<div style="max-height:220px;overflow-y:auto;border-radius:8px;border:1px solid rgba(0,0,0,.06);">'
+        +'<table style="width:100%;border-collapse:collapse;">'
+        +'<thead><tr>'
+        +'<th style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#9A8070;padding:8px 12px;text-align:left;background:rgba(240,230,216,.5);border-bottom:1px solid rgba(0,0,0,.07);">When</th>'
+        +'<th style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#9A8070;padding:8px 12px;text-align:left;background:rgba(240,230,216,.5);border-bottom:1px solid rgba(0,0,0,.07);">What</th>'
+        +'<th style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#9A8070;padding:8px 12px;text-align:left;background:rgba(240,230,216,.5);border-bottom:1px solid rgba(0,0,0,.07);">Item</th>'
+        +'</tr></thead><tbody>'
+        +recent.map(function(r){
+          var icon=ENTITY_EMOJI[r.entity]||'📋';
+          var aCls=r.action==='create'?'color:#1A7A40':r.action==='delete'?'color:#991B1B':'color:#A04010';
+          var ts=new Date(r.ts).toLocaleDateString('en-IN',{day:'2-digit',month:'short'})+' '+new Date(r.ts).toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',hour12:true});
+          return '<tr>'
+            +'<td style="padding:8px 12px;font-size:11px;color:#9A8070;border-bottom:1px solid rgba(0,0,0,.04);white-space:nowrap;">'+ts+'</td>'
+            +'<td style="padding:8px 12px;border-bottom:1px solid rgba(0,0,0,.04);"><span style="font-size:11px;font-weight:600;text-transform:capitalize;'+aCls+';">'+r.action+'</span> <span style="font-size:12px;color:#5A4030;">'+icon+' '+r.entity+'</span></td>'
+            +'<td style="padding:8px 12px;font-size:12px;color:#3A2A1A;border-bottom:1px solid rgba(0,0,0,.04);">'+String(r.entityId||r.summary||'—').substring(0,40)+'</td>'
+            +'</tr>';
+        }).join('')
+        +'</tbody></table></div>';
+    }).catch(function(){
+      body.innerHTML='<div style="text-align:center;padding:16px;color:#B0967E;font-size:13px;">Could not load audit trail.</div>';
+    });
+  }).catch(function(){});
+}
 </script>
 <script src="sidebar.js"></script>
+<script src="audit.js"></script>
 </body>
 </html>

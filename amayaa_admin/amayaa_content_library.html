@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Content Library – Amayaa Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css">
+<style>
+.fi{padding:9px 12px;border:1.5px solid rgba(0,0,0,.12);border-radius:8px;font-family:'Jost',sans-serif;font-size:14px;background:rgba(255,255,255,.88);color:#1A1208;width:100%;transition:border-color .2s;}
+.fi:focus{outline:none;border-color:#C4622D;}
+.fta{padding:9px 12px;border:1.5px solid rgba(0,0,0,.12);border-radius:8px;font-family:'Jost',sans-serif;font-size:14px;background:rgba(255,255,255,.88);color:#1A1208;width:100%;resize:vertical;min-height:100px;transition:border-color .2s;}
+.fta:focus{outline:none;border-color:#C4622D;}
+.section-locked .fi,.section-locked .fta{background:#F5F0EA;pointer-events:none;color:#9A8070;}
+.section-locked .fi:focus,.section-locked .fta:focus{border-color:rgba(0,0,0,.1);}
+
+.lib-tabs{display:flex;gap:8px;margin-bottom:20px;}
+.lib-tab{padding:8px 20px;border-radius:20px;font-size:13px;font-weight:500;cursor:pointer;border:1.5px solid rgba(0,0,0,.1);background:rgba(255,255,255,.7);color:#5A4030;transition:all .2s;font-family:'Jost',sans-serif;}
+.lib-tab.active{background:#C4622D;border-color:#C4622D;color:white;}
+
+.entry-card{background:rgba(255,255,255,.88);border:1px solid rgba(0,0,0,.07);border-radius:12px;margin-bottom:14px;overflow:hidden;}
+.entry-header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;cursor:pointer;user-select:none;}
+.entry-header:hover{background:rgba(196,98,45,.04);}
+.entry-key{font-size:11px;font-family:'Jost',monospace;background:rgba(196,98,45,.1);color:#8B3A12;padding:2px 7px;border-radius:6px;margin-left:10px;}
+.entry-label{font-size:14px;font-weight:600;color:#1A1208;}
+.entry-body{padding:0 18px 16px;border-top:1px solid rgba(0,0,0,.06);}
+.entry-body.collapsed{display:none;}
+.entry-meta{display:flex;align-items:center;gap:12px;}
+.entry-controls{display:flex;align-items:center;gap:10px;}
+.save-indicator{font-size:12px;color:#2E7D32;font-weight:600;opacity:0;transition:opacity .4s;}
+.save-indicator.show{opacity:1;}
+
+.new-entry-form{background:rgba(255,255,255,.5);border:1.5px dashed rgba(196,98,45,.3);border-radius:12px;padding:20px;margin-top:12px;}
+.new-entry-form h4{font-size:13px;font-weight:600;color:#C4622D;margin-bottom:14px;text-transform:uppercase;letter-spacing:.5px;}
+.fg-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+</style>
+</head>
+<body>
+<script src="sidebar.js"></script>
+<div class="main">
+  <div class="topbar">
+    <div>
+      <div class="topbar-title">Content Library</div>
+      <div class="topbar-sub">Reusable text blocks for Weave Stories, Care Instructions &amp; Descriptions</div>
+    </div>
+    <div class="topbar-actions">
+      <span id="globalSaveIndicator" class="save-indicator">&#10003; Saved</span>
+      <button class="btn btn-primary" onclick="_saveAll()">&#128190; Save All Changes</button>
+    </div>
+  </div>
+  <div class="content">
+    <div class="bc">Changes here update the text shown in product drawers and quick-view panels. Products store keys — this library holds the full text.</div>
+
+    <div class="lib-tabs">
+      <button class="lib-tab active" onclick="_switchTab('weaveStory',this)">&#129528; Weave Stories</button>
+      <button class="lib-tab" onclick="_switchTab('careInstructions',this)">&#x1F9FA; Care Instructions</button>
+      <button class="lib-tab" onclick="_switchTab('description',this)">&#x1F4DD; Descriptions</button>
+    </div>
+
+    <div id="entriesContainer"></div>
+
+    <div class="new-entry-form" id="newEntryForm">
+      <h4>+ Add New Entry</h4>
+      <div class="fg-row">
+        <div class="fg">
+          <label>Key (lowercase, hyphens)</label>
+          <input type="text" class="fi" id="newKey" placeholder="e.g. patola-double-ikat_ws">
+        </div>
+        <div class="fg">
+          <label>Label (display name)</label>
+          <input type="text" class="fi" id="newLabel" placeholder="e.g. Patola Double Ikat">
+        </div>
+      </div>
+      <div class="fg" style="margin-bottom:12px;">
+        <label>Full Text</label>
+        <textarea class="fta" id="newText" rows="4" placeholder="Enter the full text for this entry..."></textarea>
+      </div>
+      <button class="btn btn-primary btn-sm" onclick="_addEntry()">Add Entry</button>
+    </div>
+  </div>
+</div>
+
+<script>
+var _data = null;
+var _activeTab = 'weaveStory';
+
+// ── GitHub helpers ──────────────────────────────────────────────
+function _ghGet(path,cb){
+  var tok=localStorage.getItem('amayaa_gh_token');
+  if(!tok){alert('GitHub token not set. Go to Site Settings.');return;}
+  fetch('https://api.github.com/repos/Amayaa-2026/amayaa-website/contents/'+path,
+    {headers:{'Authorization':'token '+tok,'Accept':'application/vnd.github.v3+json'}})
+    .then(function(r){return r.json();}).then(cb).catch(function(e){console.error(e);});
+}
+function _ghPut(path,content,msg,sha,cb){
+  var tok=localStorage.getItem('amayaa_gh_token');
+  if(!tok){alert('GitHub token not set.');return;}
+  var body={message:msg,content:btoa(unescape(encodeURIComponent(content)))};
+  if(sha)body.sha=sha;
+  fetch('https://api.github.com/repos/Amayaa-2026/amayaa-website/contents/'+path,{
+    method:'PUT',headers:{'Authorization':'token '+tok,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},
+    body:JSON.stringify(body)
+  }).then(function(r){return r.json();}).then(function(res){if(cb)cb(res);}).catch(function(e){console.error(e);});
+}
+
+var _sha = null;
+function _load(){
+  _ghGet('data/content_library.json',function(res){
+    _sha = res.sha;
+    _data = JSON.parse(decodeURIComponent(escape(atob(res.content.replace(/\n/g,'')))));
+    _renderTab();
+  });
+}
+
+// ── Render ──────────────────────────────────────────────────────
+function _switchTab(tab, btn){
+  _activeTab = tab;
+  document.querySelectorAll('.lib-tab').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');
+  _renderTab();
+}
+
+function _renderTab(){
+  var entries = _data[_activeTab] || [];
+  var html = '';
+  entries.forEach(function(e,i){
+    html += '<div class="entry-card" id="ec-'+i+'">'
+      +'<div class="entry-header" onclick="_toggle('+i+')">'
+        +'<div class="entry-meta">'
+          +'<span class="entry-label">'+_esc(e.label)+'</span>'
+          +'<span class="entry-key">'+_esc(e.key)+'</span>'
+        +'</div>'
+        +'<div class="entry-controls" onclick="event.stopPropagation()">'
+          +'<span class="save-indicator" id="si-'+i+'">&#10003; Saved</span>'
+          +'<div class="toggle-wrap">'
+            +'<label class="toggle"><input type="checkbox" id="tog-'+i+'" onchange="_toggleEdit('+i+',this.checked)">'
+            +'<div class="toggle-slider"></div></label>'
+            +'<div class="toggle-label">Edit</div>'
+          +'</div>'
+          +'<button class="btn btn-danger btn-sm" onclick="_deleteEntry('+i+')">&#128465;</button>'
+        +'</div>'
+      +'</div>'
+      +'<div class="entry-body collapsed section-locked" id="eb-'+i+'">'
+        +'<div class="fg" style="margin:14px 0 10px">'
+          +'<label>Key</label>'
+          +'<input type="text" class="fi" id="ek-'+i+'" value="'+_esc(e.key)+'">'
+        +'</div>'
+        +'<div class="fg" style="margin-bottom:10px">'
+          +'<label>Label</label>'
+          +'<input type="text" class="fi" id="el-'+i+'" value="'+_esc(e.label)+'">'
+        +'</div>'
+        +'<div class="fg" style="margin-bottom:4px">'
+          +'<label>Full Text</label>'
+          +'<textarea class="fta" id="et-'+i+'" rows="5">'+_esc(e.text)+'</textarea>'
+        +'</div>'
+      +'</div>'
+    +'</div>';
+  });
+  document.getElementById('entriesContainer').innerHTML = html;
+}
+
+function _toggle(i){
+  var b = document.getElementById('eb-'+i);
+  b.classList.toggle('collapsed');
+}
+
+function _toggleEdit(i, checked){
+  var eb = document.getElementById('eb-'+i);
+  if(checked){
+    eb.classList.remove('section-locked');
+  } else {
+    // collect + save
+    var entry = _data[_activeTab][i];
+    entry.key   = (document.getElementById('ek-'+i).value||'').trim();
+    entry.label = (document.getElementById('el-'+i).value||'').trim();
+    entry.text  = (document.getElementById('et-'+i).value||'').trim();
+    eb.classList.add('section-locked');
+    _saveLib('Admin: update Content Library — '+entry.label, function(){
+      var si = document.getElementById('si-'+i);
+      si.classList.add('show');
+      setTimeout(function(){si.classList.remove('show');},2500);
+    });
+  }
+}
+
+function _deleteEntry(i){
+  var entry = _data[_activeTab][i];
+  if(!confirm('Delete "'+entry.label+'"? Products using key "'+entry.key+'" will show blank text.'))return;
+  _data[_activeTab].splice(i,1);
+  _renderTab();
+  _saveLib('Admin: delete Content Library entry — '+entry.key, null);
+}
+
+function _addEntry(){
+  var key   = (document.getElementById('newKey').value||'').trim().replace(/\s+/g,'-').toLowerCase();
+  var label = (document.getElementById('newLabel').value||'').trim();
+  var text  = (document.getElementById('newText').value||'').trim();
+  if(!key||!label||!text){alert('Fill in all three fields.');return;}
+  // check duplicate key
+  var exists = (_data[_activeTab]||[]).some(function(e){return e.key===key;});
+  if(exists){alert('Key "'+key+'" already exists. Choose a different key.');return;}
+  _data[_activeTab].push({key:key,label:label,text:text});
+  document.getElementById('newKey').value='';
+  document.getElementById('newLabel').value='';
+  document.getElementById('newText').value='';
+  _renderTab();
+  _saveLib('Admin: add Content Library entry — '+key, function(){
+    var si = document.getElementById('globalSaveIndicator');
+    si.classList.add('show');
+    setTimeout(function(){si.classList.remove('show');},2500);
+  });
+}
+
+function _saveAll(){
+  _saveLib('Admin: update Content Library (bulk save)', function(){
+    var si = document.getElementById('globalSaveIndicator');
+    si.classList.add('show');
+    setTimeout(function(){si.classList.remove('show');},2500);
+  });
+}
+
+function _saveLib(msg, cb){
+  var content = JSON.stringify(_data, null, 2);
+  _ghPut('data/content_library.json', content, msg, _sha, function(res){
+    if(res.content && res.content.sha) _sha = res.content.sha;
+    if(cb)cb();
+  });
+}
+
+function _esc(s){
+  return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+_load();
+</script>
+</body>
+</html>

@@ -24,6 +24,23 @@
   let _autoTimer = null;
   let _viewIdx   = 0;
   let _swatches  = [];
+  let _library   = null;   // content library cache
+
+  /* ── Library fetch (once) ───────────────────────────────── */
+  function _fetchLibrary() {
+    if (_library) return Promise.resolve(_library);
+    return fetch('data/content_library.json')
+      .then(r => r.ok ? r.json() : {})
+      .then(d => { _library = d; return d; })
+      .catch(() => { _library = {}; return {}; });
+  }
+
+  function _resolveKey(field, key) {
+    if (!key || !_library) return key || '';
+    const entries = (_library[field] || []);
+    const found = entries.find(e => e.key === key);
+    return found ? found.text : key;
+  }
 
   /* ── Public API ─────────────────────────────────────────── */
   window.ProductDrawer = { open, close };
@@ -50,9 +67,11 @@
       history.replaceState(null, '', u.toString());
     } catch(e) {}
 
-    fetch('data/products/' + productId + '.json')
-      .then(r => { if (!r.ok) throw new Error('not found'); return r.json(); })
-      .then(p  => { if (_currentId === productId) _render(p); })
+    Promise.all([
+      fetch('data/products/' + productId + '.json').then(r => { if (!r.ok) throw new Error('not found'); return r.json(); }),
+      _fetchLibrary()
+    ])
+      .then(([p]) => { if (_currentId === productId) _render(p); })
       .catch(() => {
         if (_currentId !== productId) return;
         _drawer.querySelector('#pd-body-2col').innerHTML =
@@ -196,20 +215,32 @@
     /* WA message */
     const waMsg = encodeURIComponent(`Hello! I'm interested in: ${p.name} (₹${_fmt(p.price)}). Please share more details.`);
 
+    /* Resolve content library keys */
+    const descText  = _resolveKey('description',       p.description)       || 'Details about this saree coming soon.';
+    const storyText = _resolveKey('weaveStory',         p.weaveStory)        || 'Weave story coming soon.';
+    const careText  = _resolveKey('careInstructions',   p.careInstructions)  || 'Care instructions coming soon.';
+
     /* Sections — always visible, no accordion toggle */
     const sectionDesc  = `<div class="pd-section">
       <div class="pd-section-hdr">The Saree</div>
-      <div class="pd-section-body">${_esc(p.description || 'Details about this saree coming soon.')}</div>
+      <div class="pd-section-body">${_esc(descText)}</div>
     </div>`;
 
     const sectionStory = `<div class="pd-section">
       <div class="pd-section-hdr">Weave Story</div>
-      <div class="pd-section-body">${_esc(p.weaveStory || 'Weave story coming soon.')}${weaveFacts}</div>
+      <div class="pd-section-body">${_esc(storyText)}${weaveFacts}</div>
     </div>`;
 
     const sectionCare  = `<div class="pd-section">
       <div class="pd-section-hdr">Care Guide</div>
-      <div class="pd-section-body">${_esc(p.careInstructions || 'Care instructions coming soon.')}</div>
+      <div class="pd-section-body">${_esc(careText)}</div>
+    </div>`;
+
+    /* QR code section */
+    const qrSection = `<div class="pd-section" style="text-align:center;">
+      <div class="pd-section-hdr">Share This Saree</div>
+      <div id="pd-qr-container" style="display:flex;justify-content:center;margin:10px 0 6px;"></div>
+      <div style="font-size:11px;color:#B0967E;">Scan to view on website</div>
     </div>`;
 
     _drawer.querySelector('#pd-body-2col').innerHTML = `
@@ -260,6 +291,7 @@
           ${sectionDesc}
           ${sectionStory}
           ${sectionCare}
+          ${qrSection}
         </div>
 
         <!-- CTA: WhatsApp + Call -->
@@ -294,6 +326,38 @@
     _drawer.querySelector('#pd-share-btn').addEventListener('click', () => _share(p));
 
     _startAuto();
+
+    /* Generate QR code for product */
+    _generateQR(p.id);
+  }
+
+  /* ── QR Code ────────────────────────────────────────────── */
+  function _generateQR(productId) {
+    const container = _drawer ? _drawer.querySelector('#pd-qr-container') : null;
+    if (!container) return;
+    const url = 'https://amayaabypolkadots.in/amayaa_sarees.html?id=' + encodeURIComponent(productId);
+
+    function _makeQR() {
+      container.innerHTML = '';
+      try {
+        new QRCode(container, {
+          text: url, width: 140, height: 140,
+          colorDark: '#1A0A04', colorLight: '#FAF6F2',
+          correctLevel: QRCode.CorrectLevel.M
+        });
+      } catch(e) {
+        container.innerHTML = '<span style="font-size:11px;color:#B0967E;">QR unavailable</span>';
+      }
+    }
+
+    if (typeof QRCode !== 'undefined') {
+      _makeQR();
+    } else {
+      const s = document.createElement('script');
+      s.src = 'https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js';
+      s.onload = _makeQR;
+      document.head.appendChild(s);
+    }
   }
 
   /* ── Swatch strip ───────────────────────────────────────── */

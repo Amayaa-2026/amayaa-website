@@ -1,563 +1,414 @@
 <!DOCTYPE html>
-<!-- v5.2 -->
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Add / Edit Product — Amayaa Admin</title>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Edit Product – Amayaa Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="admin.css">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&family=Caveat:wght@700&family=Nunito:wght@600;700&display=swap" rel="stylesheet">
 <style>
-/* ── AMAYAA ADMIN SHARED SIDEBAR CSS ── */
-aside.sidebar{position:fixed;top:0;left:0;width:240px;height:100vh;background:radial-gradient(ellipse at 15% 25%,rgba(240,67,147,.55) 0%,transparent 55%),radial-gradient(ellipse at 85% 75%,rgba(240,67,147,.45) 0%,transparent 50%),radial-gradient(ellipse at 50% 10%,rgba(200,30,110,.40) 0%,transparent 45%),#2A0A1A;color:white;overflow-y:auto;z-index:100;display:flex;flex-direction:column;}
-.sb-brand{padding:20px 18px 16px;border-bottom:1px solid rgba(255,255,255,.1);display:flex;align-items:center;gap:12px;flex-shrink:0;}
-.sb-logo-img{width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,.2);flex-shrink:0;}
-.sb-text{display:flex;flex-direction:column;gap:2px;min-width:0;}
-.sb-name{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:white;letter-spacing:.3px;line-height:1.1;white-space:nowrap;}
-.sb-sub{font-size:10px;opacity:.55;letter-spacing:2.5px;text-transform:uppercase;color:white;white-space:nowrap;}
-.sb-nav{flex:1;padding:8px 0;overflow-y:auto;}
-.sb-section{font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;opacity:.45;padding:16px 20px 5px;color:white;}
-.sb-link{display:flex;align-items:center;gap:10px;padding:10px 20px;color:rgba(255,255,255,.72);text-decoration:none;font-size:14px;font-weight:500;transition:all .2s;border-left:3px solid transparent;white-space:nowrap;}
-.sb-link:hover{background:rgba(255,255,255,.08);color:white;border-left-color:rgba(196,98,45,.5);}
-.sb-link.active{background:rgba(196,98,45,.18);color:white;border-left-color:#C4622D;}
-.sb-icon{width:18px;text-align:center;font-size:15px;flex-shrink:0;}
-.sb-footer{padding:14px 18px;border-top:1px solid rgba(255,255,255,.1);flex-shrink:0;}
-.sb-logout{width:100%;padding:9px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:8px;color:rgba(255,255,255,.7);font-family:'Jost',sans-serif;font-size:13px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;}
-.sb-logout:hover{background:rgba(255,255,255,.15);color:white;}
+.fi{padding:9px 12px;border:1.5px solid rgba(0,0,0,.12);border-radius:8px;font-family:'Jost',sans-serif;font-size:14px;background:rgba(255,255,255,.88);color:#1A1208;width:100%;transition:border-color .2s;}
+.fi:focus{outline:none;border-color:#C4622D;}
+.fi[readonly]{background:#F5F0EA;color:#9A8070;cursor:not-allowed;}
+.fta{padding:9px 12px;border:1.5px solid rgba(0,0,0,.12);border-radius:8px;font-family:'Jost',sans-serif;font-size:14px;background:rgba(255,255,255,.88);color:#1A1208;width:100%;resize:vertical;min-height:80px;transition:border-color .2s;}
+.fta:focus{outline:none;border-color:#C4622D;}
+.fse{padding:9px 12px;border:1.5px solid rgba(0,0,0,.12);border-radius:8px;font-family:'Jost',sans-serif;font-size:14px;background:rgba(255,255,255,.88);color:#1A1208;width:100%;}
+.fse:focus{outline:none;border-color:#C4622D;}
 
+.fg{display:flex;flex-direction:column;gap:5px;margin-bottom:14px;}
+.fg label,.form-label{font-size:12px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:#9A8070;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+.grid4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:14px;}
 
-*{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Jost',sans-serif;background:linear-gradient(135deg,#E4DFD9 0%,#D8D2CB 100%);color:#1A1208;font-size:14px;min-height:100vh;}
+.section-card{background:rgba(255,255,255,.88);border:1px solid rgba(0,0,0,.07);border-radius:14px;margin-bottom:16px;overflow:hidden;}
+.section-head{padding:16px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(0,0,0,.06);background:rgba(255,255,255,.6);}
+.section-title{font-size:13px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:#5A4030;}
+.section-body{padding:20px;}
 
-/* SIDEBAR — warm dark */
+.pill-group{display:flex;flex-wrap:wrap;gap:8px;}
+.pill-check{display:none;}
+.pill-label{display:inline-flex;align-items:center;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1.5px solid rgba(0,0,0,.12);background:rgba(255,255,255,.7);color:#5A4030;transition:all .2s;user-select:none;}
+.pill-check:checked+.pill-label{background:#C4622D;border-color:#C4622D;color:white;}
 
+.color-row{display:flex;align-items:center;gap:10px;}
+.color-preview{width:36px;height:36px;border-radius:8px;border:1.5px solid rgba(0,0,0,.12);flex-shrink:0;}
 
+.preview-band{height:8px;border-radius:4px;margin-bottom:10px;transition:all .3s;}
 
-.sb-brand img{height:42px;width:auto;}
+.lib-resolved{font-size:12px;color:#5A4030;background:rgba(196,98,45,.07);border-radius:8px;padding:10px 12px;margin-top:6px;border-left:3px solid rgba(196,98,45,.3);line-height:1.55;display:none;}
 
+.photos-list{display:flex;flex-direction:column;gap:8px;}
+.photo-row{display:flex;align-items:center;gap:8px;}
+.photo-row .fi{flex:1;}
 
+.save-bar{position:sticky;bottom:0;background:rgba(255,255,255,.9);backdrop-filter:blur(12px);border-top:1px solid rgba(0,0,0,.08);padding:12px 30px;display:flex;align-items:center;justify-content:flex-end;gap:12px;z-index:30;}
 
-
-
-
-
-.sb-link .ic{width:18px;text-align:center;font-size:14px;}
-
-
-
-
-/* MAIN */
-.main{margin-left:240px;flex:1;display:flex;flex-direction:column;min-height:100vh;}
-.topbar{padding:18px 30px;border-bottom:1px solid rgba(0,0,0,.08);background:rgba(255,255,255,.7);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;}
-.topbar-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:#1A0A04;}
-.topbar-sub{font-size:13px;color:#9A8070;margin-top:2px;}
-.topbar-actions{display:flex;gap:10px;}
-.content{padding:24px 30px;flex:1;}
-
-/* CARDS */
-.card{background:white;border:1px solid rgba(0,0,0,.07);border-radius:16px;padding:22px;box-shadow:0 2px 12px rgba(0,0,0,.05);}
-.card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid rgba(0,0,0,.06);}
-.card-title{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:400;color:#1A0A04;}
-.card-sub{font-size:12px;color:#9A8070;margin-top:2px;}
-
-/* STAT CARDS */
-.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px;}
-.stat{background:white;border:1px solid rgba(0,0,0,.07);border-radius:14px;padding:18px;position:relative;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.04);}
-.stat::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
-.stat.s1::before{background:linear-gradient(90deg,#C4622D,#E8A020);}
-.stat.s2::before{background:linear-gradient(90deg,#7B2D8B,#B44FD0);}
-.stat.s3::before{background:linear-gradient(90deg,#25D366,#128C7E);}
-.stat.s4::before{background:linear-gradient(90deg,#1A6AAA,#2A9ADD);}
-.stat-val{font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:300;color:#1A0A04;line-height:1;}
-.stat-label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#9A8070;margin-top:6px;}
-.stat-sub{font-size:11px;color:#B0967E;margin-top:4px;}
-
-/* BUTTONS */
-.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:9px;border:none;cursor:pointer;font-family:'Jost',sans-serif;font-size:13px;font-weight:600;letter-spacing:1px;text-transform:uppercase;transition:all .2s;text-decoration:none;}
-.btn-primary{background:linear-gradient(135deg,#C4622D,#E8843D);color:white;}
-.btn-primary:hover{transform:translateY(-1px);box-shadow:0 5px 14px rgba(196,98,45,.35);}
-.btn-success{background:linear-gradient(135deg,#25D366,#128C7E);color:white;}
-.btn-success:hover{transform:translateY(-1px);}
-.btn-ghost{background:transparent;color:#5A4030;border:1.5px solid rgba(0,0,0,.14);}
-.btn-ghost:hover{background:rgba(0,0,0,.04);}
-.btn-save{background:linear-gradient(135deg,#25D366,#128C7E);color:white;}
-.btn-sm{padding:5px 11px;font-size:12px;}
-
-/* TABLES */
-.tbl{width:100%;border-collapse:collapse;}
-.tbl th{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#9A8070;padding:9px 13px;text-align:left;border-bottom:1.5px solid rgba(0,0,0,.07);background:rgba(240,230,216,.5);}
-.tbl td{padding:11px 13px;border-bottom:1px solid rgba(0,0,0,.05);font-size:13px;color:#3A2A1A;vertical-align:middle;}
-.tbl tr:hover td{background:rgba(196,98,45,.03);}
-.tbl tr:last-child td{border-bottom:none;}
-
-/* BADGES */
-.badge{display:inline-block;padding:3px 9px;border-radius:10px;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;}
-.badge-offer{background:rgba(123,45,139,.1);color:#7B2D8B;border:1px solid rgba(123,45,139,.2);}
-.badge-sold{background:rgba(80,80,80,.1);color:#666;border:1px solid rgba(0,0,0,.12);}
-.badge-active{background:rgba(37,211,102,.1);color:#1A7A40;border:1px solid rgba(37,211,102,.25);}
-.badge-hidden{background:rgba(0,0,0,.06);color:#9A8070;border:1px solid rgba(0,0,0,.1);}
-.badge-new{background:rgba(196,98,45,.12);color:#A04010;border:1px solid rgba(196,98,45,.25);}
-.badge-draft{background:rgba(200,150,0,.1);color:#7A5A00;border:1px solid rgba(200,150,0,.25);}
-.badge-featured{background:rgba(26,106,170,.1);color:#1A4A8A;border:1px solid rgba(26,106,170,.2);}
-
-/* FORMS */
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
-.form-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
-.fg{margin-bottom:16px;}
-.fg label{display:block;font-size:12px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#7A6050;margin-bottom:6px;}
-.fi,.fta,.fse{width:100%;padding:10px 13px;border-radius:9px;border:1.5px solid rgba(0,0,0,.1);background:rgba(240,230,216,.5);font-family:'Jost',sans-serif;font-size:13px;color:#1A1208;outline:none;transition:border-color .2s;}
-.fi:focus,.fta:focus,.fse:focus{border-color:#C4622D;background:white;}
-.fi::placeholder,.fta::placeholder{color:#C0A888;}
-.fi:disabled,.fta:disabled,.fse:disabled{background:#F5F0EA;color:#B0967E;cursor:not-allowed;}
-.fse{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23C4622D' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 13px center;padding-right:34px;background-color:#FAFAF8;}
-.fse:disabled{background-color:#F5F0EA;}
-
-/* AUTOCOMPLETE */
-.ac-wrap{position:relative;}
-.ac-list{position:absolute;top:100%;left:0;right:0;background:white;border:1.5px solid rgba(196,98,45,.3);border-top:none;border-radius:0 0 10px 10px;z-index:200;max-height:200px;overflow-y:auto;box-shadow:0 8px 24px rgba(0,0,0,.12);}
-.ac-item{padding:9px 13px;font-size:13px;color:#3A2A1A;cursor:pointer;transition:background .15s;display:flex;align-items:center;justify-content:space-between;}
-.ac-item:hover{background:rgba(196,98,45,.08);}
-.ac-item .ac-type{font-size:10px;color:#B0967E;letter-spacing:1px;text-transform:uppercase;}
-.ac-save{padding:9px 13px;font-size:12px;color:#C4622D;cursor:pointer;border-top:1px solid rgba(0,0,0,.06);font-weight:600;letter-spacing:1px;text-transform:uppercase;}
-.ac-save:hover{background:rgba(196,98,45,.06);}
-
-/* SKU */
-.sku-row{display:flex;gap:8px;align-items:center;}
-.sku-auto{display:flex;align-items:center;gap:6px;padding:10px 13px;border-radius:9px;background:#F0EDE8;border:1.5px solid rgba(0,0,0,.08);font-size:13px;color:#5A4030;font-weight:600;flex:1;}
-.sku-badge{font-size:11px;background:rgba(37,211,102,.12);color:#1A7A40;padding:2px 8px;border-radius:6px;font-weight:600;letter-spacing:1px;text-transform:uppercase;}
-.sku-edit-btn{padding:10px 14px;border-radius:9px;border:1.5px solid rgba(0,0,0,.1);background:rgba(240,230,216,.5);font-size:13px;color:#7A6050;cursor:pointer;font-family:'Jost',sans-serif;white-space:nowrap;}
-
-/* TOGGLE */
-.toggle-wrap{display:flex;align-items:center;gap:10px;}
-.toggle{position:relative;width:42px;height:22px;}
-.toggle input{opacity:0;width:0;height:0;}
-.toggle-slider{position:absolute;inset:0;background:rgba(0,0,0,.15);border-radius:22px;cursor:pointer;transition:.3s;}
-.toggle-slider:before{content:'';position:absolute;width:16px;height:16px;left:3px;top:3px;background:white;border-radius:50%;transition:.3s;box-shadow:0 1px 4px rgba(0,0,0,.2);}
-.toggle input:checked+.toggle-slider{background:#C4622D;}
-.toggle input:checked+.toggle-slider:before{transform:translateX(20px);}
-.toggle-label{font-size:13px;color:#5A4030;}
-
-/* SEARCH BAR */
-.search-bar{position:relative;margin-bottom:18px;}
-.search-bar input{width:100%;padding:10px 13px 10px 40px;border-radius:9px;border:1.5px solid rgba(0,0,0,.1);background:white;font-family:'Jost',sans-serif;font-size:13px;color:#1A1208;outline:none;transition:all .2s;}
-.search-bar input:focus{border-color:#C4622D;}
-.search-bar input::placeholder{color:#C0A888;}
-.search-bar svg{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:#C0A888;}
-
-/* QUICK ACTIONS */
-.qa-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:24px;}
-.qa{padding:16px 12px;border-radius:13px;background:white;border:1px solid rgba(0,0,0,.07);text-align:center;cursor:pointer;transition:all .2s;text-decoration:none;display:block;box-shadow:0 2px 8px rgba(0,0,0,.04);}
-.qa:hover{border-color:rgba(196,98,45,.35);transform:translateY(-2px);box-shadow:0 6px 18px rgba(196,98,45,.1);}
-.qa-icon{font-size:22px;margin-bottom:7px;}
-.qa-label{font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:#7A6050;}
-
-/* FILTER PILLS */
-.filter-row{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;}
-.filter-pill{padding:5px 13px;border-radius:18px;border:1.5px solid rgba(0,0,0,.1);background:white;color:#7A6050;font-size:12px;font-weight:500;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:all .2s;}
-.filter-pill:hover,.filter-pill.active{background:rgba(196,98,45,.12);border-color:rgba(196,98,45,.4);color:#A04010;}
-
-/* PAGINATION */
-.pag{display:flex;gap:5px;align-items:center;margin-top:16px;}
-.pag-btn{width:30px;height:30px;border-radius:7px;border:1px solid rgba(0,0,0,.1);background:white;color:#7A6050;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;transition:all .2s;}
-.pag-btn:hover,.pag-btn.active{background:rgba(196,98,45,.15);border-color:rgba(196,98,45,.4);color:#A04010;}
-
-/* PRODUCT THUMB */
-.prod-thumb{width:42px;height:50px;border-radius:8px;flex-shrink:0;}
-
-/* ALERT */
-.alert{padding:11px 15px;border-radius:9px;font-size:14px;margin-bottom:15px;display:flex;align-items:center;gap:9px;}
-.alert-success{background:rgba(37,211,102,.08);border:1px solid rgba(37,211,102,.2);color:#1A7A40;}
-.alert-info{background:rgba(196,98,45,.08);border:1px solid rgba(196,98,45,.2);color:#A04010;}
-
-/* RTE */
-.rte-toolbar{display:flex;gap:3px;padding:7px;background:#F5F0EA;border-radius:8px 8px 0 0;border:1.5px solid rgba(0,0,0,.1);border-bottom:none;flex-wrap:wrap;}
-.rte-btn{padding:4px 8px;border-radius:5px;border:none;background:transparent;color:#7A6050;cursor:pointer;font-size:12px;font-weight:600;transition:all .2s;}
-.rte-btn:hover{background:rgba(0,0,0,.07);}
-.rte-area{min-height:140px;padding:13px;background:white;border:1.5px solid rgba(0,0,0,.1);border-radius:0 0 8px 8px;color:#3A2A1A;font-size:14px;line-height:1.7;outline:none;}
-.rte-area:focus{border-color:#C4622D;}
-
-/* SECTION LOCK STATE */
-.section-locked .fi,.section-locked .fta,.section-locked .fse{background:#F5F0EA;pointer-events:none;color:#9A8070;}
-.section-locked .fi:focus,.section-locked .fta:focus{border-color:rgba(0,0,0,.1);}
-
-/* BANNER */
-.banner-card{border-radius:12px;overflow:hidden;border:2px solid rgba(0,0,0,.08);transition:all .2s;cursor:pointer;background:white;}
-.banner-card.active-slide{border-color:#C4622D;box-shadow:0 0 0 3px rgba(196,98,45,.15);}
-.banner-preview{height:90px;display:flex;align-items:center;justify-content:center;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.6);}
-.banner-num{padding:7px 11px;font-size:12px;font-weight:600;letter-spacing:1px;color:#7A6050;background:rgba(240,230,216,.5);border-top:1px solid rgba(0,0,0,.06);}
-
-/* SWATCH */
-.swatch-row{display:flex;flex-wrap:wrap;gap:7px;margin-top:5px;}
-.swatch{width:26px;height:26px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:all .2s;position:relative;}
-.swatch.selected{border-color:#C4622D;transform:scale(1.15);}
-.swatch.selected::after{content:"✓";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:white;text-shadow:0 1px 3px rgba(0,0,0,.6);}
-
-/* BC */
-.bc{display:flex;align-items:center;gap:6px;font-size:13px;color:#B0967E;margin-bottom:18px;}
-.bc a{color:#C4622D;text-decoration:none;}
-.bc span{color:#D0C0B0;}
-
+.loading-state{text-align:center;padding:60px 20px;color:#9A8070;}
+.loading-state .spinner{width:40px;height:40px;border:3px solid rgba(196,98,45,.2);border-top-color:#C4622D;border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px;}
+@keyframes spin{to{transform:rotate(360deg)}}
 </style>
 </head>
 <body>
-<script>if(!sessionStorage.getItem('amayaa_admin')){window.location.href='index.html';}</script>
-<script>
-if(!sessionStorage.getItem('amayaa_admin')){
-  window.location.href='index.html';
-}
-</script>
-<aside class="sidebar"></aside>
+<script src="sidebar.js"></script>
 <div class="main">
   <div class="topbar">
     <div>
-      <div class="bc"><a href="amayaa_products.html">Products</a><span>›</span><span>Add New Product</span></div>
-      <div class="topbar-title">Add New Product</div>
-      <div class="topbar-sub">All fields marked * are required</div>
+      <div class="topbar-title" id="pageTitle">Edit Product</div>
+      <div class="topbar-sub" id="pageSub">Loading…</div>
     </div>
     <div class="topbar-actions">
-      <button class="btn btn-ghost">👁 Preview</button>
-      <button class="btn btn-ghost" onclick="alert('Saved as draft')">💾 Save Draft</button>
-      <button class="btn btn-primary" onclick="alert('Product saved and live!')">✅ Save & Publish</button>
+      <span id="saveIndicator" class="save-indicator" style="font-size:12px;color:#2E7D32;font-weight:600;opacity:0;transition:opacity .4s;">&#10003; Saved to GitHub</span>
+      <button class="btn btn-ghost" onclick="window.location.href='amayaa_products.html'">&#8592; Back</button>
+      <button class="btn btn-primary" onclick="_save()">&#128190; Save Changes</button>
     </div>
   </div>
-  <div class="content">
-    <div class="alert alert-info">💡 SKU is auto-generated. Product Name has autocomplete from your existing catalogue. Region, Fabric and Colour are managed in <a href="amayaa_categories.html" style="color:#C4622D;font-weight:600;">Categories</a>.</div>
-
-    <div style="display:grid;grid-template-columns:2fr 1fr;gap:22px;align-items:start;">
-
-      <!-- LEFT -->
-      <div>
-
-        <!-- BASIC INFO -->
-        <div class="card" style="margin-bottom:18px;">
-          <div class="card-header">
-            <div><div class="card-title">Basic Information</div></div>
-          </div>
-
-          <!-- SKU — AUTO GENERATED -->
-          <div class="fg">
-            <label>SKU / Product Code <span style="color:#1A7A40;font-size:10px;letter-spacing:1px;">(AUTO-GENERATED)</span></label>
-            <div class="sku-row">
-              <div class="sku-auto">
-                <span id="skuVal">AMY-BAN-547</span>
-                <span class="sku-badge">Auto</span>
-              </div>
-              <button class="sku-edit-btn" onclick="toggleSKUEdit()" id="skuEditBtn">✏ Override</button>
-            </div>
-            <input class="fi" id="skuInput" style="display:none;margin-top:8px;" placeholder="Type custom SKU — e.g. AMY-BAN-SPECIAL-01">
-            <p style="font-size:11px;color:#B0967E;margin-top:5px;">Format: AMY-[REGION]-[SEQUENCE] · Auto-increments · Admin can override if needed</p>
-          </div>
-
-          <!-- PRODUCT NAME — AUTOCOMPLETE -->
-          <div class="fg">
-            <label>Product Name * <span style="font-size:10px;color:#B0967E;font-weight:400;letter-spacing:0;">(start typing for suggestions)</span></label>
-            <div class="ac-wrap">
-              <input class="fi" id="prodName" placeholder="e.g. Katan Silk Banarasi Saree" oninput="showAC(this.value)" onblur="setTimeout(()=>hideAC(),200)" autocomplete="off">
-              <div class="ac-list" id="acList" style="display:none;">
-                <div class="ac-item" onclick="selectAC('Katan Silk Banarasi Saree')">Katan Silk Banarasi Saree <span class="ac-type">Banarasi</span></div>
-                <div class="ac-item" onclick="selectAC('Pure Kanjivaram Silk Saree')">Pure Kanjivaram Silk Saree <span class="ac-type">Kanjivaram</span></div>
-                <div class="ac-item" onclick="selectAC('Baluchari Silk Saree')">Baluchari Silk Saree <span class="ac-type">Baluchari</span></div>
-                <div class="ac-item" onclick="selectAC('Chanderi Cotton Silk Saree')">Chanderi Cotton Silk Saree <span class="ac-type">Chanderi</span></div>
-                <div class="ac-item" onclick="selectAC('Sambalpuri Ikat Silk Saree')">Sambalpuri Ikat Silk Saree <span class="ac-type">Sambalpuri</span></div>
-                <div class="ac-item" onclick="selectAC('Paithani Pure Silk Saree')">Paithani Pure Silk Saree <span class="ac-type">Paithani</span></div>
-                <div class="ac-item" onclick="selectAC('Bhagalpuri Tussar Silk Saree')">Bhagalpuri Tussar Silk Saree <span class="ac-type">Bhagalpuri</span></div>
-                <div class="ac-save" onclick="saveTemplate()">+ Save this name as a template for future use</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- REGION + FABRIC — CONFIGURABLE DROPDOWNS -->
-          <div class="form-grid">
-            <div class="fg">
-              <label>Region / Weave * <a href="amayaa_categories.html" style="color:#C4622D;font-size:10px;font-weight:600;text-decoration:none;margin-left:6px;">+ Manage</a></label>
-              <select class="fse">
-                <option value="">— Select Region —</option>
-                <option selected>Banarasi</option>
-                <option>Kanjivaram</option><option>Baluchari</option><option>Chanderi</option>
-                <option>Sambalpuri</option><option>Paithani</option><option>Pochampally</option>
-                <option>Maheshwari</option><option>Jamdani</option><option>Tant</option>
-                <option>Mysore Silk</option><option>Bhagalpuri</option>
-                <option style="color:#C4622D;font-style:italic;">+ Add new region →</option>
-              </select>
-            </div>
-            <div class="fg">
-              <label>Fabric Type * <a href="amayaa_categories.html" style="color:#C4622D;font-size:10px;font-weight:600;text-decoration:none;margin-left:6px;">+ Manage</a></label>
-              <select class="fse">
-                <option value="">— Select Fabric —</option>
-                <option selected>Katan Silk</option>
-                <option>Pure Silk</option><option>Cotton</option><option>Tussar Silk</option>
-                <option>Kosa Silk</option><option>Linen</option><option>Tissue</option>
-                <option>Organza</option><option>Muslin</option><option>Georgette Handloom</option>
-                <option style="color:#C4622D;font-style:italic;">+ Add new fabric →</option>
-              </select>
-            </div>
-          </div>
-
-          <!-- COLOUR — CONFIGURABLE -->
-          <div class="fg">
-            <label>Colour * <a href="amayaa_categories.html" style="color:#C4622D;font-size:10px;font-weight:600;text-decoration:none;margin-left:6px;">+ Manage colours</a></label>
-            <input class="fi" id="colourInput" placeholder="e.g. Deep Red with Gold Zari Border" oninput="showColourAC(this.value)" onblur="setTimeout(()=>hideColourAC(),200)" autocomplete="off">
-            <div class="ac-list" id="colourAC" style="display:none;position:absolute;z-index:200;background:white;border:1.5px solid rgba(196,98,45,.3);border-radius:0 0 10px 10px;width:calc(50% - 9px);">
-              <div class="ac-item" onclick="selectColour('Deep Red with Gold Border')">Deep Red with Gold Border</div>
-              <div class="ac-item" onclick="selectColour('Ivory with Silver Zari')">Ivory with Silver Zari</div>
-              <div class="ac-item" onclick="selectColour('Peacock Green with Gold')">Peacock Green with Gold</div>
-              <div class="ac-item" onclick="selectColour('Navy Blue with Copper Zari')">Navy Blue with Copper Zari</div>
-              <div class="ac-save" onclick="alert('Colour saved as template!')">+ Save as colour template</div>
-            </div>
-            <!-- Colour swatch quick-picks -->
-            <div class="swatch-row" style="margin-top:10px;">
-              <div class="swatch selected" style="background:#C41E3A;" title="Red" onclick="this.classList.toggle('selected')"></div>
-              <div class="swatch" style="background:#FFF8DC;border:1px solid #DDD;" title="Ivory" onclick="this.classList.toggle('selected')"></div>
-              <div class="swatch" style="background:#003153;" title="Navy" onclick="this.classList.toggle('selected')"></div>
-              <div class="swatch" style="background:#2E8B57;" title="Peacock Green" onclick="this.classList.toggle('selected')"></div>
-              <div class="swatch" style="background:#FFD700;" title="Gold" onclick="this.classList.toggle('selected')"></div>
-              <div class="swatch" style="background:#FF7F50;" title="Coral" onclick="this.classList.toggle('selected')"></div>
-              <div class="swatch" style="background:#9370DB;" title="Purple" onclick="this.classList.toggle('selected')"></div>
-              <div class="swatch" style="background:#FF69B4;" title="Pink" onclick="this.classList.toggle('selected')"></div>
-              <div class="swatch" style="background:#1E90FF;" title="Blue" onclick="this.classList.toggle('selected')"></div>
-              <div class="swatch" style="background:#8B4513;" title="Brown" onclick="this.classList.toggle('selected')"></div>
-              <div class="swatch" style="background:#2F2F2F;" title="Black" onclick="this.classList.toggle('selected')"></div>
-              <div class="swatch" style="background:#F5F5F5;border:1px solid #CCC;" title="White" onclick="this.classList.toggle('selected')"></div>
-            </div>
-          </div>
-
-          <!-- OCCASION -->
-          <div class="fg">
-            <label>Occasion (select all that apply) *</label>
-            <div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:5px;">
-              <label style="display:flex;align-items:center;gap:6px;cursor:pointer;color:#5A4030;font-size:13px;"><input type="checkbox" checked style="accent-color:#C4622D;width:15px;height:15px;"> Wedding</label>
-              <label style="display:flex;align-items:center;gap:6px;cursor:pointer;color:#5A4030;font-size:13px;"><input type="checkbox" checked style="accent-color:#C4622D;width:15px;height:15px;"> Festive</label>
-              <label style="display:flex;align-items:center;gap:6px;cursor:pointer;color:#5A4030;font-size:13px;"><input type="checkbox" style="accent-color:#C4622D;width:15px;height:15px;"> Office/Daily</label>
-              <label style="display:flex;align-items:center;gap:6px;cursor:pointer;color:#5A4030;font-size:13px;"><input type="checkbox" checked style="accent-color:#C4622D;width:15px;height:15px;"> Puja</label>
-              <label style="display:flex;align-items:center;gap:6px;cursor:pointer;color:#5A4030;font-size:13px;"><input type="checkbox" style="accent-color:#C4622D;width:15px;height:15px;"> Gift</label>
-            </div>
-          </div>
-
-          <!-- MEASUREMENTS -->
-          <div class="form-grid-3">
-            <div class="fg"><label>Length (metres) *</label><input class="fi" value="6.3" type="number" step="0.1" min="4" max="12"></div>
-            <div class="fg"><label>Blouse Included?</label><select class="fse"><option selected>Yes — included</option><option>No</option></select></div>
-            <div class="fg"><label>Blouse Length (m)</label><input class="fi" value="0.8" type="number" step="0.1"></div>
-          </div>
-
-          <div class="fg"><label>Weave Type / Technique</label><input class="fi" value="Handloom Brocade — Meenakari" placeholder="e.g. Handloom Brocade, Ikat, Jamdani"></div>
-          <div class="fg"><label>Tags (comma-separated, for search)</label><input class="fi" placeholder="e.g. banarasi, silk, wedding, red, zari"></div>
-        </div>
-
-        <!-- PRICING -->
-        <div class="card" style="margin-bottom:18px;">
-          <div class="card-header"><div class="card-title">Pricing</div></div>
-          <div class="form-grid">
-            <div class="fg"><label>Original Price (₹) *</label><input class="fi" value="14200" type="number" min="0"></div>
-            <div></div>
-          </div>
-
-          <!-- SPECIAL OFFER -->
-          <div style="background:rgba(123,45,139,.05);border:1px solid rgba(123,45,139,.15);border-radius:12px;padding:16px;margin-bottom:14px;">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
-              <div>
-                <div style="font-size:13px;font-weight:600;color:#7B2D8B;">🎁 Special Offer</div>
-                <div style="font-size:11px;color:#9A8070;margin-top:2px;">Shows purple badge + struck original price + bold offer price</div>
-              </div>
-              <label class="toggle"><input type="checkbox" id="offerToggle" onchange="toggleOffer()" checked><div class="toggle-slider"></div></label>
-            </div>
-            <div id="offerFields" class="form-grid">
-              <div class="fg" style="margin-bottom:0;"><label>Offer Price (₹) *</label><input class="fi" value="11500" type="number"></div>
-              <div class="fg" style="margin-bottom:0;"><label>Valid Until (optional)</label><input class="fi" type="date" value="2026-08-15"></div>
-            </div>
-            <div style="margin-top:12px;padding:10px 13px;background:rgba(123,45,139,.05);border-radius:8px;border:1px solid rgba(123,45,139,.1);">
-              <span style="font-size:12px;color:#9A8070;">Website preview: </span>
-              <strong style="color:#C4622D;font-size:15px;">₹ 11,500</strong>
-              <span style="text-decoration:line-through;color:#C0A888;font-size:13px;margin-left:8px;">₹ 14,200</span>
-              <span style="background:rgba(37,211,102,.12);color:#1A7A40;font-size:10px;font-weight:600;padding:2px 7px;border-radius:6px;margin-left:8px;">Save 19%</span>
-            </div>
-          </div>
-
-          <!-- SOLD OUT -->
-          <div style="background:#F5F0EA;border:1px solid rgba(0,0,0,.08);border-radius:12px;padding:14px;">
-            <div style="display:flex;align-items:center;justify-content:space-between;">
-              <div>
-                <div style="font-size:13px;font-weight:600;color:#5A4030;">🔴 Mark as Sold Out</div>
-                <div style="font-size:11px;color:#9A8070;margin-top:2px;">Product stays visible with badge. Enquire button is disabled. Restock by turning this off.</div>
-              </div>
-              <label class="toggle"><input type="checkbox"><div class="toggle-slider"></div></label>
-            </div>
-          </div>
-        </div>
-
-        <!-- DESCRIPTIONS -->
-        <div class="card" style="margin-bottom:18px;">
-          <div class="card-header"><div class="card-title">Descriptions</div></div>
-          <div class="fg">
-            <label>Short Description * <span style="font-size:10px;color:#B0967E;font-weight:400;">(shown on catalogue card — max 150 chars)</span></label>
-            <input class="fi" placeholder="Brief, enticing description of the saree...">
-          </div>
-          <div class="fg">
-            <label>Full Description *</label>
-            <div class="rte-toolbar">
-              <button class="rte-btn"><b>B</b></button><button class="rte-btn"><i>I</i></button><button class="rte-btn"><u>U</u></button>
-              <button class="rte-btn">H2</button><button class="rte-btn">H3</button><button class="rte-btn">• List</button>
-              <button class="rte-btn">🔗</button><button class="rte-btn">🖼</button>
-            </div>
-            <div class="rte-area" contenteditable="true">Describe the saree in detail — fabric, feel, motifs, drape...</div>
-          </div>
-          <div class="fg">
-            <label>Weave Story</label>
-            <div class="rte-toolbar">
-              <button class="rte-btn"><b>B</b></button><button class="rte-btn"><i>I</i></button><button class="rte-btn">H3</button><button class="rte-btn">• List</button>
-            </div>
-            <div class="rte-area" contenteditable="true">Tell the story of where this saree comes from, who made it, how long it takes...</div>
-          </div>
-          <div class="fg">
-            <label>Care Instructions *</label>
-            <textarea class="fta">Dry clean only. Store in muslin cloth. Keep away from direct sunlight.</textarea>
-          </div>
-        </div>
-
-        <!-- SEO -->
-        <div class="card">
-          <div class="card-header"><div class="card-title">SEO <span style="font-size:13px;font-weight:300;color:#9A8070;">(optional — helps Google find your products)</span></div></div>
-          <div class="form-grid">
-            <div class="fg"><label>SEO Title</label><input class="fi" placeholder="Defaults to product name"></div>
-            <div class="fg"><label>SEO Description (150 chars)</label><input class="fi" placeholder="Short description for Google snippet"></div>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- RIGHT -->
-      <div>
-        <!-- STATUS -->
-        <div class="card" style="margin-bottom:16px;">
-          <div class="card-header"><div class="card-title">Visibility</div></div>
-          <div class="fg">
-            <label>Status</label>
-            <select class="fse"><option selected>Active — visible on website</option><option>Hidden — not visible</option></select>
-          </div>
-          <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px;">
-            <div class="toggle-wrap"><label class="toggle"><input type="checkbox" checked><div class="toggle-slider"></div></label><span class="toggle-label">New Arrival badge</span></div>
-            <div class="toggle-wrap"><label class="toggle"><input type="checkbox"><div class="toggle-slider"></div></label><span class="toggle-label">Featured on Homepage</span></div>
-          </div>
-          <button class="btn btn-primary" style="width:100%;justify-content:center;" onclick="alert('Saved!')">✅ Save & Publish</button>
-          <button class="btn btn-ghost" style="width:100%;justify-content:center;margin-top:8px;">💾 Save as Draft</button>
-        </div>
-
-        <!-- PHOTOS -->
-        <div class="card" style="margin-bottom:16px;">
-          <div class="card-header">
-            <div><div class="card-title">Product Photos</div><div class="card-sub">Up to 8 · Drag to reorder</div></div>
-          </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:11px;">
-            <div style="aspect-ratio:3/4;border-radius:9px;background:linear-gradient(160deg,#8B1A4A,#C4622D);position:relative;display:flex;align-items:flex-end;padding:7px;">
-              <span style="background:#C4622D;color:white;font-size:9px;font-weight:600;padding:2px 6px;border-radius:4px;">MAIN</span>
-              <span style="position:absolute;top:6px;right:6px;background:rgba(0,0,0,.4);color:white;font-size:10px;padding:2px 6px;border-radius:4px;cursor:pointer;">✕</span>
-            </div>
-            <div style="aspect-ratio:3/4;border-radius:9px;background:linear-gradient(160deg,#C4622D,#E8A020);position:relative;">
-              <span style="position:absolute;top:6px;right:6px;background:rgba(0,0,0,.4);color:white;font-size:10px;padding:2px 6px;border-radius:4px;cursor:pointer;">✕</span>
-            </div>
-            <div style="aspect-ratio:3/4;border-radius:9px;border:2px dashed rgba(0,0,0,.12);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;cursor:pointer;background:rgba(240,230,216,.5);" onclick="alert('Upload photo')">
-              <div style="font-size:22px;color:#C0A888;">+</div>
-              <div style="font-size:10px;color:#C0A888;letter-spacing:1px;">ADD PHOTO</div>
-            </div>
-            <div style="aspect-ratio:3/4;border-radius:9px;border:2px dashed rgba(0,0,0,.12);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;cursor:pointer;background:rgba(240,230,216,.5);">
-              <div style="font-size:22px;color:#C0A888;">+</div>
-              <div style="font-size:10px;color:#C0A888;letter-spacing:1px;">ADD PHOTO</div>
-            </div>
-          </div>
-          <button class="btn btn-ghost" style="width:100%;justify-content:center;">📁 Upload Photos</button>
-          <p style="font-size:11px;color:#C0A888;margin-top:7px;text-align:center;">JPG/PNG · Auto-resized · Max 5MB each · First photo = main image</p>
-        </div>
-
-        <!-- LIVE PREVIEW -->
-        <div class="card">
-          <div class="card-header"><div class="card-title">Catalogue Preview</div></div>
-          <div style="border-radius:13px;overflow:hidden;border:1px solid rgba(0,0,0,.08);">
-            <div style="height:150px;background:linear-gradient(160deg,#8B1A4A,#C4622D);position:relative;">
-              <div style="position:absolute;top:8px;left:8px;display:flex;flex-direction:column;gap:4px;">
-                <span class="badge badge-offer">Special Offer</span>
-                <span class="badge badge-new">New</span>
-              </div>
-            </div>
-            <div style="padding:12px 14px;">
-              <div style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#A04010;margin-bottom:4px;">Banarasi · Varanasi, UP</div>
-              <div style="font-family:'Cormorant Garamond',serif;font-size:16px;color:#1A0A04;margin-bottom:6px;">Katan Silk Banarasi Saree</div>
-              <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
-                <strong style="color:#C4622D;font-size:15px;">₹ 11,500</strong>
-                <span style="text-decoration:line-through;color:#C0A888;font-size:12px;">₹ 14,200</span>
-                <span style="background:rgba(37,211,102,.1);color:#1A7A40;font-size:10px;font-weight:600;padding:2px 6px;border-radius:6px;">Save 19%</span>
-              </div>
-              <div style="width:100%;padding:7px;border-radius:7px;background:rgba(37,211,102,.08);color:#1A7A40;font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;text-align:center;border:1px solid rgba(37,211,102,.2);">Enquire on WhatsApp</div>
-            </div>
-          </div>
-        </div>
-
-      </div>
+  <div class="content" id="mainContent">
+    <div class="loading-state">
+      <div class="spinner"></div>
+      Loading product…
     </div>
   </div>
 </div>
 
 <script>
-// Autocomplete for product name
-var names = ["Katan Silk Banarasi Saree","Pure Kanjivaram Silk Saree","Baluchari Silk Saree","Chanderi Cotton Silk Saree","Sambalpuri Ikat Silk Saree","Paithani Pure Silk Saree","Bhagalpuri Tussar Silk Saree","Maheshwari Silk Cotton Saree","Jamdani Muslin Saree","Tant Cotton Saree","Mysore Pure Silk Saree","Pochampally Ikat Cotton Saree","Banarasi Organza Silk Saree","Banarasi Georgette Silk Saree","Kanjivaram Temple Border Saree","Baluchari Meenakari Silk Saree","Sambalpuri Bomkai Cotton Saree","Chanderi Silk Tissue Saree"];
+var _pid = (new URLSearchParams(location.search)).get('id') || '';
+var _product = null;
+var _library = null;
+var _productSha = null;
+var _indexSha = null;
+var _indexData = null;
 
-function showAC(v){
-  var list = document.getElementById("acList");
-  if(!v || v.length < 2){list.style.display="none";return;}
-  var matches = names.filter(function(n){return n.toLowerCase().indexOf(v.toLowerCase())>-1;});
-  if(!matches.length){list.style.display="none";return;}
-  var html = matches.slice(0,6).map(function(n){
-    var region = n.split(" ").slice(-2).join(" ");
-    return '<div class="ac-item" onmousedown="selectAC(''+n+'')">'+n+'</div>';
-  }).join("");
-  html += '<div class="ac-save" onmousedown="saveTemplate()">+ Save this name as a template</div>';
-  list.innerHTML = html;
-  list.style.display = "block";
+// ── GitHub helpers ─────────────────────────────────────
+function _tok(){return localStorage.getItem('amayaa_gh_token');}
+function _ghGet(path,cb){
+  if(!_tok()){alert('GitHub token missing — go to Site Settings.');return;}
+  fetch('https://api.github.com/repos/Amayaa-2026/amayaa-website/contents/'+path,
+    {headers:{'Authorization':'token '+_tok(),'Accept':'application/vnd.github.v3+json'}})
+    .then(function(r){return r.json();}).then(cb).catch(function(e){console.error(e);});
 }
-function hideAC(){document.getElementById("acList").style.display="none";}
-function selectAC(name){
-  document.getElementById("prodName").value = name;
-  hideAC();
+function _ghPut(path,content,msg,sha,cb){
+  if(!_tok()){alert('GitHub token missing.');return;}
+  var body={message:msg,content:btoa(unescape(encodeURIComponent(content)))};
+  if(sha)body.sha=sha;
+  fetch('https://api.github.com/repos/Amayaa-2026/amayaa-website/contents/'+path,{
+    method:'PUT',
+    headers:{'Authorization':'token '+_tok(),'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},
+    body:JSON.stringify(body)
+  }).then(function(r){return r.json();}).then(function(res){if(cb)cb(res);}).catch(function(e){console.error(e);});
 }
-function saveTemplate(){
-  var v = document.getElementById("prodName").value;
-  if(v) names.push(v);
-  alert("""+v+"" saved as a product name template.");
-  hideAC();
+function _b64d(s){return decodeURIComponent(escape(atob(s.replace(/\n/g,''))));}
+
+// ── Load ──────────────────────────────────────────────
+var _loaded = 0;
+function _checkReady(){
+  _loaded++;
+  if(_loaded>=3) _render();
 }
 
-// Colour autocomplete
-function showColourAC(v){
-  var ac = document.getElementById("colourAC");
-  ac.style.display = v && v.length>1 ? "block" : "none";
+function _load(){
+  if(!_pid){
+    document.getElementById('mainContent').innerHTML='<div class="alert alert-info">No product ID specified. <a href="amayaa_products.html">Go back to Products.</a></div>';
+    return;
+  }
+  // Load product detail
+  _ghGet('data/products/'+_pid+'.json',function(res){
+    _productSha = res.sha;
+    _product = JSON.parse(_b64d(res.content));
+    _checkReady();
+  });
+  // Load content library
+  _ghGet('data/content_library.json',function(res){
+    _library = JSON.parse(_b64d(res.content));
+    _checkReady();
+  });
+  // Load products index
+  _ghGet('data/products.json',function(res){
+    _indexSha = res.sha;
+    _indexData = JSON.parse(_b64d(res.content));
+    _checkReady();
+  });
 }
-function hideColourAC(){document.getElementById("colourAC").style.display="none";}
-function selectColour(c){document.getElementById("colourInput").value=c;hideColourAC();}
 
-// SKU override
-function toggleSKUEdit(){
-  var inp = document.getElementById("skuInput");
-  var sku = document.getElementById("skuVal");
-  var btn = document.getElementById("skuEditBtn");
-  if(inp.style.display==="none"){
-    inp.style.display="block";
-    inp.value = sku.textContent;
-    btn.textContent = "✓ Use Custom";
-    inp.focus();
+// ── Render form ───────────────────────────────────────
+function _render(){
+  var p = _product;
+  document.getElementById('pageTitle').textContent = p.name || 'Edit Product';
+  document.getElementById('pageSub').textContent = p.id + (p.region ? ' · '+p.region : '');
+
+  var html = '';
+
+  // ── Section 1: Basic Info
+  html += _secOpen('&#129528; Basic Information');
+  html += '<div class="grid2">';
+  html += _fg('Product ID (read-only)','<input type="text" class="fi" id="fId" value="'+_esc(p.id)+'" readonly>');
+  html += _fg('Product Name','<input type="text" class="fi" id="fName" value="'+_esc(p.name||'')+'" placeholder="e.g. Katan Silk Banarasi Saree">');
+  html += '</div>';
+  html += '<div class="grid3">';
+  html += _fg('Type','<input type="text" class="fi" id="fType" value="'+_esc(p.type||'')+'" placeholder="Banarasi">');
+  html += _fg('Region','<input type="text" class="fi" id="fRegion" value="'+_esc(p.region||'')+'" placeholder="Varanasi, UP">');
+  html += _fg('Fabric','<input type="text" class="fi" id="fFabric" value="'+_esc(p.fabric||'')+'" placeholder="Katan Silk">');
+  html += '</div>';
+  html += '<div class="grid2">';
+  html += _fg('Colour / Colour Description','<input type="text" class="fi" id="fColour" value="'+_esc(p.colour||'')+'" placeholder="Deep Red with Gold Zari Border">');
+  html += _fg('Status',
+    '<select class="fse" id="fStatus">'
+    +'<option value="active"'+(p.status==='active'?' selected':'')+'>Active</option>'
+    +'<option value="draft"'+(p.status==='draft'?' selected':'')+'>Draft</option>'
+    +'<option value="hidden"'+(p.status==='hidden'?' selected':'')+'>Hidden</option>'
+    +'<option value="sold-out"'+(p.status==='sold-out'?' selected':'')+'>Sold Out</option>'
+    +'</select>');
+  html += '</div>';
+  html += '<div class="fg">';
+  html += '<label class="form-label">Options</label>';
+  html += '<div style="display:flex;gap:20px;align-items:center;padding:4px 0;">';
+  html += '<label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:14px;">';
+  html += '<input type="checkbox" id="fFeatured"'+(p.featured?' checked':'')+' style="width:16px;height:16px;accent-color:#C4622D;"> Featured product</label>';
+  html += '<label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:14px;">';
+  html += '<input type="checkbox" id="fGiTagged"'+(p.giTagged?' checked':'')+' style="width:16px;height:16px;accent-color:#C4622D;"> GI Tagged</label>';
+  html += '<label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:14px;">';
+  html += '<input type="checkbox" id="fBlouseIncluded"'+(p.blouseIncluded?' checked':'')+' style="width:16px;height:16px;accent-color:#C4622D;"> Blouse included</label>';
+  html += '</div></div>';
+  html += _secClose();
+
+  // ── Section 2: Pricing
+  html += _secOpen('&#128176; Pricing');
+  html += '<div class="grid3">';
+  html += _fg('Price (₹)','<input type="number" class="fi" id="fPrice" value="'+(p.price||'')+'" placeholder="8500" min="0">');
+  html += _fg('Original Price (₹) — blank = no strikethrough','<input type="number" class="fi" id="fOriginalPrice" value="'+(p.originalPrice||'')+'" placeholder="leave blank if no offer">');
+  html += _fg('Offer Valid Until','<input type="date" class="fi" id="fOfferValidUntil" value="'+(p.offerValidUntil||'')+'" >');
+  html += '</div>';
+  html += _secClose();
+
+  // ── Section 3: Physical
+  html += _secOpen('&#128110; Physical Details');
+  html += '<div class="grid3">';
+  html += _fg('Length','<input type="text" class="fi" id="fLength" value="'+_esc(p.length||'')+'" placeholder="6.3 metres">');
+  html += _fg('Blouse Piece','<input type="text" class="fi" id="fBlousePiece" value="'+_esc(p.blousePiece||'')+'" placeholder="Included — 0.8 metres">');
+  html += _fg('Weaving Days','<input type="text" class="fi" id="fWeavingDays" value="'+_esc(p.weavingDays||'')+'" placeholder="15–20">');
+  html += '</div>';
+  html += _fg('Weave Type','<input type="text" class="fi" id="fWeaveType" value="'+_esc(p.weaveType||'')+'" placeholder="Handloom Brocade — Meenakari">');
+  html += _secClose();
+
+  // ── Section 4: Badges & Occasions
+  var allBadges = ['new','offer','bestseller','gi-tagged','sold-out'];
+  var allOccasions = ['wedding','festive','puja','casual','formal','party','daily'];
+  html += _secOpen('&#127991; Badges & Occasions');
+  html += '<div class="fg"><label class="form-label">Badges</label><div class="pill-group" id="badgeGroup">';
+  allBadges.forEach(function(b){
+    var chk = (p.badges||[]).indexOf(b)>-1?' checked':'';
+    html += '<input type="checkbox" class="pill-check" id="badge_'+b+'" value="'+b+'"'+chk+'>';
+    html += '<label class="pill-label" for="badge_'+b+'">'+b+'</label>';
+  });
+  html += '</div></div>';
+  html += '<div class="fg"><label class="form-label">Occasions</label><div class="pill-group" id="occGroup">';
+  allOccasions.forEach(function(o){
+    var chk = (p.occasion||[]).indexOf(o)>-1?' checked':'';
+    html += '<input type="checkbox" class="pill-check" id="occ_'+o+'" value="'+o+'"'+chk+'>';
+    html += '<label class="pill-label" for="occ_'+o+'">'+o+'</label>';
+  });
+  html += '</div></div>';
+  html += _fg('Tags (comma-separated)','<input type="text" class="fi" id="fTags" value="'+_esc((p.tags||[]).join(', '))+'" placeholder="silk, banarasi, zari, wedding">');
+  html += _secClose();
+
+  // ── Section 5: Content (library)
+  html += _secOpen('&#128196; Content');
+  html += _fg('Short Description (free text — shown in cards)',
+    '<textarea class="fta" id="fShortDesc" rows="3">'+_esc(p.shortDescription||'')+'</textarea>');
+  // Library dropdowns
+  ['description','weaveStory','careInstructions'].forEach(function(field){
+    var cat = field;
+    var entries = (_library[cat]||[]);
+    var cur = p[field]||'';
+    var label = field==='description'?'Description':field==='weaveStory'?'Weave Story':'Care Instructions';
+    html += '<div class="fg">';
+    html += '<label class="form-label">'+label+' <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:11px;color:#C4622D;">(select from library)</span></label>';
+    html += '<select class="fse" id="f_'+field+'" onchange="_previewLib(\''+field+'\')">';
+    html += '<option value="">— choose —</option>';
+    entries.forEach(function(e){
+      html += '<option value="'+_esc(e.key)+'"'+(e.key===cur?' selected':'')+'>'+_esc(e.label)+'</option>';
+    });
+    html += '</select>';
+    // resolved preview
+    var resolved = entries.find(function(e){return e.key===cur;});
+    html += '<div class="lib-resolved" id="pr_'+field+'"'+(resolved?' style="display:block"':'')+'>'+_esc(resolved?resolved.text:'')+'</div>';
+    html += '</div>';
+  });
+  html += _secClose();
+
+  // ── Section 6: Gradient Swatches
+  html += _secOpen('&#127750; Gradient & Swatch');
+  html += '<div id="gradPreview" class="preview-band" style="background:linear-gradient(135deg,'+_esc(p.gradientFrom||'#888')+','+_esc(p.gradientTo||'#aaa')+');"></div>';
+  html += '<div class="grid2">';
+  html += '<div class="fg"><label class="form-label">Gradient From</label>';
+  html += '<div class="color-row"><input type="color" id="fGradFrom" value="'+(p.gradientFrom||'#888888')+'" oninput="_updateGrad()" style="width:50px;height:36px;border:none;background:none;cursor:pointer;">';
+  html += '<input type="text" class="fi" id="fGradFromTxt" value="'+_esc(p.gradientFrom||'')+'" style="max-width:140px;" oninput="_syncColor(\'From\')" placeholder="#C4622D">';
+  html += '</div></div>';
+  html += '<div class="fg"><label class="form-label">Gradient To</label>';
+  html += '<div class="color-row"><input type="color" id="fGradTo" value="'+(p.gradientTo||'#aaaaaa')+'" oninput="_updateGrad()" style="width:50px;height:36px;border:none;background:none;cursor:pointer;">';
+  html += '<input type="text" class="fi" id="fGradToTxt" value="'+_esc(p.gradientTo||'')+'" style="max-width:140px;" oninput="_syncColor(\'To\')" placeholder="#E8843D">';
+  html += '</div></div>';
+  html += '</div>';
+  html += _secClose();
+
+  // ── Section 7: Media
+  html += _secOpen('&#128247; Media');
+  html += _fg('Thumbnail Path','<input type="text" class="fi" id="fThumbnail" value="'+_esc(p.thumbnail||'')+'" placeholder="images/products/AMY-BAN-001.jpg">');
+  html += '<div class="fg"><label class="form-label">Photo Gallery (one path per line)</label>';
+  html += '<textarea class="fta" id="fPhotos" rows="5" placeholder="images/products/AMY-BAN-001-1.jpg&#10;images/products/AMY-BAN-001-2.jpg">'+_esc((p.photos||[]).join('\n'))+'</textarea>';
+  html += '</div>';
+  html += _secClose();
+
+  // ── Section 8: SEO
+  html += _secOpen('&#128270; SEO');
+  html += _fg('SEO Title','<input type="text" class="fi" id="fSeoTitle" value="'+_esc(p.seoTitle||'')+'" placeholder="Buy Katan Silk Banarasi Saree | Amayaa by Polka Dots">');
+  html += _fg('SEO Description','<textarea class="fta" id="fSeoDescription" rows="3" placeholder="Handloom Katan silk Banarasi saree…">'+_esc(p.seoDescription||'')+'</textarea>');
+  html += _secClose();
+
+  // save bar
+  html += '<div class="save-bar">';
+  html += '<a href="amayaa_products.html" class="btn btn-ghost">Cancel</a>';
+  html += '<button class="btn btn-primary" onclick="_save()">&#128190; Save Changes</button>';
+  html += '</div>';
+
+  document.getElementById('mainContent').innerHTML = html;
+  // show initial previews
+  ['description','weaveStory','careInstructions'].forEach(function(f){_previewLib(f,true);});
+}
+
+// ── Helpers ───────────────────────────────────────────
+function _secOpen(title){
+  return '<div class="section-card"><div class="section-head"><span class="section-title">'+title+'</span></div><div class="section-body">';
+}
+function _secClose(){return '</div></div>';}
+function _fg(label,control){return '<div class="fg"><label class="form-label">'+label+'</label>'+control+'</div>';}
+function _esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+function _previewLib(field, silent){
+  var sel = document.getElementById('f_'+field);
+  var pr  = document.getElementById('pr_'+field);
+  if(!sel||!pr)return;
+  var key = sel.value;
+  var entry = (_library[field]||[]).find(function(e){return e.key===key;});
+  if(entry){
+    pr.textContent = entry.text;
+    pr.style.display = 'block';
   } else {
-    if(inp.value.trim()) sku.textContent = inp.value.trim();
-    inp.style.display = "none";
-    btn.textContent = "✏ Override";
+    pr.textContent = '';
+    pr.style.display = 'none';
   }
 }
 
-// Offer toggle
-function toggleOffer(){
-  var on = document.getElementById("offerToggle").checked;
-  document.getElementById("offerFields").style.opacity = on ? "1" : "0.4";
-  document.getElementById("offerFields").style.pointerEvents = on ? "auto" : "none";
+function _updateGrad(){
+  var f = document.getElementById('fGradFrom').value;
+  var t = document.getElementById('fGradTo').value;
+  document.getElementById('fGradFromTxt').value = f;
+  document.getElementById('fGradToTxt').value = t;
+  document.getElementById('gradPreview').style.background = 'linear-gradient(135deg,'+f+','+t+')';
 }
+function _syncColor(which){
+  var txt = document.getElementById('fGradFrom'+which+'Txt').value;
+  if(/^#[0-9a-fA-F]{6}$/.test(txt)){
+    document.getElementById('fGradFrom'+which).value = txt;
+    document.getElementById('gradPreview').style.background =
+      'linear-gradient(135deg,'+document.getElementById('fGradFromTxt').value+','+document.getElementById('fGradToTxt').value+')';
+  }
+}
+
+// ── Collect & Save ────────────────────────────────────
+function _collect(){
+  var p = {};
+  p.id = _pid;
+  p.name = document.getElementById('fName').value.trim();
+  p.type = document.getElementById('fType').value.trim();
+  p.region = document.getElementById('fRegion').value.trim();
+  p.fabric = document.getElementById('fFabric').value.trim();
+  p.colour = document.getElementById('fColour').value.trim();
+  p.price = parseFloat(document.getElementById('fPrice').value)||0;
+  var op = document.getElementById('fOriginalPrice').value.trim();
+  p.originalPrice = op ? parseFloat(op) : null;
+  var ovu = document.getElementById('fOfferValidUntil').value.trim();
+  p.offerValidUntil = ovu || null;
+  p.status = document.getElementById('fStatus').value;
+  p.featured = document.getElementById('fFeatured').checked;
+  p.giTagged = document.getElementById('fGiTagged').checked;
+  p.blouseIncluded = document.getElementById('fBlouseIncluded').checked;
+  p.length = document.getElementById('fLength').value.trim();
+  p.blousePiece = document.getElementById('fBlousePiece').value.trim();
+  p.weavingDays = document.getElementById('fWeavingDays').value.trim();
+  p.weaveType = document.getElementById('fWeaveType').value.trim();
+
+  // badges
+  p.badges = [];
+  document.querySelectorAll('#badgeGroup .pill-check:checked').forEach(function(c){p.badges.push(c.value);});
+  // occasions
+  p.occasion = [];
+  document.querySelectorAll('#occGroup .pill-check:checked').forEach(function(c){p.occasion.push(c.value);});
+  // tags
+  p.tags = document.getElementById('fTags').value.split(',').map(function(t){return t.trim();}).filter(Boolean);
+
+  p.shortDescription = document.getElementById('fShortDesc').value.trim();
+  p.description = document.getElementById('f_description').value;
+  p.weaveStory = document.getElementById('f_weaveStory').value;
+  p.careInstructions = document.getElementById('f_careInstructions').value;
+
+  p.gradientFrom = document.getElementById('fGradFromTxt').value.trim() || document.getElementById('fGradFrom').value;
+  p.gradientTo   = document.getElementById('fGradToTxt').value.trim()   || document.getElementById('fGradTo').value;
+
+  p.thumbnail = document.getElementById('fThumbnail').value.trim();
+  var photosRaw = document.getElementById('fPhotos').value;
+  p.photos = photosRaw.split('\n').map(function(l){return l.trim();}).filter(Boolean);
+
+  p.seoTitle = document.getElementById('fSeoTitle').value.trim();
+  p.seoDescription = document.getElementById('fSeoDescription').value.trim();
+
+  return p;
+}
+
+function _save(){
+  var p = _collect();
+  _product = p;
+
+  var detailJson = JSON.stringify(p, null, 2);
+
+  // Update index entry
+  var idx = _indexData.findIndex(function(e){return e.id===_pid;});
+  if(idx>-1){
+    var entry = _indexData[idx];
+    // Copy all fields that live in index
+    ['name','type','region','fabric','colour','price','originalPrice','status','featured','badges',
+     'occasion','length','blousePiece','blouseIncluded','weaveType','gradientFrom','gradientTo',
+     'shortDescription','tags','photos','description','weaveStory','weavingDays','careInstructions',
+     'giTagged','seoTitle','seoDescription','offerValidUntil'].forEach(function(k){
+       entry[k] = p[k];
+     });
+    _indexData[idx] = entry;
+  }
+
+  var savedCount = 0;
+  function _done(res){
+    if(res && res.content && res.content.sha){
+      // update sha
+    }
+    savedCount++;
+    if(savedCount>=2){
+      var si = document.getElementById('saveIndicator');
+      si.style.opacity='1';
+      setTimeout(function(){si.style.opacity='0';},3000);
+    }
+  }
+
+  _ghPut('data/products/'+_pid+'.json', detailJson, 'Admin: update product '+_pid, _productSha, function(res){
+    if(res.content && res.content.sha) _productSha = res.content.sha;
+    _done(res);
+  });
+  _ghPut('data/products.json', JSON.stringify(_indexData, null, 2), 'Admin: update products index ('+_pid+')', _indexSha, function(res){
+    if(res.content && res.content.sha) _indexSha = res.content.sha;
+    _done(res);
+  });
+}
+
+_load();
 </script>
-<script data-goatcounter="https://amayaa.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-<script data-goatcounter="https://amayaa.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-<script src="sidebar.js"></script>
 </body>
 </html>

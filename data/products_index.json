@@ -107,7 +107,8 @@
     "status": "active",
     "featured": false,
     "badges": [
-      "new"
+      "new",
+      "offer"
     ],
     "occasion": [
       "casual",

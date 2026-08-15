@@ -33,13 +33,14 @@
     "gi-tagged"
   ],
   "photos": [],
-  "description": "amy_kan_001_desc",
-  "weaveStory": "amy_kan_001_ws",
   "weavingDays": "7–10",
-  "careInstructions": "amy_kan_001_ci",
   "giTagged": true,
   "seoTitle": "",
   "seoDescription": "",
   "offerValidUntil": null,
-  "thumbnail": "images/products/AMY-KAN-001.jpg"
+  "thumbnail": "images/products/AMY-KAN-001.jpg",
+  "weaveStoryId": "WS-006",
+  "descriptionId": "DESC-006",
+  "contentBundleId": null,
+  "careSuggestionId": "CI-006"
 }

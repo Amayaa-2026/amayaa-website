@@ -24,9 +24,9 @@
   let _autoTimer = null;
   let _viewIdx   = 0;
   let _swatches  = [];
-  let _library   = null;   // content library cache
+  let _library   = null;   // content_library.json cache
 
-  /* ── Library fetch (once) ───────────────────────────────── */
+  /* ── Library helpers ────────────────────────────────────── */
   function _fetchLibrary() {
     if (_library) return Promise.resolve(_library);
     return fetch('data/content_library.json')
@@ -35,11 +35,35 @@
       .catch(() => { _library = {}; return {}; });
   }
 
-  function _resolveKey(field, key) {
-    if (!key || !_library) return key || '';
-    const entries = (_library[field] || []);
-    const found = entries.find(e => e.key === key);
-    return found ? found.text : key;
+  // Resolve a single content ID to text, searching given category
+  function _resolveId(category, id) {
+    if (!id || !_library) return '';
+    const entries = _library[category] || [];
+    const found = entries.find(e => e.id === id);
+    return found ? found.text : '';
+  }
+
+  // Resolve all three content fields for a product (bundle → individual override)
+  function _resolveContent(p) {
+    let wsId   = p.weaveStoryId   || null;
+    let csId   = p.careSuggestionId || null;
+    let dId    = p.descriptionId   || null;
+
+    // Fill from bundle if individual not set
+    if (p.contentBundleId && _library && _library.contentBundles) {
+      const bundle = (_library.contentBundles || []).find(b => b.id === p.contentBundleId);
+      if (bundle) {
+        if (!wsId) wsId = bundle.weaveStoryId || null;
+        if (!csId) csId = bundle.careSuggestionId || null;
+        if (!dId)  dId  = bundle.descriptionId || null;
+      }
+    }
+
+    return {
+      description:     _resolveId('description',    dId)  || '',
+      weaveStory:      _resolveId('weaveStory',      wsId) || '',
+      careSuggestions: _resolveId('careSuggestions', csId) || ''
+    };
   }
 
   /* ── Public API ─────────────────────────────────────────── */
@@ -215,32 +239,23 @@
     /* WA message */
     const waMsg = encodeURIComponent(`Hello! I'm interested in: ${p.name} (₹${_fmt(p.price)}). Please share more details.`);
 
-    /* Resolve content library keys */
-    const descText  = _resolveKey('description',       p.description)       || 'Details about this saree coming soon.';
-    const storyText = _resolveKey('weaveStory',         p.weaveStory)        || 'Weave story coming soon.';
-    const careText  = _resolveKey('careInstructions',   p.careInstructions)  || 'Care instructions coming soon.';
+    /* Resolve content library keys/IDs to full text */
+    const content = _resolveContent(p);
 
     /* Sections — always visible, no accordion toggle */
     const sectionDesc  = `<div class="pd-section">
       <div class="pd-section-hdr">The Saree</div>
-      <div class="pd-section-body">${_esc(descText)}</div>
+      <div class="pd-section-body">${_esc(content.description || 'Details about this saree coming soon.')}</div>
     </div>`;
 
     const sectionStory = `<div class="pd-section">
       <div class="pd-section-hdr">Weave Story</div>
-      <div class="pd-section-body">${_esc(storyText)}${weaveFacts}</div>
+      <div class="pd-section-body">${_esc(content.weaveStory || 'Weave story coming soon.')}${weaveFacts}</div>
     </div>`;
 
     const sectionCare  = `<div class="pd-section">
-      <div class="pd-section-hdr">Care Guide</div>
-      <div class="pd-section-body">${_esc(careText)}</div>
-    </div>`;
-
-    /* QR code section */
-    const qrSection = `<div class="pd-section" style="text-align:center;">
-      <div class="pd-section-hdr">Share This Saree</div>
-      <div id="pd-qr-container" style="display:flex;justify-content:center;margin:10px 0 6px;"></div>
-      <div style="font-size:11px;color:#B0967E;">Scan to view on website</div>
+      <div class="pd-section-hdr">Care Suggestions</div>
+      <div class="pd-section-body">${_esc(content.careSuggestions || 'Care suggestions coming soon.')}</div>
     </div>`;
 
     _drawer.querySelector('#pd-body-2col').innerHTML = `
@@ -291,7 +306,6 @@
           ${sectionDesc}
           ${sectionStory}
           ${sectionCare}
-          ${qrSection}
         </div>
 
         <!-- CTA: WhatsApp + Call -->
@@ -326,38 +340,6 @@
     _drawer.querySelector('#pd-share-btn').addEventListener('click', () => _share(p));
 
     _startAuto();
-
-    /* Generate QR code for product */
-    _generateQR(p.id);
-  }
-
-  /* ── QR Code ────────────────────────────────────────────── */
-  function _generateQR(productId) {
-    const container = _drawer ? _drawer.querySelector('#pd-qr-container') : null;
-    if (!container) return;
-    const url = 'https://amayaabypolkadots.in/amayaa_sarees.html?id=' + encodeURIComponent(productId);
-
-    function _makeQR() {
-      container.innerHTML = '';
-      try {
-        new QRCode(container, {
-          text: url, width: 140, height: 140,
-          colorDark: '#1A0A04', colorLight: '#FAF6F2',
-          correctLevel: QRCode.CorrectLevel.M
-        });
-      } catch(e) {
-        container.innerHTML = '<span style="font-size:11px;color:#B0967E;">QR unavailable</span>';
-      }
-    }
-
-    if (typeof QRCode !== 'undefined') {
-      _makeQR();
-    } else {
-      const s = document.createElement('script');
-      s.src = 'https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js';
-      s.onload = _makeQR;
-      document.head.appendChild(s);
-    }
   }
 
   /* ── Swatch strip ───────────────────────────────────────── */

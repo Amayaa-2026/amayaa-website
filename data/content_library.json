@@ -3,186 +3,223 @@
     {
       "key": "amy_bal_001_ws",
       "label": "Baluchari Silk Saree",
-      "text": "Baluchari weaving originated in Murshidabad and later found its home in Bishnupur, West Bengal. The tradition of depicting Puranic narratives in the pallu is unique to this weave and represents one of India's most distinctive textile art forms."
+      "text": "Baluchari weaving originated in Murshidabad and later found its home in Bishnupur, West Bengal. The tradition of depicting Puranic narratives in the pallu is unique to this weave and represents one of India's most distinctive textile art forms.",
+      "id": "WS-001"
     },
     {
       "key": "amy_ban_001_ws",
       "label": "Katan Silk Banarasi Saree",
-      "text": "Banarasi weaving is one of India's most celebrated textile traditions, with roots stretching back over 2,000 years to the ancient city of Varanasi. This saree was handwoven on a traditional pit loom by a master weaver from the Ansari community of Varanasi — a family that has practised this craft for seven generations."
+      "text": "Banarasi weaving is one of India's most celebrated textile traditions, with roots stretching back over 2,000 years to the ancient city of Varanasi. This saree was handwoven on a traditional pit loom by a master weaver from the Ansari community of Varanasi — a family that has practised this craft for seven generations.",
+      "id": "WS-002"
     },
     {
       "key": "amy_cha_001_ws",
       "label": "Chanderi Cotton Silk Saree",
-      "text": "Chanderi has been a centre of fine textile weaving since the Vedic period. The town of Chanderi in Madhya Pradesh produces sarees that combine cotton warp with silk weft, creating a fabric that is simultaneously sturdy and sheer."
+      "text": "Chanderi has been a centre of fine textile weaving since the Vedic period. The town of Chanderi in Madhya Pradesh produces sarees that combine cotton warp with silk weft, creating a fabric that is simultaneously sturdy and sheer.",
+      "id": "WS-003"
     },
     {
       "key": "amy_ika_001_ws",
       "label": "Pochampally Double Ikat",
-      "text": "Pochampally, a village near Hyderabad in Telangana, is the birthplace of Indian double Ikat silk. The Pochampally Ikat received GI protection in 2004 and is one of only a handful of double Ikat traditions in the world."
+      "text": "Pochampally, a village near Hyderabad in Telangana, is the birthplace of Indian double Ikat silk. The Pochampally Ikat received GI protection in 2004 and is one of only a handful of double Ikat traditions in the world.",
+      "id": "WS-004"
     },
     {
       "key": "amy_jam_001_ws",
       "label": "Jamdani Muslin Saree",
-      "text": "Jamdani weaving originated in Dhaka (now Bangladesh) but has a thriving tradition in West Bengal, particularly around Fulia and Shantipur. The Jamdani tradition is inscribed on UNESCO's Intangible Cultural Heritage list."
+      "text": "Jamdani weaving originated in Dhaka (now Bangladesh) but has a thriving tradition in West Bengal, particularly around Fulia and Shantipur. The Jamdani tradition is inscribed on UNESCO's Intangible Cultural Heritage list.",
+      "id": "WS-005"
     },
     {
       "key": "amy_kan_001_ws",
       "label": "Pure Kanjivaram Silk Saree",
-      "text": "Kanjivaram sarees are woven with pure mulberry silk threads, with the body and border woven separately and then interlocked together. This ancient technique, unchanged for centuries, gives Kanjivaram sarees their distinctive weight and durability."
+      "text": "Kanjivaram sarees are woven with pure mulberry silk threads, with the body and border woven separately and then interlocked together. This ancient technique, unchanged for centuries, gives Kanjivaram sarees their distinctive weight and durability.",
+      "id": "WS-006"
     },
     {
       "key": "amy_mah_001_ws",
       "label": "Maheshwari Silk Cotton",
-      "text": "Maheshwari weaving was revived in the 18th century by Queen Ahilya Bai Holkar of Indore, who established a weaving centre in Maheshwar and brought master weavers from across the country. The tradition continues today, supported by the Rehwa Society."
+      "text": "Maheshwari weaving was revived in the 18th century by Queen Ahilya Bai Holkar of Indore, who established a weaving centre in Maheshwar and brought master weavers from across the country. The tradition continues today, supported by the Rehwa Society.",
+      "id": "WS-007"
     },
     {
       "key": "amy_mys_001_ws",
       "label": "Mysore Pure Silk Saree",
-      "text": "Mysore silk weaving has been under the patronage of the Mysore royal family since the 17th century. The Karnataka Silk Industries Corporation (KSIC) continues to produce authentic Mysore silk using traditional techniques and natural mulberry silk."
+      "text": "Mysore silk weaving has been under the patronage of the Mysore royal family since the 17th century. The Karnataka Silk Industries Corporation (KSIC) continues to produce authentic Mysore silk using traditional techniques and natural mulberry silk.",
+      "id": "WS-008"
     },
     {
       "key": "amy_pai_001_ws",
       "label": "Paithani Pure Silk Saree",
-      "text": "Paithani weaving dates back over 2,000 years to the Satavahana dynasty. The town of Paithan on the banks of the Godavari river remains the heartland of this tradition. Each saree is woven on a handloom using the interlocking weft technique, where different coloured threads are interlocked rather than carried across — making the saree identical on both sides."
+      "text": "Paithani weaving dates back over 2,000 years to the Satavahana dynasty. The town of Paithan on the banks of the Godavari river remains the heartland of this tradition. Each saree is woven on a handloom using the interlocking weft technique, where different coloured threads are interlocked rather than carried across — making the saree identical on both sides.",
+      "id": "WS-009"
     },
     {
       "key": "amy_sam_001_ws",
       "label": "Sambalpuri Ikat Silk",
-      "text": "Sambalpuri weaving has been practised in the Sambalpur district of Odisha for centuries. The Meher cooperative — a group of 12 weaver families — produces these sarees using the traditional Bandhakala technique passed down through generations."
+      "text": "Sambalpuri weaving has been practised in the Sambalpur district of Odisha for centuries. The Meher cooperative — a group of 12 weaver families — produces these sarees using the traditional Bandhakala technique passed down through generations.",
+      "id": "WS-010"
     },
     {
       "key": "amy_tan_001_ws",
       "label": "Tant Cotton Saree",
-      "text": "Tant weaving is the backbone of Bengal's handloom tradition, with thousands of weavers in the Nadia and Murshidabad districts producing these sarees for everyday wear. Despite being the most affordable handloom saree, every Tant is woven by hand."
+      "text": "Tant weaving is the backbone of Bengal's handloom tradition, with thousands of weavers in the Nadia and Murshidabad districts producing these sarees for everyday wear. Despite being the most affordable handloom saree, every Tant is woven by hand.",
+      "id": "WS-011"
     },
     {
       "key": "amy_tus_001_ws",
       "label": "Bhagalpuri Tussar Silk",
-      "text": "Bhagalpur in Bihar has been the centre of Tussar silk production for over a thousand years, earning it the name 'Silk City of India'. Tussar silk is produced from the cocoons of wild Antheraea moths that feed on Arjun and Asan trees."
-    }
-  ],
-  "careInstructions": [
-    {
-      "key": "amy_bal_001_ci",
-      "label": "Baluchari Silk Saree",
-      "text": "Dry clean only. Store in a cool, dark place wrapped in acid-free tissue. Handle the pallu with care to protect the brocade work."
-    },
-    {
-      "key": "amy_ban_001_ci",
-      "label": "Katan Silk Banarasi Saree",
-      "text": "Dry clean only. Store in a muslin cloth in a cool, dry place. Avoid direct sunlight. Iron on low heat on the reverse side."
-    },
-    {
-      "key": "amy_cha_001_ci",
-      "label": "Chanderi Cotton Silk Saree",
-      "text": "Gentle hand wash in cold water or dry clean. Do not wring. Dry in shade. Iron on low heat."
-    },
-    {
-      "key": "amy_ika_001_ci",
-      "label": "Pochampally Double Ikat",
-      "text": "Dry clean only. The double Ikat technique makes this saree susceptible to thread damage if harshly washed. Store in muslin."
-    },
-    {
-      "key": "amy_jam_001_ci",
-      "label": "Jamdani Muslin Saree",
-      "text": "Dry clean only. Muslin is extremely delicate — never machine wash or wring. Store folded in muslin cloth in a dry place."
-    },
-    {
-      "key": "amy_kan_001_ci",
-      "label": "Pure Kanjivaram Silk Saree",
-      "text": "Dry clean only. Store wrapped in muslin. Keep away from moisture and direct sunlight."
-    },
-    {
-      "key": "amy_mah_001_ci",
-      "label": "Maheshwari Silk Cotton",
-      "text": "Gentle hand wash in cold water. The silk-cotton blend is more forgiving than pure silk. Iron on medium heat."
-    },
-    {
-      "key": "amy_mys_001_ci",
-      "label": "Mysore Pure Silk Saree",
-      "text": "Dry clean recommended. If hand washing, use very mild soap in cold water. The crepe texture requires gentle handling."
-    },
-    {
-      "key": "amy_pai_001_ci",
-      "label": "Paithani Pure Silk Saree",
-      "text": "Dry clean only. Store flat or loosely rolled in muslin. Never fold on the same crease repeatedly."
-    },
-    {
-      "key": "amy_sam_001_ci",
-      "label": "Sambalpuri Ikat Silk",
-      "text": "Dry clean or gentle hand wash in cold water. Colours may bleed slightly in first wash — wash separately. Dry in shade."
-    },
-    {
-      "key": "amy_tan_001_ci",
-      "label": "Tant Cotton Saree",
-      "text": "Machine wash gentle or hand wash. Tant cotton softens beautifully with each wash. Iron while slightly damp on medium heat."
-    },
-    {
-      "key": "amy_tus_001_ci",
-      "label": "Bhagalpuri Tussar Silk",
-      "text": "Dry clean recommended. If hand washing, use mild soap in lukewarm water. Do not wring. Dry in shade."
+      "text": "Bhagalpur in Bihar has been the centre of Tussar silk production for over a thousand years, earning it the name 'Silk City of India'. Tussar silk is produced from the cocoons of wild Antheraea moths that feed on Arjun and Asan trees.",
+      "id": "WS-012"
     }
   ],
   "description": [
     {
       "key": "amy_bal_001_desc",
       "label": "Baluchari Silk Saree",
-      "text": "The Baluchari saree is a living canvas of mythology. Woven by the Basak family of Bishnupur — master storyteller weavers — the pallu of this saree depicts scenes from the Ramayana and Mahabharata in intricate silk brocade. Each saree takes weeks to complete and is a true collector's piece."
+      "text": "The Baluchari saree is a living canvas of mythology. Woven by the Basak family of Bishnupur — master storyteller weavers — the pallu of this saree depicts scenes from the Ramayana and Mahabharata in intricate silk brocade. Each saree takes weeks to complete and is a true collector's piece.",
+      "id": "DESC-001"
     },
     {
       "key": "amy_ban_001_desc",
       "label": "Katan Silk Banarasi Saree",
-      "text": "This exquisite Katan Silk Banarasi saree is a testament to the timeless craft of Varanasi's master weavers. Woven from the finest Katan silk — a tightly twisted, lustrous thread — this saree carries a weight and drape that is unmistakably regal. The deep red body is adorned with intricate Meenakari brocade work in gold zari, featuring floral motifs and a richly worked pallu. The contrast gold border completes this masterpiece, making it the perfect choice for weddings and festive occasions."
+      "text": "This exquisite Katan Silk Banarasi saree is a testament to the timeless craft of Varanasi's master weavers. Woven from the finest Katan silk — a tightly twisted, lustrous thread — this saree carries a weight and drape that is unmistakably regal. The deep red body is adorned with intricate Meenakari brocade work in gold zari, featuring floral motifs and a richly worked pallu. The contrast gold border completes this masterpiece, making it the perfect choice for weddings and festive occasions.",
+      "id": "DESC-002"
     },
     {
       "key": "amy_cha_001_desc",
       "label": "Chanderi Cotton Silk Saree",
-      "text": "Chanderi sarees are celebrated for their sheer, gossamer-light texture and delicate lustre. This ivory cotton silk Chanderi is perfect for warm weather — breathable, elegant, and effortlessly graceful. The subtle gold bootis woven throughout add a quiet opulence to the fabric."
+      "text": "Chanderi sarees are celebrated for their sheer, gossamer-light texture and delicate lustre. This ivory cotton silk Chanderi is perfect for warm weather — breathable, elegant, and effortlessly graceful. The subtle gold bootis woven throughout add a quiet opulence to the fabric.",
+      "id": "DESC-003"
     },
     {
       "key": "amy_ika_001_desc",
       "label": "Pochampally Double Ikat",
-      "text": "Pochampally Double Ikat is one of the most technically demanding weaves in the world — both the warp and weft threads are resist-dyed before weaving, requiring extraordinary precision for the pattern to align perfectly. This teal and gold silk Ikat features traditional geometric patterns with a striking contemporary feel."
+      "text": "Pochampally Double Ikat is one of the most technically demanding weaves in the world — both the warp and weft threads are resist-dyed before weaving, requiring extraordinary precision for the pattern to align perfectly. This teal and gold silk Ikat features traditional geometric patterns with a striking contemporary feel.",
+      "id": "DESC-004"
     },
     {
       "key": "amy_jam_001_desc",
       "label": "Jamdani Muslin Saree",
-      "text": "Jamdani is one of the finest muslin weaves in the world — so sheer that historical accounts describe it as 'woven air'. This white and gold Jamdani features traditional floral motifs woven directly into the fabric using the supplementary weft technique, creating a three-dimensional texture on an ethereally light base."
+      "text": "Jamdani is one of the finest muslin weaves in the world — so sheer that historical accounts describe it as 'woven air'. This white and gold Jamdani features traditional floral motifs woven directly into the fabric using the supplementary weft technique, creating a three-dimensional texture on an ethereally light base.",
+      "id": "DESC-005"
     },
     {
       "key": "amy_kan_001_desc",
       "label": "Pure Kanjivaram Silk Saree",
-      "text": "A masterpiece of South Indian silk weaving, this Pure Kanjivaram saree features the iconic temple border and brilliant gold zari work. Woven by the Devanathan family of Kanchipuram — three generations of master weavers — this saree embodies the grandeur and heritage of Tamil Nadu's most celebrated textile tradition."
+      "text": "A masterpiece of South Indian silk weaving, this Pure Kanjivaram saree features the iconic temple border and brilliant gold zari work. Woven by the Devanathan family of Kanchipuram — three generations of master weavers — this saree embodies the grandeur and heritage of Tamil Nadu's most celebrated textile tradition.",
+      "id": "DESC-006"
     },
     {
       "key": "amy_mah_001_desc",
       "label": "Maheshwari Silk Cotton",
-      "text": "Maheshwari sarees from the historic town of Maheshwar on the banks of the Narmada river are known for their distinctive reversible quality and subtle shimmer. This pink and silver silk-cotton Maheshwari has the characteristic fine stripe and check pattern, with a delicate silver border."
+      "text": "Maheshwari sarees from the historic town of Maheshwar on the banks of the Narmada river are known for their distinctive reversible quality and subtle shimmer. This pink and silver silk-cotton Maheshwari has the characteristic fine stripe and check pattern, with a delicate silver border.",
+      "id": "DESC-007"
     },
     {
       "key": "amy_mys_001_desc",
       "label": "Mysore Pure Silk Saree",
-      "text": "Mysore silk is celebrated for its smooth, crepe-like texture and natural lustre. Unlike Kanjivaram, Mysore silk is lighter and more fluid, making it ideal for daily wear alongside festive occasions. This coral red saree features a classic gold zari border and a plain, lustrous body that showcases the silk's natural beauty."
+      "text": "Mysore silk is celebrated for its smooth, crepe-like texture and natural lustre. Unlike Kanjivaram, Mysore silk is lighter and more fluid, making it ideal for daily wear alongside festive occasions. This coral red saree features a classic gold zari border and a plain, lustrous body that showcases the silk's natural beauty.",
+      "id": "DESC-008"
     },
     {
       "key": "amy_pai_001_desc",
       "label": "Paithani Pure Silk Saree",
-      "text": "The Paithani is the pride of Maharashtra — a saree of extraordinary richness woven in the ancient town of Paithan. This peacock green silk Paithani features the iconic peacock motif in the pallu, woven in vibrant zari. The interlocking tapestry weave technique makes every Paithani reversible and uniquely precious."
+      "text": "The Paithani is the pride of Maharashtra — a saree of extraordinary richness woven in the ancient town of Paithan. This peacock green silk Paithani features the iconic peacock motif in the pallu, woven in vibrant zari. The interlocking tapestry weave technique makes every Paithani reversible and uniquely precious.",
+      "id": "DESC-009"
     },
     {
       "key": "amy_sam_001_desc",
       "label": "Sambalpuri Ikat Silk",
-      "text": "The Sambalpuri Ikat is distinguished by its traditional Bandhakala technique — where threads are tie-dyed before weaving to create the pattern. The result is a saree with a distinctive blurred-edge motif that is impossible to replicate by machine. This red and black silk Ikat features traditional Shankha (conch) and Chakra (wheel) motifs."
+      "text": "The Sambalpuri Ikat is distinguished by its traditional Bandhakala technique — where threads are tie-dyed before weaving to create the pattern. The result is a saree with a distinctive blurred-edge motif that is impossible to replicate by machine. This red and black silk Ikat features traditional Shankha (conch) and Chakra (wheel) motifs.",
+      "id": "DESC-010"
     },
     {
       "key": "amy_tan_001_desc",
       "label": "Tant Cotton Saree",
-      "text": "The Tant is Bengal's everyday saree — lightweight, breathable, and beautifully simple. Woven from fine cotton on handlooms in Shantipur and Fulia, the Tant saree is perfect for warm weather and daily wear. This blue and white Tant features a classic woven check pattern with a fine cotton texture."
+      "text": "The Tant is Bengal's everyday saree — lightweight, breathable, and beautifully simple. Woven from fine cotton on handlooms in Shantipur and Fulia, the Tant saree is perfect for warm weather and daily wear. This blue and white Tant features a classic woven check pattern with a fine cotton texture.",
+      "id": "DESC-011"
     },
     {
       "key": "amy_tus_001_desc",
       "label": "Bhagalpuri Tussar Silk",
-      "text": "Bhagalpuri Tussar — also called 'wild silk' — has a distinctive natural golden sheen and a slightly textured, matte surface that sets it apart from cultivated silk. This saree in warm gold and brown tones has a natural earthy elegance, with traditional Bhagalpuri motifs woven into the border."
+      "text": "Bhagalpuri Tussar — also called 'wild silk' — has a distinctive natural golden sheen and a slightly textured, matte surface that sets it apart from cultivated silk. This saree in warm gold and brown tones has a natural earthy elegance, with traditional Bhagalpuri motifs woven into the border.",
+      "id": "DESC-012"
+    }
+  ],
+  "contentBundles": [],
+  "careSuggestions": [
+    {
+      "key": "amy_bal_001_ci",
+      "label": "Baluchari Silk Saree",
+      "text": "Dry clean only. Store in a cool, dark place wrapped in acid-free tissue. Handle the pallu with care to protect the brocade work.",
+      "id": "CI-001"
+    },
+    {
+      "key": "amy_ban_001_ci",
+      "label": "Katan Silk Banarasi Saree",
+      "text": "Dry clean only. Store in a muslin cloth in a cool, dry place. Avoid direct sunlight. Iron on low heat on the reverse side.",
+      "id": "CI-002"
+    },
+    {
+      "key": "amy_cha_001_ci",
+      "label": "Chanderi Cotton Silk Saree",
+      "text": "Gentle hand wash in cold water or dry clean. Do not wring. Dry in shade. Iron on low heat.",
+      "id": "CI-003"
+    },
+    {
+      "key": "amy_ika_001_ci",
+      "label": "Pochampally Double Ikat",
+      "text": "Dry clean only. The double Ikat technique makes this saree susceptible to thread damage if harshly washed. Store in muslin.",
+      "id": "CI-004"
+    },
+    {
+      "key": "amy_jam_001_ci",
+      "label": "Jamdani Muslin Saree",
+      "text": "Dry clean only. Muslin is extremely delicate — never machine wash or wring. Store folded in muslin cloth in a dry place.",
+      "id": "CI-005"
+    },
+    {
+      "key": "amy_kan_001_ci",
+      "label": "Pure Kanjivaram Silk Saree",
+      "text": "Dry clean only. Store wrapped in muslin. Keep away from moisture and direct sunlight.",
+      "id": "CI-006"
+    },
+    {
+      "key": "amy_mah_001_ci",
+      "label": "Maheshwari Silk Cotton",
+      "text": "Gentle hand wash in cold water. The silk-cotton blend is more forgiving than pure silk. Iron on medium heat.",
+      "id": "CI-007"
+    },
+    {
+      "key": "amy_mys_001_ci",
+      "label": "Mysore Pure Silk Saree",
+      "text": "Dry clean recommended. If hand washing, use very mild soap in cold water. The crepe texture requires gentle handling.",
+      "id": "CI-008"
+    },
+    {
+      "key": "amy_pai_001_ci",
+      "label": "Paithani Pure Silk Saree",
+      "text": "Dry clean only. Store flat or loosely rolled in muslin. Never fold on the same crease repeatedly.",
+      "id": "CI-009"
+    },
+    {
+      "key": "amy_sam_001_ci",
+      "label": "Sambalpuri Ikat Silk",
+      "text": "Dry clean or gentle hand wash in cold water. Colours may bleed slightly in first wash — wash separately. Dry in shade.",
+      "id": "CI-010"
+    },
+    {
+      "key": "amy_tan_001_ci",
+      "label": "Tant Cotton Saree",
+      "text": "Machine wash gentle or hand wash. Tant cotton softens beautifully with each wash. Iron while slightly damp on medium heat.",
+      "id": "CI-011"
+    },
+    {
+      "key": "amy_tus_001_ci",
+      "label": "Bhagalpuri Tussar Silk",
+      "text": "Dry clean recommended. If hand washing, use mild soap in lukewarm water. Do not wring. Dry in shade.",
+      "id": "CI-012"
     }
   ]
 }

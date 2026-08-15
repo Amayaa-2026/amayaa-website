@@ -1,237 +1,648 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Content Library – Amayaa Admin</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="admin.css">
-<style>
-.fi{padding:9px 12px;border:1.5px solid rgba(0,0,0,.12);border-radius:8px;font-family:'Jost',sans-serif;font-size:14px;background:rgba(255,255,255,.88);color:#1A1208;width:100%;transition:border-color .2s;}
-.fi:focus{outline:none;border-color:#C4622D;}
-.fta{padding:9px 12px;border:1.5px solid rgba(0,0,0,.12);border-radius:8px;font-family:'Jost',sans-serif;font-size:14px;background:rgba(255,255,255,.88);color:#1A1208;width:100%;resize:vertical;min-height:100px;transition:border-color .2s;}
-.fta:focus{outline:none;border-color:#C4622D;}
-.section-locked .fi,.section-locked .fta{background:#F5F0EA;pointer-events:none;color:#9A8070;}
-.section-locked .fi:focus,.section-locked .fta:focus{border-color:rgba(0,0,0,.1);}
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="stylesheet" href="admin.css">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet"><style>
+/* ── AMAYAA ADMIN SHARED SIDEBAR CSS ── */
+aside.sidebar{position:fixed;top:0;left:0;width:240px;height:100vh;background:radial-gradient(ellipse at 15% 25%,rgba(240,67,147,.55) 0%,transparent 55%),radial-gradient(ellipse at 85% 75%,rgba(240,67,147,.45) 0%,transparent 50%),radial-gradient(ellipse at 50% 10%,rgba(200,30,110,.40) 0%,transparent 45%),#2A0A1A;color:white;overflow-y:auto;z-index:100;display:flex;flex-direction:column;}
+.sb-brand{padding:20px 18px 16px;border-bottom:1px solid rgba(255,255,255,.1);display:flex;align-items:center;gap:12px;flex-shrink:0;}
+.sb-logo-img{width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,.2);flex-shrink:0;}
+.sb-text{display:flex;flex-direction:column;gap:2px;min-width:0;}
+.sb-name{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:white;letter-spacing:.3px;line-height:1.1;white-space:nowrap;}
+.sb-sub{font-size:10px;opacity:.55;letter-spacing:2.5px;text-transform:uppercase;color:white;white-space:nowrap;}
+.sb-nav{flex:1;padding:8px 0;overflow-y:auto;}
+.sb-section{font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;opacity:.45;padding:16px 20px 5px;color:white;}
+.sb-link{display:flex;align-items:center;gap:10px;padding:10px 20px;color:rgba(255,255,255,.72);text-decoration:none;font-size:14px;font-weight:500;transition:all .2s;border-left:3px solid transparent;white-space:nowrap;}
+.sb-link:hover{background:rgba(255,255,255,.08);color:white;border-left-color:rgba(196,98,45,.5);}
+.sb-link.active{background:rgba(196,98,45,.18);color:white;border-left-color:#C4622D;}
+.sb-icon{width:18px;text-align:center;font-size:15px;flex-shrink:0;}
+.sb-footer{padding:14px 18px;border-top:1px solid rgba(255,255,255,.1);flex-shrink:0;}
+.sb-logout{width:100%;padding:9px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:8px;color:rgba(255,255,255,.7);font-family:'Jost',sans-serif;font-size:13px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;}
+.sb-logout:hover{background:rgba(255,255,255,.15);color:white;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Jost',sans-serif;background:linear-gradient(135deg,#E4DFD9 0%,#D8D2CB 100%);color:#1A1208;font-size:14px;min-height:100vh;}
+.sb-brand img{height:42px;width:auto;}
+.sb-link .ic{width:18px;text-align:center;font-size:14px;}
+.main{margin-left:240px;flex:1;display:flex;flex-direction:column;min-height:100vh;}
+.topbar{padding:18px 30px;border-bottom:1px solid rgba(0,0,0,.08);background:rgba(255,255,255,.7);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;}
+.topbar-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:#1A0A04;}
+.topbar-sub{font-size:13px;color:#9A8070;margin-top:2px;}
+.topbar-actions{display:flex;gap:10px;}
+.content{padding:24px 30px;flex:1;}
+.card{background:white;border:1px solid rgba(0,0,0,.07);border-radius:16px;padding:22px;box-shadow:0 2px 12px rgba(0,0,0,.05);}
+.card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid rgba(0,0,0,.06);}
+.card-title{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:400;color:#1A0A04;}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:9px;border:none;cursor:pointer;font-family:'Jost',sans-serif;font-size:13px;font-weight:600;letter-spacing:1px;text-transform:uppercase;transition:all .2s;text-decoration:none;}
+.btn-primary{background:linear-gradient(135deg,#C4622D,#E8843D);color:white;}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 5px 14px rgba(196,98,45,.35);}
+.btn-ghost{background:transparent;color:#5A4030;border:1.5px solid rgba(0,0,0,.14);}
+.btn-ghost:hover{background:rgba(0,0,0,.04);}
+.btn-sm{padding:5px 11px;font-size:12px;}
+.btn-edit{background:rgba(196,98,45,.12);color:#A04010;border:1.5px solid rgba(196,98,45,.25);}
+.btn-edit:hover{background:rgba(196,98,45,.2);}
+.btn-danger{background:rgba(200,30,30,.1);color:#A01010;border:1.5px solid rgba(200,30,30,.2);}
+.btn-danger:hover{background:rgba(200,30,30,.18);}
+.btn-success{background:linear-gradient(135deg,#25D366,#128C7E);color:white;}
+.fg{margin-bottom:14px;}
+.fg label{display:block;font-size:12px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#7A6050;margin-bottom:6px;}
+.fi,.fta,.fse{width:100%;padding:9px 12px;border-radius:9px;border:1.5px solid rgba(0,0,0,.1);background:rgba(240,230,216,.5);font-family:'Jost',sans-serif;font-size:13px;color:#1A1208;outline:none;transition:border-color .2s;}
+.fi:focus,.fta:focus,.fse:focus{border-color:#C4622D;background:white;}
+.fi::placeholder,.fta::placeholder{color:#C0A888;}
+.fi:disabled,.fta:disabled,.fse:disabled{background:#F5F0EA;color:#9A8070;cursor:not-allowed;}
+.fse{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23C4622D' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px;background-color:rgba(240,230,216,.5);}
+.fse:disabled{background-color:#F5F0EA;}
+.alert{padding:10px 14px;border-radius:9px;font-size:13px;margin-bottom:14px;display:flex;align-items:center;gap:9px;}
+.alert-success{background:rgba(37,211,102,.08);border:1px solid rgba(37,211,102,.2);color:#1A7A40;}
+.alert-error{background:rgba(200,30,30,.08);border:1px solid rgba(200,30,30,.2);color:#A01010;}
+.alert-info{background:rgba(196,98,45,.08);border:1px solid rgba(196,98,45,.2);color:#A04010;}
+.info-banner{background:#FFFBEB;border:1px solid #F5D76E;border-radius:10px;padding:12px 16px;font-size:13px;color:#7A6010;margin-bottom:20px;display:flex;align-items:center;gap:10px;}
 
-.lib-tabs{display:flex;gap:8px;margin-bottom:20px;}
-.lib-tab{padding:8px 20px;border-radius:20px;font-size:13px;font-weight:500;cursor:pointer;border:1.5px solid rgba(0,0,0,.1);background:rgba(255,255,255,.7);color:#5A4030;transition:all .2s;font-family:'Jost',sans-serif;}
-.lib-tab.active{background:#C4622D;border-color:#C4622D;color:white;}
+/* ── CONTENT LIBRARY LAYOUT ── */
+.cl-top{display:grid;grid-template-columns:320px 1fr;gap:18px;margin-bottom:18px;}
+.cl-left{display:flex;flex-direction:column;gap:12px;}
 
-.entry-card{background:rgba(255,255,255,.88);border:1px solid rgba(0,0,0,.07);border-radius:12px;margin-bottom:14px;overflow:hidden;}
-.entry-header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;cursor:pointer;user-select:none;}
-.entry-header:hover{background:rgba(196,98,45,.04);}
-.entry-key{font-size:11px;font-family:'Jost',monospace;background:rgba(196,98,45,.1);color:#8B3A12;padding:2px 7px;border-radius:6px;margin-left:10px;}
-.entry-label{font-size:14px;font-weight:600;color:#1A1208;}
-.entry-body{padding:0 18px 16px;border-top:1px solid rgba(0,0,0,.06);}
-.entry-body.collapsed{display:none;}
-.entry-meta{display:flex;align-items:center;gap:12px;}
-.entry-controls{display:flex;align-items:center;gap:10px;}
-.save-indicator{font-size:12px;color:#2E7D32;font-weight:600;opacity:0;transition:opacity .4s;}
-.save-indicator.show{opacity:1;}
+/* Fixed-height boxes */
+.cl-box{background:white;border:1px solid rgba(0,0,0,.07);border-radius:14px;box-shadow:0 2px 10px rgba(0,0,0,.04);overflow:hidden;}
+.cl-box-header{padding:12px 16px;background:rgba(240,230,216,.5);border-bottom:1px solid rgba(0,0,0,.06);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.cl-box-title{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:600;color:#1A0A04;}
 
-.new-entry-form{background:rgba(255,255,255,.5);border:1.5px dashed rgba(196,98,45,.3);border-radius:12px;padding:20px;margin-top:12px;}
-.new-entry-form h4{font-size:13px;font-weight:600;color:#C4622D;margin-bottom:14px;text-transform:uppercase;letter-spacing:.5px;}
-.fg-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+/* Box 1 — type selector */
+.cl-type-box{padding:14px 16px;}
+.cl-type-box .fse{font-size:14px;padding:10px 14px;}
+
+/* Box 2 — entry list */
+.cl-list-wrap{height:380px;display:flex;flex-direction:column;}
+.cl-list-scroll{flex:1;overflow-y:auto;}
+.cl-entry-row{display:flex;align-items:flex-start;gap:10px;padding:11px 16px;border-bottom:1px solid rgba(0,0,0,.04);cursor:pointer;transition:background .15s;}
+.cl-entry-row:last-child{border-bottom:none;}
+.cl-entry-row:hover{background:rgba(196,98,45,.04);}
+.cl-entry-row.selected{background:rgba(196,98,45,.1);border-left:3px solid #C4622D;}
+.cl-entry-row.selected .cl-entry-id{color:#C4622D;}
+.cl-entry-id{font-size:11px;font-weight:700;letter-spacing:1px;color:#9A8070;white-space:nowrap;margin-top:1px;min-width:52px;}
+.cl-entry-info{flex:1;min-width:0;}
+.cl-entry-name{font-size:13px;font-weight:500;color:#1A1208;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.cl-entry-preview{font-size:11px;color:#B0967E;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.cl-empty{padding:32px 16px;text-align:center;color:#C0A888;font-size:13px;}
+
+/* Box 3 — detail panel */
+.cl-detail-wrap{height:460px;display:flex;flex-direction:column;}
+.cl-detail-body{flex:1;overflow-y:auto;padding:16px;}
+.cl-detail-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:#C0A888;gap:10px;text-align:center;}
+.cl-detail-placeholder .icon{font-size:34px;opacity:.4;}
+.cl-id-badge{display:inline-block;padding:3px 10px;border-radius:7px;background:rgba(123,45,139,.1);color:#7B2D8B;font-size:12px;font-weight:700;letter-spacing:1.5px;font-family:'Jost',monospace;border:1px solid rgba(123,45,139,.2);}
+.cl-detail-footer{padding:12px 16px;border-top:1px solid rgba(0,0,0,.06);display:flex;gap:8px;background:rgba(250,247,243,.8);flex-shrink:0;}
+.section-locked .fi,.section-locked .fta{background:#F5F0EA;pointer-events:none;color:#9A8070;border-color:rgba(0,0,0,.07);}
+
+/* ── BUNDLE SECTION ── */
+.cl-bundle-grid{display:grid;grid-template-columns:340px 1fr;gap:18px;}
+.cl-bundle-list{height:340px;display:flex;flex-direction:column;}
+.cl-bundle-row{display:flex;align-items:center;gap:10px;padding:11px 16px;border-bottom:1px solid rgba(0,0,0,.04);cursor:pointer;transition:background .15s;}
+.cl-bundle-row:last-child{border-bottom:none;}
+.cl-bundle-row:hover{background:rgba(196,98,45,.04);}
+.cl-bundle-row.selected{background:rgba(196,98,45,.1);border-left:3px solid #C4622D;}
+.cl-bundle-id{font-size:11px;font-weight:700;letter-spacing:1px;color:#9A8070;white-space:nowrap;min-width:52px;}
+.cl-bundle-name{flex:1;font-size:13px;color:#1A1208;}
+.cl-bundle-tags{font-size:11px;color:#B0967E;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.cl-bundle-detail{height:340px;display:flex;flex-direction:column;}
+.cl-bundle-body{flex:1;overflow-y:auto;padding:16px;}
+.cl-bundle-footer{padding:12px 16px;border-top:1px solid rgba(0,0,0,.06);display:flex;gap:8px;background:rgba(250,247,243,.8);flex-shrink:0;}
 </style>
-</head>
-<body>
-<script src="sidebar.js"></script>
+<title>Content Library — Amayaa Admin</title></head><body>
+<script>if(!sessionStorage.getItem('amayaa_admin')){window.location.href='index.html';}</script>
+<aside class="sidebar"></aside>
 <div class="main">
   <div class="topbar">
     <div>
       <div class="topbar-title">Content Library</div>
-      <div class="topbar-sub">Reusable text blocks for Weave Stories, Care Instructions &amp; Descriptions</div>
+      <div class="topbar-sub">Manage reusable text blocks for all products</div>
     </div>
     <div class="topbar-actions">
-      <span id="globalSaveIndicator" class="save-indicator">&#10003; Saved</span>
-      <button class="btn btn-primary" onclick="_saveAll()">&#128190; Save All Changes</button>
+      <span id="saveStatus" style="font-size:13px;color:#9A8070;align-self:center;"></span>
     </div>
   </div>
+
   <div class="content">
-    <div class="bc">Changes here update the text shown in product drawers and quick-view panels. Products store keys — this library holds the full text.</div>
+    <div class="info-banner">&#128204; Edit any text block here — products referencing it will automatically show the updated text.</div>
+    <div id="globalAlert"></div>
 
-    <div class="lib-tabs">
-      <button class="lib-tab active" onclick="_switchTab('weaveStory',this)">&#129528; Weave Stories</button>
-      <button class="lib-tab" onclick="_switchTab('careInstructions',this)">&#x1F9FA; Care Instructions</button>
-      <button class="lib-tab" onclick="_switchTab('description',this)">&#x1F4DD; Descriptions</button>
-    </div>
+    <!-- ── TOP: Entry manager ── -->
+    <div class="cl-top">
 
-    <div id="entriesContainer"></div>
+      <!-- LEFT: Type selector + Entry list -->
+      <div class="cl-left">
 
-    <div class="new-entry-form" id="newEntryForm">
-      <h4>+ Add New Entry</h4>
-      <div class="fg-row">
-        <div class="fg">
-          <label>Key (lowercase, hyphens)</label>
-          <input type="text" class="fi" id="newKey" placeholder="e.g. patola-double-ikat_ws">
+        <!-- Box 1: Content type -->
+        <div class="cl-box">
+          <div class="cl-box-header">
+            <div class="cl-box-title">Content Type</div>
+          </div>
+          <div class="cl-type-box">
+            <select class="fse" id="typeSelect" onchange="onTypeChange()">
+              <option value="weaveStory">Weave Story</option>
+              <option value="careSuggestions">Care Suggestions</option>
+              <option value="description">Description</option>
+            </select>
+          </div>
         </div>
-        <div class="fg">
-          <label>Label (display name)</label>
-          <input type="text" class="fi" id="newLabel" placeholder="e.g. Patola Double Ikat">
+
+        <!-- Box 2: Entry list -->
+        <div class="cl-box cl-list-wrap">
+          <div class="cl-box-header">
+            <div class="cl-box-title" id="listTitle">Weave Story Entries</div>
+            <button class="btn btn-primary btn-sm" onclick="newEntry()">+ New</button>
+          </div>
+          <div class="cl-list-scroll" id="entryList">
+            <div class="cl-empty">Loading&hellip;</div>
+          </div>
+        </div>
+
+      </div><!-- /.cl-left -->
+
+      <!-- RIGHT: Entry detail -->
+      <div class="cl-box cl-detail-wrap" id="detailBox">
+        <div class="cl-box-header">
+          <div class="cl-box-title">Entry Detail</div>
+          <div style="display:flex;gap:8px;" id="detailHeaderActions">
+            <!-- buttons injected here -->
+          </div>
+        </div>
+        <div class="cl-detail-body" id="detailBody">
+          <div class="cl-detail-placeholder">
+            <div class="icon">&#128220;</div>
+            <p>Select an entry from the list<br>to view or edit it.</p>
+          </div>
+        </div>
+        <div class="cl-detail-footer" id="detailFooter" style="display:none;"></div>
+      </div>
+
+    </div><!-- /.cl-top -->
+
+    <!-- ── BOTTOM: Content Bundles ── -->
+    <div class="cl-box" style="margin-top:4px;">
+      <div class="cl-box-header" style="padding:14px 18px;">
+        <div class="cl-box-title">Content Bundles</div>
+        <button class="btn btn-primary btn-sm" onclick="newBundle()">+ New Bundle</button>
+      </div>
+      <div class="cl-bundle-grid" style="padding:0 0 0 0;">
+        <!-- Bundle list -->
+        <div class="cl-box cl-bundle-list" style="border:none;border-radius:0;border-right:1px solid rgba(0,0,0,.07);box-shadow:none;">
+          <div class="cl-list-scroll" id="bundleList">
+            <div class="cl-empty">No bundles yet.<br>Create one to link WS + Care + Description together.</div>
+          </div>
+        </div>
+        <!-- Bundle detail -->
+        <div class="cl-box cl-bundle-detail" style="border:none;border-radius:0;box-shadow:none;" id="bundleDetailBox">
+          <div class="cl-detail-body" id="bundleBody">
+            <div class="cl-detail-placeholder">
+              <div class="icon">&#128218;</div>
+              <p>Select a bundle to view<br>or create a new one.</p>
+            </div>
+          </div>
+          <div class="cl-bundle-footer" id="bundleFooter" style="display:none;"></div>
         </div>
       </div>
-      <div class="fg" style="margin-bottom:12px;">
-        <label>Full Text</label>
-        <textarea class="fta" id="newText" rows="4" placeholder="Enter the full text for this entry..."></textarea>
-      </div>
-      <button class="btn btn-primary btn-sm" onclick="_addEntry()">Add Entry</button>
     </div>
-  </div>
-</div>
 
+  </div><!-- /.content -->
+</div><!-- /.main -->
+
+<script src="sidebar.js"></script>
 <script>
-var _data = null;
-var _activeTab = 'weaveStory';
+/* ─────────────────────────────────────────────
+   GITHUB API HELPERS
+───────────────────────────────────────────── */
+var GH_REPO   = 'Amayaa-2026/amayaa-website';
+var GH_BRANCH = 'main';
+var LIB_PATH  = 'data/content_library.json';
 
-// ── GitHub helpers ──────────────────────────────────────────────
-function _ghGet(path,cb){
-  var tok=localStorage.getItem('amayaa_gh_token');
-  if(!tok){alert('GitHub token not set. Go to Site Settings.');return;}
-  fetch('https://api.github.com/repos/Amayaa-2026/amayaa-website/contents/'+path,
-    {headers:{'Authorization':'token '+tok,'Accept':'application/vnd.github.v3+json'}})
-    .then(function(r){return r.json();}).then(cb).catch(function(e){console.error(e);});
-}
-function _ghPut(path,content,msg,sha,cb){
-  var tok=localStorage.getItem('amayaa_gh_token');
-  if(!tok){alert('GitHub token not set.');return;}
-  var body={message:msg,content:btoa(unescape(encodeURIComponent(content)))};
-  if(sha)body.sha=sha;
-  fetch('https://api.github.com/repos/Amayaa-2026/amayaa-website/contents/'+path,{
-    method:'PUT',headers:{'Authorization':'token '+tok,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},
-    body:JSON.stringify(body)
-  }).then(function(r){return r.json();}).then(function(res){if(cb)cb(res);}).catch(function(e){console.error(e);});
-}
+function _b64ToUtf8(b64){var raw=atob(b64.replace(/\n/g,''));var bytes=new Uint8Array(raw.length);for(var i=0;i<raw.length;i++)bytes[i]=raw.charCodeAt(i);return new TextDecoder('utf-8',{fatal:false}).decode(bytes);}
+function _utf8ToB64(str){var bytes=new TextEncoder().encode(str);var bin='';for(var i=0;i<bytes.length;i++)bin+=String.fromCharCode(bytes[i]);return btoa(bin);}
+function _ghTok(){return localStorage.getItem('amayaa_gh_token')||'';}
+function _ghHdrs(){return{Authorization:'token '+_ghTok(),Accept:'application/vnd.github.v3+json','Content-Type':'application/json'};}
 
-var _sha = null;
-function _load(){
-  _ghGet('data/content_library.json',function(res){
-    _sha = res.sha;
-    _data = JSON.parse(decodeURIComponent(escape(atob(res.content.replace(/\n/g,'')))));
-    _renderTab();
-  });
-}
-
-// ── Render ──────────────────────────────────────────────────────
-function _switchTab(tab, btn){
-  _activeTab = tab;
-  document.querySelectorAll('.lib-tab').forEach(function(b){b.classList.remove('active');});
-  btn.classList.add('active');
-  _renderTab();
-}
-
-function _renderTab(){
-  var entries = _data[_activeTab] || [];
-  var html = '';
-  entries.forEach(function(e,i){
-    html += '<div class="entry-card" id="ec-'+i+'">'
-      +'<div class="entry-header" onclick="_toggle('+i+')">'
-        +'<div class="entry-meta">'
-          +'<span class="entry-label">'+_esc(e.label)+'</span>'
-          +'<span class="entry-key">'+_esc(e.key)+'</span>'
-        +'</div>'
-        +'<div class="entry-controls" onclick="event.stopPropagation()">'
-          +'<span class="save-indicator" id="si-'+i+'">&#10003; Saved</span>'
-          +'<div class="toggle-wrap">'
-            +'<label class="toggle"><input type="checkbox" id="tog-'+i+'" onchange="_toggleEdit('+i+',this.checked)">'
-            +'<div class="toggle-slider"></div></label>'
-            +'<div class="toggle-label">Edit</div>'
-          +'</div>'
-          +'<button class="btn btn-danger btn-sm" onclick="_deleteEntry('+i+')">&#128465;</button>'
-        +'</div>'
-      +'</div>'
-      +'<div class="entry-body collapsed section-locked" id="eb-'+i+'">'
-        +'<div class="fg" style="margin:14px 0 10px">'
-          +'<label>Key</label>'
-          +'<input type="text" class="fi" id="ek-'+i+'" value="'+_esc(e.key)+'">'
-        +'</div>'
-        +'<div class="fg" style="margin-bottom:10px">'
-          +'<label>Label</label>'
-          +'<input type="text" class="fi" id="el-'+i+'" value="'+_esc(e.label)+'">'
-        +'</div>'
-        +'<div class="fg" style="margin-bottom:4px">'
-          +'<label>Full Text</label>'
-          +'<textarea class="fta" id="et-'+i+'" rows="5">'+_esc(e.text)+'</textarea>'
-        +'</div>'
-      +'</div>'
-    +'</div>';
-  });
-  document.getElementById('entriesContainer').innerHTML = html;
-}
-
-function _toggle(i){
-  var b = document.getElementById('eb-'+i);
-  b.classList.toggle('collapsed');
-}
-
-function _toggleEdit(i, checked){
-  var eb = document.getElementById('eb-'+i);
-  if(checked){
-    eb.classList.remove('section-locked');
-  } else {
-    // collect + save
-    var entry = _data[_activeTab][i];
-    entry.key   = (document.getElementById('ek-'+i).value||'').trim();
-    entry.label = (document.getElementById('el-'+i).value||'').trim();
-    entry.text  = (document.getElementById('et-'+i).value||'').trim();
-    eb.classList.add('section-locked');
-    _saveLib('Admin: update Content Library — '+entry.label, function(){
-      var si = document.getElementById('si-'+i);
-      si.classList.add('show');
-      setTimeout(function(){si.classList.remove('show');},2500);
+function _ghSave(data, msg, cb){
+  var tok=_ghTok();
+  if(!tok){showAlert('No GitHub token. Set it in Admin → Settings first.','error');return;}
+  setSaveStatus('Saving…');
+  fetch('https://api.github.com/repos/'+GH_REPO+'/contents/'+LIB_PATH+'?ref='+GH_BRANCH,{headers:_ghHdrs()})
+    .then(function(r){return r.json();})
+    .then(function(ex){
+      if(!ex.sha)throw new Error(ex.message||'No SHA');
+      return fetch('https://api.github.com/repos/'+GH_REPO+'/contents/'+LIB_PATH,{
+        method:'PUT',headers:_ghHdrs(),
+        body:JSON.stringify({message:msg,content:_utf8ToB64(JSON.stringify(data,null,2)),sha:ex.sha,branch:GH_BRANCH})
+      });
+    })
+    .then(function(r){return r.json();})
+    .then(function(res){
+      if(res.content){
+        setSaveStatus('Saved ✓');
+        if(cb)cb();
+      } else {
+        throw new Error(res.message||'Save failed');
+      }
+    })
+    .catch(function(e){
+      setSaveStatus('');
+      showAlert('Save failed: '+e.message,'error');
     });
+}
+
+/* ─────────────────────────────────────────────
+   STATE
+───────────────────────────────────────────── */
+var _lib = { weaveStory:[], careSuggestions:[], description:[], contentBundles:[] };
+var _currentType = 'weaveStory';
+var _selectedEntry = null;   // {id, key, label, text}  — null if new
+var _entryLocked = true;
+var _selectedBundle = null;
+var _bundleLocked = true;
+
+var TYPE_LABELS = {
+  weaveStory: 'Weave Story',
+  careSuggestions: 'Care Suggestions',
+  description: 'Description'
+};
+var ID_PREFIXES = {
+  weaveStory: 'WS',
+  careSuggestions: 'CI',
+  description: 'DESC'
+};
+
+function setSaveStatus(msg){
+  var el=document.getElementById('saveStatus');
+  if(el)el.textContent=msg;
+}
+function showAlert(msg,type){
+  var el=document.getElementById('globalAlert');
+  if(!el)return;
+  var cls=type==='error'?'alert-error':type==='success'?'alert-success':'alert-info';
+  el.innerHTML='<div class="alert '+cls+'">'+msg+'</div>';
+  setTimeout(function(){el.innerHTML='';},5000);
+}
+
+/* ─────────────────────────────────────────────
+   LOAD
+───────────────────────────────────────────── */
+function loadLibrary(){
+  fetch('https://api.github.com/repos/'+GH_REPO+'/contents/'+LIB_PATH+'?ref='+GH_BRANCH,{headers:_ghHdrs()})
+    .then(function(r){return r.json();})
+    .then(function(res){
+      if(!res.content)throw new Error(res.message||'Not found');
+      _lib = JSON.parse(_b64ToUtf8(res.content));
+      if(!_lib.contentBundles) _lib.contentBundles=[];
+      renderEntryList();
+      renderBundleList();
+    })
+    .catch(function(e){
+      // Fallback: try public fetch
+      fetch('../data/content_library.json?_='+Date.now())
+        .then(function(r){return r.json();})
+        .then(function(d){
+          _lib=d;
+          if(!_lib.contentBundles)_lib.contentBundles=[];
+          renderEntryList();
+          renderBundleList();
+        })
+        .catch(function(){
+          document.getElementById('entryList').innerHTML='<div class="cl-empty" style="color:#A01010;">Failed to load library data.</div>';
+        });
+    });
+}
+
+/* ─────────────────────────────────────────────
+   ENTRY LIST — Box 2
+───────────────────────────────────────────── */
+function onTypeChange(){
+  _currentType = document.getElementById('typeSelect').value;
+  document.getElementById('listTitle').textContent = TYPE_LABELS[_currentType]+' Entries';
+  _selectedEntry = null;
+  _entryLocked = true;
+  renderEntryList();
+  renderDetailPanel();
+}
+
+function renderEntryList(){
+  var list = _lib[_currentType] || [];
+  var el   = document.getElementById('entryList');
+  if(!list.length){
+    el.innerHTML='<div class="cl-empty">No entries yet. Click <strong>+ New</strong> to create one.</div>';
+    return;
+  }
+  var html='';
+  list.forEach(function(e){
+    var selClass = (_selectedEntry && _selectedEntry.id===e.id)?' selected':'';
+    var preview = (e.text||'').replace(/<[^>]*>/g,'').substring(0,60);
+    html+='<div class="cl-entry-row'+selClass+'" onclick="selectEntry(\''+e.id+'\')">'
+         +'<div class="cl-entry-id">'+e.id+'</div>'
+         +'<div class="cl-entry-info">'
+         +'<div class="cl-entry-name">'+escHtml(e.label||e.key||'(Untitled)')+'</div>'
+         +'<div class="cl-entry-preview">'+escHtml(preview)+'&hellip;</div>'
+         +'</div></div>';
+  });
+  el.innerHTML=html;
+}
+
+function selectEntry(id){
+  var list = _lib[_currentType]||[];
+  var entry = list.find(function(e){return e.id===id;});
+  if(!entry)return;
+  _selectedEntry = JSON.parse(JSON.stringify(entry)); // clone
+  _entryLocked = true;
+  renderEntryList();
+  renderDetailPanel();
+}
+
+/* ─────────────────────────────────────────────
+   ENTRY DETAIL — Box 3
+───────────────────────────────────────────── */
+function newEntry(){
+  var prefix = ID_PREFIXES[_currentType];
+  var list   = _lib[_currentType]||[];
+  // Generate next ID
+  var nums = list.map(function(e){
+    var m=e.id&&e.id.match(/\d+$/);return m?parseInt(m[0]):0;
+  });
+  var next = (nums.length?Math.max.apply(null,nums):0)+1;
+  var newId = prefix+'-'+String(next).padStart(3,'0');
+  _selectedEntry = {id:newId,key:'',label:'',text:''};
+  _entryLocked = false;
+  renderEntryList();
+  renderDetailPanel();
+}
+
+function renderDetailPanel(){
+  var body    = document.getElementById('detailBody');
+  var footer  = document.getElementById('detailFooter');
+  var hdrAct  = document.getElementById('detailHeaderActions');
+
+  if(!_selectedEntry){
+    body.innerHTML='<div class="cl-detail-placeholder"><div class="icon">&#128220;</div><p>Select an entry from the list<br>to view or edit it.</p></div>';
+    footer.style.display='none';
+    hdrAct.innerHTML='';
+    return;
+  }
+
+  var locked = _entryLocked;
+  var e = _selectedEntry;
+  var isNew = !(_lib[_currentType]||[]).find(function(x){return x.id===e.id;});
+
+  body.innerHTML=
+    '<div class="fg"><label>ID</label>'
+    +'<div style="display:flex;align-items:center;gap:10px;margin-top:4px;">'
+    +'<span class="cl-id-badge">'+escHtml(e.id)+'</span>'
+    +'<span style="font-size:12px;color:#9A8070;">Auto-generated — read only</span>'
+    +'</div></div>'
+    +'<div class="fg"><label>Name / Label</label>'
+    +'<input class="fi" id="detName" value="'+escHtml(e.label||'')+'" placeholder="e.g. Baluchari Silk Saree"'+(locked?' disabled':'')+'></div>'
+    +'<div class="fg"><label>Full Text</label>'
+    +'<textarea class="fta" id="detText" rows="9" placeholder="Enter the full content..."'+(locked?' disabled':'')+'>'+escHtml(e.text||'')+'</textarea></div>';
+
+  // Header action button
+  if(locked){
+    hdrAct.innerHTML='<button class="btn btn-edit btn-sm" onclick="editEntry()">&#9998; Edit</button>';
+  } else {
+    hdrAct.innerHTML='';
+  }
+
+  // Footer
+  footer.style.display='flex';
+  if(!locked){
+    var deleteBtn = isNew ? '' : '<button class="btn btn-danger btn-sm" onclick="deleteEntry()">&#128465; Delete</button>';
+    footer.innerHTML='<button class="btn btn-success btn-sm" onclick="saveEntry()">&#128190; Save</button>'
+      +'<button class="btn btn-ghost btn-sm" onclick="cancelEntry()">Cancel</button>'
+      +deleteBtn;
+  } else {
+    footer.innerHTML='';
+    footer.style.display='none';
   }
 }
 
-function _deleteEntry(i){
-  var entry = _data[_activeTab][i];
-  if(!confirm('Delete "'+entry.label+'"? Products using key "'+entry.key+'" will show blank text.'))return;
-  _data[_activeTab].splice(i,1);
-  _renderTab();
-  _saveLib('Admin: delete Content Library entry — '+entry.key, null);
+function editEntry(){
+  _entryLocked=false;
+  renderDetailPanel();
+  setTimeout(function(){var el=document.getElementById('detName');if(el)el.focus();},50);
 }
 
-function _addEntry(){
-  var key   = (document.getElementById('newKey').value||'').trim().replace(/\s+/g,'-').toLowerCase();
-  var label = (document.getElementById('newLabel').value||'').trim();
-  var text  = (document.getElementById('newText').value||'').trim();
-  if(!key||!label||!text){alert('Fill in all three fields.');return;}
-  // check duplicate key
-  var exists = (_data[_activeTab]||[]).some(function(e){return e.key===key;});
-  if(exists){alert('Key "'+key+'" already exists. Choose a different key.');return;}
-  _data[_activeTab].push({key:key,label:label,text:text});
-  document.getElementById('newKey').value='';
-  document.getElementById('newLabel').value='';
-  document.getElementById('newText').value='';
-  _renderTab();
-  _saveLib('Admin: add Content Library entry — '+key, function(){
-    var si = document.getElementById('globalSaveIndicator');
-    si.classList.add('show');
-    setTimeout(function(){si.classList.remove('show');},2500);
+function cancelEntry(){
+  var list=_lib[_currentType]||[];
+  var isNew=!list.find(function(x){return x.id===_selectedEntry.id;});
+  if(isNew){_selectedEntry=null;}
+  _entryLocked=true;
+  renderEntryList();
+  renderDetailPanel();
+}
+
+function saveEntry(){
+  var name  = (document.getElementById('detName').value||'').trim();
+  var text  = (document.getElementById('detText').value||'').trim();
+  if(!name){showAlert('Name is required.','error');return;}
+  if(!text){showAlert('Text cannot be empty.','error');return;}
+
+  var list = _lib[_currentType]||[];
+  var idx  = list.findIndex(function(x){return x.id===_selectedEntry.id;});
+  var entry= {id:_selectedEntry.id, key:_selectedEntry.key||_selectedEntry.id.toLowerCase().replace('-','_'), label:name, text:text};
+
+  if(idx>=0){ list[idx]=entry; } else { list.push(entry); }
+  _lib[_currentType]=list;
+  _selectedEntry=entry;
+  _entryLocked=true;
+
+  _ghSave(_lib,'Admin: update content library entry '+entry.id,function(){
+    renderEntryList();
+    renderDetailPanel();
+    showAlert('Saved successfully.','success');
   });
 }
 
-function _saveAll(){
-  _saveLib('Admin: update Content Library (bulk save)', function(){
-    var si = document.getElementById('globalSaveIndicator');
-    si.classList.add('show');
-    setTimeout(function(){si.classList.remove('show');},2500);
+function deleteEntry(){
+  if(!_selectedEntry)return;
+  if(!confirm('Delete "'+(_selectedEntry.label||_selectedEntry.id)+'"? This cannot be undone.'))return;
+  var list=_lib[_currentType]||[];
+  _lib[_currentType]=list.filter(function(x){return x.id!==_selectedEntry.id;});
+  _selectedEntry=null;
+  _entryLocked=true;
+  _ghSave(_lib,'Admin: delete content library entry',function(){
+    renderEntryList();
+    renderDetailPanel();
+    showAlert('Entry deleted.','success');
   });
 }
 
-function _saveLib(msg, cb){
-  var content = JSON.stringify(_data, null, 2);
-  _ghPut('data/content_library.json', content, msg, _sha, function(res){
-    if(res.content && res.content.sha) _sha = res.content.sha;
-    if(cb)cb();
+/* ─────────────────────────────────────────────
+   BUNDLE LIST + BUNDLE DETAIL
+───────────────────────────────────────────── */
+function renderBundleList(){
+  var bundles=_lib.contentBundles||[];
+  var el=document.getElementById('bundleList');
+  if(!bundles.length){
+    el.innerHTML='<div class="cl-empty">No bundles yet.<br>Create one to link WS + Care + Description together.</div>';
+    return;
+  }
+  var html='';
+  bundles.forEach(function(b){
+    var selClass=(_selectedBundle&&_selectedBundle.id===b.id)?' selected':'';
+    var tags=[b.weaveStoryId,b.careSuggestionId,b.descriptionId].filter(Boolean).join(' · ');
+    html+='<div class="cl-bundle-row'+selClass+'" onclick="selectBundle(\''+b.id+'\')">'
+         +'<div class="cl-bundle-id">'+b.id+'</div>'
+         +'<div style="flex:1;min-width:0;">'
+         +'<div class="cl-bundle-name">'+escHtml(b.name||b.id)+'</div>'
+         +'<div class="cl-bundle-tags">'+escHtml(tags||'No content linked')+'</div>'
+         +'</div></div>';
+  });
+  el.innerHTML=html;
+}
+
+function selectBundle(id){
+  var b=(_lib.contentBundles||[]).find(function(x){return x.id===id;});
+  if(!b)return;
+  _selectedBundle=JSON.parse(JSON.stringify(b));
+  _bundleLocked=true;
+  renderBundleList();
+  renderBundlePanel();
+}
+
+function newBundle(){
+  var bundles=_lib.contentBundles||[];
+  var nums=bundles.map(function(b){var m=b.id&&b.id.match(/\d+$/);return m?parseInt(m[0]):0;});
+  var next=(nums.length?Math.max.apply(null,nums):0)+1;
+  var newId='CB-'+String(next).padStart(3,'0');
+  _selectedBundle={id:newId,name:'',weaveStoryId:'',careSuggestionId:'',descriptionId:''};
+  _bundleLocked=false;
+  renderBundleList();
+  renderBundlePanel();
+}
+
+function renderBundlePanel(){
+  var body   =document.getElementById('bundleBody');
+  var footer =document.getElementById('bundleFooter');
+
+  if(!_selectedBundle){
+    body.innerHTML='<div class="cl-detail-placeholder"><div class="icon">&#128218;</div><p>Select a bundle to view<br>or create a new one.</p></div>';
+    footer.style.display='none';
+    return;
+  }
+
+  var locked=_bundleLocked;
+  var b=_selectedBundle;
+  var isNew=!(_lib.contentBundles||[]).find(function(x){return x.id===b.id;});
+
+  // Build options for each type select
+  function opts(type, fieldVal){
+    var list=_lib[type]||[];
+    var out='<option value="">— None —</option>';
+    list.forEach(function(e){
+      var sel=(fieldVal&&fieldVal===e.id)?' selected':'';
+      out+='<option value="'+e.id+'"'+sel+'>'+escHtml(e.id+' — '+(e.label||e.key))+'</option>';
+    });
+    return out;
+  }
+
+  body.innerHTML=
+    '<div class="fg"><label>Bundle ID</label>'
+    +'<div style="margin-top:4px;"><span class="cl-id-badge">'+escHtml(b.id)+'</span>'
+    +'<span style="font-size:12px;color:#9A8070;margin-left:10px;">Auto-generated — read only</span></div></div>'
+    +'<div class="fg"><label>Bundle Name</label>'
+    +'<input class="fi" id="bndName" value="'+escHtml(b.name||'')+'" placeholder="e.g. Baluchari Silk Default"'+(locked?' disabled':'')+'></div>'
+    +'<div class="fg"><label>Weave Story</label>'
+    +'<select class="fse" id="bndWS"'+(locked?' disabled':'')+'>'+opts('weaveStory',b.weaveStoryId)+'</select></div>'
+    +'<div class="fg"><label>Care Suggestions</label>'
+    +'<select class="fse" id="bndCS"'+(locked?' disabled':'')+'>'+opts('careSuggestions',b.careSuggestionId)+'</select></div>'
+    +'<div class="fg"><label>Description</label>'
+    +'<select class="fse" id="bndDesc"'+(locked?' disabled':'')+'>'+opts('description',b.descriptionId)+'</select></div>';
+
+  footer.style.display='flex';
+  if(!locked){
+    var deleteBtn=isNew?'':'<button class="btn btn-danger btn-sm" onclick="deleteBundle()">&#128465; Delete</button>';
+    footer.innerHTML='<button class="btn btn-success btn-sm" onclick="saveBundle()">&#128190; Save Bundle</button>'
+      +'<button class="btn btn-ghost btn-sm" onclick="cancelBundle()">Cancel</button>'
+      +deleteBtn;
+  } else {
+    // Show edit button inside footer when locked
+    footer.innerHTML='<button class="btn btn-edit btn-sm" onclick="editBundle()">&#9998; Edit</button>';
+  }
+}
+
+function editBundle(){
+  _bundleLocked=false;
+  renderBundlePanel();
+  setTimeout(function(){var el=document.getElementById('bndName');if(el)el.focus();},50);
+}
+
+function cancelBundle(){
+  var bundles=_lib.contentBundles||[];
+  var isNew=!bundles.find(function(x){return x.id===_selectedBundle.id;});
+  if(isNew){_selectedBundle=null;}
+  _bundleLocked=true;
+  renderBundleList();
+  renderBundlePanel();
+}
+
+function saveBundle(){
+  var name   =(document.getElementById('bndName').value||'').trim();
+  var wsId   =(document.getElementById('bndWS').value||'').trim();
+  var csId   =(document.getElementById('bndCS').value||'').trim();
+  var descId =(document.getElementById('bndDesc').value||'').trim();
+
+  if(!name){showAlert('Bundle name is required.','error');return;}
+
+  // Uniqueness check — same combo must not exist in another bundle
+  var bundles=_lib.contentBundles||[];
+  var duplicate=bundles.find(function(b){
+    return b.id!==_selectedBundle.id
+      && b.weaveStoryId===(wsId||null)
+      && b.careSuggestionId===(csId||null)
+      && b.descriptionId===(descId||null);
+  });
+  if(duplicate){
+    showAlert('A bundle with the same WS + Care + Description combination already exists: '+duplicate.id+' ('+escHtml(duplicate.name)+').','error');
+    return;
+  }
+
+  var bundle={
+    id:_selectedBundle.id,
+    name:name,
+    weaveStoryId:wsId||null,
+    careSuggestionId:csId||null,
+    descriptionId:descId||null
+  };
+
+  var idx=bundles.findIndex(function(x){return x.id===bundle.id;});
+  if(idx>=0){bundles[idx]=bundle;}else{bundles.push(bundle);}
+  _lib.contentBundles=bundles;
+  _selectedBundle=bundle;
+  _bundleLocked=true;
+
+  _ghSave(_lib,'Admin: update content bundle '+bundle.id,function(){
+    renderBundleList();
+    renderBundlePanel();
+    showAlert('Bundle saved.','success');
   });
 }
 
-function _esc(s){
-  return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+function deleteBundle(){
+  if(!_selectedBundle)return;
+  if(!confirm('Delete bundle "'+(_selectedBundle.name||_selectedBundle.id)+'"?'))return;
+  _lib.contentBundles=(_lib.contentBundles||[]).filter(function(x){return x.id!==_selectedBundle.id;});
+  _selectedBundle=null;
+  _bundleLocked=true;
+  _ghSave(_lib,'Admin: delete content bundle',function(){
+    renderBundleList();
+    renderBundlePanel();
+    showAlert('Bundle deleted.','success');
+  });
 }
 
-_load();
+/* ─────────────────────────────────────────────
+   HELPERS
+───────────────────────────────────────────── */
+function escHtml(s){
+  if(typeof s!=='string')return '';
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+/* ─────────────────────────────────────────────
+   INIT
+───────────────────────────────────────────── */
+document.addEventListener('DOMContentLoaded',function(){
+  loadLibrary();
+});
 </script>
-</body>
-</html>
+</body></html>

@@ -10,7 +10,7 @@ var N=[
   {s:'Content'},
   {h:'amayaa_banners.html',i:'🖼',l:'Banner'},
   {h:'amayaa_blog.html',i:'📝',l:'Blog Posts'},
-  {h:'amayaa_about.html',i:'📖',l:'Our Story'},{h:'amayaa_content_library.html',i:'📚',l:'Content Library'},{h:'amayaa_faq.html',i:'❓',l:'FAQ'},{h:'amayaa_policies.html',i:'📋',l:'Policies & T\u0026C'},
+  {h:'amayaa_about.html',i:'📖',l:'Our Story'},{h:'amayaa_faq.html',i:'❓',l:'FAQ'},{h:'amayaa_policies.html',i:'📋',l:'Policies & T\u0026C'},{h:'amayaa_content_library.html',i:'📚',l:'Content Library'},
   {s:'System'},
   {h:'amayaa_settings.html',i:'⚙',l:'Site Settings'},
   {h:'amayaa_typography.html',i:'🔤',l:'Typography'},

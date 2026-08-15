@@ -35,13 +35,14 @@
     "gi-tagged"
   ],
   "photos": [],
-  "description": "amy_pai_001_desc",
-  "weaveStory": "amy_pai_001_ws",
   "weavingDays": "30–90",
-  "careInstructions": "amy_pai_001_ci",
   "giTagged": true,
   "seoTitle": "",
   "seoDescription": "",
   "offerValidUntil": null,
-  "thumbnail": "images/products/AMY-PAI-001.jpg"
+  "thumbnail": "images/products/AMY-PAI-001.jpg",
+  "weaveStoryId": "WS-009",
+  "descriptionId": "DESC-009",
+  "contentBundleId": null,
+  "careSuggestionId": "CI-009"
 }

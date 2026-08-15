@@ -34,13 +34,14 @@
     "gi-tagged"
   ],
   "photos": [],
-  "description": "amy_sam_001_desc",
-  "weaveStory": "amy_sam_001_ws",
   "weavingDays": "10–15",
-  "careInstructions": "amy_sam_001_ci",
   "giTagged": true,
   "seoTitle": "",
   "seoDescription": "",
   "offerValidUntil": null,
-  "thumbnail": "images/products/AMY-SAM-001.jpg"
+  "thumbnail": "images/products/AMY-SAM-001.jpg",
+  "weaveStoryId": "WS-010",
+  "descriptionId": "DESC-010",
+  "contentBundleId": null,
+  "careSuggestionId": "CI-010"
 }

@@ -31,13 +31,14 @@
     "gi-tagged"
   ],
   "photos": [],
-  "description": "amy_jam_001_desc",
-  "weaveStory": "amy_jam_001_ws",
   "weavingDays": "10–20",
-  "careInstructions": "amy_jam_001_ci",
   "giTagged": true,
   "seoTitle": "",
   "seoDescription": "",
   "offerValidUntil": null,
-  "thumbnail": "images/products/AMY-JAM-001.jpg"
+  "thumbnail": "images/products/AMY-JAM-001.jpg",
+  "weaveStoryId": "WS-005",
+  "descriptionId": "DESC-005",
+  "contentBundleId": null,
+  "careSuggestionId": "CI-005"
 }

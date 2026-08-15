@@ -242,6 +242,13 @@
     /* Resolve content library keys/IDs to full text */
     const content = _resolveContent(p);
 
+    /* QR code section */
+    const qrSection = `<div class="pd-section" style="text-align:center;">
+      <div class="pd-section-hdr">Share This Saree</div>
+      <div id="pd-qr-container" style="display:flex;justify-content:center;margin:10px 0 6px;"></div>
+      <div style="font-size:11px;color:#B0967E;">Scan to view on website</div>
+    </div>`;
+
     /* Sections — always visible, no accordion toggle */
     const sectionDesc  = `<div class="pd-section">
       <div class="pd-section-hdr">The Saree</div>
@@ -306,6 +313,7 @@
           ${sectionDesc}
           ${sectionStory}
           ${sectionCare}
+          ${qrSection}
         </div>
 
         <!-- CTA: WhatsApp + Call -->
@@ -340,6 +348,38 @@
     _drawer.querySelector('#pd-share-btn').addEventListener('click', () => _share(p));
 
     _startAuto();
+
+    /* Generate QR code for product */
+    _generateQR(p.id);
+  }
+
+  /* ── QR Code ──────────────────────────────────────────────────── */
+  function _generateQR(productId) {
+    const container = _drawer ? _drawer.querySelector('#pd-qr-container') : null;
+    if (!container) return;
+    const url = 'https://amayaabypolkadots.in/amayaa_sarees.html?id=' + encodeURIComponent(productId);
+
+    function _makeQR() {
+      container.innerHTML = '';
+      try {
+        new QRCode(container, {
+          text: url, width: 140, height: 140,
+          colorDark: '#1A0A04', colorLight: '#FAF6F2',
+          correctLevel: QRCode.CorrectLevel.M
+        });
+      } catch(e) {
+        container.innerHTML = '<span style="font-size:11px;color:#B0967E;">QR unavailable</span>';
+      }
+    }
+
+    if (typeof QRCode !== 'undefined') {
+      _makeQR();
+    } else {
+      const s = document.createElement('script');
+      s.src = 'https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js';
+      s.onload = _makeQR;
+      document.head.appendChild(s);
+    }
   }
 
   /* ── Swatch strip ───────────────────────────────────────── */

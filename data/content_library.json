@@ -147,7 +147,15 @@
       "id": "DESC-012"
     }
   ],
-  "contentBundles": [],
+  "contentBundles": [
+    {
+      "id": "CB-001",
+      "name": "tesrt",
+      "weaveStoryId": "WS-001",
+      "careSuggestionId": "CI-001",
+      "descriptionId": "DESC-001"
+    }
+  ],
   "careSuggestions": [
     {
       "key": "amy_bal_001_ci",

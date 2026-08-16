@@ -6,7 +6,7 @@ var N=[
   {h:'amayaa_dashboard.html',i:'📊',l:'Dashboard'},
   {h:'amayaa_products.html',i:'🧣',l:'Products'},
   {h:'amayaa_categories.html',i:'🏷',l:'Categories'},
-  {h:'amayaa_products.html?filter=offers',i:'🎁',l:'Special Offers'},
+  {h:'amayaa_products.html?filter=offers',i:'🎁',l:'Special Offers'},{h:'amayaa_bulk_upload.html',i:'📤',l:'Bulk Upload'},
   {s:'Content'},
   {h:'amayaa_banners.html',i:'🖼',l:'Banner'},
   {h:'amayaa_blog.html',i:'📝',l:'Blog Posts'},

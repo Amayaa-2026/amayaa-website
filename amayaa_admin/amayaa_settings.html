@@ -666,7 +666,7 @@ function _populateCollections() {
       '<td><select class="fse col-fi" data-col="filterKey" data-i="'+i+'" disabled onchange="_onFKChange(this)">'+keyOptsI+'</select></td>'+
       '<td><select class="fse col-fi" data-col="filterVal" data-i="'+i+'" disabled onchange="_onFVChange(this)">'+valOpts+'</select></td>'+
       '<td><div style="display:flex;align-items:center;gap:6px;">'+
-        '<img id="coll-thumb-'+i+'" src="'+(item.image||'')+'"'+thumbHide+' class="coll-img-thumb" onerror="this.style.display='none'" alt="">'+
+        '<img id="coll-thumb-'+i+'" src="'+(item.image||'')+'"'+thumbHide+' class="coll-img-thumb" onerror="this.style.display=\'none\'" alt="">'+
         '<input class="fi col-fi" data-col="image" data-i="'+i+'" value="'+imgSrc+'" disabled style="font-size:11px;" oninput="_onCImg(this,'+i+')">'+
       '</div></td>'+
     '</tr>';

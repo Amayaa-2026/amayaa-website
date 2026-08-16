@@ -18,7 +18,7 @@
 | **v3.0** | **Aug 11 2026** | **Admin traceability matrix, FAQ/Policies JSON + admin pages, hero banners JSON-driven, typography orb picker (10 pages)** |
 | **v3.1** | **Aug 12 2026** | **All dummy/partial admin pages wired to GitHub API. All public pages JSON-driven (About, Blog, Contact, Offers, Search, Home). Traceability matrix updated with Code Push column + Token reminder.** |
 | **v3.2** | **Aug 15 2026** | **Content Library system, Product Edit full rewrite, QR code in product drawer, Quick-view panel in Product Manager, Offers page drawer fix.** |
-| **v3.3** | **Aug 16 2026** | **Bulk Upload admin page — add new records or update existing ones via Excel for Products, Categories, and Content Library. Advanced filter-based search with pre-filled Excel download. Collections image upgrade, Admin Settings tab redesign.** |
+| **v3.3** | **Aug 16 2026** | **Bulk Upload admin page — add new records or update existing ones via Excel for Products, Categories, and Content Library. Advanced filter-based search with pre-filled Excel download. Collections image upgrade, Admin Settings tab redesign. Removed redundant Special Offers nav link. Admin sidebar scrollbar redesigned — dark themed, no white flash.** |
 
 ---
 

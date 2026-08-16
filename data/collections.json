@@ -4,11 +4,11 @@
   "viewAllHref": "amayaa_sarees.html",
   "viewAllLabel": "View All Collections",
   "items": [
-    { "name": "Banarasi",   "count": "48+", "filterParam": "region=Banarasi",   "gradient": "linear-gradient(135deg,#8B1A4A,#C4622D)" },
-    { "name": "Kanjivaram", "count": "52+", "filterParam": "region=Kanjivaram", "gradient": "linear-gradient(135deg,#1A0A4A,#8B0050)" },
-    { "name": "Baluchari",  "count": "24+", "filterParam": "region=Baluchari",  "gradient": "linear-gradient(135deg,#0A3A1A,#C4A010)" },
-    { "name": "Chanderi",   "count": "36+", "filterParam": "region=Chanderi",   "gradient": "linear-gradient(135deg,#3A1A0A,#C4622D)" },
-    { "name": "Sambalpuri", "count": "28+", "filterParam": "region=Sambalpuri", "gradient": "linear-gradient(135deg,#0A2A3A,#1A7A6A)" },
-    { "name": "Paithani",   "count": "22+", "filterParam": "region=Paithani",   "gradient": "linear-gradient(135deg,#2A0A3A,#8B1A8A)" }
+    { "name": "Banarasi",   "count": "48+", "filterParam": "region=Banarasi",   "image": "images/OurCollections/Banarsi.png" },
+    { "name": "Kanjivaram", "count": "52+", "filterParam": "region=Kanjivaram", "image": "images/OurCollections/Kanjivaram.png" },
+    { "name": "Baluchari",  "count": "24+", "filterParam": "region=Baluchari",  "image": "images/OurCollections/Baluchari.png" },
+    { "name": "Chanderi",   "count": "36+", "filterParam": "region=Chanderi",   "image": "images/OurCollections/Chanderi.png" },
+    { "name": "Sambalpuri", "count": "28+", "filterParam": "region=Sambalpuri", "image": "images/OurCollections/Sambhalpuri.png" },
+    { "name": "Paithani",   "count": "22+", "filterParam": "region=Paithani",   "image": "images/OurCollections/Paithani.png" }
   ]
 }

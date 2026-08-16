@@ -17,6 +17,7 @@
 | **v2.9** | **Aug 11 2026** | **FAQ & Policy pages, footer update, preview gate (coming_soon.html), logo home link** |
 | **v3.0** | **Aug 11 2026** | **Admin traceability matrix, FAQ/Policies JSON + admin pages, hero banners JSON-driven, typography orb picker (10 pages)** |
 | **v3.1** | **Aug 12 2026** | **All dummy/partial admin pages wired to GitHub API. All public pages JSON-driven (About, Blog, Contact, Offers, Search, Home). Traceability matrix updated with Code Push column + Token reminder.** |
+| **v3.2** | **Aug 15 2026** | **Content Library system, Product Edit full rewrite, QR code in product drawer, Quick-view panel in Product Manager, Offers page drawer fix.** |
 
 ---
 
@@ -860,3 +861,100 @@ Search icon in nav currently opens an inline overlay on the same page. Update:
 13. Specs single-column (not grid)
 14. CTA panel in col2 bottom: WhatsApp, Call, WishList+Share
 15. Mobile: drawer full-screen, swatches stack or wrap
+
+---
+
+## VERSION 3.2 — Content Library + Product Wiring (Aug 15 2026)
+
+### v3.2-1 · Content Library System
+
+**New file:** `data/content_library.json`
+
+Schema:
+```json
+{
+  "weaveStories":    [ { "id": "WS-001",   "name": "...", "text": "..." } ],
+  "careSuggestions": [ { "id": "CI-001",   "name": "...", "text": "..." } ],
+  "descriptions":    [ { "id": "DESC-001", "name": "...", "text": "..." } ],
+  "contentBundles":  [ { "id": "CB-001", "name": "...", "weaveStoryId": "WS-001", "careSuggestionId": "CI-001", "descriptionId": "DESC-001" } ]
+}
+```
+
+Resolution order in product drawer: individual IDs override bundle. `_resolveContent(p)` in `product-drawer.js` handles: weaveStoryId → careSuggestionId → descriptionId; if any missing, falls back to the product's contentBundleId bundle entry.
+
+Uniqueness constraint: saving a bundle with the same WS + CS + Desc combo as an existing bundle is blocked with an error.
+
+### v3.2-2 · Content Library Admin Page
+
+**New file:** `amayaa_admin/amayaa_content_library.html`
+
+3-box layout:
+- **Box 1:** type dropdown (Weave Story / Care Suggestions / Description)
+- **Box 2:** scrollable entry list — click to select; `+ New` creates a blank entry
+- **Box 3:** detail panel — read-only ID badge (auto-assigned WS-NNN etc.), Name input, Text textarea; locked until Edit clicked; Save writes via `_ghSave()` to `data/content_library.json`
+- **Bottom section:** Content Bundles — own list + edit panel; bundle has ID (CB-NNN), Name, and 3 dropdowns (WS, CS, Desc); duplicate combo blocked at save
+
+Added to `sidebar.js` under Content group: `{h:'amayaa_content_library.html', i:'📚', l:'Content Library'}`
+
+### v3.2-3 · Product Edit Page — Content Section Rewrite
+
+**File:** `amayaa_admin/amayaa_product_edit.html`
+
+Replaced old Descriptions card with a Content section containing:
+- Content Bundle dropdown (`#contentBundleId`) — optional; selecting one auto-fills individual dropdowns if they are empty (`onBundleChange()`)
+- Description dropdown (`#descriptionId`)
+- Weave Story dropdown (`#weaveStoryId`)
+- Care Suggestions dropdown (`#careSuggestionId`)
+
+JS added: `_loadContentLibrary()`, `_populateContentSelects()`, `onBundleChange()`, `onIndividualContentChange()`, `_updateDescPreview()`. Content library loaded on DOMContentLoaded before product data.
+
+### v3.2-4 · Product Drawer — Content Resolution + QR Code
+
+**File:** `product-drawer.js`
+
+- `_resolveId(category, id)` — looks up entry by ID in the loaded library
+- `_resolveContent(p)` — resolves individual IDs first, falls back to contentBundleId bundle
+- QR code section: "Share This Saree" with `#pd-qr-container`; lazy-loads qrcodejs from cdnjs; 140×140px; colours `#1A0A04` / `#FAF6F2`; links to `amayaabypolkadots.in/amayaa_sarees.html?id=`
+- Section header renamed to "Care Suggestions" (not "Care Guide") to avoid legal implications
+
+### v3.2-5 · Product Manager — Quick-View Panel
+
+**File:** `amayaa_admin/amayaa_products.html`
+
+- Fixed `products_index.json` → `products.json` (all references)
+- Quick-view panel: 480px slide-in from right; shows full product detail — image, name, price, badges, specs, weave story, care suggestions, description (all resolved from content library), QR code
+- Table row `onclick="_openQV(id)"` with `event.stopPropagation()` on checkbox cell and actions cell so Edit/Delete/checkbox don't trigger QV
+- `_loadLibrary()` fetches `data/content_library.json` on DOMContentLoaded; `_resolveContent(p)` resolves IDs before rendering QV
+
+### v3.2-6 · Offers Page — Product Drawer Fix
+
+**File:** `amayaa_offers.html`
+
+- Added `<link rel="stylesheet" href="product-drawer.css">` in `<head>`
+- Added `<script src="product-drawer.js"></script>` before closing `</body>`
+- Root cause: card `onclick="ProductDrawer.open(id)"` was wired but the script/CSS were never loaded, so clicks silently failed
+
+### v3.2 Regression Checklist
+
+1. Clicking any saree card on `amayaa_offers.html` opens product drawer correctly
+2. Product drawer shows resolved description, weave story, care suggestions from content library
+3. QR code renders in product drawer footer
+4. Admin Content Library page: create/edit/delete entries + bundles; saves persist to GitHub
+5. Admin Product Edit: Content Bundle dropdown auto-fills individual dropdowns; save includes all IDs
+6. Admin Product Manager: clicking a row opens quick-view panel; Edit/Delete/checkbox do NOT trigger QV
+7. Content resolution: individual ID takes precedence over bundle fallback
+
+### Pending (not in v3.2)
+
+- #68: GoatCounter analytics audit
+- #69: ImageKit.io image CDN integration
+- #71: Formspree contact form verification
+- #73: Regression script update for Phase 3 pages
+- #74: Comprehensive functional testing
+- #77: Custom domain email setup
+- #135: `git push origin main` from Mac Terminal (commits are local — see below)
+
+**Push command:**
+```bash
+cd ~/Downloads/Amayaa_site && rm -f .git/index.lock .git/HEAD.lock && git push origin main
+```

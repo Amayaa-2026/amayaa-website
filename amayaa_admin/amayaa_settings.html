@@ -229,6 +229,17 @@ body{font-family:'Jost',sans-serif;background:linear-gradient(135deg,#E4DFD9 0%,
 .fc-link-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:5px;}
 .coll-swatch{width:20px;height:20px;border-radius:4px;flex-shrink:0;border:1px solid rgba(0,0,0,.12);}
 
+/* ── Tab strip ── */
+.tab-strip{display:flex;gap:6px;margin-bottom:20px;background:rgba(255,255,255,.7);backdrop-filter:blur(10px);border:1px solid rgba(0,0,0,.07);border-radius:14px;padding:6px;}
+.tab-btn{padding:8px 18px;border-radius:10px;border:none;background:transparent;font-family:'Jost',sans-serif;font-size:13px;font-weight:600;letter-spacing:.8px;color:#7A6050;cursor:pointer;transition:all .2s;white-space:nowrap;}
+.tab-btn:hover{background:rgba(196,98,45,.08);color:#A04010;}
+.tab-btn.active{background:linear-gradient(135deg,#C4622D,#E8843D);color:white;box-shadow:0 3px 10px rgba(196,98,45,.3);}
+.tab-panel{display:none;}
+.tab-panel.active{display:block;}
+
+/* ── Collection image thumb ── */
+.coll-img-thumb{width:36px;height:36px;border-radius:50%;object-fit:cover;border:1.5px solid rgba(0,0,0,.1);flex-shrink:0;vertical-align:middle;background:#F5F0EA;}
+
 </style>
 </head>
 <body>
@@ -262,6 +273,17 @@ if(!sessionStorage.getItem('amayaa_admin')){
     <div class="token-set-wrap" id="token-set-wrap" style="display:none;margin-bottom:16px;">
       ✅ GitHub token active — saves go live in ~30s &nbsp;·&nbsp; <a onclick="clearToken()">Change token</a>
     </div>
+
+    <!-- ── TAB STRIP ── -->
+    <div class="tab-strip">
+      <button class="tab-btn active" onclick="_switchTab('store',this)">🏪 Store Info</button>
+      <button class="tab-btn" onclick="_switchTab('social',this)">📱 Social & Online</button>
+      <button class="tab-btn" onclick="_switchTab('design',this)">🎨 Site Design</button>
+      <button class="tab-btn" onclick="_switchTab('controls',this)">⚙ Controls</button>
+    </div>
+
+    <!-- ══ TAB: STORE INFO ══ -->
+    <div class="tab-panel active" id="tab-store">
 
     <!-- CARD 1: CONTACT DETAILS -->
     <div class="settings-card locked" id="card-contact">
@@ -317,6 +339,11 @@ if(!sessionStorage.getItem('amayaa_admin')){
       <div class="fg"><label>Holiday / Closure Notice (optional)</label><input class="fi" id="fi-holiday" value="" placeholder="e.g. Closed 15th Aug for Independence Day" disabled></div>
     </div>
 
+    </div><!-- /tab-store -->
+
+    <!-- ══ TAB: SOCIAL & ONLINE ══ -->
+    <div class="tab-panel" id="tab-social">
+
     <!-- CARD 4: SOCIAL MEDIA -->
     <div class="settings-card locked" id="card-social">
       <div class="settings-card-header">
@@ -362,6 +389,11 @@ if(!sessionStorage.getItem('amayaa_admin')){
       </div>
     </div>
 
+    </div><!-- /tab-social -->
+
+    <!-- ══ TAB: CONTROLS ══ -->
+    <div class="tab-panel" id="tab-controls">
+
     <!-- CARD 6: SITE CONTROLS -->
     <div class="settings-card locked" id="card-controls">
       <div class="settings-card-header">
@@ -383,6 +415,11 @@ if(!sessionStorage.getItem('amayaa_admin')){
         </div>
       </div>
     </div>
+
+    </div><!-- /tab-controls -->
+
+    <!-- ══ TAB: SITE DESIGN ══ -->
+    <div class="tab-panel" id="tab-design">
 
     <!-- CARD 8: NAV LINKS & FOOTER COLUMNS -->
     <div class="settings-card locked" id="card-navfooter">
@@ -421,10 +458,11 @@ if(!sessionStorage.getItem('amayaa_admin')){
       </div>
       <table class="nf-tbl">
         <thead><tr>
-          <th style="width:18%">Name</th>
-          <th style="width:10%">Count</th>
-          <th style="width:26%">Filter Param (e.g. region=Banarasi)</th>
-          <th>Gradient CSS</th>
+          <th style="width:16%">Name</th>
+          <th style="width:9%">Count</th>
+          <th style="width:16%">Filter Key</th>
+          <th style="width:20%">Filter Value</th>
+          <th>Image</th>
         </tr></thead>
         <tbody id="collections-tbody"></tbody>
       </table>
@@ -449,6 +487,7 @@ if(!sessionStorage.getItem('amayaa_admin')){
       </div>
     </div>
 
+    </div><!-- /tab-controls-pw -->
   </div>
 </div>
 
@@ -464,6 +503,7 @@ var _cfg = null;   // parsed settings.json object
 var _sha = null;   // current file SHA (needed for writes)
 var _colCfg = null; // parsed collections.json object
 var _colSha = null; // SHA for collections.json
+var _catCfg = null; // parsed categories.json (for filter options)
 var editing = {};
 
 /* ── Boot: load settings from GitHub and populate form ─────────────────────── */
@@ -530,6 +570,15 @@ document.addEventListener('DOMContentLoaded', function () {
       _populateCollections();
     })
     .catch(function (e) { console.warn('Collections load failed', e); });
+
+  // Load categories.json for filter param options
+  fetch('https://api.github.com/repos/' + GH.repo + '/contents/data/categories.json?ref=' + GH.branch, { headers: hdrs })
+    .then(function (r) { return r.json(); })
+    .then(function (data) {
+      _catCfg = JSON.parse(_b64ToUtf8(data.content));
+      _populateCollections(); // re-render now filter options are available
+    })
+    .catch(function (e) { console.warn('Categories load failed', e); });
 });
 
 /* ── Render nav links table ─────────────────────────────────────────────────── */
@@ -571,6 +620,15 @@ function _renderFooterCols() {
 }
 
 /* ── Render collections table ───────────────────────────────────────────────── */
+function _collValOpts(filters, selKey, selVal) {
+  var filter = null;
+  for (var fi=0; fi<filters.length; fi++) { if (filters[fi].id===selKey) { filter=filters[fi]; break; } }
+  if (!filter) return '';
+  return (filter.items||[]).map(function(item) {
+    return '<option value="'+item.label+'"'+(item.label===selVal?' selected':'')+'>'+
+           item.label+(item.count?' ('+item.count+')':'')+' </option>';
+  }).join('');
+}
 function _populateCollections() {
   if (!_colCfg) return;
   var s = function(id, v) { var el = document.getElementById(id); if (el) el.value = v || ''; };
@@ -578,19 +636,72 @@ function _populateCollections() {
   s('fi-coll-title', _colCfg.sectionTitle);
 
   var items = _colCfg.items || [];
+  var filters = (_catCfg && _catCfg.filters) || [];
   var tbody = document.getElementById('collections-tbody');
   if (!tbody) return;
+
+  // Build filter key options once
+  var keyOpts = filters.map(function(f) {
+    return '<option value="'+f.id+'">'+( f.deskTitle||f.id )+'</option>';
+  }).join('');
+
   tbody.innerHTML = items.map(function(item, i) {
-    return '<tr>' +
-      '<td><input class="fi col-fi" data-col="name" data-i="' + i + '" value="' + (item.name||'') + '" disabled></td>' +
-      '<td><input class="fi col-fi" data-col="count" data-i="' + i + '" value="' + (item.count||'') + '" disabled style="width:60px;"></td>' +
-      '<td><input class="fi col-fi" data-col="filterParam" data-i="' + i + '" value="' + (item.filterParam||'') + '" disabled></td>' +
-      '<td><div style="display:flex;align-items:center;gap:6px;">' +
-        '<div class="coll-swatch" id="sw-' + i + '" style="background:' + (item.gradient||'#888') + ';"></div>' +
-        '<input class="fi col-fi" data-col="gradient" data-i="' + i + '" value="' + (item.gradient||'').replace(/"/g,'&quot;') + '" disabled style="font-size:11px;" oninput="document.getElementById(\'sw-' + i + '\').style.background=this.value">' +
-      '</div></td>' +
+    var fp = item.filterParam || '';
+    var eqIdx = fp.indexOf('=');
+    var selKey = eqIdx>-1 ? fp.substring(0,eqIdx) : (filters[0]&&filters[0].id)||'region';
+    var selVal = eqIdx>-1 ? fp.substring(eqIdx+1) : '';
+    // Inject selected into key options
+    var keyOptsI = keyOpts.replace('value="'+selKey+'"','value="'+selKey+'" selected');
+    var valOpts = _collValOpts(filters, selKey, selVal);
+    var imgSrc = (item.image||'').replace(/"/g,'&quot;');
+    var thumbHide = item.image ? '' : ' style="display:none;"';
+    return '<tr>'+
+      '<td><input class="fi col-fi" data-col="name" data-i="'+i+'" value="'+(item.name||'')+'" disabled></td>'+
+      '<td><input class="fi col-fi" data-col="count" data-i="'+i+'" value="'+(item.count||'')+'" disabled style="width:60px;" title="Auto-fills when filter value is chosen"></td>'+
+      '<td><select class="fse col-fi" data-col="filterKey" data-i="'+i+'" disabled onchange="_onFKChange(this)">'+keyOptsI+'</select></td>'+
+      '<td><select class="fse col-fi" data-col="filterVal" data-i="'+i+'" disabled onchange="_onFVChange(this)">'+valOpts+'</select></td>'+
+      '<td><div style="display:flex;align-items:center;gap:6px;">'+
+        '<img id="coll-thumb-'+i+'" src="'+(item.image||'')+'"'+thumbHide+' class="coll-img-thumb" onerror="this.style.display='none'" alt="">'+
+        '<input class="fi col-fi" data-col="image" data-i="'+i+'" value="'+imgSrc+'" disabled style="font-size:11px;" oninput="_onCImg(this,'+i+')">'+
+      '</div></td>'+
     '</tr>';
   }).join('');
+}
+function _onFKChange(sel) {
+  var i = sel.dataset.i;
+  var tr = sel.closest('tr');
+  var filters = (_catCfg&&_catCfg.filters)||[];
+  var valSel = tr.querySelector('[data-col="filterVal"]');
+  valSel.innerHTML = _collValOpts(filters, sel.value, '');
+  // auto-fill count with first item's count
+  var countInp = tr.querySelector('[data-col="count"]');
+  for (var fi=0;fi<filters.length;fi++) {
+    if (filters[fi].id===sel.value && filters[fi].items&&filters[fi].items[0]&&filters[fi].items[0].count) {
+      countInp.value = filters[fi].items[0].count+'+'; break;
+    }
+  }
+}
+function _onFVChange(sel) {
+  var i = sel.dataset.i;
+  var tr = sel.closest('tr');
+  var filters = (_catCfg&&_catCfg.filters)||[];
+  var keySel = tr.querySelector('[data-col="filterKey"]');
+  var countInp = tr.querySelector('[data-col="count"]');
+  for (var fi=0;fi<filters.length;fi++) {
+    if (filters[fi].id===keySel.value) {
+      for (var ii=0;ii<filters[fi].items.length;ii++) {
+        if (filters[fi].items[ii].label===sel.value && filters[fi].items[ii].count) {
+          countInp.value = filters[fi].items[ii].count+'+'; break;
+        }
+      }
+      break;
+    }
+  }
+}
+function _onCImg(inp, i) {
+  var t = document.getElementById('coll-thumb-'+i);
+  if (!t) return;
+  t.src = inp.value; t.style.display = inp.value ? '' : 'none';
 }
 
 /* ── Populate all form inputs from _cfg ────────────────────────────────────── */
@@ -712,7 +823,15 @@ function _collect(id) {
     var items = [];
     document.querySelectorAll('#collections-tbody tr').forEach(function(tr) {
       var item = {};
-      tr.querySelectorAll('[data-col]').forEach(function(inp) { item[inp.dataset.col] = inp.value.trim(); });
+      tr.querySelectorAll('[data-col]').forEach(function(el) {
+        item[el.dataset.col] = el.value.trim();
+      });
+      // Assemble filterParam from key + val dropdowns
+      if (item.filterKey && item.filterVal) {
+        item.filterParam = item.filterKey + '=' + item.filterVal;
+      }
+      delete item.filterKey;
+      delete item.filterVal;
       if (item.name) items.push(item);
     });
     _colCfg = _colCfg || {};
@@ -804,6 +923,20 @@ function _writeCol(cardId) {
     si.textContent = '❌ Save failed — check connection';
     setTimeout(function () { si.classList.remove('show'); }, 4000);
   });
+}
+
+/* ── Tab switching ─────────────────────────────────────────────────────────── */
+function _switchTab(tab, btn) {
+  document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
+  var el = document.getElementById('tab-' + tab);
+  if (el) el.classList.add('active');
+  // Controls tab has a second panel (password)
+  if (tab === 'controls') {
+    var pw = document.getElementById('tab-controls-pw');
+    if (pw) pw.classList.add('active');
+  }
+  document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+  if (btn) btn.classList.add('active');
 }
 
 /* ── editCard: Edit ↔ Save toggle ──────────────────────────────────────────── */

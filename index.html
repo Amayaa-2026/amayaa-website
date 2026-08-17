@@ -238,7 +238,7 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
   100%{background:rgba(196,98,45,.3);width:8px;border-radius:50%;}
 }
 /* Page scrolls over fixed hero */
-.home-content{position:relative;z-index:1;margin-top:0;background:#E4EEE0;}
+.home-content{position:relative;z-index:2;margin-top:calc(100vh - 94px);background:#E4EEE0;}
 .cg{display:grid;grid-template-columns:repeat(6,1fr);gap:18px;}
 .ct{text-align:center;cursor:pointer;transition:transform .3s;text-decoration:none;display:block;}
 .ct:hover{transform:translateY(-7px);}
@@ -298,9 +298,8 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
 /* Scroll arrow */
 /* ── Hero fold bar: trust items + Explore, in the 15vh gap below the hero ── */
 .hero-fold-bar{
-  position:relative;z-index:1;
-  margin-top:calc(85vh - 94px);
-  height:15vh;background:#E4EEE0;
+  position:fixed;bottom:0;left:0;right:0;height:15vh;
+  z-index:1;background:#E4EEE0;
   display:flex;align-items:center;justify-content:center;
   pointer-events:none;
 }

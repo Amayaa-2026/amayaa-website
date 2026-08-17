@@ -363,9 +363,19 @@ input[type="submit"],button[type="submit"]{width:100%;padding:14px;border-radius
     <!-- FORM -->
     <div class="cform" style="max-width:520px;">
       <h2 class="cinfo-title" style="margin-bottom:20px;"><span style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:#1A0A04;">Send Us a Message</span></h2>
-      <form action="https://formspree.io/f/xrgvkpdw" method="POST">
+      <!-- success banner — shown when redirected back with ?sent=true -->
+      <div id="form-success" style="display:none;background:rgba(46,160,67,.1);border:1.5px solid rgba(46,160,67,.3);border-radius:12px;padding:18px 20px;margin-bottom:22px;display:flex;align-items:flex-start;gap:12px;">
+        <span style="font-size:22px;line-height:1;">✅</span>
+        <div>
+          <div style="font-weight:700;color:#1A6A2A;margin-bottom:4px;">Message sent!</div>
+          <div style="font-size:13px;color:#2E7D32;">Thank you for reaching out. We'll get back to you within 2–4 hours during store hours. You can also ping us directly on WhatsApp for a faster reply.</div>
+        </div>
+      </div>
+      <form id="contact-form" action="https://formspree.io/f/mzdnjllq" method="POST">
         <input type="hidden" name="_subject" value="New Enquiry from Amayaa Website">
         <input type="hidden" name="_next" value="https://amayaabypolkadots.in/contact.html?sent=true">
+        <!-- honeypot — bots fill this, humans don't -->
+        <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
         <div class="fgroup">
           <label for="fname">Your Name</label>
           <input class="finput" type="text" id="fname" name="name" placeholder="How should we address you?" required>
@@ -454,6 +464,13 @@ function slowScrollTo(targetId){
       if(hrs && s.hours) hrs.innerHTML = '<strong>' + s.hours.weekdays + '</strong>: ' + s.hours.weekdayHours + '<br><strong>' + s.hours.sunday + '</strong>: ' + s.hours.sundayHours + (s.holidayNotice ? '<br><em>' + s.holidayNotice + '</em>' : '');
       var form = document.querySelector('form[action*="formspree"]');
       if(form && s.integrations && s.integrations.formspreeId) form.action = 'https://formspree.io/f/' + s.integrations.formspreeId;
+      // show success banner if redirected back with ?sent=true
+      if(window.location.search.indexOf('sent=true') !== -1){
+        var banner = document.getElementById('form-success');
+        if(banner){ banner.style.display='flex'; banner.scrollIntoView({behavior:'smooth',block:'center'}); }
+        if(form) form.style.display='none';
+        history.replaceState(null,'',window.location.pathname);
+      }
       var mapLink = document.getElementById('ct-map-link');
       if(mapLink && s.googleMapsLink) mapLink.href = s.googleMapsLink;
     })

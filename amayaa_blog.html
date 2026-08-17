@@ -660,7 +660,9 @@ function slowScrollTo(targetId){
     btn.classList.toggle('hidden', tooShort || remaining < 180);
   }
   window.addEventListener('scroll', _updateMore, {passive:true});
-  _updateMore();
+  // Defer — blog cards load async; re-check after they render
+  setTimeout(_updateMore, 600);
+  window._blogMoreUpdate = _updateMore;
 })();
 </script>
 <script src="nav.js"></script>
@@ -711,6 +713,7 @@ function slowScrollTo(targetId){
       document.querySelectorAll('.cat-btn').forEach(function(b){b.classList.remove('active');});
       btn.classList.add('active');
       _filterAndRender(btn.textContent.trim());
+      if(typeof window._blogMoreUpdate==='function') setTimeout(window._blogMoreUpdate, 150);
     });
   });
 
@@ -720,6 +723,8 @@ function slowScrollTo(targetId){
       _allPosts=(Array.isArray(data)?data:[]).filter(function(p){return p.published!==false;});
       _allPosts.sort(function(a,b){return (b.featured?1:0)-(a.featured?1:0);});
       _filterAndRender('All');
+      // Re-check More button visibility now that cards are in DOM
+      if(typeof window._blogMoreUpdate==='function') setTimeout(window._blogMoreUpdate, 150);
     })
     .catch(function(e){console.warn('blog.json load failed, keeping static HTML:',e);});
 })();

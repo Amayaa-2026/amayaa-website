@@ -1075,7 +1075,10 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')mobFltClose(
     btn.classList.toggle('hidden', tooShort || remaining < 180);
   }
   window.addEventListener('scroll', _updateMore, {passive:true});
-  _updateMore();
+  // Defer so dynamic grid has time to render and inflate scrollHeight
+  setTimeout(_updateMore, 500);
+  // Expose so _loadBatch can re-check after adding cards
+  window._moreUpdateFn = _updateMore;
 })();
 </script>
 <script src="product-drawer.js"></script>
@@ -1141,6 +1144,8 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')mobFltClose(
     _shown += batch.length;
     _updateCount(_shown, _filtered.length);
     if(more) more.style.display = _shown < _filtered.length ? '' : 'none';
+    // Re-evaluate floating More button after grid grows
+    if(typeof window._moreUpdateFn === 'function') setTimeout(window._moreUpdateFn, 100);
   }
   window._sareeLoadMore = _loadBatch;
 

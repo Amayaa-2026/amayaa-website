@@ -299,7 +299,7 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
 /* ── Hero fold bar: trust items + Explore, in the 15vh gap below the hero ── */
 .hero-fold-bar{
   position:fixed;bottom:0;left:0;right:0;height:15vh;
-  z-index:1;background:#E4EEE0;
+  z-index:10;background:#E4EEE0;
   display:flex;align-items:center;justify-content:center;
   pointer-events:none;
 }
@@ -312,16 +312,16 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
 }
 .hfb-num{
   font-family:'Cormorant Garamond',serif;
-  font-size:18px;font-weight:400;
+  font-size:21px;font-weight:400;
   color:#1A0A04;letter-spacing:.3px;line-height:1.1;
 }
 .hfb-lbl{
-  font-size:9.5px;font-weight:600;letter-spacing:1.5px;
+  font-size:11.5px;font-weight:600;letter-spacing:1.5px;
   text-transform:uppercase;color:#7A5040;
   margin-top:3px;white-space:nowrap;
 }
 .hfb-sep{
-  color:rgba(196,98,45,.5);font-size:13px;
+  color:rgba(196,98,45,.5);font-size:17px;
   padding:0 4px;align-self:center;
 }
 .hfb-explore{
@@ -333,7 +333,7 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
 }
 .hfb-explore-text{
   font-family:'Jost',sans-serif;
-  font-size:11px;font-weight:700;letter-spacing:3.5px;
+  font-size:13px;font-weight:700;letter-spacing:3.5px;
   text-transform:uppercase;color:rgba(90,64,48,.75);
 }
 .hfb-explore-arrow{
@@ -549,6 +549,20 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
       _render(data);
     })
     .catch(function(){/* silently keep fallback */});
+})();
+
+/* ── Explore strip: stay visible while scrolling, hide only when footer enters view ── */
+(function(){
+  var bar = document.getElementById('heroFoldBar');
+  if(!bar) return;
+  function _update(){
+    if(window.innerWidth <= 480) return; // CSS hides on mobile; don't fight it
+    var ft = document.querySelector('.ft');
+    if(!ft){ bar.style.display = 'flex'; return; }
+    bar.style.display = ft.getBoundingClientRect().top < window.innerHeight - 100 ? 'none' : 'flex';
+  }
+  window.addEventListener('scroll', _update, {passive:true});
+  setTimeout(_update, 400);
 })();
 </script>
 

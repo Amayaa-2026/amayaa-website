@@ -313,40 +313,43 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
 }
 .hfb-num{
   font-family:'Cormorant Garamond',serif;
-  font-size:15px;font-weight:400;
+  font-size:18px;font-weight:400;
   color:#1A0A04;letter-spacing:.3px;line-height:1.1;
 }
 .hfb-lbl{
-  font-size:8px;font-weight:600;letter-spacing:1.5px;
+  font-size:9.5px;font-weight:600;letter-spacing:1.5px;
   text-transform:uppercase;color:#7A5040;
-  margin-top:2px;white-space:nowrap;
+  margin-top:3px;white-space:nowrap;
 }
 .hfb-sep{
-  color:rgba(196,98,45,.45);font-size:11px;
-  padding:0 2px;align-self:center;
+  color:rgba(196,98,45,.5);font-size:13px;
+  padding:0 4px;align-self:center;
 }
 .hfb-explore{
-  display:flex;flex-direction:column;align-items:center;gap:4px;
-  margin:0 20px;
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  margin:0 48px;
   pointer-events:auto;
   cursor:pointer;text-decoration:none;
   flex-shrink:0;
+  /* Pill container makes the button visually distinct from trust text */
+  background:rgba(255,255,255,.85);
+  border:1.5px solid rgba(196,98,45,.45);
+  border-radius:50px;
+  padding:10px 24px 14px;
 }
 .hfb-explore-text{
   font-family:'Jost',sans-serif;
-  font-size:10px;font-weight:600;letter-spacing:3px;
-  text-transform:uppercase;color:rgba(90,64,48,.7);
+  font-size:10px;font-weight:700;letter-spacing:3.5px;
+  text-transform:uppercase;color:#C4622D;
 }
 .hfb-explore-arrow{
-  width:36px;height:36px;border-radius:50%;
-  background:rgba(255,255,255,.92);
-  backdrop-filter:blur(10px);
-  border:2px solid rgba(196,98,45,.6);
+  width:42px;height:42px;border-radius:50%;
+  background:#C4622D;
   display:flex;align-items:center;justify-content:center;
-  box-shadow:0 4px 14px rgba(0,0,0,.10);
+  box-shadow:0 4px 14px rgba(196,98,45,.35);
   animation:hfb-bounce 2s ease-in-out infinite;
 }
-.hfb-explore-arrow svg{color:#C4622D;}
+.hfb-explore-arrow svg{color:#fff;}
 @keyframes hfb-bounce{
   0%,100%{transform:translateY(0);}
   50%{transform:translateY(6px);}
@@ -620,14 +623,14 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
 <script>
 function slowScrollTo(t){var e=document.getElementById(t);if(!e)return;var s=window.pageYOffset,n=e.getBoundingClientRect().top+s,d=1200,st=null;function ease(t){return t<.5?4*t*t*t:(t-1)*(2*t-2)*(2*t-2)+1}function step(ts){if(!st)st=ts;var p=Math.min((ts-st)/d,1);window.scrollTo(0,s+(n-s)*ease(p));if(p<1)requestAnimationFrame(step)}requestAnimationFrame(step)}
 
-// Hero fold bar — hide when near page bottom
+// Hero fold bar — visible only at the very top; hides the moment user scrolls
 (function(){
   var bar = document.getElementById('heroFoldBar');
   if(!bar) return;
   function updateExplore(){
-    var remaining = document.documentElement.scrollHeight - (window.scrollY + window.innerHeight);
+    var scrolled  = window.scrollY > 50;
     var tooShort  = document.documentElement.scrollHeight <= window.innerHeight + 50;
-    var hide = tooShort || remaining < 180;
+    var hide = tooShort || scrolled;
     bar.style.opacity    = hide ? '0' : '1';
     bar.style.visibility = hide ? 'hidden' : 'visible';
   }

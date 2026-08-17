@@ -689,7 +689,7 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
 
 /* Hovering explore indicator */
 .page-explore{
-  position:fixed;bottom:80px;right:24px;z-index:190;
+  position:fixed;bottom:110px;right:24px;z-index:190;
   display:flex;flex-direction:column;align-items:center;gap:4px;
   background:rgba(255,255,255,.85);backdrop-filter:blur(12px);
   border:1px solid rgba(196,98,45,.2);border-radius:28px;
@@ -1072,14 +1072,14 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')mobFltClose(
       target.scrollIntoView({behavior:'smooth'});
     });
   }
-  // Hide after scrolling past fold
-  window.addEventListener('scroll', function(){
-    if(window.scrollY > window.innerHeight * 0.8){
-      btn.classList.add('hidden');
-    } else {
-      btn.classList.remove('hidden');
-    }
-  }, {passive:true});
+  // Hide only when footer comes into view
+  function _updateMore(){
+    var ft = document.querySelector('.ft');
+    if(!ft){ btn.classList.remove('hidden'); return; }
+    btn.classList.toggle('hidden', ft.getBoundingClientRect().top < window.innerHeight - 100);
+  }
+  window.addEventListener('scroll', _updateMore, {passive:true});
+  _updateMore();
 })();
 </script>
 <script src="product-drawer.js"></script>

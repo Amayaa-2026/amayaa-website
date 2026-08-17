@@ -482,6 +482,7 @@ function slowScrollTo(targetId){
               var banner = document.getElementById('form-success');
               if(banner){ banner.style.display='flex'; banner.scrollIntoView({behavior:'smooth',block:'start'}); }
               form.reset();
+              if(btn){ btn.disabled = false; btn.textContent = origText; }
             } else {
               var msg = (res.data && res.data.errors) ? res.data.errors.map(function(x){return x.message;}).join(', ') : 'Something went wrong. Please try again or reach us on WhatsApp.';
               alert(msg);

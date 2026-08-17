@@ -373,7 +373,6 @@ input[type="submit"],button[type="submit"]{width:100%;padding:14px;border-radius
       <h2 class="cinfo-title" style="margin-bottom:20px;"><span style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:#1A0A04;">Send Us a Message</span></h2>
       <form id="contact-form" action="https://formspree.io/f/mzdnjllq" method="POST">
         <input type="hidden" name="_subject" value="New Enquiry from Amayaa Website">
-        <input type="hidden" name="_next" value="https://amayaabypolkadots.in/contact.html?sent=true">
         <!-- honeypot — bots fill this, humans don't -->
         <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
         <div class="fgroup">
@@ -462,13 +461,38 @@ function slowScrollTo(targetId){
       if(em && s.contact && s.contact.email){ em.textContent = s.contact.email; em.href = 'mailto:' + s.contact.email; }
       var hrs = document.getElementById('ct-hours');
       if(hrs && s.hours) hrs.innerHTML = '<strong>' + s.hours.weekdays + '</strong>: ' + s.hours.weekdayHours + '<br><strong>' + s.hours.sunday + '</strong>: ' + s.hours.sundayHours + (s.holidayNotice ? '<br><em>' + s.holidayNotice + '</em>' : '');
-      var form = document.querySelector('form[action*="formspree"]');
+      var form = document.getElementById('contact-form');
       if(form && s.integrations && s.integrations.formspreeId) form.action = 'https://formspree.io/f/' + s.integrations.formspreeId;
-      // show success banner if redirected back with ?sent=true
-      if(window.location.search.indexOf('sent=true') !== -1){
-        var banner = document.getElementById('form-success');
-        if(banner){ banner.style.display='flex'; banner.scrollIntoView({behavior:'smooth',block:'start'}); }
-        history.replaceState(null,'',window.location.pathname);
+
+      // AJAX submission — no redirect, show banner in place
+      if(form){
+        form.addEventListener('submit', function(e){
+          e.preventDefault();
+          var btn = form.querySelector('button[type="submit"]');
+          var origText = btn ? btn.textContent : '';
+          if(btn){ btn.disabled = true; btn.textContent = 'Sending…'; }
+          fetch(form.action, {
+            method: 'POST',
+            body: new FormData(form),
+            headers: { 'Accept': 'application/json' }
+          })
+          .then(function(r){ return r.json().then(function(d){ return {ok: r.ok, data: d}; }); })
+          .then(function(res){
+            if(res.ok){
+              var banner = document.getElementById('form-success');
+              if(banner){ banner.style.display='flex'; banner.scrollIntoView({behavior:'smooth',block:'start'}); }
+              form.reset();
+            } else {
+              var msg = (res.data && res.data.errors) ? res.data.errors.map(function(x){return x.message;}).join(', ') : 'Something went wrong. Please try again or reach us on WhatsApp.';
+              alert(msg);
+              if(btn){ btn.disabled = false; btn.textContent = origText; }
+            }
+          })
+          .catch(function(){
+            alert('Could not send message. Please check your connection or reach us on WhatsApp.');
+            if(btn){ btn.disabled = false; btn.textContent = origText; }
+          });
+        });
       }
       var mapLink = document.getElementById('ct-map-link');
       if(mapLink && s.googleMapsLink) mapLink.href = s.googleMapsLink;

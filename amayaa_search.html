@@ -259,7 +259,7 @@ body{
 
     <button class="srch-toggle" id="tog-new" data-filter="new" aria-pressed="false">New Arrivals</button>
     <button class="srch-toggle" id="tog-offer" data-filter="offer" aria-pressed="false">On Offer</button>
-    <button class="srch-toggle" id="tog-gi" data-filter="gi" aria-pressed="false">GI Tagged</button>
+    <button class="srch-toggle" id="tog-gi" data-filter="gi" aria-pressed="false">Silk Mark Certified</button>
 
     <div class="srch-sort-wrap">
       <label class="srch-sort-label" for="srch-sort">Sort:</label>
@@ -479,7 +479,7 @@ function _getActivePillDefs() {
   }
   if (filters.new)      res.push({label:'New arrivals', key:'new'});
   if (filters.offer)    res.push({label:'On offer',     key:'offer'});
-  if (filters.gi)       res.push({label:'GI tagged',    key:'gi'});
+  if (filters.gi)       res.push({label:'Silk Mark Certified', key:'gi'});
   return res;
 }
 
@@ -553,7 +553,7 @@ function _buildCard(p) {
     : `<span class="pnew">₹${p.price.toLocaleString('en-IN')}</span>`;
 
   const giLine = (p.tags||[]).some(t=>t.toLowerCase().includes('gi'))
-    ? `<div class="pc-gi">✦ GI tagged</div>` : '';
+    ? `<div class="pc-gi">✦ Silk Mark Certified</div>` : '';
 
   const imgHtml = p.thumbnail
     ? `<img src="${p.thumbnail}" alt="${_esc(p.name)}" style="width:100%;height:200px;object-fit:cover;display:block;">`

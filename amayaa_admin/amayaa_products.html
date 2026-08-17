@@ -622,7 +622,7 @@ function _renderQV(p){
   var statusHtml = '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;">';
   statusHtml += '<span class="badge badge-'+(p.status||'draft')+'">'+_esc(p.status||'')+'</span>';
   (p.badges||[]).forEach(function(b){statusHtml+='<span class="badge badge-'+_esc(b)+'">'+_esc(b)+'</span>';});
-  if(p.giTagged) statusHtml+='<span class="badge badge-new">GI Tagged</span>';
+  if(p.giTagged) statusHtml+='<span class="badge badge-new">Silk Mark Certified</span>';
   statusHtml += '</div>';
   html += statusHtml;
   // Fields

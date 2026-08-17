@@ -296,33 +296,67 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
 }
 
 /* Scroll arrow */
-.scroll-hint{
-  position:fixed;
-  bottom:40px;left:50%;
-  transform:translateX(-50%);
+/* ── Hero fold bar: trust items + Explore, in the 15vh gap below the hero ── */
+.hero-fold-bar{
+  position:fixed;top:85vh;left:0;right:0;height:15vh;
   z-index:100;
-  display:flex;flex-direction:column;align-items:center;gap:4px;
-  cursor:pointer;
-  transition:opacity .3s ease;will-change:opacity;animation:bounce 2s ease-in-out infinite;
-  text-decoration:none;
+  display:flex;align-items:center;justify-content:center;
+  pointer-events:none;
+  transition:opacity .4s ease,visibility .4s ease;
 }
-.scroll-hint .sh-text{
+.hfb-group{
+  display:flex;align-items:center;
+}
+.hfb-item{
+  display:flex;flex-direction:column;align-items:center;
+  text-align:center;padding:0 10px;
+}
+.hfb-num{
+  font-family:'Cormorant Garamond',serif;
+  font-size:15px;font-weight:400;
+  color:#1A0A04;letter-spacing:.3px;line-height:1.1;
+}
+.hfb-lbl{
+  font-size:8px;font-weight:600;letter-spacing:1.5px;
+  text-transform:uppercase;color:#7A5040;
+  margin-top:2px;white-space:nowrap;
+}
+.hfb-sep{
+  color:rgba(196,98,45,.45);font-size:11px;
+  padding:0 2px;align-self:center;
+}
+.hfb-explore{
+  display:flex;flex-direction:column;align-items:center;gap:4px;
+  margin:0 20px;
+  pointer-events:auto;
+  cursor:pointer;text-decoration:none;
+  flex-shrink:0;
+}
+.hfb-explore-text{
   font-family:'Jost',sans-serif;
   font-size:10px;font-weight:600;letter-spacing:3px;
   text-transform:uppercase;color:rgba(90,64,48,.7);
 }
-.scroll-hint .sh-arrow{
+.hfb-explore-arrow{
   width:36px;height:36px;border-radius:50%;
   background:rgba(255,255,255,.92);
   backdrop-filter:blur(10px);
-  border:2px solid rgba(196,98,45,.6);box-shadow:0 4px 16px rgba(0,0,0,.2);
+  border:2px solid rgba(196,98,45,.6);
   display:flex;align-items:center;justify-content:center;
   box-shadow:0 4px 14px rgba(0,0,0,.10);
+  animation:hfb-bounce 2s ease-in-out infinite;
 }
-.scroll-hint svg{color:#C4622D;}
-@keyframes bounce{
-  0%,100%{transform:translateX(-50%) translateY(0);}
-  50%{transform:translateX(-50%) translateY(8px);}
+.hfb-explore-arrow svg{color:#C4622D;}
+@keyframes hfb-bounce{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(6px);}
+}
+@media(max-width:860px){
+  .hfb-group{display:none;}
+  .hfb-explore{margin:0;}
+}
+@media(max-width:480px){
+  .hero-fold-bar{display:none;}
 }
 
 /* Home page - ensure hero displays correctly */
@@ -363,39 +397,6 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
     #F2ECFA;
 }
 
-/* ── Hero trust strip ── */
-.hero-trust{
-  position:absolute;bottom:0;left:0;right:0;z-index:10;
-  padding:18px 36px 22px;
-  background:linear-gradient(to top, rgba(10,2,0,.72) 0%, rgba(10,2,0,.42) 60%, transparent 100%);
-}
-.hero-trust-inner{
-  display:flex;align-items:center;justify-content:center;
-  flex-wrap:wrap;gap:8px 20px;
-  max-width:1100px;margin:0 auto;
-}
-.ht-item{
-  display:flex;flex-direction:column;align-items:center;
-  line-height:1.2;
-}
-.ht-num{
-  font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:400;
-  color:#F8D8A0;letter-spacing:.5px;
-}
-.ht-lbl{
-  font-size:9px;font-weight:500;letter-spacing:2px;text-transform:uppercase;
-  color:rgba(255,240,210,.7);margin-top:2px;
-}
-.ht-sep{
-  color:rgba(196,98,45,.7);font-size:12px;align-self:center;
-}
-@media(max-width:768px){
-  .hero-trust{padding:14px 16px 18px;}
-  .ht-num{font-size:15px;}
-  .ht-lbl{font-size:8px;}
-  .ht-sep{display:none;}
-  .hero-trust-inner{gap:8px 16px;}
-}
 
 </style>
 <script src="gate.js"></script>
@@ -440,28 +441,53 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
 <div class="hero" id="hero-slides">
 <!-- slides injected by banner-loader below -->
 <div class="dots" id="hero-dots"></div>
-<!-- Trust strip — fills the bottom of the hero, gives the fold a purpose -->
-<div class="hero-trust">
-  <div class="hero-trust-inner">
-    <span class="ht-item"><span class="ht-num">500+</span><span class="ht-lbl">Authentic Sarees</span></span>
-    <span class="ht-sep">✦</span>
-    <span class="ht-item"><span class="ht-num">30+</span><span class="ht-lbl">Heritage Weaves</span></span>
-    <span class="ht-sep">✦</span>
-    <span class="ht-item"><span class="ht-num">GI</span><span class="ht-lbl">Tagged &amp; Verified</span></span>
-    <span class="ht-sep">✦</span>
-    <span class="ht-item"><span class="ht-num">Pan‑India</span><span class="ht-lbl">Free Shipping</span></span>
-    <span class="ht-sep">✦</span>
-    <span class="ht-item"><span class="ht-num">WhatsApp</span><span class="ht-lbl">Always Available</span></span>
+</div>
+<!-- Hero fold bar: 3 trust items + Explore + 3 trust items, in the 15vh gap below the hero -->
+<div class="hero-fold-bar" id="heroFoldBar">
+  <!-- Left 3 trust items -->
+  <div class="hfb-group">
+    <div class="hfb-item">
+      <span class="hfb-num">500+</span>
+      <span class="hfb-lbl">Authentic Sarees</span>
+    </div>
+    <span class="hfb-sep">✦</span>
+    <div class="hfb-item">
+      <span class="hfb-num">30+</span>
+      <span class="hfb-lbl">Heritage Weaves</span>
+    </div>
+    <span class="hfb-sep">✦</span>
+    <div class="hfb-item">
+      <span class="hfb-num">Silk Mark</span>
+      <span class="hfb-lbl">Certified</span>
+    </div>
+  </div>
+  <!-- Explore button (centre) -->
+  <a class="hfb-explore" id="exploreBtn" href="#"
+     onclick="event.preventDefault();window.scrollBy({top:Math.round(window.innerHeight*0.85),behavior:'smooth'});"
+     aria-label="Scroll down to explore">
+    <span class="hfb-explore-text">Explore</span>
+    <div class="hfb-explore-arrow">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+    </div>
+  </a>
+  <!-- Right 3 trust items -->
+  <div class="hfb-group">
+    <div class="hfb-item">
+      <span class="hfb-num">Pan&#8209;India</span>
+      <span class="hfb-lbl">Free Shipping</span>
+    </div>
+    <span class="hfb-sep">✦</span>
+    <div class="hfb-item">
+      <span class="hfb-num">WhatsApp</span>
+      <span class="hfb-lbl">Always Available</span>
+    </div>
+    <span class="hfb-sep">✦</span>
+    <div class="hfb-item">
+      <span class="hfb-num">Handpicked</span>
+      <span class="hfb-lbl">Traditional Weavers</span>
+    </div>
   </div>
 </div>
-</div>
-<!-- Explore button lives OUTSIDE the hero so overflow:hidden cannot clip it -->
-<a class="scroll-hint" id="exploreBtn" href="#" onclick="event.preventDefault();window.scrollBy({top:Math.round(window.innerHeight*0.85),behavior:'smooth'});" aria-label="Scroll down to explore">
-  <span class="sh-text">Explore</span>
-  <div class="sh-arrow">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
-  </div>
-</a>
 <script>
 /* ── Banner loader: renders hero slides from data/banners.json ── */
 (function(){
@@ -550,7 +576,7 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
 <div class="section-trust">
 <div class="ti">
   <div class="tc"><div class="ticon">&#127994;</div><div class="ttitle">Master Weavers</div><div class="tdesc">Sourced directly from India&apos;s finest handloom artisan communities</div></div>
-  <div class="tc"><div class="ticon">&#129525;</div><div class="ttitle">Authentic Weaves</div><div class="tdesc">GI-tagged sarees with verified origin and genuine handloom craft</div></div>
+  <div class="tc"><div class="ticon">&#129525;</div><div class="ttitle">Authentic Weaves</div><div class="tdesc">Silk Mark certified sarees with verified origin and genuine handloom craft</div></div>
   <div class="tc"><div class="ticon">&#128230;</div><div class="ttitle">Pan-India Shipping</div><div class="tdesc">Free shipping above &#8377;2,000 &mdash; delivered with care and tradition</div></div>
   <div class="tc"><div class="ticon">&#128172;</div><div class="ttitle">Personal Service</div><div class="tdesc">Order and enquire directly via WhatsApp &mdash; always available</div></div>
 </div>
@@ -594,17 +620,16 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
 <script>
 function slowScrollTo(t){var e=document.getElementById(t);if(!e)return;var s=window.pageYOffset,n=e.getBoundingClientRect().top+s,d=1200,st=null;function ease(t){return t<.5?4*t*t*t:(t-1)*(2*t-2)*(2*t-2)+1}function step(ts){if(!st)st=ts;var p=Math.min((ts-st)/d,1);window.scrollTo(0,s+(n-s)*ease(p));if(p<1)requestAnimationFrame(step)}requestAnimationFrame(step)}
 
-// Explore button — hide only when truly near page bottom
+// Hero fold bar — hide when near page bottom
 (function(){
-  var btn = document.getElementById('exploreBtn');
-  if(!btn) return;
+  var bar = document.getElementById('heroFoldBar');
+  if(!bar) return;
   function updateExplore(){
     var remaining = document.documentElement.scrollHeight - (window.scrollY + window.innerHeight);
     var tooShort  = document.documentElement.scrollHeight <= window.innerHeight + 50;
     var hide = tooShort || remaining < 180;
-    btn.style.opacity          = hide ? '0' : '1';
-    btn.style.pointerEvents    = hide ? 'none' : 'auto';
-    btn.style.visibility       = hide ? 'hidden' : 'visible';
+    bar.style.opacity    = hide ? '0' : '1';
+    bar.style.visibility = hide ? 'hidden' : 'visible';
   }
   window.addEventListener('scroll', updateExplore, {passive:true});
   // Defer so nav.js footer injection doesn't skew initial scrollHeight

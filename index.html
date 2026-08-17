@@ -326,30 +326,27 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
   padding:0 4px;align-self:center;
 }
 .hfb-explore{
-  display:flex;flex-direction:column;align-items:center;gap:6px;
-  margin:0 48px;
+  display:flex;flex-direction:column;align-items:center;gap:5px;
+  margin:0 64px;
   pointer-events:auto;
   cursor:pointer;text-decoration:none;
   flex-shrink:0;
-  /* Pill container makes the button visually distinct from trust text */
-  background:rgba(255,255,255,.85);
-  border:1.5px solid rgba(196,98,45,.45);
-  border-radius:50px;
-  padding:10px 24px 14px;
 }
 .hfb-explore-text{
   font-family:'Jost',sans-serif;
-  font-size:10px;font-weight:700;letter-spacing:3.5px;
-  text-transform:uppercase;color:#C4622D;
+  font-size:11px;font-weight:700;letter-spacing:3.5px;
+  text-transform:uppercase;color:rgba(90,64,48,.75);
 }
 .hfb-explore-arrow{
-  width:42px;height:42px;border-radius:50%;
-  background:#C4622D;
+  width:40px;height:40px;border-radius:50%;
+  background:rgba(255,255,255,.92);
+  backdrop-filter:blur(10px);
+  border:2px solid rgba(196,98,45,.6);
   display:flex;align-items:center;justify-content:center;
-  box-shadow:0 4px 14px rgba(196,98,45,.35);
+  box-shadow:0 4px 14px rgba(0,0,0,.12);
   animation:hfb-bounce 2s ease-in-out infinite;
 }
-.hfb-explore-arrow svg{color:#fff;}
+.hfb-explore-arrow svg{color:#C4622D;}
 @keyframes hfb-bounce{
   0%,100%{transform:translateY(0);}
   50%{transform:translateY(6px);}
@@ -628,7 +625,7 @@ function slowScrollTo(t){var e=document.getElementById(t);if(!e)return;var s=win
   var bar = document.getElementById('heroFoldBar');
   if(!bar) return;
   function updateExplore(){
-    var scrolled  = window.scrollY > 50;
+    var scrolled  = window.scrollY > window.innerHeight * 0.7;
     var tooShort  = document.documentElement.scrollHeight <= window.innerHeight + 50;
     var hide = tooShort || scrolled;
     bar.style.opacity    = hide ? '0' : '1';

@@ -480,7 +480,12 @@ function slowScrollTo(targetId){
           .then(function(res){
             if(res.ok){
               var banner = document.getElementById('form-success');
-              if(banner){ banner.style.display='flex'; banner.scrollIntoView({behavior:'smooth',block:'start'}); }
+              if(banner){
+                banner.style.display='flex';
+                var navH = (document.getElementById('nav-wrap')||{}).offsetHeight || 80;
+                var top = banner.getBoundingClientRect().top + window.scrollY - navH - 16;
+                window.scrollTo({top: top, behavior: 'smooth'});
+              }
               form.reset();
               if(btn){ btn.disabled = false; btn.textContent = origText; }
             } else {

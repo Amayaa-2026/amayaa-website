@@ -363,6 +363,40 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
     #F2ECFA;
 }
 
+/* ── Hero trust strip ── */
+.hero-trust{
+  position:absolute;bottom:0;left:0;right:0;z-index:10;
+  padding:18px 36px 22px;
+  background:linear-gradient(to top, rgba(10,2,0,.72) 0%, rgba(10,2,0,.42) 60%, transparent 100%);
+}
+.hero-trust-inner{
+  display:flex;align-items:center;justify-content:center;
+  flex-wrap:wrap;gap:8px 20px;
+  max-width:1100px;margin:0 auto;
+}
+.ht-item{
+  display:flex;flex-direction:column;align-items:center;
+  line-height:1.2;
+}
+.ht-num{
+  font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:400;
+  color:#F8D8A0;letter-spacing:.5px;
+}
+.ht-lbl{
+  font-size:9px;font-weight:500;letter-spacing:2px;text-transform:uppercase;
+  color:rgba(255,240,210,.7);margin-top:2px;
+}
+.ht-sep{
+  color:rgba(196,98,45,.7);font-size:12px;align-self:center;
+}
+@media(max-width:768px){
+  .hero-trust{padding:14px 16px 18px;}
+  .ht-num{font-size:15px;}
+  .ht-lbl{font-size:8px;}
+  .ht-sep{display:none;}
+  .hero-trust-inner{gap:8px 16px;}
+}
+
 </style>
 <script src="gate.js"></script>
 </head>
@@ -406,9 +440,23 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
 <div class="hero" id="hero-slides">
 <!-- slides injected by banner-loader below -->
 <div class="dots" id="hero-dots"></div>
+<!-- Trust strip — fills the bottom of the hero, gives the fold a purpose -->
+<div class="hero-trust">
+  <div class="hero-trust-inner">
+    <span class="ht-item"><span class="ht-num">500+</span><span class="ht-lbl">Authentic Sarees</span></span>
+    <span class="ht-sep">✦</span>
+    <span class="ht-item"><span class="ht-num">30+</span><span class="ht-lbl">Heritage Weaves</span></span>
+    <span class="ht-sep">✦</span>
+    <span class="ht-item"><span class="ht-num">GI</span><span class="ht-lbl">Tagged &amp; Verified</span></span>
+    <span class="ht-sep">✦</span>
+    <span class="ht-item"><span class="ht-num">Pan‑India</span><span class="ht-lbl">Free Shipping</span></span>
+    <span class="ht-sep">✦</span>
+    <span class="ht-item"><span class="ht-num">WhatsApp</span><span class="ht-lbl">Always Available</span></span>
+  </div>
+</div>
 </div>
 <!-- Explore button lives OUTSIDE the hero so overflow:hidden cannot clip it -->
-<a class="scroll-hint" id="exploreBtn" href="#collections" onclick="event.preventDefault();slowScrollTo('collections');" aria-label="Scroll down to explore">
+<a class="scroll-hint" id="exploreBtn" href="#" onclick="event.preventDefault();window.scrollBy({top:Math.round(window.innerHeight*0.85),behavior:'smooth'});" aria-label="Scroll down to explore">
   <span class="sh-text">Explore</span>
   <div class="sh-arrow">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>

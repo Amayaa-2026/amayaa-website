@@ -316,6 +316,14 @@ input[type="submit"],button[type="submit"]{width:100%;padding:14px;border-radius
 </div>
 <div id="nav-wrap"></div>
 <div class="cpage">
+  <!-- success banner — shown between nav and content when ?sent=true -->
+  <div id="form-success" style="display:none;margin-bottom:32px;background:linear-gradient(135deg,rgba(46,160,67,.10),rgba(37,180,80,.06));border:1.5px solid rgba(46,160,67,.35);border-radius:16px;padding:20px 28px;flex-direction:row;align-items:center;gap:16px;box-shadow:0 4px 18px rgba(46,160,67,.10);">
+    <span style="font-size:28px;line-height:1;flex-shrink:0;">✅</span>
+    <div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;color:#1A4A2A;margin-bottom:4px;">Your message has been sent!</div>
+      <div style="font-size:13px;color:#2E7D32;line-height:1.6;">Thank you for reaching out. We'll get back to you within 2–4 hours during store hours — or ping us on WhatsApp for an instant reply.</div>
+    </div>
+  </div>
   <div class="cgrid">
     <!-- INFO -->
     <div class="cinfo">
@@ -363,14 +371,6 @@ input[type="submit"],button[type="submit"]{width:100%;padding:14px;border-radius
     <!-- FORM -->
     <div class="cform" style="max-width:520px;">
       <h2 class="cinfo-title" style="margin-bottom:20px;"><span style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:#1A0A04;">Send Us a Message</span></h2>
-      <!-- success banner — shown when redirected back with ?sent=true -->
-      <div id="form-success" style="display:none;background:rgba(46,160,67,.1);border:1.5px solid rgba(46,160,67,.3);border-radius:12px;padding:18px 20px;margin-bottom:22px;align-items:flex-start;gap:12px;">
-        <span style="font-size:22px;line-height:1;">✅</span>
-        <div>
-          <div style="font-weight:700;color:#1A6A2A;margin-bottom:4px;">Message sent!</div>
-          <div style="font-size:13px;color:#2E7D32;">Thank you for reaching out. We'll get back to you within 2–4 hours during store hours. You can also ping us directly on WhatsApp for a faster reply.</div>
-        </div>
-      </div>
       <form id="contact-form" action="https://formspree.io/f/mzdnjllq" method="POST">
         <input type="hidden" name="_subject" value="New Enquiry from Amayaa Website">
         <input type="hidden" name="_next" value="https://amayaabypolkadots.in/contact.html?sent=true">
@@ -467,8 +467,7 @@ function slowScrollTo(targetId){
       // show success banner if redirected back with ?sent=true
       if(window.location.search.indexOf('sent=true') !== -1){
         var banner = document.getElementById('form-success');
-        if(banner){ banner.style.display='flex'; banner.scrollIntoView({behavior:'smooth',block:'center'}); }
-        if(form) form.style.display='none';
+        if(banner){ banner.style.display='flex'; banner.scrollIntoView({behavior:'smooth',block:'start'}); }
         history.replaceState(null,'',window.location.pathname);
       }
       var mapLink = document.getElementById('ct-map-link');

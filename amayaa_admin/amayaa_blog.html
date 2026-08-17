@@ -1,5 +1,8 @@
 <!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="stylesheet" href="admin.css">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet"><style>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">
+<script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
+<style>
 /* ── AMAYAA ADMIN SHARED SIDEBAR CSS ── */
 aside.sidebar{position:fixed;top:0;left:0;width:240px;height:100vh;background:radial-gradient(ellipse at 15% 25%,rgba(240,67,147,.55) 0%,transparent 55%),radial-gradient(ellipse at 85% 75%,rgba(240,67,147,.45) 0%,transparent 50%),radial-gradient(ellipse at 50% 10%,rgba(200,30,110,.40) 0%,transparent 45%),#2A0A1A;color:white;overflow:hidden;z-index:100;display:flex;flex-direction:column;}
 .sb-brand{padding:20px 18px 16px;border-bottom:1px solid rgba(255,255,255,.1);display:flex;align-items:center;gap:12px;flex-shrink:0;}
@@ -154,6 +157,17 @@ body{font-family:'Jost',sans-serif;background:linear-gradient(135deg,#E4DFD9 0%,
 .rte-btn:hover{background:rgba(0,0,0,.07);}
 .rte-area{min-height:140px;padding:13px;background:white;border:1.5px solid rgba(0,0,0,.1);border-radius:0 0 8px 8px;color:#3A2A1A;font-size:14px;line-height:1.7;outline:none;}
 .rte-area:focus{border-color:#C4622D;}
+/* EasyMDE theme overrides */
+.EasyMDEContainer{border-radius:10px;overflow:hidden;}
+.EasyMDEContainer .CodeMirror{font-family:'Jost',sans-serif;font-size:14px;line-height:1.8;background:#FDFAF6;border:1.5px solid rgba(0,0,0,.1);border-top:none;min-height:280px;color:#2A1A0A;}
+.EasyMDEContainer .editor-toolbar{background:#F5F0EA;border:1.5px solid rgba(0,0,0,.1);border-radius:10px 10px 0 0;opacity:1;}
+.EasyMDEContainer .editor-toolbar button{color:#5A4030;}
+.EasyMDEContainer .editor-toolbar button:hover,.EasyMDEContainer .editor-toolbar button.active{background:rgba(196,98,45,.12);border-color:rgba(196,98,45,.25);}
+.EasyMDEContainer .editor-toolbar i.separator{border-color:rgba(0,0,0,.1);}
+.EasyMDEContainer .editor-preview{background:#FDFAF6;font-family:'Jost',sans-serif;font-size:14px;line-height:1.8;color:#2A1A0A;border:1.5px solid rgba(0,0,0,.1);}
+.EasyMDEContainer .editor-preview h1,.EasyMDEContainer .editor-preview h2,.EasyMDEContainer .editor-preview h3{font-family:'Cormorant Garamond',serif;color:#1A0A04;}
+.EasyMDEContainer .editor-preview blockquote{border-left:3px solid #C4622D;background:rgba(196,98,45,.05);padding:10px 16px;margin:16px 0;border-radius:0 8px 8px 0;}
+.EasyMDEContainer .editor-statusbar{display:none;}
 
 /* SECTION LOCK STATE */
 .section-locked .fi,.section-locked .fta,.section-locked .fse{background:#F5F0EA;pointer-events:none;color:#9A8070;}
@@ -226,14 +240,15 @@ if(!sessionStorage.getItem('amayaa_admin')){
           </div>
           <div class="fg">
             <label>Article Body *</label>
-            <div class="rte-toolbar">
-              <button class="rte-btn"><b>B</b></button><button class="rte-btn"><i>I</i></button>
-              <button class="rte-btn">H2</button><button class="rte-btn">H3</button>
-              <button class="rte-btn">• List</button><button class="rte-btn">1. List</button>
-              <button class="rte-btn">🔗 Link</button><button class="rte-btn">🖼 Image</button>
-              <button class="rte-btn">— Divider</button>
+            <div style="margin-bottom:8px;">
+              <span style="font-size:11px;color:#9A8070;letter-spacing:1px;text-transform:uppercase;margin-right:10px;">Templates:</span>
+              <button class="btn btn-ghost" style="font-size:11px;padding:4px 12px;margin-right:4px;margin-bottom:4px;" onclick="_applyTemplate('weave')">🧵 Weave Story</button>
+              <button class="btn btn-ghost" style="font-size:11px;padding:4px 12px;margin-right:4px;margin-bottom:4px;" onclick="_applyTemplate('spotlight')">✨ Product Spotlight</button>
+              <button class="btn btn-ghost" style="font-size:11px;padding:4px 12px;margin-right:4px;margin-bottom:4px;" onclick="_applyTemplate('style')">👗 Style Guide</button>
+              <button class="btn btn-ghost" style="font-size:11px;padding:4px 12px;margin-right:4px;margin-bottom:4px;" onclick="_applyTemplate('heritage')">🏛 Heritage Deep-Dive</button>
+              <button class="btn btn-ghost" style="font-size:11px;padding:4px 12px;margin-bottom:4px;" onclick="_applyTemplate('care')">💧 Care Tips</button>
             </div>
-            <div id="bf-body" class="rte-area" contenteditable="true" style="min-height:280px;">Start writing your article here. Use the toolbar above to format text, add headings, images, and links.</div>
+            <textarea id="bf-body" style="display:none;"></textarea>
           </div>
         </div>
         <div>
@@ -332,7 +347,7 @@ function _clearForm(){
   document.getElementById('bf-date').value='';
   document.getElementById('bf-readtime').value='';
   document.getElementById('bf-featured').checked=false;
-  document.getElementById('bf-body').innerHTML='';
+  if(typeof _mde!=='undefined'&&_mde) _mde.value('');
   document.getElementById('bf-seotitle').value='';
   document.getElementById('bf-seodesc').value='';
   document.getElementById('bf-thumbnail').value='';
@@ -356,14 +371,14 @@ function _editPost(idx){
   document.getElementById('bf-date').value=p.dateRaw||'';   // restore raw YYYY-MM-DD
   document.getElementById('bf-readtime').value=p.readTime||'';
   document.getElementById('bf-featured').checked=!!p.featured;
-  document.getElementById('bf-body').innerHTML=p.body||'';
+  if(typeof _mde!=='undefined'&&_mde) _mde.value(p.body||'');
   document.getElementById('bf-seotitle').value=p.seoTitle||p.title||'';
   document.getElementById('bf-seodesc').value=p.excerpt||'';
-  document.getElementById('bf-thumbnail').value=p.thumbnail||'';
+  document.getElementById('bf-thumbnail').value=p.thumbnailImage||'';
   // show thumbnail preview if exists
   var box=document.getElementById('thumb-preview-box');
-  if(box && p.thumbnail){
-    box.style.backgroundImage='url(../'+p.thumbnail+')';
+  if(box && p.thumbnailImage){
+    box.style.backgroundImage='url(../'+p.thumbnailImage+')';
     box.style.backgroundSize='cover';
     box.style.backgroundPosition='center';
     document.getElementById('thumb-preview-label').style.display='none';
@@ -392,11 +407,12 @@ function _publishPost(published){
   var dateStr=dateVal
     ?new Date(dateVal+'T12:00:00').toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})
     :new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
-  var body=document.getElementById('bf-body').innerHTML;
+  var body=(typeof _mde!=='undefined'&&_mde)?_mde.value():document.getElementById('bf-body').value;
   var seoDesc=document.getElementById('bf-seodesc').value.trim();
-  var excerpt=seoDesc||body.replace(/<[^>]*>/g,'').slice(0,140)+'…';
+  var excerpt=seoDesc||body.replace(/#+\s*/g,'').replace(/[*_`>\[\]!]/g,'').slice(0,140)+'…';
   var editIdx=parseInt(document.getElementById('bf-editidx').value);
   var existing=(editIdx>=0&&editIdx<_blogData.length)?_blogData[editIdx]:{};
+  var thumbVal=document.getElementById('bf-thumbnail').value.trim();
   var post={
     id: existing.id||'BLG-'+Date.now(),
     category: document.getElementById('bf-category').value,
@@ -406,7 +422,7 @@ function _publishPost(published){
     readTime: document.getElementById('bf-readtime').value.trim()||'5 min read',
     gradientFrom: existing.gradientFrom||'#8B1A4A',
     gradientTo: existing.gradientTo||'#C4622D',
-    thumbnail: document.getElementById('bf-thumbnail').value.trim()||existing.thumbnail||'',
+    thumbnailImage: thumbVal||existing.thumbnailImage||'',
     excerpt: excerpt,
     body: body,
     seoTitle: document.getElementById('bf-seotitle').value.trim()||title,
@@ -469,25 +485,42 @@ function uploadThumb(){
   fi.click();
 }
 
-/* ── RTE toolbar ── */
-function _setupRTE(){
-  var rteArea=document.getElementById('bf-body');
-  var toolbar=document.querySelector('.rte-toolbar');
-  if(!toolbar||!rteArea)return;
-  var cmds=[
-    function(){document.execCommand('bold',false,null);},
-    function(){document.execCommand('italic',false,null);},
-    function(){document.execCommand('formatBlock',false,'h2');},
-    function(){document.execCommand('formatBlock',false,'h3');},
-    function(){document.execCommand('insertUnorderedList',false,null);},
-    function(){document.execCommand('insertOrderedList',false,null);},
-    function(){var u=prompt('Enter URL (https://…):');if(u)document.execCommand('createLink',false,u);},
-    function(){var s=prompt('Enter image URL:');if(s)document.execCommand('insertImage',false,s);},
-    function(){document.execCommand('insertHorizontalRule',false,null);}
-  ];
-  toolbar.querySelectorAll('.rte-btn').forEach(function(btn,i){
-    if(cmds[i]) btn.addEventListener('mousedown',function(e){e.preventDefault();rteArea.focus();cmds[i]();});
+/* ── EasyMDE setup ── */
+var _mde = null;
+function _setupMDE(){
+  var ta=document.getElementById('bf-body');
+  if(!ta)return;
+  _mde=new EasyMDE({
+    element: ta,
+    autofocus: false,
+    spellChecker: false,
+    placeholder: 'Write your article here using Markdown…',
+    minHeight: '280px',
+    toolbar: [
+      'bold','italic','heading-2','heading-3','|',
+      'unordered-list','ordered-list','quote','|',
+      'link','image','horizontal-rule','|',
+      'preview','side-by-side','fullscreen','|',
+      'guide'
+    ],
+    status: false
   });
+}
+
+/* ── Blog templates ── */
+var _templates = {
+  weave: '## The Art of [Weave Name]\n\nBegin with a captivating opening paragraph that draws readers into the world of this weave.\n\n## Origins & History\n\nWhere does this weave come from? Describe the region, community, and centuries of tradition.\n\n## How It\'s Made\n\n### The Loom\nDescribe the type of loom used and why it matters.\n\n### The Process\nWalk through the weaving process step by step.\n\n> *"A quote from a master weaver or craftsperson."*\n\n## What Makes It Special\n\n- Key characteristic one\n- Key characteristic two\n- Key characteristic three\n\n## How to Identify Authentic [Weave Name]\n\n1. Look for...\n2. Check the...\n3. Feel the...\n\n## Caring for Your Saree\n\n- Dry clean preferred\n- Store folded with muslin\n\n*[Your name] · Amayaa by Polka Dots*\n',
+  spotlight: '## [Product Name] — A Closer Look\n\nOpen with what makes this piece stand out in one compelling sentence.\n\n## At a Glance\n\n- **Weave:** [Weave type]\n- **Fabric:** [Silk / Cotton / Blend]\n- **Colour:** [Colour name]\n- **Occasion:** [Wedding / Festive / Casual]\n\n## The Story Behind the Design\n\nDescribe the inspiration, the motifs, and the craftsmanship that went into this piece.\n\n## Why We Love It\n\n> *"Quote from the team or artisan about this piece."*\n\n## Styling Suggestions\n\n- Pair with [blouse type]\n- Accessorise with [jewellery]\n- Perfect for [occasion]\n\n## How to Make It Yours\n\nCTA paragraph — invite the reader to enquire or visit the store.\n',
+  style: '## [Occasion] Styling Guide\n\nIntroduction — who is this guide for and what will they learn?\n\n## Choosing the Right Saree\n\nTips on fabric and weave selection for this occasion.\n\n## Draping Styles to Try\n\n### Classic Nivi\nDescription of this drape and when it works best.\n\n### [Alternative Drape]\nDescription and styling notes.\n\n## Blouse Ideas\n\n- **Contrast blouse:** works well with...\n- **Matching blouse:** best for...\n- **Statement sleeve:** try this when...\n\n## Accessories\n\n1. Jewellery — gold / silver / temple\n2. Footwear — heels / kolhapuris / juttis\n3. Bag — clutch / potli\n\n## Hair & Makeup\n\nQuick suggestions to complete the look.\n\n*Explore our curated collection at Amayaa by Polka Dots.*\n',
+  heritage: '## [Heritage Topic] — A Deep Dive\n\nOpening hook — why does this heritage matter today?\n\n## Historical Background\n\nTimeline of significant events, rulers, or craft guilds that shaped this tradition.\n\n## Geographical Significance\n\nWhere is this craft practiced? What makes the region unique (water, climate, community)?\n\n## The Artisans\n\nProfile of the community or family of weavers behind this craft. Include their challenges and resilience.\n\n> *"A powerful quote from an artisan or historian."*\n\n## GI Tag & Legal Protection\n\nIs this craft protected? What does GI status mean for the artisans and buyers?\n\n## The Future\n\nHow is this craft evolving? What does the next generation look like?\n\n## How You Can Help\n\n- Buy authentic, not mass-produced\n- Support weaver cooperatives\n- Share knowledge\n\n*Amayaa by Polka Dots is committed to authentic, artisan-sourced textiles.*\n',
+  care: '## How to Care for Your [Fabric/Weave] Saree\n\nA well-loved saree lasts generations. Here\'s how to give yours the care it deserves.\n\n## Washing\n\n- **Best method:** Dry clean for silks; gentle hand wash for cottons\n- **Water temperature:** Cold / lukewarm only\n- **Detergent:** Mild, pH-neutral; never bleach\n\n## Drying\n\n- Avoid direct sunlight — it fades natural dyes\n- Lay flat on a clean cloth or hang in shade\n- Never wring or tumble dry\n\n## Ironing\n\n- Use a low-to-medium heat setting\n- Always iron on the reverse side\n- Use a pressing cloth for zari borders\n\n## Storage\n\n- Fold with muslin or tissue paper to prevent crease lines\n- Re-fold along different lines every few months\n- Store in a cool, dry, airy wardrobe — not in plastic\n- Add a neem sachet to deter insects\n\n## Common Mistakes to Avoid\n\n1. Soaking for too long\n2. Using harsh detergents\n3. Storing damp\n4. Hanging heavy silk sarees (causes stretch)\n\n## When to Seek a Professional\n\nIf you notice a stain, loose zari, or fraying border — bring it to a trusted dry cleaner or weaver.\n\n*Your saree is an heirloom. Treat it like one.*\n'
+};
+
+function _applyTemplate(key){
+  if(!_mde)return;
+  if(_mde.value()&&!confirm('This will replace the current content. Continue?'))return;
+  _mde.value(_templates[key]||'');
+  _mde.codemirror.focus();
 }
 
 /* ── Wire "New Post" topbar button ── */
@@ -499,7 +532,7 @@ document.addEventListener('DOMContentLoaded',function(){
     form.style.display='block';
     form.scrollIntoView({behavior:'smooth'});
   });
-  _setupRTE();
+  _setupMDE();
   fetch('../data/blog.json?_='+Date.now())
     .then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json();})
     .then(function(data){_blogData=Array.isArray(data)?data:[];_renderTable();})

@@ -555,67 +555,8 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
   <a href="#" class="cat-btn">Care Tips</a>
   <a href="#" class="cat-btn">Styling</a>
 </div>
-<div class="bgrid">
-    <a href="#" class="bcard">
-      <div class="bt" style="background:linear-gradient(135deg,#8B1A4A,#C4622D)"></div>
-      <div class="bb">
-        <div class="bcat">Weaves</div>
-        <div class="bttl">The Art of Banarasi Weaving — 15 Centuries of Brocade</div>
-        <p class="bexc">Deep inside the ancient lanes of Varanasi, on a narrow pit loom, a master weaver interlaces gold zari into pure silk wit&#8230;</p>
-        <div class="bmeta">June 12, 2026 &middot; 8 min read</div>
-        <div class="brm">Read More &rarr;</div>
-      </div>
-    </a>
-    <a href="#" class="bcard">
-      <div class="bt" style="background:linear-gradient(135deg,#1A0A4A,#5A1A8A)"></div>
-      <div class="bb">
-        <div class="bcat">Threads</div>
-        <div class="bttl">Tussar vs Kosa Silk — Understanding India's Wild Silks</div>
-        <p class="bexc">Both are wild silks harvested from non-mulberry silkworms in the forests of India. Both have an earthy texture and natur&#8230;</p>
-        <div class="bmeta">May 28, 2026 &middot; 5 min read</div>
-        <div class="brm">Read More &rarr;</div>
-      </div>
-    </a>
-    <a href="#" class="bcard">
-      <div class="bt" style="background:linear-gradient(135deg,#0A3A1A,#2A7A3A)"></div>
-      <div class="bb">
-        <div class="bcat">Heritage</div>
-        <div class="bttl">The Weavers of Bishnupur — Keepers of the Baluchari Tradition</div>
-        <p class="bexc">In the quiet temple town of Bishnupur, Bengal, a handful of families keep alive one of India's most narrative textile tr&#8230;</p>
-        <div class="bmeta">May 14, 2026 &middot; 6 min read</div>
-        <div class="brm">Read More &rarr;</div>
-      </div>
-    </a>
-    <a href="#" class="bcard">
-      <div class="bt" style="background:linear-gradient(135deg,#3A2A0A,#8A6A0A)"></div>
-      <div class="bb">
-        <div class="bcat">Care Tips</div>
-        <div class="bttl">How to Store and Care for Your Silk Sarees</div>
-        <p class="bexc">A handloom silk saree is an investment that can last generations — if cared for correctly. From dry cleaning to muslin w&#8230;</p>
-        <div class="bmeta">April 30, 2026 &middot; 4 min read</div>
-        <div class="brm">Read More &rarr;</div>
-      </div>
-    </a>
-    <a href="#" class="bcard">
-      <div class="bt" style="background:linear-gradient(135deg,#0A1A3A,#1A4A7A)"></div>
-      <div class="bb">
-        <div class="bcat">Weaves</div>
-        <div class="bttl">Kanjivaram vs Mysore Silk — A Weaver's Perspective</div>
-        <p class="bexc">Both are Karnataka's pride, both are pure silk, both carry royal heritage. But the Kanjivaram and Mysore Silk saree are &#8230;</p>
-        <div class="bmeta">April 15, 2026 &middot; 7 min read</div>
-        <div class="brm">Read More &rarr;</div>
-      </div>
-    </a>
-    <a href="#" class="bcard">
-      <div class="bt" style="background:linear-gradient(135deg,#2A0A3A,#7A1A8A)"></div>
-      <div class="bb">
-        <div class="bcat">Styling</div>
-        <div class="bttl">How to Drape a Saree — 6 Regional Styles Explained</div>
-        <p class="bexc">The saree is one garment worn in over 80 documented ways across India. From the Nivi drape of Andhra Pradesh to the Maha&#8230;</p>
-        <div class="bmeta">March 28, 2026 &middot; 10 min read</div>
-        <div class="brm">Read More &rarr;</div>
-      </div>
-    </a>
+<div class="bgrid" id="blog-grid">
+  <div style="grid-column:1/-1;text-align:center;padding:40px;color:#9A8070;font-size:14px;">Loading articles…</div>
 </div>
 <div id="footer-wrap"></div>
 <a href="https://wa.me/919583946000?text=Hello!%20I%20visited%20Amayaa%20and%20would%20like%20to%20know%20more." class="waf" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
@@ -719,14 +660,14 @@ function slowScrollTo(targetId){
       target.scrollIntoView({behavior:'smooth'});
     });
   }
-  // Hide after scrolling past fold
-  window.addEventListener('scroll', function(){
-    if(window.scrollY > window.innerHeight * 0.8){
-      btn.classList.add('hidden');
-    } else {
-      btn.classList.remove('hidden');
-    }
-  }, {passive:true});
+  // Hide when near footer
+  function _updateMore(){
+    var ft = document.querySelector('.ft');
+    if(!ft){ btn.classList.remove('hidden'); return; }
+    btn.classList.toggle('hidden', ft.getBoundingClientRect().top < window.innerHeight - 100);
+  }
+  window.addEventListener('scroll', _updateMore, {passive:true});
+  _updateMore();
 })();
 </script>
 <script src="nav.js"></script>
@@ -739,21 +680,18 @@ function slowScrollTo(targetId){
   function _esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 
   function _renderCards(posts){
-    // Show published only; featured posts first
-    var published=posts.filter(function(p){return p.published!==false;});
-    published.sort(function(a,b){return (b.featured?1:0)-(a.featured?1:0);});
-    if(!published.length){
+    if(!posts.length){
       grid.innerHTML='<p style="text-align:center;color:#7A6050;padding:40px 0;grid-column:1/-1;">No blog posts yet. Check back soon!</p>';
       return;
     }
-    grid.innerHTML=published.map(function(p){
+    grid.innerHTML=posts.map(function(p){
       var gFrom=p.gradientFrom||'#8B1A4A';
       var gTo=p.gradientTo||'#C4622D';
       var featuredStyle=p.featured?'grid-column:span 1;':'' ; // keep same width; featured sorted first
       var thumbHtml = p.thumbnailImage
         ? '<img src="'+p.thumbnailImage+'" alt="'+_esc(p.title)+'" class="bt" style="object-fit:cover;width:100%;display:block;">'
         : '<div class="bt" style="background:linear-gradient(135deg,'+_esc(gFrom)+','+_esc(gTo)+')"></div>';
-      return '<a href="#" class="bcard" style="'+featuredStyle+'">'
+      return '<a href="amayaa_blog_post.html?id='+_esc(p.id)+'" class="bcard" style="'+featuredStyle+'">'
         +thumbHtml
         +'<div class="bb">'
         +'<div class="bcat">'+_esc(p.category)+'</div>'
@@ -766,9 +704,30 @@ function slowScrollTo(targetId){
     }).join('');
   }
 
+  var _allPosts = [];
+
+  function _filterAndRender(cat){
+    var list = cat && cat!=='All' ? _allPosts.filter(function(p){return p.category===cat;}) : _allPosts;
+    _renderCards(list);
+  }
+
+  // Wire category buttons
+  document.querySelectorAll('.cat-btn').forEach(function(btn){
+    btn.addEventListener('click',function(e){
+      e.preventDefault();
+      document.querySelectorAll('.cat-btn').forEach(function(b){b.classList.remove('active');});
+      btn.classList.add('active');
+      _filterAndRender(btn.textContent.trim());
+    });
+  });
+
   fetch('data/blog.json?_='+Date.now())
     .then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json();})
-    .then(function(data){_renderCards(Array.isArray(data)?data:[]);})
+    .then(function(data){
+      _allPosts=(Array.isArray(data)?data:[]).filter(function(p){return p.published!==false;});
+      _allPosts.sort(function(a,b){return (b.featured?1:0)-(a.featured?1:0);});
+      _filterAndRender('All');
+    })
     .catch(function(e){console.warn('blog.json load failed, keeping static HTML:',e);});
 })();
 </script>

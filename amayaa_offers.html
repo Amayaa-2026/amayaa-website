@@ -665,19 +665,15 @@ function slowScrollTo(targetId){
   const btn = document.getElementById('pageExplore');
   if(!btn) return;
   // Set scroll target to first content section
-  const target = document.querySelector('.bgrid, .cat-layout, .page[id]');
-  if(target){
-    btn.href = '#';
-    btn.addEventListener('click', function(e){
-      e.preventDefault();
-      target.scrollIntoView({behavior:'smooth'});
-    });
-  }
-  // Hide only when footer comes into view
+  btn.addEventListener('click', function(e){
+    e.preventDefault();
+    window.scrollBy({top: Math.round(window.innerHeight * 0.85), behavior:'smooth'});
+  });
+  // Hide only when truly near bottom of page
   function _updateMore(){
-    var ft = document.querySelector('.ft');
-    if(!ft){ btn.classList.remove('hidden'); return; }
-    btn.classList.toggle('hidden', ft.getBoundingClientRect().top < window.innerHeight - 100);
+    var remaining = document.documentElement.scrollHeight - (window.scrollY + window.innerHeight);
+    var tooShort  = document.documentElement.scrollHeight <= window.innerHeight + 50;
+    btn.classList.toggle('hidden', tooShort || remaining < 180);
   }
   window.addEventListener('scroll', _updateMore, {passive:true});
   _updateMore();

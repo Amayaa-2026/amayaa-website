@@ -482,22 +482,20 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
 */
 /* Blog grid - auto-centre odd last item */
 .bgrid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
   gap:28px;
 }
-/* When last item is alone in its row, centre it */
-.bgrid > .bc:last-child:nth-child(3n+1){
-  grid-column:2;
-}
-/* When last two items are in a row of 3, centre them */
-.bgrid > .bc:last-child:nth-child(3n+2){
-  grid-column-start:1;
+.bgrid .bcard{
+  flex:0 0 calc(33.333% - 19px);
+  min-width:260px;
+  max-width:430px;
 }
 
 /* Hovering explore indicator */
 .page-explore{
-  position:fixed;bottom:80px;right:24px;z-index:190;
+  position:fixed;bottom:110px;right:24px;z-index:190;
   display:flex;flex-direction:column;align-items:center;gap:4px;
   background:rgba(255,255,255,.85);backdrop-filter:blur(12px);
   border:1px solid rgba(196,98,45,.2);border-radius:28px;
@@ -522,13 +520,13 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
   .ph-hero{padding:32px 16px 20px;}
   .cats{padding:0 16px 24px;}
   .bgrid{
-    grid-template-columns:1fr;
     padding:0 16px 60px;
     gap:18px;
   }
-  /* Cancel odd-item centering rules at single column */
-  .bgrid > .bc:last-child:nth-child(3n+1){grid-column:auto;}
-  .bgrid > .bc:last-child:nth-child(3n+2){grid-column-start:auto;}
+  .bgrid .bcard{
+    flex:0 0 100%;
+    max-width:100%;
+  }
   .fi2{padding:0;}
   .ft{padding:36px 24px 20px;}
 }
@@ -651,20 +649,15 @@ function slowScrollTo(targetId){
 (function(){
   const btn = document.getElementById('pageExplore');
   if(!btn) return;
-  // Set scroll target to first content section
-  const target = document.querySelector('.bgrid, .cat-layout, .page[id]');
-  if(target){
-    btn.href = '#';
-    btn.addEventListener('click', function(e){
-      e.preventDefault();
-      target.scrollIntoView({behavior:'smooth'});
-    });
-  }
-  // Hide when near footer
+  btn.addEventListener('click', function(e){
+    e.preventDefault();
+    window.scrollBy({top: Math.round(window.innerHeight * 0.85), behavior:'smooth'});
+  });
+  // Hide only when truly near bottom of page
   function _updateMore(){
-    var ft = document.querySelector('.ft');
-    if(!ft){ btn.classList.remove('hidden'); return; }
-    btn.classList.toggle('hidden', ft.getBoundingClientRect().top < window.innerHeight - 100);
+    var remaining = document.documentElement.scrollHeight - (window.scrollY + window.innerHeight);
+    var tooShort  = document.documentElement.scrollHeight <= window.innerHeight + 50;
+    btn.classList.toggle('hidden', tooShort || remaining < 180);
   }
   window.addEventListener('scroll', _updateMore, {passive:true});
   _updateMore();

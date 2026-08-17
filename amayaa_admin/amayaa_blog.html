@@ -358,8 +358,13 @@ function _clearForm(){
 }
 
 function cancelEdit(){
-  document.getElementById('blogForm').style.display='none';
+  var hasContent = (typeof _mde!=='undefined'&&_mde&&_mde.value().trim())
+    || document.getElementById('bf-title').value.trim();
+  if(hasContent && !confirm('Cancel editing? Any unsaved changes will be lost.')) return;
   _clearForm();
+  var h=document.querySelector('#blogForm h3');
+  if(h) h.textContent='Write New Blog Post';
+  document.getElementById('blogForm').scrollIntoView({behavior:'smooth'});
 }
 
 function _editPost(idx){
@@ -440,9 +445,63 @@ function _publishPost(published){
   );
 }
 
-/* ── Preview ── */
+/* ── Preview modal ── */
 function previewPost(){
-  window.open('../amayaa_blog.html','_blank');
+  var title=(document.getElementById('bf-title').value.trim())||'(No title)';
+  var body=(typeof _mde!=='undefined'&&_mde)?_mde.value():'';
+  if(!body.trim()){alert('Nothing to preview yet. Write some content first.');return;}
+
+  function _renderModal(){
+    var modal=document.getElementById('bp-preview-modal');
+    if(!modal){
+      modal=document.createElement('div');
+      modal.id='bp-preview-modal';
+      modal.style.cssText='position:fixed;inset:0;z-index:9999;background:rgba(26,10,4,.6);backdrop-filter:blur(6px);display:flex;align-items:flex-start;justify-content:center;padding:32px 24px;overflow-y:auto;';
+      modal.innerHTML='<div style="background:#FDFAF6;border-radius:22px;width:100%;max-width:960px;box-shadow:0 32px 80px rgba(0,0,0,.35);overflow:hidden;">'
+        +'<div style="display:flex;align-items:center;justify-content:space-between;padding:18px 28px;border-bottom:1px solid rgba(0,0,0,.08);background:rgba(255,255,255,.7);">'
+        +'<span style="font-family:\'Cormorant Garamond\',serif;font-size:20px;color:#1A0A04;font-style:italic;">Preview — as readers will see it</span>'
+        +'<button onclick="document.getElementById(\'bp-preview-modal\').style.display=\'none\'" style="background:none;border:none;cursor:pointer;font-size:24px;color:#7A6050;line-height:1;padding:4px 8px;">✕</button>'
+        +'</div>'
+        +'<div id="bp-preview-content" style="padding:40px 52px;font-family:\'Jost\',sans-serif;font-size:16px;line-height:1.9;color:#2A1A0A;"></div>'
+        +'</div>';
+      modal.addEventListener('click',function(e){if(e.target===modal)modal.style.display='none';});
+      document.body.appendChild(modal);
+    }
+
+    var css='<style>'
+      +'.bpp-body h1{font-family:"Cormorant Garamond",serif;font-size:36px;font-weight:400;color:#1A0A04;margin:40px 0 16px;line-height:1.2;}'
+      +'.bpp-body h2{font-family:"Cormorant Garamond",serif;font-size:28px;font-weight:400;color:#1A0A04;margin:36px 0 14px;padding-bottom:8px;border-bottom:1px solid rgba(196,98,45,.2);}'
+      +'.bpp-body h3{font-family:"Cormorant Garamond",serif;font-size:22px;font-weight:400;color:#3A1A0A;margin:28px 0 10px;font-style:italic;}'
+      +'.bpp-body p{margin-bottom:20px;}'
+      +'.bpp-body p:first-of-type{font-size:17px;line-height:2;color:#1A0A04;}'
+      +'.bpp-body blockquote{border-left:3px solid #C4622D;margin:28px 0;padding:16px 24px;background:rgba(196,98,45,.05);border-radius:0 10px 10px 0;}'
+      +'.bpp-body blockquote p{font-style:italic;color:#5A3020;font-size:15px;}'
+      +'.bpp-body ul,.bpp-body ol{margin:0 0 20px 28px;}'
+      +'.bpp-body li{margin-bottom:8px;line-height:1.7;}'
+      +'.bpp-body ul li::marker{color:#C4622D;}'
+      +'.bpp-body ol li::marker{color:#C4622D;font-weight:600;}'
+      +'.bpp-body a{color:#C4622D;}'
+      +'.bpp-body hr{border:none;border-top:1px solid rgba(196,98,45,.2);margin:36px 0;}'
+      +'.bpp-body strong{font-weight:700;color:#1A0A04;}'
+      +'.bpp-body em{font-style:italic;color:#5A3A20;}'
+      +'.bpp-body img{max-width:100%;border-radius:14px;margin:28px 0;display:block;}'
+      +'</style>';
+
+    var content=document.getElementById('bp-preview-content');
+    content.innerHTML=css
+      +'<h1 style="font-family:\'Cormorant Garamond\',serif;font-size:40px;font-weight:300;margin:0 0 32px;color:#1A0A04;line-height:1.15;border-bottom:1px solid rgba(196,98,45,.2);padding-bottom:24px;">'+_esc(title)+'</h1>'
+      +'<div class="bpp-body">'+marked.parse(body)+'</div>';
+    modal.style.display='flex';
+  }
+
+  if(typeof marked!=='undefined'){
+    _renderModal();
+  }else{
+    var s=document.createElement('script');
+    s.src='https://cdn.jsdelivr.net/npm/marked/marked.min.js';
+    s.onload=_renderModal;
+    document.head.appendChild(s);
+  }
 }
 
 /* ── Thumbnail upload ── */

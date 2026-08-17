@@ -238,7 +238,7 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
   100%{background:rgba(196,98,45,.3);width:8px;border-radius:50%;}
 }
 /* Page scrolls over fixed hero */
-.home-content{position:relative;z-index:1;margin-top:85vh!important;background:#E4EEE0;}
+.home-content{position:relative;z-index:1;margin-top:0;background:#E4EEE0;}
 .cg{display:grid;grid-template-columns:repeat(6,1fr);gap:18px;}
 .ct{text-align:center;cursor:pointer;transition:transform .3s;text-decoration:none;display:block;}
 .ct:hover{transform:translateY(-7px);}
@@ -298,11 +298,10 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
 /* Scroll arrow */
 /* ── Hero fold bar: trust items + Explore, in the 15vh gap below the hero ── */
 .hero-fold-bar{
-  position:fixed;top:85vh;left:0;right:0;height:15vh;
-  z-index:100;
+  position:relative;z-index:1;
+  height:15vh;background:#E4EEE0;
   display:flex;align-items:center;justify-content:center;
   pointer-events:none;
-  transition:opacity .4s ease,visibility .4s ease;
 }
 .hfb-group{
   display:flex;align-items:center;
@@ -357,6 +356,7 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
 }
 @media(max-width:480px){
   .hero-fold-bar{display:none;}
+  .home-content{margin-top:85vh!important;}
 }
 
 /* Home page - ensure hero displays correctly */
@@ -463,7 +463,7 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
   </div>
   <!-- Explore button (centre) -->
   <a class="hfb-explore" id="exploreBtn" href="#"
-     onclick="event.preventDefault();window.scrollBy({top:Math.round(window.innerHeight*0.85),behavior:'smooth'});"
+     onclick="event.preventDefault();(function(){var hc=document.querySelector('.home-content');if(hc)window.scrollTo({top:hc.offsetTop,behavior:'smooth'});})();"
      aria-label="Scroll down to explore">
     <span class="hfb-explore-text">Explore</span>
     <div class="hfb-explore-arrow">
@@ -620,20 +620,17 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
 <script>
 function slowScrollTo(t){var e=document.getElementById(t);if(!e)return;var s=window.pageYOffset,n=e.getBoundingClientRect().top+s,d=1200,st=null;function ease(t){return t<.5?4*t*t*t:(t-1)*(2*t-2)*(2*t-2)+1}function step(ts){if(!st)st=ts;var p=Math.min((ts-st)/d,1);window.scrollTo(0,s+(n-s)*ease(p));if(p<1)requestAnimationFrame(step)}requestAnimationFrame(step)}
 
-// Hero fold bar — visible only at the very top; hides the moment user scrolls
+// Hero fold bar — in-flow; margin-top positions it at 85vh, scrolls away naturally
 (function(){
   var bar = document.getElementById('heroFoldBar');
+  var nw  = document.querySelector('.nav-wrap');
   if(!bar) return;
-  function updateExplore(){
-    var scrolled  = window.scrollY > window.innerHeight * 0.7;
-    var tooShort  = document.documentElement.scrollHeight <= window.innerHeight + 50;
-    var hide = tooShort || scrolled;
-    bar.style.opacity    = hide ? '0' : '1';
-    bar.style.visibility = hide ? 'hidden' : 'visible';
+  function pos(){
+    var navH = nw ? nw.offsetHeight : 94;
+    bar.style.marginTop = Math.max(0, Math.round(window.innerHeight * 0.85) - navH) + 'px';
   }
-  window.addEventListener('scroll', updateExplore, {passive:true});
-  // Defer so nav.js footer injection doesn't skew initial scrollHeight
-  setTimeout(updateExplore, 400);
+  pos();
+  window.addEventListener('resize', pos, {passive:true});
 })();
 </script>
 <script>

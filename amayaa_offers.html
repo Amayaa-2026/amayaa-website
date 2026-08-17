@@ -669,14 +669,16 @@ function slowScrollTo(targetId){
     e.preventDefault();
     window.scrollBy({top: Math.round(window.innerHeight * 0.85), behavior:'smooth'});
   });
-  // Hide only when truly near bottom of page
+  // Hide only when footer comes into view — immune to async data loading
   function _updateMore(){
-    var remaining = document.documentElement.scrollHeight - (window.scrollY + window.innerHeight);
-    var tooShort  = document.documentElement.scrollHeight <= window.innerHeight + 50;
-    btn.classList.toggle('hidden', tooShort || remaining < 180);
+    var ft = document.querySelector('.ft');
+    if(!ft){ btn.classList.remove('hidden'); return; }
+    btn.classList.toggle('hidden', ft.getBoundingClientRect().top < window.innerHeight - 100);
   }
   window.addEventListener('scroll', _updateMore, {passive:true});
-  _updateMore();
+  // Defer so nav.js footer injection is complete before first check
+  setTimeout(_updateMore, 400);
+  window._offersMoreFn = _updateMore;
 })();
 </script>
 <script>
@@ -710,6 +712,7 @@ function slowScrollTo(targetId){
       if(!offerItems.length) return;
       var grid = document.getElementById('offers-product-grid');
       if(grid) grid.innerHTML = offerItems.map(_buildCard).join('');
+      if(typeof window._offersMoreFn==='function') setTimeout(window._offersMoreFn, 100);
     })
     .catch(function(){/* silently keep fallback */});
 })();

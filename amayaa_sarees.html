@@ -1068,16 +1068,15 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')mobFltClose(
     e.preventDefault();
     window.scrollBy({top: Math.round(window.innerHeight * 0.85), behavior:'smooth'});
   });
-  // Hide only when truly near bottom of page
+  // Hide only when footer comes into view — immune to async data loading
   function _updateMore(){
-    var remaining = document.documentElement.scrollHeight - (window.scrollY + window.innerHeight);
-    var tooShort  = document.documentElement.scrollHeight <= window.innerHeight + 50;
-    btn.classList.toggle('hidden', tooShort || remaining < 180);
+    var ft = document.querySelector('.ft');
+    if(!ft){ btn.classList.remove('hidden'); return; }
+    btn.classList.toggle('hidden', ft.getBoundingClientRect().top < window.innerHeight - 100);
   }
   window.addEventListener('scroll', _updateMore, {passive:true});
-  // Defer so dynamic grid has time to render and inflate scrollHeight
-  setTimeout(_updateMore, 500);
-  // Expose so _loadBatch can re-check after adding cards
+  // Defer so nav.js footer injection is complete before first check
+  setTimeout(_updateMore, 400);
   window._moreUpdateFn = _updateMore;
 })();
 </script>

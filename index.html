@@ -299,6 +299,7 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
 /* ── Hero fold bar: trust items + Explore, in the 15vh gap below the hero ── */
 .hero-fold-bar{
   position:relative;z-index:1;
+  margin-top:calc(85vh - 94px);
   height:15vh;background:#E4EEE0;
   display:flex;align-items:center;justify-content:center;
   pointer-events:none;
@@ -620,18 +621,7 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
 <script>
 function slowScrollTo(t){var e=document.getElementById(t);if(!e)return;var s=window.pageYOffset,n=e.getBoundingClientRect().top+s,d=1200,st=null;function ease(t){return t<.5?4*t*t*t:(t-1)*(2*t-2)*(2*t-2)+1}function step(ts){if(!st)st=ts;var p=Math.min((ts-st)/d,1);window.scrollTo(0,s+(n-s)*ease(p));if(p<1)requestAnimationFrame(step)}requestAnimationFrame(step)}
 
-// Hero fold bar — in-flow; margin-top positions it at 85vh, scrolls away naturally
-(function(){
-  var bar = document.getElementById('heroFoldBar');
-  var nw  = document.querySelector('.nav-wrap');
-  if(!bar) return;
-  function pos(){
-    var navH = nw ? nw.offsetHeight : 94;
-    bar.style.marginTop = Math.max(0, Math.round(window.innerHeight * 0.85) - navH) + 'px';
-  }
-  pos();
-  window.addEventListener('resize', pos, {passive:true});
-})();
+// Hero fold bar — positioned by CSS calc(85vh - 94px); no JS needed.
 </script>
 <script>
 /* ── Home page: New Arrivals from products_index.json ── */

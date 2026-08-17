@@ -299,7 +299,7 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
 /* ── Hero fold bar: trust items + Explore, in the 15vh gap below the hero ── */
 .hero-fold-bar{
   position:fixed;bottom:0;left:0;right:0;height:15vh;
-  z-index:10;background:#E4EEE0;
+  z-index:1;background:#E4EEE0;
   display:flex;align-items:center;justify-content:center;
   pointer-events:none;
 }
@@ -349,6 +349,20 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
 @keyframes hfb-bounce{
   0%,100%{transform:translateY(0);}
   50%{transform:translateY(6px);}
+}
+/* Standalone Explore button — z-index:100, persists while scrolling content */
+.scroll-hint{
+  position:fixed;bottom:7.5vh;left:50%;
+  transform:translateX(-50%);
+  z-index:100;
+  display:flex;flex-direction:column;align-items:center;gap:5px;
+  cursor:pointer;text-decoration:none;
+  animation:sh-bounce 2s ease-in-out infinite;
+  pointer-events:auto;
+}
+@keyframes sh-bounce{
+  0%,100%{transform:translateX(-50%) translateY(0);}
+  50%{transform:translateX(-50%) translateY(6px);}
 }
 @media(max-width:860px){
   .hfb-group{display:none;}
@@ -488,6 +502,15 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
     </div>
   </div>
 </div>
+<!-- Standalone Explore: hidden on hero, z-index:100, scrolls 85vh per click, hides near footer -->
+<a class="scroll-hint" id="pageExploreIndex" style="display:none" href="#"
+   onclick="event.preventDefault();window.scrollBy({top:Math.round(window.innerHeight*0.85),behavior:'smooth'});"
+   aria-label="Scroll down to explore">
+  <span class="hfb-explore-text">Explore</span>
+  <div class="hfb-explore-arrow">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+  </div>
+</a>
 <script>
 /* ── Banner loader: renders hero slides from data/banners.json ── */
 (function(){
@@ -551,15 +574,17 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
     .catch(function(){/* silently keep fallback */});
 })();
 
-/* ── Explore strip: stay visible while scrolling, hide only when footer enters view ── */
+/* ── Standalone Explore: hidden on hero, shows while scrolling content, hides near footer ── */
 (function(){
-  var bar = document.getElementById('heroFoldBar');
-  if(!bar) return;
+  var btn = document.getElementById('pageExploreIndex');
+  if(!btn) return;
   function _update(){
-    if(window.innerWidth <= 480) return; // CSS hides on mobile; don't fight it
+    if(window.innerWidth <= 480) return;
+    // On hero: fold bar's own Explore handles it; standalone stays hidden
+    if(window.scrollY < window.innerHeight * 0.85){ btn.style.display = 'none'; return; }
     var ft = document.querySelector('.ft');
-    if(!ft){ bar.style.display = 'flex'; return; }
-    bar.style.display = ft.getBoundingClientRect().top < window.innerHeight - 100 ? 'none' : 'flex';
+    if(!ft){ btn.style.display = 'flex'; return; }
+    btn.style.display = ft.getBoundingClientRect().top < window.innerHeight - 100 ? 'none' : 'flex';
   }
   window.addEventListener('scroll', _update, {passive:true});
   setTimeout(_update, 400);

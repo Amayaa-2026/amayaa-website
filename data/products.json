@@ -45,7 +45,7 @@
     "descriptionId": "DESC-002",
     "contentBundleId": null,
     "careSuggestionId": "CI-002",
-    "thumbnail": "images/products/AMY-BAN-001.jpg"
+    "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-BAN-001.jpg?tr=f-auto,q-85"
   },
   {
     "id": "AMY-KAN-001",
@@ -91,7 +91,7 @@
     "descriptionId": "DESC-006",
     "contentBundleId": null,
     "careSuggestionId": "CI-006",
-    "thumbnail": "images/products/AMY-KAN-001.jpg"
+    "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-KAN-001.jpg?tr=f-auto,q-85"
   },
   {
     "id": "AMY-BAL-001",
@@ -135,7 +135,7 @@
     "descriptionId": "DESC-001",
     "contentBundleId": null,
     "careSuggestionId": "CI-001",
-    "thumbnail": "images/products/AMY-BAL-001.jpg"
+    "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-BAL-001.jpg?tr=f-auto,q-85"
   },
   {
     "id": "AMY-CHA-001",
@@ -182,7 +182,7 @@
     "descriptionId": "DESC-003",
     "contentBundleId": null,
     "careSuggestionId": "CI-003",
-    "thumbnail": "images/products/AMY-CHA-001.jpg"
+    "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-CHA-001.jpg?tr=f-auto,q-85"
   },
   {
     "id": "AMY-SAM-001",
@@ -229,7 +229,7 @@
     "descriptionId": "DESC-010",
     "contentBundleId": null,
     "careSuggestionId": "CI-010",
-    "thumbnail": "images/products/AMY-SAM-001.jpg"
+    "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-SAM-001.jpg?tr=f-auto,q-85"
   },
   {
     "id": "AMY-PAI-001",
@@ -277,7 +277,7 @@
     "descriptionId": "DESC-009",
     "contentBundleId": null,
     "careSuggestionId": "CI-009",
-    "thumbnail": "images/products/AMY-PAI-001.jpg"
+    "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-PAI-001.jpg?tr=f-auto,q-85"
   },
   {
     "id": "AMY-TUS-001",
@@ -322,7 +322,7 @@
     "descriptionId": "DESC-012",
     "contentBundleId": null,
     "careSuggestionId": "CI-012",
-    "thumbnail": "images/products/AMY-TUS-001.jpg"
+    "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-TUS-001.jpg?tr=f-auto,q-85"
   },
   {
     "id": "AMY-IKA-001",
@@ -368,7 +368,7 @@
     "descriptionId": "DESC-004",
     "contentBundleId": null,
     "careSuggestionId": "CI-004",
-    "thumbnail": "images/products/AMY-IKA-001.jpg"
+    "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-IKA-001.jpg?tr=f-auto,q-85"
   },
   {
     "id": "AMY-MAH-001",
@@ -413,7 +413,7 @@
     "descriptionId": "DESC-007",
     "contentBundleId": null,
     "careSuggestionId": "CI-007",
-    "thumbnail": "images/products/AMY-MAH-001.jpg"
+    "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-MAH-001.jpg?tr=f-auto,q-85"
   },
   {
     "id": "AMY-MYS-001",
@@ -461,7 +461,7 @@
     "descriptionId": "DESC-008",
     "contentBundleId": null,
     "careSuggestionId": "CI-008",
-    "thumbnail": "images/products/AMY-MYS-001.jpg"
+    "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-MYS-001.jpg?tr=f-auto,q-85"
   },
   {
     "id": "AMY-JAM-001",
@@ -505,7 +505,7 @@
     "descriptionId": "DESC-005",
     "contentBundleId": null,
     "careSuggestionId": "CI-005",
-    "thumbnail": "images/products/AMY-JAM-001.jpg"
+    "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-JAM-001.jpg?tr=f-auto,q-85"
   },
   {
     "id": "AMY-TAN-001",
@@ -549,7 +549,7 @@
     "descriptionId": "DESC-011",
     "contentBundleId": null,
     "careSuggestionId": "CI-011",
-    "thumbnail": "images/products/AMY-TAN-001.jpg"
+    "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-TAN-001.jpg?tr=f-auto,q-85"
   },
   {
     "id": "AMY-NAU-001",

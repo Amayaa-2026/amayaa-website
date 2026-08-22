@@ -1,116 +1,116 @@
 [
-    {
-        "id": 1,
-        "slot": "s1",
-        "eyebrow": "✦ New Arrivals — Summer 2026 ✦",
-        "headline": "Where Every Thread Tells a Story",
-        "title": "Where Every Thread<br>Tells a <em>Story</em>",
-        "subtitle": "Master weavers. Ancient looms. Sarees that carry the soul of India — from the banks of the Ganga to the looms of Kanchipuram.",
-        "ctaPrimary": {
-            "label": "Explore & Shop",
-            "href": "amayaa_sarees.html"
-        },
-        "ctaSecondary": {
-            "label": "WhatsApp Us",
-            "href": "https://wa.me/919583946000"
-        },
-        "backgroundImage": "images/banners/Common.jpg",
-        "backgroundAlt": "Handloom Sarees — Amayaa by Polka Dots",
-        "active": true
+  {
+    "id": 1,
+    "slot": "s1",
+    "eyebrow": "✦ New Arrivals — Summer 2026 ✦",
+    "headline": "Where Every Thread Tells a Story",
+    "title": "Where Every Thread<br>Tells a <em>Story</em>",
+    "subtitle": "Master weavers. Ancient looms. Sarees that carry the soul of India — from the banks of the Ganga to the looms of Kanchipuram.",
+    "ctaPrimary": {
+      "label": "Explore & Shop",
+      "href": "amayaa_sarees.html"
     },
-    {
-        "id": 2,
-        "slot": "s2",
-        "eyebrow": "South India Exclusive",
-        "headline": "Kanjivaram — The Queen of Silks",
-        "title": "Kanjivaram &mdash;<br><em>The Queen of Silks</em>",
-        "subtitle": "Temple borders, zari brilliance, and a heritage that defines celebration across generations.",
-        "ctaPrimary": {
-            "label": "Explore & Shop",
-            "href": "amayaa_sarees.html"
-        },
-        "ctaSecondary": {
-            "label": "WhatsApp Us",
-            "href": "https://wa.me/919583946000"
-        },
-        "backgroundImage": "images/banners/Kanjivaran Gem.png",
-        "backgroundAlt": "Kanjivaram Silk Saree",
-        "active": true
+    "ctaSecondary": {
+      "label": "WhatsApp Us",
+      "href": "https://wa.me/919583946000"
     },
-    {
-        "id": 3,
-        "slot": "s3",
-        "eyebrow": "Bengal Heritage",
-        "headline": "Jamdani — The Art of Bengal",
-        "title": "Jamdani &mdash;<br><em>The Art of Bengal</em>",
-        "subtitle": "Hand-woven on fine muslin, each motif placed by memory alone. A UNESCO heritage craft — rare, light, and breathtaking.",
-        "ctaPrimary": {
-            "label": "Explore & Shop",
-            "href": "amayaa_sarees.html"
-        },
-        "ctaSecondary": {
-            "label": "WhatsApp Us",
-            "href": "https://wa.me/919583946000"
-        },
-        "backgroundImage": "images/banners/Jamdani_NBG.jpg",
-        "backgroundAlt": "Jamdani Muslin Saree",
-        "active": true
+    "backgroundImage": "https://ik.imagekit.io/Amayaa2026/banners/Common.jpg?tr=f-auto,q-85",
+    "backgroundAlt": "Handloom Sarees — Amayaa by Polka Dots",
+    "active": true
+  },
+  {
+    "id": 2,
+    "slot": "s2",
+    "eyebrow": "South India Exclusive",
+    "headline": "Kanjivaram — The Queen of Silks",
+    "title": "Kanjivaram &mdash;<br><em>The Queen of Silks</em>",
+    "subtitle": "Temple borders, zari brilliance, and a heritage that defines celebration across generations.",
+    "ctaPrimary": {
+      "label": "Explore & Shop",
+      "href": "amayaa_sarees.html"
     },
-    {
-        "id": 4,
-        "slot": "s4",
-        "eyebrow": "Maharashtra Royal Weave",
-        "headline": "Paithani — Woven in Gold & Peacock",
-        "title": "Paithani &mdash;<br><em>Woven in Gold &amp; Peacock</em>",
-        "subtitle": "Peacock motifs in pure zari, borders that shimmer like gold — the bridal saree of Maharashtra for over two millennia.",
-        "ctaPrimary": {
-            "label": "Explore & Shop",
-            "href": "amayaa_sarees.html"
-        },
-        "ctaSecondary": {
-            "label": "WhatsApp Us",
-            "href": "https://wa.me/919583946000"
-        },
-        "backgroundImage": "images/banners/Paithani NBG 1.jpg",
-        "backgroundAlt": "Paithani Silk Saree",
-        "active": true
+    "ctaSecondary": {
+      "label": "WhatsApp Us",
+      "href": "https://wa.me/919583946000"
     },
-    {
-        "id": 5,
-        "slot": "s5",
-        "eyebrow": "Telangana Collection",
-        "headline": "Pochampally Ikat — Geometry in Silk",
-        "title": "Pochampally Ikat &mdash;<br><em>Geometry in Silk</em>",
-        "subtitle": "Resist-dyed threads woven into mesmerising geometric patterns — a GI-tagged craft from the heart of Telangana.",
-        "ctaPrimary": {
-            "label": "Explore & Shop",
-            "href": "amayaa_sarees.html"
-        },
-        "ctaSecondary": {
-            "label": "WhatsApp Us",
-            "href": "https://wa.me/919583946000"
-        },
-        "backgroundImage": "images/banners/Pochampally CG.png",
-        "backgroundAlt": "Pochampally Ikat Saree",
-        "active": true
+    "backgroundImage": "https://ik.imagekit.io/Amayaa2026/banners/Kanjivaran Gem.png?tr=f-auto,q-85",
+    "backgroundAlt": "Kanjivaram Silk Saree",
+    "active": true
+  },
+  {
+    "id": 3,
+    "slot": "s3",
+    "eyebrow": "Bengal Heritage",
+    "headline": "Jamdani — The Art of Bengal",
+    "title": "Jamdani &mdash;<br><em>The Art of Bengal</em>",
+    "subtitle": "Hand-woven on fine muslin, each motif placed by memory alone. A UNESCO heritage craft — rare, light, and breathtaking.",
+    "ctaPrimary": {
+      "label": "Explore & Shop",
+      "href": "amayaa_sarees.html"
     },
-    {
-        "id": 6,
-        "slot": "s6",
-        "eyebrow": "Varanasi Collection",
-        "headline": "Banarasi — The Silk of Emperors",
-        "title": "Banarasi &mdash;<br><em>The Silk of Emperors</em>",
-        "subtitle": "Pure Katan silk. Woven on pit looms for fifteen centuries. Every zari thread carries the weight of a living tradition.",
-        "ctaPrimary": {
-            "label": "Explore & Shop",
-            "href": "amayaa_sarees.html"
-        },
-        "ctaSecondary": {
-            "label": "WhatsApp Us",
-            "href": "https://wa.me/919583946000"
-        },
-        "backgroundImage": "images/banners/Banarsi CG.png",
-        "backgroundAlt": "Banarasi Silk Saree",
-        "active": true
-    }
+    "ctaSecondary": {
+      "label": "WhatsApp Us",
+      "href": "https://wa.me/919583946000"
+    },
+    "backgroundImage": "https://ik.imagekit.io/Amayaa2026/banners/Jamdani_NBG.jpg?tr=f-auto,q-85",
+    "backgroundAlt": "Jamdani Muslin Saree",
+    "active": true
+  },
+  {
+    "id": 4,
+    "slot": "s4",
+    "eyebrow": "Maharashtra Royal Weave",
+    "headline": "Paithani — Woven in Gold & Peacock",
+    "title": "Paithani &mdash;<br><em>Woven in Gold &amp; Peacock</em>",
+    "subtitle": "Peacock motifs in pure zari, borders that shimmer like gold — the bridal saree of Maharashtra for over two millennia.",
+    "ctaPrimary": {
+      "label": "Explore & Shop",
+      "href": "amayaa_sarees.html"
+    },
+    "ctaSecondary": {
+      "label": "WhatsApp Us",
+      "href": "https://wa.me/919583946000"
+    },
+    "backgroundImage": "https://ik.imagekit.io/Amayaa2026/banners/Paithani NBG 1.jpg?tr=f-auto,q-85",
+    "backgroundAlt": "Paithani Silk Saree",
+    "active": true
+  },
+  {
+    "id": 5,
+    "slot": "s5",
+    "eyebrow": "Telangana Collection",
+    "headline": "Pochampally Ikat — Geometry in Silk",
+    "title": "Pochampally Ikat &mdash;<br><em>Geometry in Silk</em>",
+    "subtitle": "Resist-dyed threads woven into mesmerising geometric patterns — a GI-tagged craft from the heart of Telangana.",
+    "ctaPrimary": {
+      "label": "Explore & Shop",
+      "href": "amayaa_sarees.html"
+    },
+    "ctaSecondary": {
+      "label": "WhatsApp Us",
+      "href": "https://wa.me/919583946000"
+    },
+    "backgroundImage": "https://ik.imagekit.io/Amayaa2026/banners/Pochampally CG.png?tr=f-auto,q-85",
+    "backgroundAlt": "Pochampally Ikat Saree",
+    "active": true
+  },
+  {
+    "id": 6,
+    "slot": "s6",
+    "eyebrow": "Varanasi Collection",
+    "headline": "Banarasi — The Silk of Emperors",
+    "title": "Banarasi &mdash;<br><em>The Silk of Emperors</em>",
+    "subtitle": "Pure Katan silk. Woven on pit looms for fifteen centuries. Every zari thread carries the weight of a living tradition.",
+    "ctaPrimary": {
+      "label": "Explore & Shop",
+      "href": "amayaa_sarees.html"
+    },
+    "ctaSecondary": {
+      "label": "WhatsApp Us",
+      "href": "https://wa.me/919583946000"
+    },
+    "backgroundImage": "https://ik.imagekit.io/Amayaa2026/banners/Banarsi CG.png?tr=f-auto,q-85",
+    "backgroundAlt": "Banarasi Silk Saree",
+    "active": true
+  }
 ]

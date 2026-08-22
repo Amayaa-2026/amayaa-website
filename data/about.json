@@ -6,7 +6,7 @@
       "heading": "A Boutique Born from a Love of Handloom",
       "body": "Polka Dots began as a small boutique in Kolkata, built on the founder's lifelong passion for Indian textiles. What started as a personal collection of handloom sarees grew into a mission — to bring the finest weaves of India directly to women who value authenticity over mass production.\n\nAmayaa, meaning \"one without blemish\" in Sanskrit, reflects our commitment to purity — of craft, of origin, and of purpose. Every saree we carry has been handpicked, personally verified for authenticity, and sourced with deep respect for the weaver communities who create them. We began with a small shelf and a few trusted weavers. Today we work with artisan families across six states — but the principle has never changed.",
       "imgPos": "left",
-      "imgUrl": "images/OurStory/story-1.jpg"
+      "imgUrl": "https://ik.imagekit.io/Amayaa2026/ourstory/story-1.jpg?tr=f-auto,q-85"
     },
     {
       "id": 2,
@@ -14,7 +14,7 @@
       "heading": "Why Handloom Matters",
       "body": "India's handloom sector employs over 35 lakh weavers — the second largest workforce in the country after agriculture (Ministry of Textiles, Government of India). Yet handloom sarees account for a shrinking share of the textile market, displaced by power loom imitations that look similar but carry none of the soul.\n\nAt Amayaa, every purchase directly supports a weaver family. We pay fair prices above market rates, make advance purchases to reduce weaver risk, and document the origin story of every saree we sell. When you buy from us, you are not just wearing a saree — you are preserving a living art form and sustaining the family that created it.",
       "imgPos": "right",
-      "imgUrl": "images/OurStory/story-2.jpg"
+      "imgUrl": "https://ik.imagekit.io/Amayaa2026/ourstory/story-2.jpg?tr=f-auto,q-85"
     },
     {
       "id": 3,
@@ -22,7 +22,7 @@
       "heading": "Authenticity You Can Trace",
       "body": "Every saree at Amayaa comes with a story — of the weave, the weaver, and the region. We work only with Silk Mark certified silk sarees (Silk Mark Organisation of India), GI-tagged handlooms where applicable, and cooperatives registered with state handloom boards.\n\nWe believe the buyer has the right to know where their saree came from and who made it. That transparency is not a marketing exercise — it is the foundation of everything we do. If you ever want to know more about the specific saree you purchased, write to us. We will connect you directly to the weaver.",
       "imgPos": "left",
-      "imgUrl": "images/OurStory/story-1.jpg"
+      "imgUrl": "https://ik.imagekit.io/Amayaa2026/ourstory/story-1.jpg?tr=f-auto,q-85"
     }
   ],
   "values": [
@@ -58,7 +58,7 @@
       "region": "Varanasi, UP",
       "specialty": "Banarasi Silk",
       "story": "Seven generations of Banarasi brocade weaving. The Ansari family specialises in Katan silk with Meenakari (enamel-style colour-filling) using real gold zari — a technique they have refined over 200 years. Their pit loom has never been replaced by a power loom, and they intend to keep it that way.",
-      "photo": "images/WeaverProfiles/weaver-1.jpg"
+      "photo": "https://ik.imagekit.io/Amayaa2026/weaverprofiles/weaver-1.jpg?tr=f-auto,q-85"
     },
     {
       "id": 2,
@@ -66,7 +66,7 @@
       "region": "Bishnupur, WB",
       "specialty": "Baluchari Silk",
       "story": "Master storyteller weavers depicting Puranic narratives in silk brocade on the drawloom. The Basak family is one of the few remaining families in Bishnupur who still weave traditional Mahabharata pallus by hand. They were among the artisans who participated in the Subho Tagore revival effort of the 1950s.",
-      "photo": "images/WeaverProfiles/weaver-2.jpg"
+      "photo": "https://ik.imagekit.io/Amayaa2026/weaverprofiles/weaver-2.jpg?tr=f-auto,q-85"
     },
     {
       "id": 3,
@@ -74,7 +74,7 @@
       "region": "Kanchipuram, TN",
       "specialty": "Kanjivaram Silk",
       "story": "A Kanchipuram weaving family of the Saligrama Mudaliar community — the traditional weaving caste of the region — who trace their craft lineage to the Pallava period. Devanathan & Sons weave exclusively with triple-twisted mulberry silk and traditional gold zari, producing no more than four sarees a month to maintain quality.",
-      "photo": "images/WeaverProfiles/weaver-3.jpg"
+      "photo": "https://ik.imagekit.io/Amayaa2026/weaverprofiles/weaver-3.jpg?tr=f-auto,q-85"
     },
     {
       "id": 4,
@@ -82,7 +82,7 @@
       "region": "Sambalpur, Odisha",
       "specialty": "Sambalpuri Ikat",
       "story": "A cooperative of 24 weaver families from the Meher community — the traditional Sambalpuri ikat weavers of western Odisha. Their ikat technique involves tying and dyeing the threads before weaving, so the pattern emerges from within the thread itself. The cooperative is registered with the Odisha State Handloom Weavers' Co-operative Society.",
-      "photo": "images/WeaverProfiles/weaver-4.jpg"
+      "photo": "https://ik.imagekit.io/Amayaa2026/weaverprofiles/weaver-4.jpg?tr=f-auto,q-85"
     }
   ],
   "promise": [

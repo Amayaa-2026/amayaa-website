@@ -4,11 +4,41 @@
   "viewAllHref": "amayaa_sarees.html",
   "viewAllLabel": "View All Collections",
   "items": [
-    { "name": "Banarasi",   "count": "48+", "filterParam": "region=Banarasi",   "image": "images/OurCollections/Banarsi.png" },
-    { "name": "Kanjivaram", "count": "52+", "filterParam": "region=Kanjivaram", "image": "images/OurCollections/Kanjivaram.png" },
-    { "name": "Baluchari",  "count": "24+", "filterParam": "region=Baluchari",  "image": "images/OurCollections/Baluchari.png" },
-    { "name": "Chanderi",   "count": "36+", "filterParam": "region=Chanderi",   "image": "images/OurCollections/Chanderi.png" },
-    { "name": "Sambalpuri", "count": "28+", "filterParam": "region=Sambalpuri", "image": "images/OurCollections/Sambhalpuri.png" },
-    { "name": "Paithani",   "count": "22+", "filterParam": "region=Paithani",   "image": "images/OurCollections/Paithani.png" }
+    {
+      "name": "Banarasi",
+      "count": "48+",
+      "filterParam": "region=Banarasi",
+      "image": "https://ik.imagekit.io/Amayaa2026/ourcollections/Banarsi.png?tr=f-auto,q-85"
+    },
+    {
+      "name": "Kanjivaram",
+      "count": "52+",
+      "filterParam": "region=Kanjivaram",
+      "image": "https://ik.imagekit.io/Amayaa2026/ourcollections/Kanjivaram.png?tr=f-auto,q-85"
+    },
+    {
+      "name": "Baluchari",
+      "count": "24+",
+      "filterParam": "region=Baluchari",
+      "image": "https://ik.imagekit.io/Amayaa2026/ourcollections/Baluchari.png?tr=f-auto,q-85"
+    },
+    {
+      "name": "Chanderi",
+      "count": "36+",
+      "filterParam": "region=Chanderi",
+      "image": "https://ik.imagekit.io/Amayaa2026/ourcollections/Chanderi.png?tr=f-auto,q-85"
+    },
+    {
+      "name": "Sambalpuri",
+      "count": "28+",
+      "filterParam": "region=Sambalpuri",
+      "image": "https://ik.imagekit.io/Amayaa2026/ourcollections/Sambhalpuri.png?tr=f-auto,q-85"
+    },
+    {
+      "name": "Paithani",
+      "count": "22+",
+      "filterParam": "region=Paithani",
+      "image": "https://ik.imagekit.io/Amayaa2026/ourcollections/Paithani.png?tr=f-auto,q-85"
+    }
   ]
 }

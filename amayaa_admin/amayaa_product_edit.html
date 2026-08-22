@@ -467,27 +467,12 @@ if(!sessionStorage.getItem('amayaa_admin')){
         <!-- PHOTOS -->
         <div class="card" style="margin-bottom:16px;">
           <div class="card-header">
-            <div><div class="card-title">Product Photos</div><div class="card-sub">Up to 8 · Drag to reorder</div></div>
+            <div><div class="card-title">Product Photos</div><div class="card-sub">Up to 8 · First photo = main image</div></div>
           </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:11px;">
-            <div style="aspect-ratio:3/4;border-radius:9px;background:linear-gradient(160deg,#8B1A4A,#C4622D);position:relative;display:flex;align-items:flex-end;padding:7px;">
-              <span style="background:#C4622D;color:white;font-size:9px;font-weight:600;padding:2px 6px;border-radius:4px;">MAIN</span>
-              <span style="position:absolute;top:6px;right:6px;background:rgba(0,0,0,.4);color:white;font-size:10px;padding:2px 6px;border-radius:4px;cursor:pointer;">✕</span>
-            </div>
-            <div style="aspect-ratio:3/4;border-radius:9px;background:linear-gradient(160deg,#C4622D,#E8A020);position:relative;">
-              <span style="position:absolute;top:6px;right:6px;background:rgba(0,0,0,.4);color:white;font-size:10px;padding:2px 6px;border-radius:4px;cursor:pointer;">✕</span>
-            </div>
-            <div style="aspect-ratio:3/4;border-radius:9px;border:2px dashed rgba(0,0,0,.12);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;cursor:pointer;background:rgba(240,230,216,.5);" onclick="alert('Upload photo')">
-              <div style="font-size:22px;color:#C0A888;">+</div>
-              <div style="font-size:10px;color:#C0A888;letter-spacing:1px;">ADD PHOTO</div>
-            </div>
-            <div style="aspect-ratio:3/4;border-radius:9px;border:2px dashed rgba(0,0,0,.12);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;cursor:pointer;background:rgba(240,230,216,.5);">
-              <div style="font-size:22px;color:#C0A888;">+</div>
-              <div style="font-size:10px;color:#C0A888;letter-spacing:1px;">ADD PHOTO</div>
-            </div>
-          </div>
-          <button class="btn btn-ghost" style="width:100%;justify-content:center;">📁 Upload Photos</button>
-          <p style="font-size:11px;color:#C0A888;margin-top:7px;text-align:center;">JPG/PNG · Auto-resized · Max 5MB each · First photo = main image</p>
+          <div id="photo-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:11px;"></div>
+          <button class="btn btn-ghost" style="width:100%;justify-content:center;" onclick="_addPhoto()">📁 Upload Photo</button>
+          <div id="photo-status" style="font-size:11px;color:#9A8070;text-align:center;margin-top:6px;min-height:16px;"></div>
+          <p style="font-size:11px;color:#C0A888;margin-top:4px;text-align:center;">JPG/PNG/WebP · Max 5MB · Uploaded to ImageKit CDN</p>
         </div>
 
         <!-- LIVE PREVIEW -->
@@ -665,8 +650,55 @@ document.addEventListener('DOMContentLoaded',function(){
   });
 });
 </script>
+<script>
+/* ── Product Photos via ImageKit ── */
+var _productPhotos = []; // array of IK URLs
+
+function _renderPhotoGrid() {
+  var grid = document.getElementById('photo-grid');
+  if (!grid) return;
+  var html = '';
+  _productPhotos.forEach(function(url, i) {
+    var isMain = i === 0;
+    html += '<div style="aspect-ratio:3/4;border-radius:9px;overflow:hidden;position:relative;background:#f5f0eb;">'
+      + '<img src="' + url + '" style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy">'
+      + (isMain ? '<span style="position:absolute;bottom:6px;left:6px;background:#C4622D;color:white;font-size:9px;font-weight:600;padding:2px 6px;border-radius:4px;">MAIN</span>' : '')
+      + '<span onclick="_removePhoto(' + i + ')" style="position:absolute;top:6px;right:6px;background:rgba(0,0,0,.5);color:white;font-size:11px;padding:2px 7px;border-radius:4px;cursor:pointer;">✕</span>'
+      + '</div>';
+  });
+  // Add slot if under 8
+  if (_productPhotos.length < 8) {
+    html += '<div onclick="_addPhoto()" style="aspect-ratio:3/4;border-radius:9px;border:2px dashed rgba(0,0,0,.12);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;cursor:pointer;background:rgba(240,230,216,.4);">'
+      + '<div style="font-size:22px;color:#C0A888;">+</div>'
+      + '<div style="font-size:10px;color:#C0A888;letter-spacing:1px;">ADD PHOTO</div>'
+      + '</div>';
+  }
+  grid.innerHTML = html;
+}
+
+function _addPhoto() {
+  var statusEl = document.getElementById('photo-status');
+  _ikPick('/products', function(url) {
+    _productPhotos.push(url);
+    _renderPhotoGrid();
+    // Update thumbnail in product data
+    if (_productPhotos.length === 1 && statusEl) {
+      statusEl.textContent = '✅ First photo set as main image';
+      setTimeout(function() { statusEl.textContent = ''; }, 3000);
+    }
+  }, statusEl);
+}
+
+function _removePhoto(idx) {
+  _productPhotos.splice(idx, 1);
+  _renderPhotoGrid();
+}
+
+// Init empty grid on load
+document.addEventListener('DOMContentLoaded', function() { _renderPhotoGrid(); });
+</script>
 <script data-goatcounter="https://amayaa.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-<script data-goatcounter="https://amayaa.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<script src="imagekit.js"></script>
 <script src="sidebar.js"></script>
 </body>
 </html>

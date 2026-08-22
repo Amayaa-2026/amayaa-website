@@ -541,49 +541,13 @@ function removeSlide(){
   _populateForm(_curIdx);
 }
 
-/* ═══ IMAGE UPLOAD VIA GITHUB API ═══ */
+/* ═══ IMAGE UPLOAD VIA IMAGEKIT ═══ */
 function uploadImage(){
-  var tok = _ghTok();
-  if(!tok){ alert('No GitHub token. Go to Admin → Settings first.'); return; }
-  var fi = document.createElement('input');
-  fi.type = 'file';
-  fi.accept = 'image/jpeg,image/png,image/webp';
-  fi.onchange = function(e){
-    var file = e.target.files[0];
-    if(!file) return;
-    if(file.size > 3*1024*1024){ alert('Image must be under 3 MB.'); return; }
-    var statusEl = document.getElementById('img-status');
-    if(statusEl) statusEl.textContent = 'Reading file…';
-    var reader = new FileReader();
-    reader.onload = function(ev){
-      var b64 = ev.target.result.split(',')[1];
-      var path = 'images/banners/' + file.name.replace(/\s/g,'_');
-      if(statusEl) statusEl.textContent = 'Uploading to GitHub…';
-      fetch('https://api.github.com/repos/'+GH_REPO+'/contents/'+path+'?ref='+GH_BRANCH,{headers:_ghHdrs()})
-        .then(function(r){ return r.json(); })
-        .then(function(ex){
-          var body = { message:'Admin: upload banner image '+file.name, content:b64, branch:GH_BRANCH };
-          if(ex.sha) body.sha = ex.sha; // overwrite if exists
-          return fetch('https://api.github.com/repos/'+GH_REPO+'/contents/'+path,{method:'PUT',headers:_ghHdrs(),body:JSON.stringify(body)});
-        })
-        .then(function(r){ return r.json(); })
-        .then(function(res){
-          if(res.content){
-            document.getElementById('bi-bgimage').value = path;
-            _updateImgPreview(path);
-            if(statusEl) statusEl.textContent = '✅ Uploaded! Click Save All Banners to apply.';
-            setTimeout(function(){ if(statusEl) statusEl.textContent=''; },5000);
-          } else {
-            if(statusEl) statusEl.textContent = '❌ Upload failed: '+(res.message||'Unknown error');
-          }
-        })
-        .catch(function(err){
-          if(statusEl) statusEl.textContent = '❌ Upload failed: '+err.message;
-        });
-    };
-    reader.readAsDataURL(file);
-  };
-  fi.click();
+  var statusEl = document.getElementById('img-status');
+  _ikPick('/banners', function(url){
+    document.getElementById('bi-bgimage').value = url;
+    _updateImgPreview(url);
+  }, statusEl);
 }
 
 /* ═══ SAVE ═══ */
@@ -624,5 +588,6 @@ document.addEventListener('DOMContentLoaded', function(){
 });
 </script>
 <script data-goatcounter="https://amayaa.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<script src="imagekit.js"></script>
 <script src="sidebar.js"></script>
 </body></html>

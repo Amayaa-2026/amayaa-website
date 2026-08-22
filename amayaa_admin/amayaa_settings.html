@@ -279,6 +279,19 @@ if(!sessionStorage.getItem('amayaa_admin')){
       ✅ GitHub token active — saves go live in ~30s &nbsp;·&nbsp; <a onclick="clearToken()">Change token</a>
     </div>
 
+    <!-- ImageKit private key -->
+    <div class="token-banner" id="ik-token-banner" style="margin-bottom:16px;">
+      <div class="token-banner-msg">
+        <strong>🖼 ImageKit Private Key — for image uploads</strong>
+        Paste your ImageKit private API key. Stored in this browser only, never in the repo.
+      </div>
+      <input type="password" id="ik-token-input" placeholder="private_…" autocomplete="off">
+      <button onclick="saveIkToken()">Save Key</button>
+    </div>
+    <div id="ik-token-set-wrap" style="display:none;margin-bottom:16px;font-size:13px;color:#1A7A40;">
+      ✅ ImageKit key active — image uploads will use ImageKit CDN &nbsp;·&nbsp; <a style="cursor:pointer;color:#C4622D;" onclick="clearIkToken()">Change key</a>
+    </div>
+
     <!-- ── TAB STRIP ── -->
     <div class="tab-strip">
       <button class="tab-btn active" onclick="_switchTab('store',this)">🏪 Store Info</button>
@@ -542,6 +555,31 @@ function clearToken() {
   _checkToken();
 }
 
+/* ── ImageKit key management ── */
+function _checkIkToken() {
+  var k = localStorage.getItem('amayaa_ik_private_key');
+  var banner = document.getElementById('ik-token-banner');
+  var setWrap = document.getElementById('ik-token-set-wrap');
+  if (k) {
+    if (banner) banner.style.display = 'none';
+    if (setWrap) setWrap.style.display = 'block';
+  } else {
+    if (banner) banner.style.display = '';
+    if (setWrap) setWrap.style.display = 'none';
+  }
+}
+function saveIkToken() {
+  var val = document.getElementById('ik-token-input').value.trim();
+  if (!val) { alert('Please paste your ImageKit private key first.'); return; }
+  localStorage.setItem('amayaa_ik_private_key', val);
+  document.getElementById('ik-token-input').value = '';
+  _checkIkToken();
+}
+function clearIkToken() {
+  localStorage.removeItem('amayaa_ik_private_key');
+  _checkIkToken();
+}
+
 /* Use TextDecoder/TextEncoder — handles all Unicode correctly */
 function _b64ToUtf8(b64) {
   var raw = atob(b64.replace(/\n/g, ''));
@@ -558,6 +596,7 @@ function _utf8ToB64(str) {
 
 document.addEventListener('DOMContentLoaded', function () {
   _checkToken();
+  _checkIkToken();
   var tok = localStorage.getItem('amayaa_gh_token') || '';
   var hdrs = { Authorization: 'token ' + tok, Accept: 'application/vnd.github.v3+json' };
 

@@ -22,6 +22,7 @@
 | **v3.4** | **Aug 17 2026** | **Hero fold bar restructured (trust strip moved to 15vh gap). Blog post reader page. Blog page + admin editor data-driven. Our Story enriched (3rd section, 4 weaver profiles, values). Silk Mark replaces GI Tag sitewide. Trust strip items swapped. Section header typography system added.** |
 | **v3.5** | **Aug 22 2026** | **Our Story UI redesign (horizontal weaver cards, 4-col promise grid, font fixes). 30 product catalogue (18 new sarees, full regional/fabric/occasion diversity). Offers page: dynamic count, sort+filter fully wired, chips+sort on same row. Sarees sort bug fixed. Product drawer GST fine print. Blog content BLG-001–006 fully written with govt source credits.** |
 | **v3.6** | **Aug 22 2026** | **GoatCounter visitor count fix: Homepage #vc and Admin Dashboard "Total Visitors" now read live count from data/settings.json (siteStats.visitorCount). Dashboard "Refresh from GoatCounter" button fetches GoatCounter API (token from localStorage amayaa_gc_token), saves count + lastSynced back to settings.json via GitHub API.** |
+| **v3.7** | **Aug 22 2026** | **ImageKit.io CDN integration: All image paths migrated from local images/ to https://ik.imagekit.io/Amayaa2026/ across all data JSONs and HTML. Admin upload flows for banners and blog now use ImageKit Upload API instead of GitHub API. Product Edit now has a working photo upload panel. Shared imagekit.js helper created. ImageKit private key manageable from Admin Settings.** |
 
 ---
 
@@ -1042,13 +1043,125 @@ cd ~/Downloads/Amayaa_site && rm -f .git/index.lock .git/HEAD.lock && git push o
 
 ---
 
+## v3.6 · Aug 22 2026 — GoatCounter Visitor Count Fix
+
+### v3.6-1 · Homepage Visitor Counter — Live from settings.json
+**File:** `index.html`
+- `#vc` element was hardcoded to `12,847` — not connected to any data source
+- Now fetches `data/settings.json` on load and displays `siteStats.visitorCount` (formatted with `toLocaleString('en-IN')`)
+- Fetch is fire-and-forget with silent catch — no visible impact if offline or fetch fails
+
+### v3.6-2 · Admin Dashboard — Visitor Stat Wired to settings.json
+**File:** `amayaa_admin/amayaa_dashboard.html`
+- "Total Visitors" stat card value (`#dash-visitors`) was hardcoded to `12,847`
+- Now reads live from `settings.json` via GitHub API on dashboard load
+- Sub-label (`#dash-visitors-sub`) shows "Last synced: YYYY-MM-DD" from `siteStats.lastSynced`
+- Falls back to "Token needed" if GitHub token is not in localStorage
+
+### v3.6-3 · "Refresh from GoatCounter" Button on Dashboard
+**File:** `amayaa_admin/amayaa_dashboard.html`
+- Small button added inside the Total Visitors stat card
+- On click: prompts for GoatCounter API token (stored in `localStorage` under `amayaa_gc_token` — never in git)
+- Calls `https://amayaa.goatcounter.com/api/v0/stats/total` with `Authorization: Bearer <gc_token>`
+- On success: reads current `settings.json` SHA via GitHub API, updates `siteStats.visitorCount` and `siteStats.lastSynced`, PUTs back via GitHub API
+- Stat card updates live; button shows ✅ for 3s then resets
+- On bad GC token: clears `amayaa_gc_token` from localStorage so next click re-prompts
+
+### How to Use (Admin Instructions)
+
+**One-time setup:**
+1. In GoatCounter dashboard → Settings → API tokens → Create a new token (read permission is enough)
+2. In Admin Dashboard → Total Visitors → click "🔄 Refresh from GoatCounter"
+3. Paste your GoatCounter API token when prompted — it is saved locally in your browser only
+
+**Ongoing:**
+- Whenever you want the homepage to show a fresh count, open Admin Dashboard and click Refresh
+- Each refresh saves the count to `settings.json` via a GitHub commit — the homepage picks it up within seconds of GitHub Pages rebuild (~30s)
+- You do NOT need to push code — the refresh button handles the GitHub API write automatically
+
+**Token storage keys (localStorage only, never in git):**
+- `amayaa_gh_token` — GitHub Personal Access Token (for all admin saves)
+- `amayaa_gc_token` — GoatCounter API token (for visitor count refresh only)
+
+---
+
+## v3.7 · Aug 22 2026 — ImageKit CDN Integration
+
+**ImageKit endpoint:** `https://ik.imagekit.io/Amayaa2026`
+**Transform applied to all URLs:** `?tr=f-auto,q-85` (auto format WebP/AVIF, 85% quality)
+
+### v3.7-1 · Data JSON Migration (all local paths → ImageKit URLs)
+All 7 data files migrated — zero local `images/` paths remain:
+- `data/products_index.json` — 12 product thumbnails
+- `data/products/AMY-*.json` — 12 individual product files (thumbnail + photos)
+- `data/products.json` — legacy combined file (12 thumbnails)
+- `data/banners.json` — 6 backgroundImage fields
+- `data/collections.json` — 6 image fields (ourcollections folder)
+- `data/about.json` — 2 story images (ourstory) + 4 weaver photos (weaverprofiles)
+- `data/blog.json` — 7 thumbnailImage + 7 coverImage fields added/updated
+
+**Folder mapping (local → ImageKit):**
+- `images/products/` → `ik.../products/`
+- `images/banners/` → `ik.../banners/`
+- `images/logos/` → `ik.../logos/`
+- `images/OurCollections/` → `ik.../ourcollections/`
+- `images/OurStory/` → `ik.../ourstory/`
+- `images/WeaverProfiles/` → `ik.../weaverprofiles/`
+- `images/blog/` → `ik.../blog/`
+
+### v3.7-2 · Hardcoded HTML Paths Updated
+- `amayaa_about.html` — 6 hardcoded `<img src>` tags (2 story + 4 weaver)
+- `nav.js` — 2 logo refs inside search overlay HTML string + footer HTML string
+- `coming_soon.html` — 1 logo ref
+- `index.html` — collections grid static fallback (6 `background-image:url(...)`)
+
+### v3.7-3 · Shared imagekit.js Helper
+**File:** `amayaa_admin/imagekit.js`
+- `_ikUpload(file, folder)` → POSTs to `https://upload.imagekit.io/api/v1/files/upload` using private key from `localStorage.amayaa_ik_private_key`, returns full IK URL + transforms
+- `_ikPick(folder, onUrl, statusEl)` → opens file picker, validates size (5MB), calls `_ikUpload`, invokes callback with URL
+- On bad key: auto-clears localStorage so next call re-prompts
+- Loaded as `<script src="imagekit.js">` in banners, blog, and product edit pages
+
+### v3.7-4 · Banner Manager — Upload via ImageKit
+**File:** `amayaa_admin/amayaa_banners.html`
+- `uploadImage()` rewired from GitHub API base64 upload → `_ikPick('/banners', ...)`
+- URL from ImageKit saved directly into the `backgroundImage` field + preview updated
+- No GitHub API call for image binary — only for the banners.json metadata save
+
+### v3.7-5 · Blog Admin — Upload via ImageKit
+**File:** `amayaa_admin/amayaa_blog.html`
+- `uploadThumb()` rewired from GitHub API base64 upload → `_ikPick('/blog', ...)`
+- IK URL saved to `bf-thumbnail` field + preview box updated
+
+### v3.7-6 · Product Edit — Photo Upload Panel
+**File:** `amayaa_admin/amayaa_product_edit.html`
+- Static placeholder grid replaced with dynamic `#photo-grid` rendered by `_renderPhotoGrid()`
+- `_productPhotos[]` array stores all uploaded IK URLs in session
+- `_addPhoto()` calls `_ikPick('/products', ...)` — appends URL, re-renders grid
+- `_removePhoto(idx)` removes by index, re-renders
+- First photo in array = MAIN image (shown with badge)
+- Duplicate GoatCounter script tag removed
+
+### v3.7-7 · ImageKit Key in Admin Settings
+**File:** `amayaa_admin/amayaa_settings.html`
+- New "ImageKit Private Key" input block added below GitHub token section
+- `saveIkToken()` / `clearIkToken()` functions + `_checkIkToken()` on load
+- Key stored in `localStorage.amayaa_ik_private_key` — never in git repo
+
+### Admin Setup Instructions
+1. Go to **Admin → Settings** — paste your ImageKit **private API key** (from imagekit.io → Developer Options → API Keys) in the "ImageKit Private Key" field
+2. Upload images for: first use `amayaa_admin/amayaa_banners.html` or `amayaa_admin/amayaa_blog.html` — the key prompt will appear if not yet saved
+3. For products: open Product Edit → click "Upload Photo" — images go directly to IK `/products/` folder
+
+---
+
 ## Pending for Launch
 
 | Item | Priority | Notes |
 |---|---|---|
 | Real photos for 18 new sarees | High | Gradient placeholders active; upload via Admin Product Edit |
-| #68 GoatCounter audit | Medium | Verify tracking fires correctly on all pages |
-| #69 ImageKit.io CDN | Medium | Replace local `images/` paths with CDN URLs |
+| #68 GoatCounter audit | Medium | Tracking script confirmed on all pages. Visitor count wired (v3.6). Remaining: verify GC events fire correctly end-to-end |
+| #69 ImageKit.io CDN | ✅ Done | All image paths migrated. Admin uploads wired. imagekit.js helper created. Needs: upload actual images to IK + store private key in Admin Settings. |
 | #71 Formspree contact form | Medium | Verify form submits and email arrives |
 | #74 Full functional testing | High | All pages, all filters, all drawers, mobile + desktop |
 | #77 Custom domain email | Low | hello@amayaabypolkadots.in setup |

@@ -383,5 +383,603 @@
       "blue"
     ],
     "thumbnail": "images/products/AMY-TAN-001.jpg"
+  },
+  {
+    "id": "AMY-NAU-001",
+    "name": "Nauvari Pure Silk Saree",
+    "type": "Nauvari",
+    "region": "Kolhapur, MH",
+    "fabric": "Pure Silk",
+    "colour": "Maroon & Gold",
+    "price": 15500,
+    "originalPrice": 19500,
+    "status": "active",
+    "featured": false,
+    "badges": [
+      "offer"
+    ],
+    "occasion": [
+      "wedding",
+      "festive"
+    ],
+    "gradientFrom": "#6B1A2A",
+    "gradientTo": "#C4622D",
+    "shortDescription": "Nine-yard Nauvari saree in pure silk with rich gold zari border. Traditional Maharashtrian bridal drape.",
+    "tags": [
+      "silk",
+      "nauvari",
+      "maharashtra",
+      "bridal",
+      "nine-yard",
+      "zari",
+      "maroon"
+    ],
+    "thumbnail": "images/products/AMY-NAU-001.jpg"
+  },
+  {
+    "id": "AMY-PHU-001",
+    "name": "Phulkari Embroidered Cotton",
+    "type": "Phulkari",
+    "region": "Patiala, PB",
+    "fabric": "Fine Cotton",
+    "colour": "Yellow & Orange",
+    "price": 3200,
+    "originalPrice": null,
+    "status": "active",
+    "featured": false,
+    "badges": [],
+    "occasion": [
+      "casual",
+      "festive",
+      "puja"
+    ],
+    "gradientFrom": "#7A5A00",
+    "gradientTo": "#C47A0A",
+    "shortDescription": "Punjab Phulkari cotton with dense floral silk thread embroidery. Vibrant sunflower palette.",
+    "tags": [
+      "cotton",
+      "phulkari",
+      "punjab",
+      "embroidery",
+      "festive",
+      "yellow",
+      "orange"
+    ],
+    "thumbnail": "images/products/AMY-PHU-001.jpg"
+  },
+  {
+    "id": "AMY-GAD-001",
+    "name": "Gadwal Silk Cotton Saree",
+    "type": "Gadwal",
+    "region": "Gadwal, TG",
+    "fabric": "Silk Cotton",
+    "colour": "Teal & Gold",
+    "price": 6800,
+    "originalPrice": null,
+    "status": "active",
+    "featured": false,
+    "badges": [
+      "new"
+    ],
+    "occasion": [
+      "festive",
+      "puja",
+      "wedding"
+    ],
+    "gradientFrom": "#0A3A3A",
+    "gradientTo": "#1A7A6A",
+    "shortDescription": "Gadwal saree with pure silk pallu and cotton body — light yet luxurious. Geometric zari border from Telangana.",
+    "tags": [
+      "silk cotton",
+      "gadwal",
+      "telangana",
+      "zari",
+      "teal",
+      "festive",
+      "gi-tagged"
+    ],
+    "thumbnail": "images/products/AMY-GAD-001.jpg"
+  },
+  {
+    "id": "AMY-KAS-001",
+    "name": "Kerala Kasavu Cotton Saree",
+    "type": "Kasavu",
+    "region": "Balaramapuram, KL",
+    "fabric": "Fine Cotton",
+    "colour": "Ivory & Gold",
+    "price": 4500,
+    "originalPrice": null,
+    "status": "active",
+    "featured": true,
+    "badges": [
+      "featured"
+    ],
+    "occasion": [
+      "festive",
+      "puja",
+      "casual"
+    ],
+    "gradientFrom": "#3A3A1A",
+    "gradientTo": "#8A8A3A",
+    "shortDescription": "Kerala Kasavu cotton with classic gold zari border. The iconic white-and-gold saree of Onam and Vishu.",
+    "tags": [
+      "cotton",
+      "kasavu",
+      "kerala",
+      "ivory",
+      "gold",
+      "festive",
+      "onam",
+      "gi-tagged"
+    ],
+    "thumbnail": "images/products/AMY-KAS-001.jpg"
+  },
+  {
+    "id": "AMY-BAN-002",
+    "name": "Banarasi Georgette Silk Saree",
+    "type": "Banarasi",
+    "region": "Varanasi, UP",
+    "fabric": "Georgette Silk",
+    "colour": "Dusty Rose & Silver",
+    "price": 7200,
+    "originalPrice": null,
+    "status": "active",
+    "featured": false,
+    "badges": [
+      "new"
+    ],
+    "occasion": [
+      "wedding",
+      "festive",
+      "casual"
+    ],
+    "gradientFrom": "#6B1A4A",
+    "gradientTo": "#9A4A7A",
+    "shortDescription": "Lightweight Banarasi georgette with silver zari bootis — easier to drape than pure silk, equally elegant.",
+    "tags": [
+      "georgette",
+      "silk",
+      "banarasi",
+      "varanasi",
+      "silver",
+      "rose",
+      "festive",
+      "gi-tagged"
+    ],
+    "thumbnail": "images/products/AMY-BAN-002.jpg"
+  },
+  {
+    "id": "AMY-NAT-001",
+    "name": "Chettinad Cotton Saree",
+    "type": "Chettinad",
+    "region": "Karaikudi, TN",
+    "fabric": "Fine Cotton",
+    "colour": "Red & Black",
+    "price": 2800,
+    "originalPrice": null,
+    "status": "active",
+    "featured": false,
+    "badges": [],
+    "occasion": [
+      "casual",
+      "daily",
+      "puja"
+    ],
+    "gradientFrom": "#2A0A0A",
+    "gradientTo": "#6A1A1A",
+    "shortDescription": "Chettinad handloom cotton with bold checks and stripes in red and black. Durable, breathable, ageless.",
+    "tags": [
+      "cotton",
+      "chettinad",
+      "tamil nadu",
+      "checks",
+      "daily",
+      "casual",
+      "red",
+      "black"
+    ],
+    "thumbnail": "images/products/AMY-NAT-001.jpg"
+  },
+  {
+    "id": "AMY-KOT-001",
+    "name": "Kotpad Tribal Cotton Saree",
+    "type": "Kotpad",
+    "region": "Kotpad, OD",
+    "fabric": "Organic Cotton",
+    "colour": "Terracotta & Ivory",
+    "price": 3500,
+    "originalPrice": null,
+    "status": "active",
+    "featured": false,
+    "badges": [],
+    "occasion": [
+      "casual",
+      "puja",
+      "festive"
+    ],
+    "gradientFrom": "#6A2A0A",
+    "gradientTo": "#C4621A",
+    "shortDescription": "Kotpad organic cotton dyed with aal (Indian madder) — naturally terracotta. Tribal geometric motifs from Odisha.",
+    "tags": [
+      "cotton",
+      "kotpad",
+      "odisha",
+      "tribal",
+      "organic",
+      "natural dye",
+      "terracotta"
+    ],
+    "thumbnail": "images/products/AMY-KOT-001.jpg"
+  },
+  {
+    "id": "AMY-DHA-001",
+    "name": "Dhakai Jamdani Silk Saree",
+    "type": "Jamdani",
+    "region": "Nadia, WB",
+    "fabric": "Silk Muslin",
+    "colour": "White & Silver",
+    "price": 13500,
+    "originalPrice": 16800,
+    "status": "active",
+    "featured": false,
+    "badges": [
+      "offer",
+      "new"
+    ],
+    "occasion": [
+      "wedding",
+      "festive",
+      "casual"
+    ],
+    "gradientFrom": "#2A2A3A",
+    "gradientTo": "#6A6A9A",
+    "shortDescription": "Dhakai-style Jamdani in silk-muslin — supplementary weft floral motifs in silver. UNESCO-heritage weave, Bengali tradition.",
+    "tags": [
+      "silk",
+      "muslin",
+      "jamdani",
+      "west bengal",
+      "silver",
+      "white",
+      "wedding",
+      "gi-tagged"
+    ],
+    "thumbnail": "images/products/AMY-DHA-001.jpg"
+  },
+  {
+    "id": "AMY-KAN-002",
+    "name": "Kanjivaram Bridal Silk",
+    "type": "Kanjivaram",
+    "region": "Kanchipuram, TN",
+    "fabric": "Pure Silk",
+    "colour": "Emerald Green & Gold",
+    "price": 22000,
+    "originalPrice": null,
+    "status": "active",
+    "featured": true,
+    "badges": [
+      "featured",
+      "new"
+    ],
+    "occasion": [
+      "wedding",
+      "festive"
+    ],
+    "gradientFrom": "#0A3A1A",
+    "gradientTo": "#1A8A3A",
+    "shortDescription": "Grand Kanjivaram bridal saree with contrast emerald body and deep gold pallu. Heavyweight zari weave for once-in-a-lifetime occasions.",
+    "tags": [
+      "silk",
+      "kanjivaram",
+      "kanchipuram",
+      "bridal",
+      "emerald",
+      "gold",
+      "wedding",
+      "gi-tagged"
+    ],
+    "thumbnail": "images/products/AMY-KAN-002.jpg"
+  },
+  {
+    "id": "AMY-SUT-001",
+    "name": "Bhagalpuri Linen Silk Saree",
+    "type": "Linen",
+    "region": "Bhagalpur, BR",
+    "fabric": "Linen Silk",
+    "colour": "Navy Blue & Gold",
+    "price": 5900,
+    "originalPrice": null,
+    "status": "active",
+    "featured": false,
+    "badges": [
+      "new"
+    ],
+    "occasion": [
+      "casual",
+      "office",
+      "festive"
+    ],
+    "gradientFrom": "#0A1A3A",
+    "gradientTo": "#2A4A8A",
+    "shortDescription": "Bhagalpur linen-silk blend — the ideal office-to-evening saree. Natural texture with subtle gold border.",
+    "tags": [
+      "linen",
+      "silk",
+      "bhagalpur",
+      "bihar",
+      "navy",
+      "office",
+      "casual",
+      "everyday"
+    ],
+    "thumbnail": "images/products/AMY-SUT-001.jpg"
+  },
+  {
+    "id": "AMY-BOM-001",
+    "name": "Bomkai Pure Silk Saree",
+    "type": "Bomkai",
+    "region": "Sonepur, OD",
+    "fabric": "Pure Silk",
+    "colour": "Purple & Gold",
+    "price": 8900,
+    "originalPrice": 11200,
+    "status": "active",
+    "featured": false,
+    "badges": [
+      "offer"
+    ],
+    "occasion": [
+      "festive",
+      "wedding",
+      "puja"
+    ],
+    "gradientFrom": "#3A0A5A",
+    "gradientTo": "#7A2A9A",
+    "shortDescription": "Bomkai silk with thread-work body and contrasting pallu with temple motifs. Odisha's royal weave.",
+    "tags": [
+      "silk",
+      "bomkai",
+      "odisha",
+      "sonepur",
+      "purple",
+      "temple",
+      "zari",
+      "gi-tagged"
+    ],
+    "thumbnail": "images/products/AMY-BOM-001.jpg"
+  },
+  {
+    "id": "AMY-ILL-001",
+    "name": "Ilkal Cotton Silk Saree",
+    "type": "Ilkal",
+    "region": "Bagalkot, KA",
+    "fabric": "Cotton Silk",
+    "colour": "Red & Cream",
+    "price": 4100,
+    "originalPrice": null,
+    "status": "active",
+    "featured": false,
+    "badges": [],
+    "occasion": [
+      "festive",
+      "casual",
+      "puja"
+    ],
+    "gradientFrom": "#5A1A0A",
+    "gradientTo": "#9A3A1A",
+    "shortDescription": "Ilkal saree from North Karnataka with distinctive 'tope teni' pallu attached separately. Bold red with cream body.",
+    "tags": [
+      "cotton silk",
+      "ilkal",
+      "karnataka",
+      "tope teni",
+      "red",
+      "cream",
+      "festive",
+      "gi-tagged"
+    ],
+    "thumbnail": "images/products/AMY-ILL-001.jpg"
+  },
+  {
+    "id": "AMY-PAT-001",
+    "name": "Patan Patola Double Ikat",
+    "type": "Patola",
+    "region": "Patan, GJ",
+    "fabric": "Pure Silk",
+    "colour": "Multicolour Geometric",
+    "price": 19800,
+    "originalPrice": null,
+    "status": "active",
+    "featured": true,
+    "badges": [
+      "featured"
+    ],
+    "occasion": [
+      "wedding",
+      "festive"
+    ],
+    "gradientFrom": "#5A1A6A",
+    "gradientTo": "#C4622D",
+    "shortDescription": "Patan Patola double ikat — both warp and weft resist-dyed before weaving. A single saree can take 6 months. GI Tag No. 38.",
+    "tags": [
+      "silk",
+      "patola",
+      "gujarat",
+      "patan",
+      "double ikat",
+      "geometric",
+      "wedding",
+      "gi-tagged"
+    ],
+    "thumbnail": "images/products/AMY-PAT-001.jpg"
+  },
+  {
+    "id": "AMY-RAJ-001",
+    "name": "Rajkot Bandhani Silk Saree",
+    "type": "Bandhani",
+    "region": "Rajkot, GJ",
+    "fabric": "Pure Silk",
+    "colour": "Royal Blue & Gold",
+    "price": 9500,
+    "originalPrice": null,
+    "status": "active",
+    "featured": false,
+    "badges": [
+      "new"
+    ],
+    "occasion": [
+      "festive",
+      "wedding",
+      "puja"
+    ],
+    "gradientFrom": "#0A1A5A",
+    "gradientTo": "#2A4A9A",
+    "shortDescription": "Rajkot Bandhani silk with thousands of hand-tied dots in royal blue on gold silk base. Festive Gujarat craft.",
+    "tags": [
+      "silk",
+      "bandhani",
+      "gujarat",
+      "rajkot",
+      "tie-dye",
+      "blue",
+      "gold",
+      "festive",
+      "gi-tagged"
+    ],
+    "thumbnail": "images/products/AMY-RAJ-001.jpg"
+  },
+  {
+    "id": "AMY-TAN-002",
+    "name": "Tant Jamdani Fusion Cotton",
+    "type": "Tant",
+    "region": "Fulia, WB",
+    "fabric": "Fine Cotton",
+    "colour": "Sage Green & White",
+    "price": 2800,
+    "originalPrice": null,
+    "status": "active",
+    "featured": false,
+    "badges": [],
+    "occasion": [
+      "casual",
+      "daily",
+      "festive"
+    ],
+    "gradientFrom": "#0A2A1A",
+    "gradientTo": "#2A6A3A",
+    "shortDescription": "Fulia Tant with Jamdani-style floral supplementary weft — Bengal's everyday cotton elevated with heritage craft.",
+    "tags": [
+      "cotton",
+      "tant",
+      "jamdani",
+      "west bengal",
+      "fulia",
+      "green",
+      "white",
+      "casual",
+      "daily"
+    ],
+    "thumbnail": "images/products/AMY-TAN-002.jpg"
+  },
+  {
+    "id": "AMY-MAD-001",
+    "name": "Madurai Sungudi Cotton Saree",
+    "type": "Sungudi",
+    "region": "Madurai, TN",
+    "fabric": "Fine Cotton",
+    "colour": "Coral & White",
+    "price": 1800,
+    "originalPrice": null,
+    "status": "active",
+    "featured": false,
+    "badges": [],
+    "occasion": [
+      "casual",
+      "daily",
+      "office"
+    ],
+    "gradientFrom": "#6A2A1A",
+    "gradientTo": "#C4622D",
+    "shortDescription": "Madurai Sungudi cotton — light, airy, and naturally wrinkle-resistant. Classic white-dot resist print on coral cotton.",
+    "tags": [
+      "cotton",
+      "sungudi",
+      "madurai",
+      "tamil nadu",
+      "coral",
+      "white",
+      "casual",
+      "daily",
+      "office"
+    ],
+    "thumbnail": "images/products/AMY-MAD-001.jpg"
+  },
+  {
+    "id": "AMY-KHA-001",
+    "name": "Assam Khadi Silk Saree",
+    "type": "Khadi Silk",
+    "region": "Guwahati, AS",
+    "fabric": "Khadi Silk",
+    "colour": "Natural Gold & Brown",
+    "price": 6400,
+    "originalPrice": 7800,
+    "status": "active",
+    "featured": false,
+    "badges": [
+      "offer"
+    ],
+    "occasion": [
+      "casual",
+      "puja",
+      "festive"
+    ],
+    "gradientFrom": "#5A4A00",
+    "gradientTo": "#9A8A20",
+    "shortDescription": "Assam Khadi silk hand-spun on charkha — natural golden sheen from indigenous eri silkworm. Lightweight and earthy.",
+    "tags": [
+      "khadi",
+      "silk",
+      "assam",
+      "eri silk",
+      "handspun",
+      "natural",
+      "golden",
+      "casual"
+    ],
+    "thumbnail": "images/products/AMY-KHA-001.jpg"
+  },
+  {
+    "id": "AMY-MUG-001",
+    "name": "Sualkuchi Muga Silk Saree",
+    "type": "Muga",
+    "region": "Sualkuchi, AS",
+    "fabric": "Muga Silk",
+    "colour": "Golden & Deep Maroon",
+    "price": 12800,
+    "originalPrice": null,
+    "status": "active",
+    "featured": false,
+    "badges": [
+      "new"
+    ],
+    "occasion": [
+      "wedding",
+      "festive",
+      "puja"
+    ],
+    "gradientFrom": "#4A2A00",
+    "gradientTo": "#8A5A10",
+    "shortDescription": "Sualkuchi Muga — the golden silk unique to Assam. GI-protected, naturally lustrous, grows more beautiful with age.",
+    "tags": [
+      "muga",
+      "silk",
+      "assam",
+      "sualkuchi",
+      "golden",
+      "wedding",
+      "festive",
+      "gi-tagged"
+    ],
+    "thumbnail": "images/products/AMY-MUG-001.jpg"
   }
 ]

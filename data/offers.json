@@ -3,29 +3,83 @@
     "eyebrow": "🎁 Limited Time Offers",
     "title": "Special Offers on<br><em>Handloom Sarees</em>",
     "subtitle": "Exclusive discounts on authentic handloom sarees — Kanjivaram, Banarasi, Paithani and more. All prices include original weaver price and verified authenticity.",
-    "ctaPrimary":   { "label": "Browse All Sarees",     "href": "amayaa_sarees.html" },
-    "ctaSecondary": { "label": "💬 WhatsApp for Deals", "href": "https://wa.me/919583946000?text=Hello!%20I%20am%20interested%20in%20your%20Special%20Offers.%20Please%20share%20more%20details." }
+    "ctaPrimary": {
+      "label": "Browse All Sarees",
+      "href": "amayaa_sarees.html"
+    },
+    "ctaSecondary": {
+      "label": "💬 WhatsApp for Deals",
+      "href": "https://wa.me/919583946000?text=Hello!%20I%20am%20interested%20in%20your%20Special%20Offers.%20Please%20share%20more%20details."
+    }
   },
   "stats": [
-    { "icon": "🏷", "main": "8 Products on Offer",   "sub": "Updated regularly" },
-    { "icon": "💰", "main": "Up to 29% Off",          "sub": "On selected weaves" },
-    { "icon": "✅", "main": "100% Authentic",          "sub": "GI-tagged, verified" },
-    { "icon": "💬", "main": "Order via WhatsApp",      "sub": "Personal service always" }
+    {
+      "icon": "🏷",
+      "main": "8 Products on Offer",
+      "sub": "Updated regularly"
+    },
+    {
+      "icon": "💰",
+      "main": "Up to 29% Off",
+      "sub": "On selected weaves"
+    },
+    {
+      "icon": "✅",
+      "main": "100% Authentic",
+      "sub": "GI-tagged, verified"
+    },
+    {
+      "icon": "💬",
+      "main": "Order via WhatsApp",
+      "sub": "Personal service always"
+    }
   ],
   "statsNote": "Offer valid while stocks last · All prices inclusive of GST",
   "gridLabel": "Current Offers",
   "gridTitle": "Handloom Sarees at Special Prices",
   "sortOptions": [
-    { "label": "Sort: Featured First",   "value": "default" },
-    { "label": "Price: Low to High",     "value": "price-asc" },
-    { "label": "Price: High to Low",     "value": "price-desc" },
-    { "label": "Highest Saving First",   "value": "saving" }
+    {
+      "label": "Sort: Featured First",
+      "value": "default"
+    },
+    {
+      "label": "Price: Low to High",
+      "value": "price-asc"
+    },
+    {
+      "label": "Price: High to Low",
+      "value": "price-desc"
+    },
+    {
+      "label": "Highest Saving First",
+      "value": "saving"
+    }
   ],
   "filters": [
-    { "label": "All Offers (8)", "value": "all",     "active": true },
-    { "label": "Silk Sarees",    "value": "silk",    "active": false },
-    { "label": "Cotton Sarees",  "value": "cotton",  "active": false },
-    { "label": "Wedding",        "value": "wedding", "active": false },
-    { "label": "Festive",        "value": "festive", "active": false }
+    {
+      "label": "All Offers",
+      "value": "all",
+      "active": true
+    },
+    {
+      "label": "Silk Sarees",
+      "value": "silk",
+      "active": false
+    },
+    {
+      "label": "Cotton Sarees",
+      "value": "cotton",
+      "active": false
+    },
+    {
+      "label": "Wedding",
+      "value": "wedding",
+      "active": false
+    },
+    {
+      "label": "Festive",
+      "value": "festive",
+      "active": false
+    }
   ]
 }

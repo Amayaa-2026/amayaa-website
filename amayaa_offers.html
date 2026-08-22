@@ -81,8 +81,12 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
 .ostat-main{font-size:15px;font-weight:600;color:#1A0A04;}
 .ostat-sub{font-size:12px;color:#9A8070;}
 /* ── Offers grid header ───────────────────────── */
-.offers-grid-hdr{position:relative;display:flex;align-items:center;justify-content:flex-end;padding:28px 0;margin-bottom:20px;}
-.offers-grid-title{position:absolute;left:0;right:0;text-align:center;pointer-events:none;}
+.offers-grid-hdr{position:relative;display:flex;align-items:center;justify-content:center;padding:28px 0 16px;}
+.offers-grid-title{text-align:center;}
+/* Sort + chips toolbar */
+.off-sort-chips-row{display:flex;align-items:center;gap:12px;margin-bottom:28px;flex-wrap:wrap;}
+.off-sort-chips-row .filter-row{flex:1;margin-bottom:0;justify-content:flex-start;}
+.off-stocks-note{text-align:center;font-size:11px;color:#9A8070;margin:-16px 0 20px;letter-spacing:.3px;}
 
 @media(max-width:768px){
   .page{padding:20px 16px 60px;}
@@ -96,10 +100,11 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
   .offer-stats-bar{padding:12px 16px;}
   .offer-stats-inner{display:grid;grid-template-columns:1fr 1fr;gap:10px 12px;justify-items:start;}
   .ostat-icon{font-size:18px;}
-  /* Grid header: stack heading above sort */
-  .offers-grid-hdr{flex-direction:column;align-items:center;gap:36px;}
-  .offers-grid-title{position:relative;left:auto;right:auto;}
-  .offers-grid-hdr .sort-sel{width:100%;}
+  /* Grid header: centered heading */
+  .offers-grid-hdr{flex-direction:column;align-items:center;gap:0;}
+  .off-sort-chips-row{flex-direction:column;align-items:stretch;}
+  .off-sort-chips-row .filter-row{justify-content:center;}
+  .off-sort-chips-row .sort-sel{width:100%;}
 }
 @media(max-width:480px){.pg4{grid-template-columns:1fr;}}
 
@@ -511,21 +516,25 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
       <p class="sec-lbl">Current Offers</p>
       <h2 class="sec-ttl" style="font-size:clamp(24px,3vw,40px);margin-bottom:0;">Handloom Sarees at Special Prices</h2>
     </div>
+  </div>
+  <p class="off-stocks-note">Offer valid while stocks last</p>
+
+  <!-- SORT + FILTER CHIPS — same row -->
+  <div class="off-sort-chips-row">
+    <!-- FILTER CHIPS — injected from data/offers.json -->
+    <div class="filter-row" id="off-filter-row">
+      <div class="fp active" onclick="filterOffers('all',this)">All Offers</div>
+      <div class="fp" onclick="filterOffers('silk',this)">Silk Sarees</div>
+      <div class="fp" onclick="filterOffers('cotton',this)">Cotton Sarees</div>
+      <div class="fp" onclick="filterOffers('wedding',this)">Wedding</div>
+      <div class="fp" onclick="filterOffers('festive',this)">Festive</div>
+    </div>
     <select class="sort-sel" onchange="sortOffers(this.value)">
       <option value="default">Sort: Featured First</option>
       <option value="price-asc">Price: Low to High</option>
       <option value="price-desc">Price: High to Low</option>
       <option value="saving">Highest Saving First</option>
     </select>
-  </div>
-
-  <!-- FILTER ROW — injected from data/offers.json -->
-  <div class="filter-row" id="off-filter-row" style="justify-content:center;">
-    <div class="fp active" onclick="filterOffers('all',this)">All Offers (8)</div>
-    <div class="fp" onclick="filterOffers('silk',this)">Silk Sarees</div>
-    <div class="fp" onclick="filterOffers('cotton',this)">Cotton Sarees</div>
-    <div class="fp" onclick="filterOffers('wedding',this)">Wedding</div>
-    <div class="fp" onclick="filterOffers('festive',this)">Festive</div>
   </div>
 
   <!-- PRODUCTS GRID -->

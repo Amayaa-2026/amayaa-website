@@ -223,7 +223,7 @@ if(!sessionStorage.getItem('amayaa_admin')){
     <div class="stats-grid">
       <div class="stat s1"><div class="stat-val" id="dash-products">547</div><div class="stat-label">Total Products</div><div class="stat-sub" id="dash-active">12 hidden · 8 sold out</div></div>
       <div class="stat s2"><div class="stat-val" id="dash-posts">6</div><div class="stat-label">Blog Posts</div><div class="stat-sub">5 published · 1 draft</div></div>
-      <div class="stat s3"><div class="stat-val">12,847</div><div class="stat-label">Total Visitors</div><div class="stat-sub">+342 this week</div></div>
+      <div class="stat s3"><div class="stat-val" id="dash-visitors">—</div><div class="stat-label">Total Visitors</div><div class="stat-sub" id="dash-visitors-sub">Loading…</div><button id="gc-refresh-btn" onclick="_refreshVisitorsFromGC()" style="margin-top:8px;font-size:10px;padding:3px 8px;border:1px solid rgba(196,98,45,.3);background:rgba(196,98,45,.07);color:#C4622D;border-radius:6px;cursor:pointer;font-family:inherit;letter-spacing:.3px;">🔄 Refresh from GoatCounter</button></div>
       <div class="stat s4"><div class="stat-val">38</div><div class="stat-label">WA Enquiries</div><div class="stat-sub">This month via website</div></div>
     </div>
     <div class="qa-grid">
@@ -432,6 +432,80 @@ function _loadActivity(){
     });
   }).catch(function(){});
 }
+</script>
+<script>
+// ── Visitor stat: load from settings.json cache ──
+(function _loadVisitorStat(){
+  var tok = localStorage.getItem('amayaa_gh_token')||'';
+  if(!tok) return;
+  fetch('https://api.github.com/repos/Amayaa-2026/amayaa-website/contents/data/settings.json?ref=main',{
+    headers:{'Authorization':'Bearer '+tok,'Accept':'application/vnd.github+json'}
+  }).then(function(r){return r.json();}).then(function(f){
+    var s=JSON.parse(atob(f.content.replace(/\s/g,'')));
+    var stats=s.siteStats||{};
+    var el=document.getElementById('dash-visitors');
+    var sub=document.getElementById('dash-visitors-sub');
+    if(el) el.textContent=stats.visitorCount!=null?Number(stats.visitorCount).toLocaleString('en-IN'):'—';
+    if(sub) sub.textContent=stats.lastSynced?'Last synced: '+stats.lastSynced:'From GoatCounter';
+  }).catch(function(){
+    var sub=document.getElementById('dash-visitors-sub');
+    if(sub) sub.textContent='Token needed';
+  });
+})();
+
+// ── Refresh visitor count from GoatCounter API ──
+window._refreshVisitorsFromGC = function(){
+  var ghTok=localStorage.getItem('amayaa_gh_token')||'';
+  var gcTok=localStorage.getItem('amayaa_gc_token')||'';
+  if(!gcTok){
+    var t=prompt('Enter your GoatCounter API token (stored locally only):');
+    if(!t) return;
+    localStorage.setItem('amayaa_gc_token',t);
+    gcTok=t;
+  }
+  if(!ghTok){ alert('GitHub token missing — please enter it in Admin Settings first.'); return; }
+
+  var btn=document.getElementById('gc-refresh-btn');
+  if(btn){ btn.textContent='⏳ Fetching…'; btn.disabled=true; }
+
+  // GoatCounter API: total hits (all time)
+  fetch('https://amayaa.goatcounter.com/api/v0/stats/total',{
+    headers:{'Authorization':'Bearer '+gcTok,'Content-Type':'application/json'}
+  }).then(function(r){
+    if(r.status===403){localStorage.removeItem('amayaa_gc_token');throw new Error('Bad GC token');}
+    return r.json();
+  }).then(function(data){
+    // total is in data.total
+    var count=data.total||0;
+    var today=new Date().toISOString().slice(0,10);
+
+    // Read current settings.json SHA
+    return fetch('https://api.github.com/repos/Amayaa-2026/amayaa-website/contents/data/settings.json?ref=main',{
+      headers:{'Authorization':'Bearer '+ghTok,'Accept':'application/vnd.github+json'}
+    }).then(function(r){return r.json();}).then(function(f){
+      var sha=f.sha;
+      var s=JSON.parse(atob(f.content.replace(/\s/g,'')));
+      s.siteStats=s.siteStats||{};
+      s.siteStats.visitorCount=count;
+      s.siteStats.lastSynced=today;
+      var encoded=btoa(unescape(encodeURIComponent(JSON.stringify(s,null,2))));
+      return fetch('https://api.github.com/repos/Amayaa-2026/amayaa-website/contents/data/settings.json',{
+        method:'PUT',
+        headers:{'Authorization':'Bearer '+ghTok,'Accept':'application/vnd.github+json','Content-Type':'application/json'},
+        body:JSON.stringify({message:'chore: refresh visitor count to '+count,content:encoded,sha:sha,branch:'main'})
+      });
+    }).then(function(){
+      var el=document.getElementById('dash-visitors');
+      var sub=document.getElementById('dash-visitors-sub');
+      if(el) el.textContent=Number(count).toLocaleString('en-IN');
+      if(sub) sub.textContent='Last synced: '+today;
+      if(btn){ btn.textContent='✅ Updated'; btn.disabled=false; setTimeout(function(){ btn.textContent='🔄 Refresh from GoatCounter'; },3000); }
+    });
+  }).catch(function(err){
+    if(btn){ btn.textContent='❌ Failed — retry'; btn.disabled=false; }
+    console.error(err);
+  });
+};
 </script>
 <script src="sidebar.js"></script>
 <script src="audit.js"></script>

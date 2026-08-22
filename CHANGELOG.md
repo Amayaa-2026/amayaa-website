@@ -21,6 +21,7 @@
 | **v3.3** | **Aug 16 2026** | **Bulk Upload admin page — add new records or update existing ones via Excel for Products, Categories, and Content Library. Advanced filter-based search with pre-filled Excel download. Collections image upgrade, Admin Settings tab redesign. Removed redundant Special Offers nav link. Admin sidebar scrollbar redesigned — dark themed, no white flash.** |
 | **v3.4** | **Aug 17 2026** | **Hero fold bar restructured (trust strip moved to 15vh gap). Blog post reader page. Blog page + admin editor data-driven. Our Story enriched (3rd section, 4 weaver profiles, values). Silk Mark replaces GI Tag sitewide. Trust strip items swapped. Section header typography system added.** |
 | **v3.5** | **Aug 22 2026** | **Our Story UI redesign (horizontal weaver cards, 4-col promise grid, font fixes). 30 product catalogue (18 new sarees, full regional/fabric/occasion diversity). Offers page: dynamic count, sort+filter fully wired, chips+sort on same row. Sarees sort bug fixed. Product drawer GST fine print. Blog content BLG-001–006 fully written with govt source credits.** |
+| **v3.6** | **Aug 22 2026** | **GoatCounter visitor count fix: Homepage #vc and Admin Dashboard "Total Visitors" now read live count from data/settings.json (siteStats.visitorCount). Dashboard "Refresh from GoatCounter" button fetches GoatCounter API (token from localStorage amayaa_gc_token), saves count + lastSynced back to settings.json via GitHub API.** |
 
 ---
 

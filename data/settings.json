@@ -147,5 +147,10 @@
         ]
       }
     ]
+  },
+  "siteStats": {
+    "visitorCount": 81,
+    "visitorLabel": "Total Visitors",
+    "lastSynced": "2026-08-22"
   }
 }

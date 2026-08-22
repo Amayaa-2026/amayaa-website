@@ -561,10 +561,10 @@ function _checkIkToken() {
   var banner = document.getElementById('ik-token-banner');
   var setWrap = document.getElementById('ik-token-set-wrap');
   if (k) {
-    if (banner) banner.style.display = 'none';
+    if (banner) banner.classList.remove('show');
     if (setWrap) setWrap.style.display = 'block';
   } else {
-    if (banner) banner.style.display = '';
+    if (banner) banner.classList.add('show');
     if (setWrap) setWrap.style.display = 'none';
   }
 }

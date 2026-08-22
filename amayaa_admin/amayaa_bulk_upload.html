@@ -138,6 +138,10 @@ body{font-family:'Jost',sans-serif;background:linear-gradient(135deg,#E4DFD9 0%,
 .fg label{display:block;font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#7A6050;margin-bottom:5px;}
 .empty-state{text-align:center;padding:28px;color:#9A8070;font-size:13px;}
 .divider{border:none;border-top:1px solid rgba(0,0,0,.06);margin:16px 0;}
+/* ── BULK WIZARD — product list ── */
+.bu-prod-item{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-radius:9px;border:1.5px solid transparent;cursor:pointer;transition:all .2s;margin-bottom:6px;}
+.bu-prod-item:hover{background:rgba(196,98,45,.04);border-color:rgba(196,98,45,.15);}
+.bu-prod-item.active{background:rgba(196,98,45,.07);border-color:#C4622D;}
 /* ── IMAGE MODE ── */
 .im-summary{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;}
 .im-pill{padding:5px 14px;border-radius:18px;font-size:12px;font-weight:600;letter-spacing:.5px;}
@@ -183,7 +187,7 @@ body{font-family:'Jost',sans-serif;background:linear-gradient(135deg,#E4DFD9 0%,
   <div class="topbar">
     <div>
       <div class="topbar-title">Bulk Upload</div>
-      <div class="topbar-sub">Add / update records via Excel &nbsp;·&nbsp; Batch photo upload for multiple products</div>
+      <div class="topbar-sub">Add / update records via Excel &nbsp;·&nbsp; Draft → Photos → Publish workflow</div>
     </div>
     <div style="display:flex;gap:10px;align-items:center;">
       <span id="load-status" style="font-size:12px;color:#9A8070;"></span>
@@ -193,6 +197,18 @@ body{font-family:'Jost',sans-serif;background:linear-gradient(135deg,#E4DFD9 0%,
 
   <div class="content">
 
+    <!-- ── BATCH RESUME BANNER ── -->
+    <div id="bu-resume-banner" style="display:none;background:rgba(196,98,45,.08);border:1.5px solid rgba(196,98,45,.3);border-radius:12px;padding:16px 20px;margin-bottom:16px;flex-direction:row;align-items:center;justify-content:space-between;gap:16px;">
+      <div>
+        <div style="font-size:14px;font-weight:600;color:#1A0A04;">📦 Unfinished batch detected</div>
+        <div style="font-size:12px;color:#9A8070;margin-top:4px;" id="bu-resume-info"></div>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-primary btn-sm" onclick="_bu_resumeBatch()">Resume →</button>
+        <button class="btn btn-ghost btn-sm" onclick="_bu_clearBatch()">Dismiss</button>
+      </div>
+    </div>
+
     <!-- ── MODE TOGGLE ── -->
     <div class="mode-toggle">
       <button class="mode-btn active" id="mode-add" onclick="_setMode('add')">
@@ -200,9 +216,6 @@ body{font-family:'Jost',sans-serif;background:linear-gradient(135deg,#E4DFD9 0%,
       </button>
       <button class="mode-btn" id="mode-upd" onclick="_setMode('update')">
         ✏️ Update Existing Records
-      </button>
-      <button class="mode-btn" id="mode-img" onclick="_setMode('img')">
-        🖼 Photo Upload
       </button>
     </div>
 
@@ -379,68 +392,60 @@ body{font-family:'Jost',sans-serif;background:linear-gradient(135deg,#E4DFD9 0%,
       <div id="prog-rows"></div>
     </div>
 
+    <!-- ── BULK WIZARD STEP 2: REFERENCE SHEET ── -->
+    <div class="card" id="bu-step2-card" style="display:none;">
+      <div class="card-hdr">
+        <div class="card-title"><span class="step-num">2</span> Reference sheet — organise your photos
+          <i class="ii" data-tip="Use this table to rename/organise your photos. Any combination of SKU, number, weave name, or colour in a filename will be auto-matched in Step 3.">i</i>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <button class="btn btn-ghost btn-sm" id="bu-zip-btn" onclick="_bu_downloadZip()">📁 Download folder template</button>
+          <button class="btn btn-primary" onclick="_bu_goStep3()">Next: Upload Photos →</button>
+        </div>
+      </div>
+      <div style="font-size:12px;color:#9A8070;margin-bottom:14px;">
+        All <strong id="bu-s2-count">0</strong> products saved as <strong>drafts</strong>. Use the table below to rename image files — any filename containing the SKU, number, weave, or colour will auto-match in Step 3.
+      </div>
+      <div style="border-radius:10px;border:1px solid rgba(0,0,0,.07);overflow:hidden;">
+        <table class="res-tbl" id="bu-ref-table">
+          <thead><tr><th>SKU</th><th>Name</th><th>Type / Weave</th><th>Colour</th><th>Suggested filename keywords</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <p style="font-size:12px;color:#9A8070;margin-top:12px;">
+        💡 Example: SKU <code>AMY-BAN-001</code> → filename keywords: <code>AMY-BAN-001</code>, <code>ban_001</code>, <code>banarasi_red</code> — any of these match.
+        <span id="bu-zip-note" style="color:#1A6A30;"></span>
+      </p>
+    </div>
+
+    <!-- ── BULK WIZARD STEP 3: PHOTO UPLOAD ── -->
+    <div class="card" id="bu-step3-card" style="display:none;">
+      <div class="card-hdr">
+        <div class="card-title"><span class="step-num">3</span> Upload &amp; publish photos
+          <i class="ii" data-tip="Select a product from the list, drop your photos, then publish. Minimum 2 photos to publish. You can keep products as drafts and come back later.">i</i>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <span id="bu-s3-status" style="font-size:12px;color:#9A8070;"></span>
+          <button class="btn btn-success btn-sm" onclick="_bu_publishAll()">🚀 Publish All Ready</button>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:270px 1fr;gap:0;min-height:380px;border:1px solid rgba(0,0,0,.06);border-radius:10px;overflow:hidden;">
+        <!-- Left: product list -->
+        <div style="border-right:1px solid rgba(0,0,0,.06);padding:14px;background:rgba(240,230,216,.15);">
+          <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#9A8070;margin-bottom:10px;">Products in batch</div>
+          <div id="bu-product-list"></div>
+        </div>
+        <!-- Right: upload panel -->
+        <div id="bu-upload-panel" style="padding:18px;">
+          <div class="empty-state" style="height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;">
+            <div style="font-size:28px;">←</div>
+            <div>Select a product to begin uploading photos</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     </div><!-- /csv-panel -->
-
-    <!-- ══════════════════════════════════════
-         IMAGE MODE PANEL
-    ══════════════════════════════════════ -->
-    <div id="img-panel" style="display:none;">
-
-      <!-- Step 1 — Load photos -->
-      <div class="card" id="im-load-card">
-        <div class="card-hdr">
-          <div class="card-title"><span class="step-num" id="im-sn1">1</span> Load photos</div>
-          <span id="im-load-status" style="font-size:12px;color:#9A8070;"></span>
-        </div>
-        <div class="dropzone" id="im-dropzone"
-             onclick="document.getElementById('im-file-input').click()"
-             ondragover="event.preventDefault();this.classList.add('drag')"
-             ondragleave="this.classList.remove('drag')"
-             ondrop="_imOnDrop(event)">
-          <input type="file" id="im-file-input" accept="image/jpeg,image/png,image/webp" multiple style="display:none" onchange="_imOnFileInput(this)">
-          <div id="im-dz-content">
-            <div style="font-size:38px;margin-bottom:10px;">🖼</div>
-            <div style="font-size:14px;font-weight:500;color:#5A4030;margin-bottom:6px;">Drop photos here, or click to browse</div>
-            <div style="font-size:12px;color:#9A8070;line-height:1.7;">JPG · PNG · WebP &nbsp;·&nbsp; Select as many as you need<br>
-            Files named with a product SKU (e.g. <strong>AMY-BAN-001</strong>_front.jpg) are auto-matched</div>
-          </div>
-        </div>
-        <div class="im-summary" id="im-summary" style="display:none;"></div>
-      </div>
-
-      <!-- Step 2 — Review & assign -->
-      <div class="card" id="im-review-card" style="display:none;">
-        <div class="card-hdr">
-          <div class="card-title"><span class="step-num">2</span> Review &amp; assign</div>
-          <div style="display:flex;gap:8px;align-items:center;">
-            <span id="im-review-note" style="font-size:12px;color:#9A8070;"></span>
-            <button class="btn btn-success" id="im-upload-btn" onclick="_imUploadAll()">📤 Upload All</button>
-          </div>
-        </div>
-
-        <!-- Unassigned pool -->
-        <div id="im-unassigned-section" style="display:none;">
-          <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#C4622D;margin-bottom:8px;">⚠ Unassigned — assign to a product before uploading</div>
-          <div class="im-unassigned-pool" id="im-unassigned-pool"></div>
-          <hr class="divider">
-        </div>
-
-        <!-- Product buckets -->
-        <div id="im-no-buckets" class="empty-state" style="display:none;">No matched products yet. Assign images from the unassigned pool above.</div>
-        <div class="im-bucket-grid" id="im-bucket-grid"></div>
-      </div>
-
-      <!-- Step 3 — Upload progress -->
-      <div class="card" id="im-progress-card" style="display:none;">
-        <div class="card-hdr">
-          <div class="card-title"><span class="step-num" id="im-prog-sn" style="background:linear-gradient(135deg,#C4622D,#E8843D);">3</span> Uploading to ImageKit &amp; saving to GitHub</div>
-          <span id="im-prog-pct" style="font-size:13px;font-weight:600;color:#C4622D;"></span>
-        </div>
-        <div id="im-prog-rows"></div>
-        <div id="im-final" style="display:none;margin-top:16px;padding:14px;border-radius:10px;background:rgba(37,180,100,.07);border:1px solid rgba(37,180,100,.25);font-size:14px;color:#1A6A30;font-weight:600;"></div>
-      </div>
-
-    </div><!-- /img-panel -->
 
   </div><!-- /content -->
 </div><!-- /main -->
@@ -448,6 +453,8 @@ body{font-family:'Jost',sans-serif;background:linear-gradient(135deg,#E4DFD9 0%,
 <!-- Tooltip -->
 <div id="tip"></div>
 
+<!-- JSZip (for optional folder template) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <!-- SheetJS -->
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script src="sidebar.js"></script>
@@ -473,6 +480,9 @@ async function _ghPut(path,content,sha,msg){
   if(!r.ok){const t=await r.text();throw new Error('GH PUT '+r.status+' '+t);}
   return r.json();
 }
+
+/* ── HTML ESCAPE ── */
+function _escHtml(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 
 /* ═══════════════════════════════════════════
    ENTITY DEFINITIONS
@@ -588,6 +598,7 @@ async function _init(){
   await _loadEntityData();
   _setStatus('');
   _addFilter(); // start with one blank filter
+  _bu_checkResume();
 }
 
 async function _loadEntityData(){
@@ -611,13 +622,6 @@ function _setMode(m){
   _mode=m;
   document.getElementById('mode-add').classList.toggle('active',m==='add');
   document.getElementById('mode-upd').classList.toggle('active',m==='update');
-  document.getElementById('mode-img').classList.toggle('active',m==='img');
-  // show/hide panels
-  const csvPanel=document.getElementById('csv-panel');
-  const imgPanel=document.getElementById('img-panel');
-  if(csvPanel) csvPanel.style.display=m==='img'?'none':'block';
-  if(imgPanel) imgPanel.style.display=m==='img'?'block':'none';
-  if(m==='img'){ if(!_imProducts.length) _imLoadProducts(); return; }
   // search card visibility
   document.getElementById('search-card').style.display=m==='update'?'block':'none';
   // step numbering
@@ -1180,6 +1184,9 @@ async function _commit(){
         const rid=String(vRow.row[cfg.idField]||'').trim();
         // if ID already exists → generate new
         newItem[cfg.idField]=rid&&!liveMap[rid]?rid:_genId();
+        // Force draft for Add mode products — never publish without photos
+        if(_mode==='add'&&_entity==='products') newItem.status='draft';
+        vRow._committedId=newItem[cfg.idField]; // track generated ID for Step 2
         if(cfg.isArr)updated.push(newItem);
         else _pushToEntityData(updated,newItem);
       } else if(vRow.status==='update'){
@@ -1212,6 +1219,19 @@ async function _commit(){
     document.getElementById('prog-status').textContent='Done — '+toProcess.length+' rows committed.';
     document.getElementById('commit-btn').textContent='✔ Committed';
     document.getElementById('commit-btn').className='btn btn-success';
+
+    // Add mode + products → collect new products and launch Step 2 wizard
+    if(_mode==='add'&&_entity==='products'){
+      var _newProds=toProcess.filter(function(vr){return vr.status==='new';}).map(function(vr){
+        return {
+          id:vr._committedId||String(vr.row[cfg.idField]||'').trim(),
+          name:String(vr.row.name||'').trim(),
+          colour:String(vr.row.colour||'').trim(),
+          type:String(vr.row.type||'').trim()
+        };
+      });
+      if(_newProds.length) setTimeout(function(){_bu_showStep2(_newProds);},400);
+    }
 
   }catch(e){
     document.getElementById('prog-status').textContent='Error: '+e.message;
@@ -1275,21 +1295,15 @@ function _resetValidation(){
 }
 
 function _resetAll(){
-  if(_mode==='img'){
-    _imFiles=[];_imBuckets={};_imUnassigned=[];
-    document.getElementById('im-summary').style.display='none';
-    document.getElementById('im-review-card').style.display='none';
-    document.getElementById('im-progress-card').style.display='none';
-    var dz=document.getElementById('im-dropzone');
-    dz.classList.remove('has-file');
-    document.getElementById('im-dz-content').innerHTML='<div style="font-size:38px;margin-bottom:10px;">🖼</div><div style="font-size:14px;font-weight:500;color:#5A4030;margin-bottom:6px;">Drop photos here, or click to browse</div><div style="font-size:12px;color:#9A8070;line-height:1.7;">JPG · PNG · WebP &nbsp;·&nbsp; Select as many as you need<br>Files named with a product SKU (e.g. <strong>AMY-BAN-001</strong>_front.jpg) are auto-matched</div>';
-    return;
-  }
   _clearFile();
   _resetValidation();
   _searchHits=[];
   document.getElementById('search-results').style.display='none';
   document.getElementById('search-empty').style.display='none';
+  // Hide wizard cards
+  document.getElementById('bu-step2-card').style.display='none';
+  document.getElementById('bu-step3-card').style.display='none';
+  _bu_batch=null; _bu_selected=null; _bu_slots={}; _bu_slotUrls={}; _bu_pubStatus={};
 }
 
 /* ── BOOT ── */
@@ -1297,227 +1311,430 @@ _buildFieldMask();
 _init();
 
 /* ═══════════════════════════════════════════
-   IMAGE MODE — Batch Photo Upload
+   BULK WIZARD — Steps 2 & 3
 ═══════════════════════════════════════════ */
-function _escHtml(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-var _imFiles    = [];   // [{file,name,dataUrl,sku}]  sku=null if unmatched
-var _imBuckets  = {};   // {SKU:[idx,...]} — indices into _imFiles, max 4
-var _imUnassigned=[];   // [idx,...] — indices into _imFiles
-var _imProducts = [];   // [{id,name,thumbnail,...}] from products_index.json
-var _imSkuSet   = {};   // {sku:true} for O(1) lookup
-var _SKU_RE     = /AMY-[A-Z0-9]+-\d+/i;
+var _bu_batch    = null;  // {id, timestamp, products:[{id,name,colour,type}], step, published:[]}
+var _bu_selected = null;  // currently selected SKU in Step 3
+var _bu_slots    = {};    // {sku:[canvas|'__'|null, ...]} — up to 4 slots
+var _bu_slotUrls = {};    // {sku:[dataUrl|null, ...]} — for preview
+var _bu_pubStatus= {};    // {sku:'pending'|'ready'|'uploading'|'published'|'error'}
+var _SKU_RE      = /AMY-[A-Z0-9]+-\d+/i;
 
-/* Load product list so dropdown in unassigned pool is populated */
-async function _imLoadProducts(){
-  try{
-    const d=await _ghGet('data/products_index.json');
-    _imProducts=JSON.parse(_ub64(d.content));
-    _imProducts.forEach(function(p){_imSkuSet[p.id]=true;});
-    document.getElementById('im-load-status').textContent='✅ '+_imProducts.length+' products loaded';
-  }catch(e){
-    document.getElementById('im-load-status').textContent='⚠ Could not load products index — SKU matching will still work';
+/* ═══════════════════════════════════════════
+   BULK WIZARD — Step 2 functions
+═══════════════════════════════════════════ */
+function _bu_showStep2(newProducts){
+  var batchId='BU-'+Date.now();
+  _bu_batch={id:batchId,timestamp:Date.now(),products:newProducts,step:2,published:[]};
+  localStorage.setItem('amayaa_active_batch',JSON.stringify(_bu_batch));
+  newProducts.forEach(function(p){
+    _bu_pubStatus[p.id]='pending';
+    _bu_slots[p.id]=[null,null,null,null];
+    _bu_slotUrls[p.id]=[null,null,null,null];
+  });
+  document.getElementById('bu-s2-count').textContent=newProducts.length;
+  _bu_renderRefTable(newProducts);
+  document.getElementById('bu-step2-card').style.display='block';
+  setTimeout(function(){document.getElementById('bu-step2-card').scrollIntoView({behavior:'smooth'});},100);
+}
+
+function _bu_renderRefTable(prods){
+  var tbody=document.querySelector('#bu-ref-table tbody');
+  tbody.innerHTML=prods.map(function(p){
+    var numPart=(p.id.match(/(\d+)$/)||['',''])[1];
+    var numClean=numPart?String(parseInt(numPart,10)):'';
+    var typeLow=(p.type||'').toLowerCase().replace(/[\s\/,]+/g,'_');
+    var colLow=(p.colour||'').toLowerCase().replace(/[\s\/,]+/g,'_');
+    var kw=[p.id];
+    if(typeLow) kw.push(typeLow+'_'+numPart);
+    if(colLow) kw.push(colLow);
+    return '<tr>'
+      +'<td style="font-size:11px;font-family:monospace;color:#C4622D;white-space:nowrap;">'+_escHtml(p.id)+'</td>'
+      +'<td>'+_escHtml(p.name)+'</td>'
+      +'<td>'+_escHtml(p.type||'—')+'</td>'
+      +'<td>'+_escHtml(p.colour||'—')+'</td>'
+      +'<td style="font-size:11px;color:#9A8070;">'+kw.map(function(k){return '<code>'+_escHtml(k)+'</code>';}).join(', ')+'</td>'
+      +'</tr>';
+  }).join('');
+}
+
+function _bu_downloadZip(){
+  if(typeof JSZip==='undefined'){
+    document.getElementById('bu-zip-note').textContent=' JSZip not loaded — try refreshing.';
+    return;
   }
-}
-
-function _imOnDrop(e){
-  e.preventDefault();
-  document.getElementById('im-dropzone').classList.remove('drag');
-  var files=Array.from(e.dataTransfer.files).filter(function(f){return f.type.startsWith('image/');});
-  if(files.length) _imReadFiles(files);
-}
-function _imOnFileInput(el){
-  var files=Array.from(el.files);
-  if(files.length) _imReadFiles(files);
-  el.value='';
-}
-
-function _imReadFiles(files){
-  var total=files.length;
-  var done=0;
-  var newEntries=[];
-  files.forEach(function(file){
-    var reader=new FileReader();
-    reader.onload=function(ev){
-      var skuMatch=file.name.match(_SKU_RE);
-      var sku=skuMatch?skuMatch[0].toUpperCase():null;
-      newEntries.push({file:file,name:file.name,dataUrl:ev.target.result,sku:sku});
-      done++;
-      if(done===total){
-        // merge into global state
-        newEntries.forEach(function(entry){
-          var idx=_imFiles.length;
-          _imFiles.push(entry);
-          if(entry.sku){
-            _imBuckets[entry.sku]=_imBuckets[entry.sku]||[];
-            if(_imBuckets[entry.sku].length<4){
-              _imBuckets[entry.sku].push(idx);
-            } else {
-              // bucket full — goes to unassigned
-              _imFiles[idx].sku=null;
-              _imUnassigned.push(idx);
-            }
-          } else {
-            _imUnassigned.push(idx);
-          }
-        });
-        _imRenderSummary();
-        _imShowReview();
-      }
-    };
-    reader.readAsDataURL(file);
+  var zip=new JSZip();
+  ((_bu_batch||{}).products||[]).forEach(function(p){zip.folder(p.id);});
+  document.getElementById('bu-zip-btn').textContent='⏳ Generating…';
+  zip.generateAsync({type:'blob'}).then(function(blob){
+    var a=document.createElement('a');
+    a.href=URL.createObjectURL(blob);
+    a.download='amayaa_photo_folders.zip';
+    a.click();
+    document.getElementById('bu-zip-btn').textContent='📁 Download folder template';
+    document.getElementById('bu-zip-note').textContent=' ✅ ZIP downloaded — place photos in the matching folders, then upload them in Step 3.';
   });
 }
 
-function _imRenderSummary(){
-  var totalF=_imFiles.length;
-  var matchedSkus=Object.keys(_imBuckets).length;
-  var unassignedCnt=_imUnassigned.length;
-  var el=document.getElementById('im-summary');
-  el.style.display='flex';
-  el.innerHTML='<span class="im-pill total">'+totalF+' photos loaded</span>'
-    +'<span class="im-pill matched">'+matchedSkus+' products matched</span>'
-    +(unassignedCnt?'<span class="im-pill unassigned">'+unassignedCnt+' unassigned</span>':'');
-  document.getElementById('im-dropzone').classList.add('has-file');
-  document.getElementById('im-dz-content').innerHTML='<div style="font-size:28px;margin-bottom:6px;">📂</div>'
-    +'<div style="font-size:13px;color:#5A4030;font-weight:500;">'+totalF+' photo'+(totalF!==1?'s':'')+' loaded &nbsp;·&nbsp; <span style="color:#C4622D;cursor:pointer;text-decoration:underline;" onclick="document.getElementById(\'im-file-input\').click()">Add more</span></div>';
+function _bu_goStep3(){
+  if(_bu_batch){_bu_batch.step=3;localStorage.setItem('amayaa_active_batch',JSON.stringify(_bu_batch));}
+  document.getElementById('bu-step3-card').style.display='block';
+  _bu_renderProductList();
+  setTimeout(function(){document.getElementById('bu-step3-card').scrollIntoView({behavior:'smooth'});},100);
+  // auto-select first unpublished product
+  var prods=(_bu_batch||{}).products||[];
+  var first=prods.find(function(p){return _bu_pubStatus[p.id]!=='published';});
+  if(first) _bu_selectProduct(first.id);
 }
 
-function _imShowReview(){
-  document.getElementById('im-review-card').style.display='block';
-  _imRenderReview();
+/* ── Resume batch from localStorage ── */
+function _bu_checkResume(){
+  var batchJson=localStorage.getItem('amayaa_active_batch');
+  if(!batchJson)return;
+  try{
+    var batch=JSON.parse(batchJson);
+    if(!batch||!batch.products||!batch.products.length)return;
+    var ago=Math.round((Date.now()-batch.timestamp)/60000);
+    var agoStr=ago<60?ago+'m ago':Math.round(ago/60)+'h ago';
+    document.getElementById('bu-resume-info').textContent=
+      'Batch from '+agoStr+' · '+batch.products.length+' product'+(batch.products.length!==1?'s':'')+' · Step '+batch.step;
+    var banner=document.getElementById('bu-resume-banner');
+    banner.style.display='flex';
+  }catch(e){}
 }
 
-function _imRenderReview(){
-  // Unassigned pool
-  var uaSection=document.getElementById('im-unassigned-section');
-  var uaPool=document.getElementById('im-unassigned-pool');
-  if(_imUnassigned.length){
-    uaSection.style.display='block';
-    uaPool.innerHTML=_imUnassigned.map(function(idx){
-      var f=_imFiles[idx];
-      var opts=_imProducts.map(function(p){
-        return '<option value="'+p.id+'">'+p.id+' — '+p.name+'</option>';
-      }).join('');
-      return '<div class="im-ua-row" id="im-ua-'+idx+'">'
-        +'<div class="im-ua-thumb"><img src="'+f.dataUrl+'" alt=""></div>'
-        +'<div class="im-ua-name">'+_escHtml(f.name)+'</div>'
-        +'<select class="im-ua-sel" id="im-ua-sel-'+idx+'">'
-        +'<option value="">— Select product —</option>'+opts+'</select>'
-        +'<button class="btn btn-primary btn-sm" onclick="_imAssign('+idx+')">Assign</button>'
-        +'<button class="btn btn-ghost btn-sm" onclick="_imDropUnassigned('+idx+')">✕</button>'
-        +'</div>';
-    }).join('');
-  } else {
-    uaSection.style.display='none';
+function _bu_resumeBatch(){
+  var batchJson=localStorage.getItem('amayaa_active_batch');
+  if(!batchJson)return;
+  var batch=JSON.parse(batchJson);
+  _bu_batch=batch;
+  var published=batch.published||[];
+  batch.products.forEach(function(p){
+    _bu_pubStatus[p.id]=published.indexOf(p.id)>-1?'published':'pending';
+    _bu_slots[p.id]=[null,null,null,null];
+    _bu_slotUrls[p.id]=[null,null,null,null];
+  });
+  document.getElementById('bu-resume-banner').style.display='none';
+  if(batch.step>=2){
+    document.getElementById('bu-s2-count').textContent=batch.products.length;
+    _bu_renderRefTable(batch.products);
+    document.getElementById('bu-step2-card').style.display='block';
   }
-
-  // Product buckets
-  var bucketSkus=Object.keys(_imBuckets).filter(function(s){return _imBuckets[s].length>0;});
-  var grid=document.getElementById('im-bucket-grid');
-  var noB=document.getElementById('im-no-buckets');
-  if(!bucketSkus.length){
-    grid.innerHTML=''; noB.style.display='block'; return;
+  if(batch.step>=3){
+    document.getElementById('bu-step3-card').style.display='block';
+    _bu_renderProductList();
+    var first=batch.products.find(function(p){return _bu_pubStatus[p.id]!=='published';});
+    if(first) _bu_selectProduct(first.id);
+    setTimeout(function(){document.getElementById('bu-step3-card').scrollIntoView({behavior:'smooth'});},100);
   }
-  noB.style.display='none';
+}
 
-  // Merge product name lookup
-  var nameMap={};
-  _imProducts.forEach(function(p){nameMap[p.id]=p.name;});
+function _bu_clearBatch(){
+  localStorage.removeItem('amayaa_active_batch');
+  document.getElementById('bu-resume-banner').style.display='none';
+}
 
-  grid.innerHTML=bucketSkus.map(function(sku){
-    var idxs=_imBuckets[sku];
-    var pName=nameMap[sku]||sku;
-    var thumbs=idxs.map(function(fi,slot){
-      var f=_imFiles[fi];
-      var isMain=slot===0;
-      return '<div class="im-thumb'+(isMain?' is-main':'')+'">'
-        +'<img src="'+f.dataUrl+'" alt="">'
-        +(isMain?'<div class="im-thumb-lbl">Main</div>':
-          '<div class="im-thumb-set" title="Set as Main" onclick="_imSetMain(\''+sku+'\','+slot+')">★</div>')
-        +'<div class="im-thumb-rm" onclick="_imRemoveFromBucket(\''+sku+'\','+slot+')">✕</div>'
-        +'</div>';
-    }).join('');
-    // show add slot if <4
-    var addSlot=idxs.length<4?'<div class="im-add-slot" title="Add photo" onclick="_imAddToBucket(\''+sku+'\')">+</div>':'';
-    return '<div class="im-bucket has-images" id="im-bucket-'+sku+'">'
-      +'<div class="im-bucket-head">'
-        +'<div><div class="im-bucket-name">'+_escHtml(pName)+'</div><div class="im-bucket-sku">'+sku+' &nbsp;·&nbsp; '+idxs.length+' photo'+(idxs.length!==1?'s':'')+'</div></div>'
-        +'<button class="btn btn-ghost btn-sm" style="font-size:11px;" onclick="_imClearBucket(\''+sku+'\')">Clear</button>'
+/* ═══════════════════════════════════════════
+   BULK WIZARD — Step 3 functions
+═══════════════════════════════════════════ */
+function _bu_renderProductList(){
+  var prods=(_bu_batch||{}).products||[];
+  var html=prods.map(function(p){
+    var st=_bu_pubStatus[p.id]||'pending';
+    var icon=st==='published'?'🟢':st==='error'?'🔴':st==='uploading'?'⏳':st==='ready'?'🟡':'⬜';
+    var slots=_bu_slots[p.id]||[];
+    var filled=slots.filter(function(s){return s&&s!=='__';}).length;
+    var isActive=_bu_selected===p.id;
+    return '<div class="bu-prod-item'+(isActive?' active':'')+'" onclick="_bu_selectProduct(\''+p.id+'\')" id="bu-li-'+p.id+'">'
+      +'<div style="display:flex;align-items:flex-start;gap:8px;">'
+        +'<span style="font-size:15px;flex-shrink:0;margin-top:1px;">'+icon+'</span>'
+        +'<div style="min-width:0;">'
+          +'<div style="font-size:12px;font-weight:600;color:#1A0A04;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+_escHtml(p.name)+'</div>'
+          +'<div style="font-size:10px;color:#9A8070;letter-spacing:.5px;margin-top:2px;">'+_escHtml(p.id)+'</div>'
+        +'</div>'
       +'</div>'
-      +'<div class="im-thumb-row">'+thumbs+addSlot+'</div>'
+      +(filled?'<span style="font-size:10px;color:#C4622D;font-weight:700;flex-shrink:0;">'+filled+'🖼</span>':'')
       +'</div>';
   }).join('');
-
-  // Update review note
-  var total=bucketSkus.reduce(function(s,k){return s+_imBuckets[k].length;},0);
-  document.getElementById('im-review-note').textContent=bucketSkus.length+' products · '+total+' photos ready';
+  document.getElementById('bu-product-list').innerHTML=html||'<div class="empty-state">No products.</div>';
+  var done=Object.values(_bu_pubStatus).filter(function(s){return s==='published';}).length;
+  document.getElementById('bu-s3-status').textContent=done?done+'/'+prods.length+' published':'';
 }
 
-function _imAssign(idx){
-  var sel=document.getElementById('im-ua-sel-'+idx);
-  var sku=sel?sel.value:'';
-  if(!sku){alert('Select a product first.');return;}
-  _imBuckets[sku]=_imBuckets[sku]||[];
-  if(_imBuckets[sku].length>=4){alert('That product already has 4 photos. Remove one first.');return;}
-  _imFiles[idx].sku=sku;
-  _imBuckets[sku].push(idx);
-  _imUnassigned=_imUnassigned.filter(function(i){return i!==idx;});
-  _imRenderSummary();
-  _imRenderReview();
+function _bu_selectProduct(sku){
+  _bu_selected=sku;
+  document.querySelectorAll('.bu-prod-item').forEach(function(el){el.classList.remove('active');});
+  var li=document.getElementById('bu-li-'+sku);
+  if(li)li.classList.add('active');
+  _bu_renderUploadPanel(sku);
 }
 
-function _imDropUnassigned(idx){
-  _imUnassigned=_imUnassigned.filter(function(i){return i!==idx;});
-  _imFiles[idx]=null; // mark as dropped
-  _imRenderSummary();
-  _imRenderReview();
+function _bu_renderUploadPanel(sku){
+  var prods=(_bu_batch||{}).products||[];
+  var prod=prods.find(function(p){return p.id===sku;});
+  if(!prod){document.getElementById('bu-upload-panel').innerHTML='<div class="empty-state">Product not found.</div>';return;}
+  if(!_bu_slots[sku])_bu_slots[sku]=[null,null,null,null];
+  if(!_bu_slotUrls[sku])_bu_slotUrls[sku]=[null,null,null,null];
+  var slots=_bu_slots[sku];
+  var urls=_bu_slotUrls[sku];
+  var filledCount=slots.filter(function(s){return s&&s!=='__';}).length;
+  var visibleSlots=Math.min(4,Math.max(2,filledCount+(filledCount<4?1:0)));
+  var st=_bu_pubStatus[sku]||'pending';
+  var canPublish=filledCount>=2&&st!=='published'&&st!=='uploading';
+
+  var slotsHtml='';
+  for(var i=0;i<visibleSlots;i++){
+    var isMain=i===0;
+    var hasImg=slots[i]&&slots[i]!=='__';
+    var isPend=slots[i]==='__';
+    if(hasImg){
+      slotsHtml+='<div class="im-thumb'+(isMain?' is-main':'')+'" style="width:80px;height:100px;">'
+        +'<img src="'+urls[i]+'" alt="" style="width:100%;height:100%;object-fit:cover;">'
+        +(isMain?'<div class="im-thumb-lbl">Main</div>':
+          '<div class="im-thumb-set" title="Set as main" onclick="_bu_setMain(\''+sku+'\','+i+')">★</div>')
+        +'<div class="im-thumb-rm" onclick="_bu_removeSlot(\''+sku+'\','+i+')">✕</div>'
+        +'</div>';
+    } else if(isPend){
+      slotsHtml+='<div class="im-thumb" style="width:80px;height:100px;display:flex;align-items:center;justify-content:center;background:rgba(196,98,45,.05);">'
+        +'<span style="font-size:18px;animation:spin .7s linear infinite;">↻</span></div>';
+    } else {
+      slotsHtml+='<div class="im-add-slot" style="width:80px;height:100px;" onclick="_bu_addSlot(\''+sku+'\','+i+')">'
+        +(i===0?'📷':'+')+
+        '</div>';
+    }
+  }
+
+  var statusBadge='';
+  if(st==='published') statusBadge='<span class="pill p-ok">✅ Published</span>';
+  else if(st==='uploading') statusBadge='<span class="pill p-warn">⏳ Uploading…</span>';
+  else if(st==='error') statusBadge='<span class="pill p-warn">⚠ Error — try again</span>';
+  else if(filledCount>=2) statusBadge='<span class="pill p-new">Ready to publish</span>';
+  else if(filledCount>0) statusBadge='<span class="pill p-skip">Add '+(2-filledCount)+' more photo'+(filledCount===1?'':'s')+'</span>';
+  else statusBadge='<span class="pill p-skip">No photos yet</span>';
+
+  document.getElementById('bu-upload-panel').innerHTML=
+    '<div>'
+      +'<div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px;">'
+        +'<div>'
+          +'<div style="font-size:15px;font-weight:600;color:#1A0A04;">'+_escHtml(prod.name)+'</div>'
+          +'<div style="font-size:11px;color:#9A8070;letter-spacing:.5px;margin-top:3px;">'
+            +_escHtml(prod.id)
+            +(prod.type?' &nbsp;·&nbsp; '+_escHtml(prod.type):'')
+            +(prod.colour?' &nbsp;·&nbsp; '+_escHtml(prod.colour):'')
+          +'</div>'
+        +'</div>'
+        +'<div>'+statusBadge+'</div>'
+      +'</div>'
+      +'<div class="dropzone" style="padding:16px;margin-bottom:14px;" '
+        +'ondragover="event.preventDefault();this.classList.add(\'drag\')" '
+        +'ondragleave="this.classList.remove(\'drag\')" '
+        +'ondrop="_bu_onDrop(event,\''+sku+'\')" '
+        +'onclick="_bu_addSlot(\''+sku+'\',null)">'
+        +'<div style="font-size:13px;color:#7A6050;">📂 Drop photos here, or click to browse</div>'
+        +'<div style="font-size:11px;color:#9A8070;margin-top:4px;">Files matching <code>'+_escHtml(prod.id)+'</code>, <code>'+(prod.type||'').toLowerCase()+'</code>, or <code>'+(prod.colour||'').toLowerCase()+'</code> are auto-ranked first</div>'
+      +'</div>'
+      +'<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">'+slotsHtml+'</div>'
+      +(filledCount<2&&filledCount>0?'<div style="font-size:12px;color:#9A6000;margin-bottom:12px;">⚠ Add '+(2-filledCount)+' more photo'+(2-filledCount===1?'':'s')+' to enable publishing</div>':'')
+      +'<div style="display:flex;gap:10px;flex-wrap:wrap;">'
+        +'<button class="btn btn-success" '+(canPublish?'':'disabled style="opacity:.4;cursor:not-allowed;"')+' '+(canPublish?'onclick="_bu_publishOne(\''+sku+'\')"':'')+'>🚀 Publish This Product</button>'
+        +'<button class="btn btn-ghost" onclick="_bu_skipProduct(\''+sku+'\')">⏭ Skip for now</button>'
+      +'</div>'
+    +'</div>';
 }
 
-function _imSetMain(sku,slot){
-  if(slot===0)return;
-  var arr=_imBuckets[sku];
-  var tmp=arr[0];arr[0]=arr[slot];arr[slot]=tmp;
-  _imRenderReview();
+/* ── Fuzzy score: how well does a filename match this product? ── */
+function _bu_scoreFile(filename,prod){
+  var fn=filename.toLowerCase().replace(/[._\-\s]+/g,' ');
+  var tokens=[];
+  // SKU parts: 'amy', 'ban', '001'
+  prod.id.toLowerCase().split(/[-_]/).forEach(function(t){if(t.length>=2)tokens.push(t);});
+  // numeric part stripped of leading zeros: '1'
+  var nm=prod.id.match(/(\d+)$/);
+  if(nm) tokens.push(String(parseInt(nm[1],10)));
+  // type/weave keywords
+  if(prod.type)(prod.type.toLowerCase().split(/[\s\/,\-]+/)).forEach(function(t){if(t.length>=2)tokens.push(t);});
+  // colour keywords
+  if(prod.colour)(prod.colour.toLowerCase().split(/[\s\/,\-]+/)).forEach(function(t){if(t.length>=2)tokens.push(t);});
+  return tokens.reduce(function(s,t){return s+(fn.indexOf(t)>-1?1:0);},0);
 }
 
-function _imRemoveFromBucket(sku,slot){
-  var removed=_imBuckets[sku].splice(slot,1)[0];
-  if(_imBuckets[sku].length===0) delete _imBuckets[sku];
-  // put back in unassigned
-  if(removed!=null){_imFiles[removed].sku=null;_imUnassigned.push(removed);}
-  _imRenderSummary();
-  _imRenderReview();
+function _bu_onDrop(event,sku){
+  event.preventDefault();
+  event.currentTarget.classList.remove('drag');
+  var files=Array.from(event.dataTransfer.files).filter(function(f){return f.type.startsWith('image/');});
+  if(files.length)_bu_addFiles(sku,files);
 }
 
-function _imClearBucket(sku){
-  (_imBuckets[sku]||[]).forEach(function(i){_imFiles[i].sku=null;_imUnassigned.push(i);});
-  delete _imBuckets[sku];
-  _imRenderSummary();
-  _imRenderReview();
-}
-
-function _imAddToBucket(sku){
-  /* open a single-file picker scoped to this SKU bucket */
+function _bu_addSlot(sku,slotIdx){
   var fi=document.createElement('input');
-  fi.type='file';fi.accept='image/jpeg,image/png,image/webp';
+  fi.type='file';fi.accept='image/jpeg,image/png,image/webp';fi.multiple=(slotIdx===null);
   fi.onchange=function(e){
-    var file=e.target.files[0];if(!file)return;
-    var reader=new FileReader();
-    reader.onload=function(ev){
-      var idx=_imFiles.length;
-      _imFiles.push({file:file,name:file.name,dataUrl:ev.target.result,sku:sku});
-      _imBuckets[sku]=_imBuckets[sku]||[];
-      _imBuckets[sku].push(idx);
-      _imRenderSummary();
-      _imRenderReview();
-    };
-    reader.readAsDataURL(file);
+    var files=Array.from(e.target.files);
+    if(!files.length)return;
+    if(slotIdx!==null){
+      _bu_cropAndFill(sku,slotIdx,files[0]);
+    } else {
+      _bu_addFiles(sku,files);
+    }
   };
   fi.click();
 }
 
+function _bu_addFiles(sku,files){
+  var prods=(_bu_batch||{}).products||[];
+  var prod=prods.find(function(p){return p.id===sku;});
+  if(!_bu_slots[sku])_bu_slots[sku]=[null,null,null,null];
+  if(!_bu_slotUrls[sku])_bu_slotUrls[sku]=[null,null,null,null];
+  // score and sort by best match
+  var scored=files.map(function(f){return {file:f,score:prod?_bu_scoreFile(f.name,prod):0};});
+  scored.sort(function(a,b){return b.score-a.score;});
+  var slots=_bu_slots[sku];
+  scored.forEach(function(entry){
+    var idx=-1;
+    for(var j=0;j<4;j++){if(slots[j]===null){idx=j;slots[j]='__';break;}}
+    if(idx===-1)return;
+    _bu_cropAndFill(sku,idx,entry.file);
+  });
+}
+
+function _bu_cropAndFill(sku,slotIdx,file){
+  if(!_bu_slots[sku])_bu_slots[sku]=[null,null,null,null];
+  if(!_bu_slotUrls[sku])_bu_slotUrls[sku]=[null,null,null,null];
+  _bu_slots[sku][slotIdx]='__'; // pre-claim
+  if(_bu_selected===sku)_bu_renderUploadPanel(sku);
+  _bu_autoCrop(file,function(canvas){
+    _bu_slots[sku][slotIdx]=canvas;
+    _bu_slotUrls[sku][slotIdx]=canvas.toDataURL('image/jpeg',0.7);
+    var filled=_bu_slots[sku].filter(function(s){return s&&s!=='__';}).length;
+    if(filled>=2&&_bu_pubStatus[sku]==='pending')_bu_pubStatus[sku]='ready';
+    _bu_renderProductList();
+    if(_bu_selected===sku)_bu_renderUploadPanel(sku);
+  });
+}
+
+function _bu_setMain(sku,slot){
+  if(slot===0)return;
+  var tmpS=_bu_slots[sku][0];_bu_slots[sku][0]=_bu_slots[sku][slot];_bu_slots[sku][slot]=tmpS;
+  var tmpU=_bu_slotUrls[sku][0];_bu_slotUrls[sku][0]=_bu_slotUrls[sku][slot];_bu_slotUrls[sku][slot]=tmpU;
+  _bu_renderUploadPanel(sku);
+}
+
+function _bu_removeSlot(sku,slot){
+  _bu_slots[sku][slot]=null;
+  _bu_slotUrls[sku][slot]=null;
+  // compact — shift remaining left
+  var filled=_bu_slots[sku].filter(function(s){return s!==null;});
+  var filledU=_bu_slotUrls[sku].filter(function(s){return s!==null;});
+  while(filled.length<4){filled.push(null);filledU.push(null);}
+  _bu_slots[sku]=filled;_bu_slotUrls[sku]=filledU;
+  var cnt=filled.filter(function(s){return s&&s!=='__';}).length;
+  if(_bu_pubStatus[sku]==='ready'&&cnt<2)_bu_pubStatus[sku]='pending';
+  _bu_renderProductList();
+  _bu_renderUploadPanel(sku);
+}
+
+function _bu_skipProduct(sku){
+  // Navigate to next unpublished product
+  var prods=(_bu_batch||{}).products||[];
+  var idx=prods.findIndex(function(p){return p.id===sku;});
+  var next=prods.slice(idx+1).find(function(p){return _bu_pubStatus[p.id]!=='published';});
+  if(next)_bu_selectProduct(next.id);
+  else document.getElementById('bu-s3-status').textContent='All products reviewed.';
+}
+
+/* ── Publish one product ── */
+async function _bu_publishOne(sku,ikKeyOverride){
+  var slots=_bu_slots[sku]||[];
+  var filled=slots.filter(function(s){return s&&s!=='__';});
+  if(filled.length<2){alert('At least 2 photos required to publish.');return;}
+  var ikKey=ikKeyOverride||localStorage.getItem('amayaa_ik_private_key')||'';
+  if(!ikKey){
+    ikKey=prompt('Enter your ImageKit Private API Key (stored locally only):');
+    if(!ikKey)return;
+    localStorage.setItem('amayaa_ik_private_key',ikKey);
+  }
+  _bu_pubStatus[sku]='uploading';
+  _bu_renderProductList();
+  _bu_renderUploadPanel(sku);
+  try{
+    var IK_UPLOAD='https://upload.imagekit.io/api/v1/files/upload';
+    var authHdr='Basic '+btoa(ikKey+':');
+    var folder='/products/'+sku;
+    var viewers=[],thumbs=[];
+    for(var s=0;s<filled.length;s++){
+      var cv=filled[s];
+      var slotNum=s+1;
+      var thumbCv=document.createElement('canvas');thumbCv.width=400;thumbCv.height=500;
+      thumbCv.getContext('2d').drawImage(cv,0,0,400,500);
+      var vUrl=await _bu_ikUploadCanvas(cv,folder,'img'+slotNum+'.jpg',authHdr,IK_UPLOAD);
+      var tUrl=await _bu_ikUploadCanvas(thumbCv,folder,'thumb'+slotNum+'.jpg',authHdr,IK_UPLOAD);
+      viewers.push(vUrl);thumbs.push(tUrl);
+    }
+    // Update product detail JSON
+    var detailPath='data/products/'+sku+'.json';
+    try{
+      var df=await _ghGet(detailPath);
+      var detail=JSON.parse(_ub64(df.content));
+      detail.photos=viewers;detail.imageThumbs=thumbs;
+      if(thumbs[0])detail.thumbnail=thumbs[0];
+      detail.status='active';
+      await _ghPut(detailPath,detail,df.sha,'Admin: bulk upload — publish '+sku+' ('+filled.length+' photos)');
+    }catch(e){console.warn('Detail JSON for '+sku+' not found, skipping detail update');}
+    // Update products_index.json
+    try{
+      var idxFile=await _ghGet('data/products_index.json');
+      var idxArr=JSON.parse(_ub64(idxFile.content));
+      var prod=idxArr.find(function(p){return p.id===sku;});
+      if(prod){prod.thumbnail=thumbs[0]||'';prod.status='active';}
+      await _ghPut('data/products_index.json',idxArr,idxFile.sha,'Admin: bulk upload — set '+sku+' active');
+    }catch(e){console.warn('Index patch failed:',e);}
+    _bu_pubStatus[sku]='published';
+    if(_bu_batch){
+      _bu_batch.published=_bu_batch.published||[];
+      if(_bu_batch.published.indexOf(sku)===-1)_bu_batch.published.push(sku);
+      localStorage.setItem('amayaa_active_batch',JSON.stringify(_bu_batch));
+    }
+    _bu_renderProductList();
+    _bu_renderUploadPanel(sku);
+    // Auto-advance to next product
+    var prods=(_bu_batch||{}).products||[];
+    var cidx=prods.findIndex(function(p){return p.id===sku;});
+    var next=prods.slice(cidx+1).find(function(p){return _bu_pubStatus[p.id]!=='published';});
+    if(next)setTimeout(function(){_bu_selectProduct(next.id);},600);
+    else {
+      var done=Object.values(_bu_pubStatus).filter(function(s){return s==='published';}).length;
+      if(done===prods.length){
+        localStorage.removeItem('amayaa_active_batch');
+        document.getElementById('bu-s3-status').textContent='🎉 All '+done+' products published!';
+      }
+    }
+  }catch(e){
+    _bu_pubStatus[sku]='error';
+    _bu_renderProductList();
+    _bu_renderUploadPanel(sku);
+    alert('Error publishing '+sku+': '+e.message);
+  }
+}
+
+async function _bu_publishAll(){
+  var prods=(_bu_batch||{}).products||[];
+  var ready=prods.filter(function(p){return _bu_pubStatus[p.id]==='ready';});
+  if(!ready.length){alert('No products are ready yet — each needs at least 2 photos.');return;}
+  if(!confirm('Publish '+ready.length+' product'+(ready.length!==1?'s':'')+' now?'))return;
+  var ikKey=localStorage.getItem('amayaa_ik_private_key')||'';
+  if(!ikKey){
+    ikKey=prompt('Enter your ImageKit Private API Key (stored locally only):');
+    if(!ikKey)return;
+    localStorage.setItem('amayaa_ik_private_key',ikKey);
+  }
+  for(var i=0;i<ready.length;i++){
+    _bu_selectProduct(ready[i].id);
+    await _bu_publishOne(ready[i].id,ikKey);
+  }
+}
+
 /* ── Auto-crop: center-weighted 4:5 → 800×1000 canvas ── */
-function _imAutoCrop(file,cb){
+function _bu_autoCrop(file,cb){
   var reader=new FileReader();
   reader.onload=function(ev){
     var img=new Image();
@@ -1536,115 +1753,8 @@ function _imAutoCrop(file,cb){
   reader.readAsDataURL(file);
 }
 
-/* ── Upload all matching products sequentially ── */
-async function _imUploadAll(){
-  var skus=Object.keys(_imBuckets).filter(function(s){return _imBuckets[s].length>0;});
-  if(!skus.length){alert('No photos assigned to any product.');return;}
-  if(!_tok()){alert('GitHub token not set. Go to Admin → Settings first.');return;}
-  var ikKey=localStorage.getItem('amayaa_ik_private_key')||'';
-  if(!ikKey){
-    ikKey=prompt('Enter your ImageKit Private API Key (stored in browser only):');
-    if(!ikKey)return;
-    localStorage.setItem('amayaa_ik_private_key',ikKey);
-  }
-
-  // Switch to progress card
-  document.getElementById('im-review-card').style.display='none';
-  var progCard=document.getElementById('im-progress-card');
-  progCard.style.display='block';
-  var progRows=document.getElementById('im-prog-rows');
-  progRows.innerHTML=skus.map(function(sku){
-    return '<div class="im-prog-row" id="im-pr-'+sku+'">'
-      +'<div class="im-prog-ic im-ic-pend" id="im-pi-'+sku+'">○</div>'
-      +'<div style="flex:1;font-size:13px;color:#3A2A1A;font-weight:500;">'+sku+'</div>'
-      +'<div style="font-size:12px;color:#9A8070;" id="im-ps-'+sku+'">Pending</div>'
-      +'</div>';
-  }).join('');
-
-  var done=0,errors=0;
-  var updatedThumbs={};  // {sku: thumbUrl} — for index patch at end
-
-  for(var i=0;i<skus.length;i++){
-    var sku=skus[i];
-    var ic=document.getElementById('im-pi-'+sku);
-    var st=document.getElementById('im-ps-'+sku);
-    ic.className='im-prog-ic im-ic-run';ic.textContent='↻';
-    st.textContent='Uploading…';
-    document.getElementById('im-prog-pct').textContent=(i+1)+'/'+skus.length;
-    try{
-      var urls=await _imUploadProduct(sku,_imBuckets[sku],ikKey,st);
-      updatedThumbs[sku]=urls.thumbs[0]||'';
-      ic.className='im-prog-ic im-ic-done';ic.textContent='✓';
-      st.textContent='✅ '+urls.viewers.length+' photo'+(urls.viewers.length!==1?'s':'')+' uploaded';
-      done++;
-    }catch(e){
-      ic.className='im-prog-ic im-ic-err';ic.textContent='✗';
-      st.textContent='❌ '+e.message;
-      errors++;
-    }
-  }
-
-  // Patch products_index.json thumbnails
-  try{
-    var idxFile=await _ghGet('data/products_index.json');
-    var idxArr=JSON.parse(_ub64(idxFile.content));
-    idxArr.forEach(function(p){if(updatedThumbs[p.id])p.thumbnail=updatedThumbs[p.id];});
-    await _ghPut('data/products_index.json',idxArr,idxFile.sha,'Admin: bulk image upload — update thumbnails for '+Object.keys(updatedThumbs).join(', '));
-  }catch(e){console.warn('Index thumbnail patch failed:',e);}
-
-  // Mark done
-  var sn=document.getElementById('im-prog-sn');
-  sn.style.background='linear-gradient(135deg,#25D366,#128C7E)';
-  sn.textContent='✓';
-  document.getElementById('im-prog-pct').textContent='';
-  var fin=document.getElementById('im-final');
-  fin.style.display='block';
-  fin.textContent='✅ Done — '+done+' product'+(done!==1?'s':'')+' updated'+
-    (errors?' · ⚠ '+errors+' error'+(errors!==1?'s':''):'')+'  ·  '+
-    (done+errors)+' total';
-}
-
-async function _imUploadProduct(sku,fileIdxs,ikKey,statusEl){
-  var IK_UPLOAD='https://upload.imagekit.io/api/v1/files/upload';
-  var authHdr='Basic '+btoa(ikKey+':');
-  var folder='/products/'+sku;
-  var viewers=[],thumbs=[];
-
-  for(var s=0;s<fileIdxs.length;s++){
-    var entry=_imFiles[fileIdxs[s]];
-    if(!entry)continue;
-    var slotNum=s+1;
-    statusEl.textContent='Cropping '+(s+1)+'/'+fileIdxs.length+'…';
-    var viewerCv=await new Promise(function(res){_imAutoCrop(entry.file,res);});
-    var thumbCv=document.createElement('canvas');thumbCv.width=400;thumbCv.height=500;
-    thumbCv.getContext('2d').drawImage(viewerCv,0,0,400,500);
-
-    statusEl.textContent='Uploading viewer '+(s+1)+'/'+fileIdxs.length+'…';
-    var vUrl=await _imIkUploadCanvas(viewerCv,folder,'img'+slotNum+'.jpg',authHdr,IK_UPLOAD);
-    statusEl.textContent='Uploading thumb '+(s+1)+'/'+fileIdxs.length+'…';
-    var tUrl=await _imIkUploadCanvas(thumbCv,folder,'thumb'+slotNum+'.jpg',authHdr,IK_UPLOAD);
-    viewers.push(vUrl);thumbs.push(tUrl);
-  }
-
-  // Update product detail JSON
-  statusEl.textContent='Saving product JSON…';
-  var detailPath='data/products/'+sku+'.json';
-  try{
-    var df=await _ghGet(detailPath);
-    var detail=JSON.parse(_ub64(df.content));
-    detail.photos=viewers;
-    detail.imageThumbs=thumbs;
-    if(thumbs[0]) detail.thumbnail=thumbs[0];
-    await _ghPut(detailPath,detail,df.sha,'Admin: bulk image upload for '+sku);
-  }catch(e){
-    // detail file might not exist yet — create it
-    console.warn('Detail file missing for '+sku+', skipping detail update');
-  }
-
-  return {viewers:viewers,thumbs:thumbs};
-}
-
-async function _imIkUploadCanvas(canvas,folder,fileName,authHdr,url){
+/* ── Upload a canvas to ImageKit ── */
+async function _bu_ikUploadCanvas(canvas,folder,fileName,authHdr,url){
   var IK_TR='?tr=f-auto,q-85';
   var blob=await new Promise(function(res){canvas.toBlob(res,'image/jpeg',0.85);});
   var reader=new FileReader();

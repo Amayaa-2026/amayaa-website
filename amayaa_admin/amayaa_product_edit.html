@@ -1430,6 +1430,9 @@ function _validateProduct(data){
   if(!data.detail.price || data.detail.price <= 0) errors.push('Selling Price must be greater than 0.');
   if(!data.detail.occasion || !data.detail.occasion.length) errors.push('At least one Occasion must be selected.');
   if(!data.detail.gradientFrom || !data.detail.gradientTo) errors.push('Card gradient colours are required.');
+  // Photos: minimum 2 to publish (always — no exceptions)
+  var photoCount = _imageSlots.filter(function(s){ return s && s.viewerUrl; }).length;
+  if(data.indexEntry.status !== 'draft' && photoCount < 2) errors.push('At least 2 photos are required before publishing. Save as Draft first, then add photos.');
   return errors;
 }
 </script>

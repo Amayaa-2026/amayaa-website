@@ -467,7 +467,9 @@ function _ghSave(path, content, msg, doneCb){
           <div class="card-header">
             <div><div class="card-title">Product Photos</div><div class="card-sub">Drop photo → auto-crop → upload · Up to 4 slots</div></div>
           </div>
+          <button id="loadAllBtn" onclick="_loadAllImages()" class="btn btn-ghost" style="width:100%;justify-content:center;margin-bottom:10px;">📁 Load all images at once <span style="font-size:10px;font-weight:400;opacity:.7;">(select 3–4 photos)</span></button>
           <div class="img-slots-grid" id="imgSlotsGrid"></div>
+          <button id="uploadAllBtn" onclick="_uploadAll()" class="btn btn-save" style="width:100%;justify-content:center;margin-top:10px;display:none;">✅ Upload All Photos ↑</button>
           <div id="photo-status" style="font-size:11px;color:#9A8070;text-align:center;margin-top:8px;min-height:16px;"></div>
           <p style="font-size:11px;color:#C0A888;margin-top:4px;text-align:center;">JPG/PNG/WebP · Auto-resized to 800×1000px · Uploaded to ImageKit CDN</p>
         </div>
@@ -713,12 +715,22 @@ function _loadCategories(currentType, currentFabric){
 <script>
 /* ────────────────────────────────────────────────────────
    STATE
-   _imageSlots[0..3]: null | { viewerUrl, thumbUrl }
-   slot 0 = Main Photo, slots 1-3 = Gallery
+   _imageSlots[0..3]:  null | { viewerUrl, thumbUrl }  ← uploaded
+   _slotCanvases[0..3]: null | HTMLCanvasElement        ← bulk pending
+   _slotPreviewUrls[0..3]: null | string (dataURL)      ← cached preview
+   _bulkMode: true while slots are pending (not yet uploaded)
+   _mainSlotIdx: which pending slot is marked Main (default 0)
+   _cropPendingMode: true = crop confirms update canvas only, no upload
 ──────────────────────────────────────────────────────── */
 var _imageSlots      = [null, null, null, null];
+var _slotCanvases    = [null, null, null, null];
+var _slotPreviewUrls = [null, null, null, null];
+var _bulkMode        = false;
+var _mainSlotIdx     = 0;
+var _cropPendingMode = false;
 var _cropperInst     = null;
 var _cropSlotIdx     = -1;
+var _cropRawFile     = null;
 var _SLOT_LABELS     = ['Main Photo', 'Gallery 2', 'Gallery 3', 'Gallery 4'];
 
 /* ── RENDER ── */
@@ -726,44 +738,76 @@ function _renderSlots(){
   var grid = document.getElementById('imgSlotsGrid');
   if(!grid) return;
   grid.innerHTML = '';
+
+  /* show / hide Load All & Upload All buttons */
+  var loadBtn   = document.getElementById('loadAllBtn');
+  var uploadBtn = document.getElementById('uploadAllBtn');
+  if(loadBtn)   loadBtn.style.display   = _bulkMode ? 'none'  : 'flex';
+  if(uploadBtn) uploadBtn.style.display = _bulkMode ? 'flex'  : 'none';
+
   _imageSlots.forEach(function(slot, i){
     var el = document.createElement('div');
-    el.className = 'img-slot' + (i===0 ? ' slot-main' : '');
+    el.className = 'img-slot' + (i===0 && !_bulkMode ? ' slot-main' : '');
     el.setAttribute('data-slot', i);
 
-    /* drag-and-drop */
-    el.addEventListener('dragover', function(e){ e.preventDefault(); el.classList.add('slot-drag-over'); });
-    el.addEventListener('dragleave', function(){ el.classList.remove('slot-drag-over'); });
-    el.addEventListener('drop', function(e){
-      e.preventDefault(); el.classList.remove('slot-drag-over');
-      var f = e.dataTransfer.files && e.dataTransfer.files[0];
-      if(f) _startCrop(f, i);
-    });
+    /* drag-and-drop only in non-bulk mode */
+    if(!_bulkMode){
+      el.addEventListener('dragover', function(e){ e.preventDefault(); el.classList.add('slot-drag-over'); });
+      el.addEventListener('dragleave', function(){ el.classList.remove('slot-drag-over'); });
+      el.addEventListener('drop', function(e){
+        e.preventDefault(); el.classList.remove('slot-drag-over');
+        var f = e.dataTransfer.files && e.dataTransfer.files[0];
+        if(f) _startCrop(f, i, false);
+      });
+    }
 
+    var isMainSlot = _bulkMode ? (i === _mainSlotIdx) : (i === 0);
     var lblHtml = '<div class="slot-lbl">' + _SLOT_LABELS[i]
-      + (i===0 ? ' <span class="slot-main-badge">MAIN</span>' : '') + '</div>';
+      + (!_bulkMode && i===0 ? ' <span class="slot-main-badge">MAIN</span>' : '') + '</div>';
 
-    if(slot && (slot.thumbUrl || slot.viewerUrl)){
+    /* ── BULK PENDING STATE ── */
+    if(_bulkMode && _slotCanvases[i]){
+      var pUrl = _slotPreviewUrls[i] || _slotCanvases[i].toDataURL('image/jpeg', 0.70);
+      if(!_slotPreviewUrls[i]) _slotPreviewUrls[i] = pUrl;
+      var mainStyle = isMainSlot
+        ? 'border-color:rgba(196,98,45,.5);background:rgba(196,98,45,.06);color:#C4622D;font-weight:700;'
+        : 'border-color:rgba(0,0,0,.1);background:rgba(240,230,216,.5);color:#7A6050;';
+      el.innerHTML = lblHtml
+        + '<div class="slot-zone slot-filled" style="position:relative;">'
+        + '<img src="'+pUrl+'" class="slot-img">'
+        + '<div style="position:absolute;top:6px;right:6px;background:rgba(0,0,0,.45);border-radius:5px;padding:2px 6px;font-size:9px;color:white;font-weight:700;letter-spacing:1px;">PREVIEW</div>'
+        + (isMainSlot ? '<div style="position:absolute;bottom:0;left:0;right:0;background:rgba(196,98,45,.85);color:white;font-size:9px;font-weight:700;text-align:center;padding:3px;letter-spacing:1.5px;">★ MAIN</div>' : '')
+        + '</div>'
+        + '<div class="slot-acts">'
+        + '<label style="flex:1;display:flex;align-items:center;gap:5px;cursor:pointer;justify-content:center;padding:5px 4px;border-radius:6px;border:1px solid;font-size:10px;font-family:\'Jost\',sans-serif;' + mainStyle + '">'
+        + '<input type="radio" name="slotMain" value="'+i+'"'+(isMainSlot?' checked':'')+' onchange="_setMainSlot('+i+')" style="accent-color:#C4622D;width:12px;height:12px;"> Set Main</label>'
+        + '<button class="slot-btn" onclick="_recropSlot('+i+')">✏</button>'
+        + '<button class="slot-btn slot-btn-rm" onclick="_removePendingSlot('+i+')">✕</button>'
+        + '</div>';
+
+    /* ── UPLOADED STATE ── */
+    } else if(!_bulkMode && slot && (slot.thumbUrl || slot.viewerUrl)){
       var displayUrl = slot.thumbUrl || slot.viewerUrl;
       el.innerHTML = lblHtml
         + '<div class="slot-zone slot-filled">'
-        + '<img src="' + displayUrl + '" class="slot-img" loading="lazy">'
+        + '<img src="'+displayUrl+'" class="slot-img" loading="lazy">'
         + '</div>'
         + '<div class="slot-acts">'
-        + '<button class="slot-btn" onclick="_recropSlot(' + i + ')">✏ Replace</button>'
-        + '<button class="slot-btn slot-btn-rm" onclick="_removeSlot(' + i + ')">✕ Remove</button>'
+        + '<button class="slot-btn" onclick="_recropSlot('+i+')">✏ Replace</button>'
+        + '<button class="slot-btn slot-btn-rm" onclick="_removeSlot('+i+')">✕ Remove</button>'
         + '</div>';
-    } else {
+
+    /* ── EMPTY STATE ── */
+    } else if(!_bulkMode){
       el.innerHTML = lblHtml
-        + '<div class="slot-zone slot-empty" onclick="_triggerSlotPick(' + i + ')">'
+        + '<div class="slot-zone slot-empty" onclick="_triggerSlotPick('+i+')">'
         + '<div class="slot-cam">📷</div>'
         + '<div class="slot-hint">Drop or click</div>'
         + '</div>';
     }
 
     var statusEl = document.createElement('div');
-    statusEl.className = 'slot-status';
-    statusEl.id = 'slotSt' + i;
+    statusEl.className = 'slot-status'; statusEl.id = 'slotSt'+i;
     el.appendChild(statusEl);
     grid.appendChild(el);
   });
@@ -774,27 +818,171 @@ function _renderSlots(){
 function _triggerSlotPick(idx){
   var fi = document.createElement('input');
   fi.type='file'; fi.accept='image/jpeg,image/png,image/webp';
-  fi.onchange = function(e){ if(e.target.files[0]) _startCrop(e.target.files[0], idx); };
+  fi.onchange = function(e){ if(e.target.files[0]) _startCrop(e.target.files[0], idx, false); };
   fi.click();
 }
-function _recropSlot(idx){ _triggerSlotPick(idx); }
+function _recropSlot(idx){
+  var fi = document.createElement('input');
+  fi.type='file'; fi.accept='image/jpeg,image/png,image/webp';
+  fi.onchange = function(e){ if(e.target.files[0]) _startCrop(e.target.files[0], idx, _bulkMode); };
+  fi.click();
+}
 function _removeSlot(idx){
   if(!confirm('Remove photo from ' + _SLOT_LABELS[idx] + '?')) return;
   _imageSlots[idx] = null;
   _renderSlots();
 }
+function _removePendingSlot(idx){
+  if(!confirm('Remove this photo from the batch?')) return;
+  _slotCanvases[idx] = null; _slotPreviewUrls[idx] = null;
+  if(_mainSlotIdx === idx){
+    var next = _slotCanvases.findIndex(function(c,j){ return j!==idx && c; });
+    _mainSlotIdx = next >= 0 ? next : 0;
+  }
+  if(!_slotCanvases.some(Boolean)){ _bulkMode = false; }
+  _renderSlots();
+}
+function _setMainSlot(idx){ _mainSlotIdx = idx; _renderSlots(); }
+
+/* ── BULK LOAD ALL ── */
+function _loadAllImages(){
+  var fi = document.createElement('input');
+  fi.type='file'; fi.accept='image/jpeg,image/png,image/webp'; fi.multiple=true;
+  fi.onchange = function(e){
+    var files = Array.from(e.target.files);
+    if(files.length < 3){
+      alert('Please select at least 3 images (you selected '+files.length+'). Cannot proceed with fewer than 3.');
+      return;
+    }
+    files = files.slice(0,4);
+    _enterBulkMode(files);
+  };
+  fi.click();
+}
+
+function _autoCropFile(file, cb){
+  var reader = new FileReader();
+  reader.onload = function(ev){
+    var img = new Image();
+    img.onload = function(){
+      var W=img.naturalWidth, H=img.naturalHeight, ratio=4/5;
+      var srcW, srcH, srcX, srcY;
+      if(W/H > ratio){
+        srcH=H; srcW=H*ratio; srcX=(W-srcW)/2; srcY=0;
+      } else {
+        srcW=W; srcH=W/ratio; srcX=0;
+        srcY = Math.min(H*0.1, Math.max(0,(H-srcH)/2));
+        if(srcY+srcH > H) srcY=H-srcH;
+      }
+      var canvas = document.createElement('canvas');
+      canvas.width=800; canvas.height=1000;
+      var ctx=canvas.getContext('2d');
+      ctx.fillStyle='#FFF'; ctx.fillRect(0,0,800,1000);
+      ctx.drawImage(img, srcX, srcY, srcW, srcH, 0, 0, 800, 1000);
+      cb(canvas);
+    };
+    img.src = ev.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function _enterBulkMode(files){
+  _bulkMode=true; _mainSlotIdx=0;
+  _slotCanvases=[null,null,null,null];
+  _slotPreviewUrls=[null,null,null,null];
+  _imageSlots=[null,null,null,null];
+  var done=0;
+  files.forEach(function(file, i){
+    _autoCropFile(file, function(canvas){
+      _slotCanvases[i]=canvas;
+      done++;
+      if(done===files.length) _renderSlots();
+    });
+  });
+}
+
+function _uploadAll(){
+  var filled = _slotCanvases.filter(Boolean).length;
+  if(filled < 3){
+    alert('At least 3 photos are required. You currently have '+filled+'. Please add more.');
+    return;
+  }
+  var sku = document.getElementById('skuVal').textContent.trim().replace(/[^A-Za-z0-9\-]/g,'');
+  if(!sku || sku==='—'){
+    alert('Save the product first to generate a SKU, then upload photos.');
+    return;
+  }
+
+  var uploadBtn = document.getElementById('uploadAllBtn');
+  var gst       = document.getElementById('photo-status');
+  uploadBtn.disabled = true;
+  gst.textContent = '⏳ Starting upload…';
+
+  /* reorder: main slot first, then others in slot index order */
+  var order = [_mainSlotIdx];
+  for(var i=0;i<4;i++){ if(i!==_mainSlotIdx && _slotCanvases[i]) order.push(i); }
+
+  var ikFolder = '/products/' + sku;
+  var results  = [];
+  var step     = 0;
+
+  function next(){
+    if(step >= order.length){
+      /* done — commit to _imageSlots */
+      _bulkMode=false;
+      _imageSlots=[null,null,null,null];
+      results.forEach(function(r,i){ _imageSlots[i]=r; });
+      _slotCanvases=[null,null,null,null]; _slotPreviewUrls=[null,null,null,null];
+      _renderSlots();
+      gst.textContent='✅ '+results.length+' photos uploaded!';
+      setTimeout(function(){gst.textContent='';},4000);
+      uploadBtn.disabled=false;
+      return;
+    }
+    var origIdx    = order[step];
+    var viewerCvs  = _slotCanvases[origIdx];
+    if(!viewerCvs){ step++; next(); return; }
+
+    var imgNum = step+1;
+    gst.textContent='⏳ Uploading photo '+imgNum+' of '+Math.min(filled,4)+'…';
+
+    var thumbCvs = document.createElement('canvas');
+    thumbCvs.width=400; thumbCvs.height=500;
+    thumbCvs.getContext('2d').drawImage(viewerCvs,0,0,400,500);
+
+    viewerCvs.toBlob(function(vBlob){
+      _ikUpload(vBlob, ikFolder, 'img'+imgNum+'.jpg')
+      .then(function(vUrl){
+        thumbCvs.toBlob(function(tBlob){
+          _ikUpload(tBlob, ikFolder, 'thumb'+imgNum+'.jpg')
+          .then(function(tUrl){
+            results.push({viewerUrl:vUrl, thumbUrl:tUrl});
+            step++; next();
+          })
+          .catch(function(err){ gst.textContent='❌ Thumb '+imgNum+' failed: '+err.message; uploadBtn.disabled=false; });
+        },'image/jpeg',0.80);
+      })
+      .catch(function(err){ gst.textContent='❌ Photo '+imgNum+' failed: '+err.message; uploadBtn.disabled=false; });
+    },'image/jpeg',0.85);
+  }
+  next();
+}
 
 /* ── CROP FLOW ── */
-function _startCrop(file, slotIdx){
+function _startCrop(file, slotIdx, pendingMode){
   if(file.size > 20*1024*1024){ alert('File must be under 20MB.'); return; }
-  _cropSlotIdx = slotIdx;
+  _cropSlotIdx     = slotIdx;
+  _cropRawFile     = file;
+  _cropPendingMode = !!pendingMode;
 
   var modal = document.getElementById('cropModal');
   var cropImg = document.getElementById('cropImg');
   document.getElementById('cropModalTitle').textContent = 'Crop Photo — ' + _SLOT_LABELS[slotIdx];
   document.getElementById('cropProgress').style.display = 'none';
   document.getElementById('cropProgress').textContent = '';
-  document.getElementById('cropUploadBtn').disabled = false;
+  var cropBtn = document.getElementById('cropUploadBtn');
+  cropBtn.disabled = false;
+  cropBtn.textContent = pendingMode ? '✓ Use This Crop' : 'Upload ↑';
 
   if(_cropperInst){ _cropperInst.destroy(); _cropperInst = null; }
 
@@ -854,6 +1042,21 @@ function _cropConfirm(){
     imageSmoothingQuality: 'high'
   });
 
+  var captureIdx = _cropSlotIdx;
+
+  /* ── PENDING MODE (bulk) — store canvas locally, no IK upload ── */
+  if(_cropPendingMode){
+    _slotCanvases[captureIdx] = viewerCanvas;
+    _slotPreviewUrls[captureIdx] = viewerCanvas.toDataURL('image/jpeg', 0.82);
+    _cropperInst.destroy(); _cropperInst = null;
+    document.getElementById('cropModal').style.display = 'none';
+    _cropSlotIdx = -1; _cropPendingMode = false;
+    btn.disabled = false; progress.style.display = 'none';
+    _renderSlots();
+    return;
+  }
+
+  /* ── INDIVIDUAL MODE — upload immediately to ImageKit ── */
   /* Thumbnail canvas — 400×500 (scale from viewer) */
   var thumbCanvas = document.createElement('canvas');
   thumbCanvas.width = 400; thumbCanvas.height = 500;
@@ -866,9 +1069,8 @@ function _cropConfirm(){
     btn.disabled=false; return;
   }
 
-  var slotNum   = _cropSlotIdx + 1;
-  var ikFolder  = '/products/' + sku;
-  var captureIdx = _cropSlotIdx; /* capture before async clears it */
+  var slotNum  = captureIdx + 1;
+  var ikFolder = '/products/' + sku;
 
   progress.textContent = '⏳ Uploading viewer image (1/2)…';
 

@@ -30,13 +30,15 @@
     "lightweight",
     "blue"
   ],
-  "photos": [],
+  "photos": [
+    "https://ik.imagekit.io/Amayaa2026/products/AMY-TAN-001_Look1.jpg?tr=f-auto,q-85"
+  ],
   "weavingDays": "1–2",
   "giTagged": false,
   "seoTitle": "",
   "seoDescription": "",
   "offerValidUntil": null,
-  "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-TAN-001.jpg?tr=f-auto,q-85",
+  "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-TAN-001_Look1.jpg?tr=f-auto,q-85",
   "weaveStoryId": "WS-011",
   "descriptionId": "DESC-011",
   "contentBundleId": null,

@@ -30,13 +30,15 @@
     "brocade",
     "gi-tagged"
   ],
-  "photos": [],
+  "photos": [
+    "https://ik.imagekit.io/Amayaa2026/products/AMY-BAL-001_Look1.jpg?tr=f-auto,q-85"
+  ],
   "weavingDays": "21–30",
   "giTagged": true,
   "seoTitle": "",
   "seoDescription": "",
   "offerValidUntil": null,
-  "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-BAL-001.jpg?tr=f-auto,q-85",
+  "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-BAL-001_Look1.jpg?tr=f-auto,q-85",
   "weaveStoryId": "WS-001",
   "descriptionId": "DESC-001",
   "contentBundleId": null,

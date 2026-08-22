@@ -34,13 +34,15 @@
     "featured",
     "gi-tagged"
   ],
-  "photos": [],
+  "photos": [
+    "https://ik.imagekit.io/Amayaa2026/products/AMY-PAI-001_Look1.jpg?tr=f-auto,q-85"
+  ],
   "weavingDays": "30–90",
   "giTagged": true,
   "seoTitle": "",
   "seoDescription": "",
   "offerValidUntil": null,
-  "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-PAI-001.jpg?tr=f-auto,q-85",
+  "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-PAI-001_Look1.jpg?tr=f-auto,q-85",
   "weaveStoryId": "WS-009",
   "descriptionId": "DESC-009",
   "contentBundleId": null,

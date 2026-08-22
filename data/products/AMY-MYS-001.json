@@ -34,13 +34,15 @@
     "coral",
     "gi-tagged"
   ],
-  "photos": [],
+  "photos": [
+    "https://ik.imagekit.io/Amayaa2026/products/AMY-MYS-001_Look1.jpg?tr=f-auto,q-85"
+  ],
   "weavingDays": "3–7",
   "giTagged": true,
   "seoTitle": "",
   "seoDescription": "",
   "offerValidUntil": null,
-  "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-MYS-001.jpg?tr=f-auto,q-85",
+  "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-MYS-001_Look1.jpg?tr=f-auto,q-85",
   "weaveStoryId": "WS-008",
   "descriptionId": "DESC-008",
   "contentBundleId": null,

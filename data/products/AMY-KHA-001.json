@@ -40,9 +40,11 @@
   "descriptionId": null,
   "contentBundleId": null,
   "careSuggestionId": null,
-  "photos": [],
+  "photos": [
+    "https://ik.imagekit.io/Amayaa2026/products/AMY-KHA-001_Look1.jpg?tr=f-auto,q-85"
+  ],
   "seoTitle": "",
   "seoDescription": "",
   "offerValidUntil": null,
-  "thumbnail": null
+  "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-KHA-001_Look1.jpg?tr=f-auto,q-85"
 }

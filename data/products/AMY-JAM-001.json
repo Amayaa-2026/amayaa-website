@@ -30,13 +30,15 @@
     "sheer",
     "gi-tagged"
   ],
-  "photos": [],
+  "photos": [
+    "https://ik.imagekit.io/Amayaa2026/products/AMY-JAM-001_Look1.jpg?tr=f-auto,q-85"
+  ],
   "weavingDays": "10–20",
   "giTagged": true,
   "seoTitle": "",
   "seoDescription": "",
   "offerValidUntil": null,
-  "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-JAM-001.jpg?tr=f-auto,q-85",
+  "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-JAM-001_Look1.jpg?tr=f-auto,q-85",
   "weaveStoryId": "WS-005",
   "descriptionId": "DESC-005",
   "contentBundleId": null,

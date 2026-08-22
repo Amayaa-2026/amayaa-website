@@ -32,13 +32,15 @@
     "geometric",
     "gi-tagged"
   ],
-  "photos": [],
+  "photos": [
+    "https://ik.imagekit.io/Amayaa2026/products/AMY-IKA-001_Look1.jpg?tr=f-auto,q-85"
+  ],
   "weavingDays": "7–14",
   "giTagged": true,
   "seoTitle": "",
   "seoDescription": "",
   "offerValidUntil": null,
-  "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-IKA-001.jpg?tr=f-auto,q-85",
+  "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-IKA-001_Look1.jpg?tr=f-auto,q-85",
   "weaveStoryId": "WS-004",
   "descriptionId": "DESC-004",
   "contentBundleId": null,

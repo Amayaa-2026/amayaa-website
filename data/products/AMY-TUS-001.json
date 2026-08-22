@@ -31,13 +31,15 @@
     "brown",
     "casual"
   ],
-  "photos": [],
+  "photos": [
+    "https://ik.imagekit.io/Amayaa2026/products/AMY-TUS-001_Look1.jpg?tr=f-auto,q-85"
+  ],
   "weavingDays": "5–7",
   "giTagged": false,
   "seoTitle": "",
   "seoDescription": "",
   "offerValidUntil": null,
-  "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-TUS-001.jpg?tr=f-auto,q-85",
+  "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-TUS-001_Look1.jpg?tr=f-auto,q-85",
   "weaveStoryId": "WS-012",
   "descriptionId": "DESC-012",
   "contentBundleId": null,

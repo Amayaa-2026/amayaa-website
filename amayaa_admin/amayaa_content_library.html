@@ -457,17 +457,40 @@ function saveEntry(){
   });
 }
 
+/* ── Check if any product references a content library ID ──
+   Uses contentRefs[] in the index — single fetch instead of 30. ── */
+function _checkLibraryUsage(entryId, cb){
+  fetch('../data/products_index.json?_='+Date.now())
+    .then(function(r){return r.json();})
+    .then(function(idx){
+      var refs=idx.filter(function(p){
+        return (p.contentRefs||[]).indexOf(entryId)>-1;
+      });
+      cb(refs.length, refs.slice(0,5).map(function(p){return p.name;}));
+    })
+    .catch(function(){cb(0,[]);});
+}
+
 function deleteEntry(){
   if(!_selectedEntry)return;
-  if(!confirm('Delete "'+(_selectedEntry.label||_selectedEntry.id)+'"? This cannot be undone.'))return;
-  var list=_lib[_currentType]||[];
-  _lib[_currentType]=list.filter(function(x){return x.id!==_selectedEntry.id;});
-  _selectedEntry=null;
-  _entryLocked=true;
-  _ghSave(_lib,'Admin: delete content library entry',function(){
-    renderEntryList();
-    renderDetailPanel();
-    showAlert('Entry deleted.','success');
+  var eid=_selectedEntry.id;
+  var elabel=_selectedEntry.label||eid;
+  /* check referential integrity first */
+  _checkLibraryUsage(eid, function(count, names){
+    if(count>0){
+      alert('Cannot delete "'+elabel+'"\n\n'+count+' product(s) reference this entry:\n• '+names.join('\n• ')+(count>5?'\n…and '+(count-5)+' more.':'')+'\n\nOpen Product Edit for each and change or clear the reference first.');
+      return;
+    }
+    if(!confirm('Delete "'+elabel+'"? No products currently reference it. Cannot be undone.'))return;
+    var list=_lib[_currentType]||[];
+    _lib[_currentType]=list.filter(function(x){return x.id!==eid;});
+    _selectedEntry=null;
+    _entryLocked=true;
+    _ghSave(_lib,'Admin: delete content library entry '+eid,function(){
+      renderEntryList();
+      renderDetailPanel();
+      showAlert('Entry deleted.','success');
+    });
   });
 }
 
@@ -624,14 +647,22 @@ function saveBundle(){
 
 function deleteBundle(){
   if(!_selectedBundle)return;
-  if(!confirm('Delete bundle "'+(_selectedBundle.name||_selectedBundle.id)+'"?'))return;
-  _lib.contentBundles=(_lib.contentBundles||[]).filter(function(x){return x.id!==_selectedBundle.id;});
-  _selectedBundle=null;
-  _bundleLocked=true;
-  _ghSave(_lib,'Admin: delete content bundle',function(){
-    renderBundleList();
-    renderBundlePanel();
-    showAlert('Bundle deleted.','success');
+  var bid=_selectedBundle.id;
+  var bname=_selectedBundle.name||bid;
+  _checkLibraryUsage(bid, function(count, names){
+    if(count>0){
+      alert('Cannot delete bundle "'+bname+'"\n\n'+count+' product(s) use this bundle:\n• '+names.join('\n• ')+(count>5?'\n…and '+(count-5)+' more.':'')+'\n\nReassign or clear contentBundleId on those products first.');
+      return;
+    }
+    if(!confirm('Delete bundle "'+bname+'"? No products currently use it. Cannot be undone.'))return;
+    _lib.contentBundles=(_lib.contentBundles||[]).filter(function(x){return x.id!==bid;});
+    _selectedBundle=null;
+    _bundleLocked=true;
+    _ghSave(_lib,'Admin: delete content bundle '+bid,function(){
+      renderBundleList();
+      renderBundlePanel();
+      showAlert('Bundle deleted.','success');
+    });
   });
 }
 

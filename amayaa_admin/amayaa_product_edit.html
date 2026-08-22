@@ -947,6 +947,9 @@ function _collectFormData(asDraft){
     contentBundleId: bundleId
   };
 
+  // contentRefs — denormalised so _checkLibraryUsage needs only one index fetch
+  var contentRefs = [weaveId, descId, careId, bundleId].filter(Boolean);
+
   // Index entry (lightweight)
   var indexEntry = {
     id: id,
@@ -965,7 +968,8 @@ function _collectFormData(asDraft){
     gradientTo: gTo,
     shortDescription: shortDesc,
     tags: tags,
-    thumbnail: thumbnail
+    thumbnail: thumbnail,
+    contentRefs: contentRefs
   };
 
   return { id: id, detail: detail, indexEntry: indexEntry };

@@ -7,8 +7,7 @@
   'use strict';
 
   /* ── Constants ──────────────────────────────────────────── */
-  const LOGO_SRC     = 'images/logos/Amayaa_Logo_-_circle-removebg-preview.png';
-  const DUMMY_IMGS   = ['images/banners/1.jpg','images/banners/2.jpg','images/banners/3.jpg','images/banners/4.jpg'];
+  const LOGO_SRC     = 'https://ik.imagekit.io/Amayaa2026/logos/Amayaa_Logo_-_circle-removebg-preview.png?tr=f-auto,q-85';
   const DUMMY_LABELS = ['Look 1','Look 2','Look 3','Look 4'];
   const WA_NUMBER    = '919583946000';
   const CALL_NUMBER  = '+91 95839 46000';
@@ -194,23 +193,21 @@
     const bcName = _drawer.querySelector('#pd-bc-name');
     if (bcName) bcName.textContent = p.name || 'Product detail';
 
-    /* Swatches — prefer real photos[], fall back to thumbnail, then DUMMY_IMGS */
+    /* Swatches — prefer real photos[], fall back to thumbnail, then gradient */
     const photos = (p.photos || []).filter(Boolean);
-    const thumb  = p.thumbnail || (p.id ? 'images/products/' + p.id + '.jpg' : null);
+    const thumb  = p.thumbnail || null;
+    const grad   = 'linear-gradient(160deg,' + (p.gradientFrom||'#4A1060') + ',' + (p.gradientTo||'#9B7DC4') + ')';
+    const _gradSwatch = (i) => ({ src: null, label: DUMMY_LABELS[i] || ('Look '+(i+1)), isImg: false, gradient: grad });
     if (photos.length >= 4) {
       _swatches = photos.slice(0, 4).map((src, i) => ({ src, label: 'Look ' + (i+1), isImg: true }));
     } else if (photos.length > 0) {
       _swatches = photos.map((src, i) => ({ src, label: 'Look ' + (i+1), isImg: true }));
-      while (_swatches.length < 4) {
-        _swatches.push({ src: null, label: DUMMY_LABELS[_swatches.length] || '', isImg: false });
-      }
+      while (_swatches.length < 4) _swatches.push(_gradSwatch(_swatches.length));
     } else if (thumb) {
       _swatches = [{ src: thumb, label: 'Look 1', isImg: true }];
-      while (_swatches.length < 4) {
-        _swatches.push({ src: null, label: DUMMY_LABELS[_swatches.length] || '', isImg: false });
-      }
+      while (_swatches.length < 4) _swatches.push(_gradSwatch(_swatches.length));
     } else {
-      _swatches = DUMMY_IMGS.map((src, i) => ({ src, label: DUMMY_LABELS[i], isImg: true }));
+      _swatches = DUMMY_LABELS.map((_, i) => _gradSwatch(i));
     }
 
     const badges   = _buildBadges(p);

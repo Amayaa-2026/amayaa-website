@@ -409,13 +409,44 @@ function editItem(filterId, idx){
   labelCell.onkeydown = function(e){if(e.key==='Enter'){e.preventDefault();save();}};
 }
 
+/* ── Check if any products use a filter label before deleting ── */
+function _checkCategoryUsage(filterId, label, cb){
+  fetch('../data/products_index.json?_='+Date.now())
+    .then(function(r){return r.json();})
+    .then(function(products){
+      var ci=function(a,b){return String(a||'').toLowerCase().indexOf(String(b||'').toLowerCase())>-1;};
+      var matches=products.filter(function(p){
+        if(filterId==='region') return ci(p.type||'',label);
+        if(filterId==='fabric') return ci(p.fabric||'',label);
+        if(filterId==='occasion') return (p.occasion||[]).some(function(o){return ci(o,label);});
+        return false;
+      });
+      cb(matches.length, matches.slice(0,5).map(function(p){return p.name;}));
+    })
+    .catch(function(){cb(0,[]);});
+}
+
 /* ── Delete item from filter array and re-render ── */
 function deleteItem(filterId, idx){
   var f = _getFilter(filterId);
   if(!f||!f.items[idx])return;
-  if(!confirm('Delete "'+f.items[idx].label+'"?'))return;
-  f.items.splice(idx,1);
-  _renderAll();
+  var label = f.items[idx].label;
+  /* skip referential check for non-product filters */
+  if(filterId==='showonly'){
+    if(!confirm('Delete "'+label+'"?'))return;
+    f.items.splice(idx,1);
+    _renderAll();
+    return;
+  }
+  _checkCategoryUsage(filterId, label, function(count, names){
+    if(count>0){
+      alert('Cannot delete "'+label+'"\n\n'+count+' product(s) use this filter value:\n• '+names.join('\n• ')+(count>5?'\n…and '+(count-5)+' more.':'')+'\n\nChange the Weave Type / Fabric / Occasion on those products first, then retry.');
+      return;
+    }
+    if(!confirm('Delete "'+label+'"? No products currently use it.'))return;
+    f.items.splice(idx,1);
+    _renderAll();
+  });
 }
 
 /* ── Add item from the relevant input field ── */

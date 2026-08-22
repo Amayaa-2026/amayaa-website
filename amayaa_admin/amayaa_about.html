@@ -316,8 +316,8 @@ function _ghSave(filePath,dat,msg,btnEl){
 
 var data = {
   story: [
-    {id:1, label:'OUR BEGINNING', heading:'A Boutique Born from a Love of Handloom', body:'Polka Dots began as a small boutique in Kolkata, built on the founder\'s lifelong passion for Indian textiles. What started as a personal collection of handloom sarees grew into a mission — to bring the finest weaves of India directly to women who value authenticity over mass production.\n\nAmayaa, meaning "one without blemish" in Sanskrit, reflects our commitment to purity — of craft, of origin, and of purpose.', imgPos:'left', imgUrl:'images/OurStory/story-1.jpg'},
-    {id:2, label:'OUR PHILOSOPHY', heading:'Why Handloom Matters', body:'India\'s handloom sector employs over 35 lakh weavers — the second largest workforce in the country after agriculture. Yet handloom sarees account for a shrinking share of the market, displaced by power loom imitations that look similar but carry none of the craft.\n\nAt Amayaa, every purchase directly supports a weaver family.', imgPos:'right', imgUrl:'images/OurStory/story-2.jpg'}
+    {id:1, label:'OUR BEGINNING', heading:'A Boutique Born from a Love of Handloom', body:'Polka Dots began as a small boutique in Kolkata, built on the founder\'s lifelong passion for Indian textiles. What started as a personal collection of handloom sarees grew into a mission — to bring the finest weaves of India directly to women who value authenticity over mass production.\n\nAmayaa, meaning "one without blemish" in Sanskrit, reflects our commitment to purity — of craft, of origin, and of purpose.', imgPos:'left', imgUrl:'https://ik.imagekit.io/Amayaa2026/ourstory/story-1.jpg?tr=f-auto,q-85'},
+    {id:2, label:'OUR PHILOSOPHY', heading:'Why Handloom Matters', body:'India\'s handloom sector employs over 35 lakh weavers — the second largest workforce in the country after agriculture. Yet handloom sarees account for a shrinking share of the market, displaced by power loom imitations that look similar but carry none of the craft.\n\nAt Amayaa, every purchase directly supports a weaver family.', imgPos:'right', imgUrl:'https://ik.imagekit.io/Amayaa2026/ourstory/story-2.jpg?tr=f-auto,q-85'}
   ],
   values: [
     {id:1, icon:'🌿', title:'100% Handwoven', desc:'Every saree is hand-woven on traditional pit looms by master artisans'},
@@ -393,7 +393,7 @@ function renderStory() {
       '<div class="form-row full"><div class="fg"><label>Body Text (use new line for paragraphs)</label><textarea class="fi" rows="4" onchange="data.story['+i+'].body=this.value;autoSave()">'+esc(s.body)+'</textarea></div></div>'+
       '<div class="form-row"><div class="fg"><label>Section Image</label>'+
         '<div style="display:flex;gap:8px;align-items:center;">'+
-          '<input class="fi" id="story-img-'+i+'" value="'+esc(s.imgUrl||'')+'" placeholder="images/OurStory/filename.jpg" onchange="data.story['+i+'].imgUrl=this.value;autoSave()" style="flex:1;">'+
+          '<input class="fi" id="story-img-'+i+'" value="'+esc(s.imgUrl||'')+'" placeholder="https://ik.imagekit.io/Amayaa2026/ourstory/filename.jpg" onchange="data.story['+i+'].imgUrl=this.value;autoSave()" style="flex:1;">'+
           '<button class="btn btn-ghost btn-sm" onclick="uploadStoryImg('+i+')">📁 Upload</button>'+
         '</div>'+
         (s.imgUrl?'<img src="../'+esc(s.imgUrl)+'" style="margin-top:6px;height:80px;object-fit:cover;border-radius:8px;width:100%;">':'')+
@@ -429,7 +429,7 @@ function renderWeavers() {
       '<div class="fg" style="margin-bottom:8px"><label>Story</label><textarea class="fi" rows="3" onchange="data.weavers['+i+'].story=this.value;autoSave()">'+esc(w.story)+'</textarea></div>'+
       '<div class="fg"><label>Profile Photo</label>'+
         '<div style="display:flex;gap:8px;align-items:center;">'+
-          '<input class="fi" id="weaver-photo-'+i+'" value="'+esc(w.photo||'')+'" placeholder="images/WeaverProfiles/weaver-1.jpg" onchange="data.weavers['+i+'].photo=this.value;autoSave()" style="flex:1;">'+
+          '<input class="fi" id="weaver-photo-'+i+'" value="'+esc(w.photo||'')+'" placeholder="https://ik.imagekit.io/Amayaa2026/weaverprofiles/weaver-1.jpg" onchange="data.weavers['+i+'].photo=this.value;autoSave()" style="flex:1;">'+
           '<button class="btn btn-ghost btn-sm" onclick="uploadWeaverPhoto('+i+')">📁 Upload</button>'+
         '</div>'+
         (w.photo?'<img src="../'+esc(w.photo)+'" style="margin-top:6px;height:80px;width:80px;object-fit:cover;border-radius:50%;">':'')+
@@ -470,48 +470,24 @@ function addPromise(){
   data.promise.push({id:Date.now(),icon:'✓',title:'Promise Title',desc:'Description here'});
   renderPromise(); autoSave();
 }
-function _uploadImg(folder, onDone){
-  var tok=_ghTok();
-  if(!tok){alert('No GitHub token. Go to Admin → Settings first.');return;}
-  var fi=document.createElement('input'); fi.type='file'; fi.accept='image/jpeg,image/png,image/webp';
-  fi.onchange=function(e){
-    var file=e.target.files[0]; if(!file)return;
-    if(file.size>3*1024*1024){alert('Image must be under 3 MB.');return;}
-    var reader=new FileReader();
-    reader.onload=function(ev){
-      var b64=ev.target.result.split(',')[1];
-      var path=folder+'/'+file.name.replace(/\s/g,'_');
-      fetch('https://api.github.com/repos/'+GH_REPO+'/contents/'+path+'?ref='+GH_BRANCH,{headers:_ghHdrs()})
-        .then(function(r){return r.json();})
-        .then(function(ex){
-          var body={message:'Admin: upload image '+file.name,content:b64,branch:GH_BRANCH};
-          if(ex.sha) body.sha=ex.sha;
-          return fetch('https://api.github.com/repos/'+GH_REPO+'/contents/'+path,{method:'PUT',headers:_ghHdrs(),body:JSON.stringify(body)});
-        })
-        .then(function(r){return r.json();})
-        .then(function(res){
-          if(res.content) onDone(path);
-          else alert('Upload failed: '+(res.message||'unknown error'));
-        })
-        .catch(function(e){alert('Upload error: '+e.message);});
-    };
-    reader.readAsDataURL(file);
-  };
-  fi.click();
-}
-
 function uploadStoryImg(i){
-  _uploadImg('images/OurStory',function(path){
-    data.story[i].imgUrl=path;
+  var statusEl = document.getElementById('story-img-status-'+i);
+  _ikPick('/ourstory', function(url){
+    data.story[i].imgUrl = url;
+    var inp = document.getElementById('story-img-'+i);
+    if(inp) inp.value = url;
     renderStory(); autoSave();
-  });
+  }, statusEl);
 }
 
 function uploadWeaverPhoto(i){
-  _uploadImg('images/WeaverProfiles',function(path){
-    data.weavers[i].photo=path;
+  var statusEl = document.getElementById('weaver-photo-status-'+i);
+  _ikPick('/weaverprofiles', function(url){
+    data.weavers[i].photo = url;
+    var inp = document.getElementById('weaver-photo-'+i);
+    if(inp) inp.value = url;
     renderWeavers(); autoSave();
-  });
+  }, statusEl);
 }
 
 function removeSection(i){ if(!confirm('Remove this section?'))return; data.story.splice(i,1); renderStory(); autoSave(); }
@@ -546,6 +522,7 @@ function exportJSON(){
 renderAll();
 </script>
 
+<script src="imagekit.js"></script>
 <script src="sidebar.js"></script>
 </body>
 </html>

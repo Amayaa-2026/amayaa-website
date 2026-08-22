@@ -464,14 +464,30 @@ function _toggleStatus(id){
   if(!p)return;
   p.status=p.status==='active'?'sold_out':'active';
   _updateStats();_applyFilter();
-  _ghSave('data/products.json',_products,'Update status: '+id,null);
+  _ghSave('data/products_index.json',_products,'Update status: '+id,null);
+}
+
+function _ghDeleteFile(filePath, msg){
+  var tok=_ghTok();
+  if(!tok)return;
+  fetch('https://api.github.com/repos/'+GH_REPO+'/contents/'+filePath+'?ref='+GH_BRANCH,{headers:_ghHdrs()})
+    .then(function(r){return r.json();})
+    .then(function(ex){
+      if(!ex.sha)return;
+      return fetch('https://api.github.com/repos/'+GH_REPO+'/contents/'+filePath,{
+        method:'DELETE',headers:_ghHdrs(),
+        body:JSON.stringify({message:msg||'Admin: delete '+filePath,sha:ex.sha,branch:GH_BRANCH})
+      });
+    })
+    .catch(function(){});
 }
 
 function _deleteProduct(id){
-  if(!confirm('Delete '+id+'? Cannot be undone.'))return;
+  if(!confirm('Delete '+id+'? This will remove it from the product list AND delete its detail file. Cannot be undone.'))return;
   _products=_products.filter(function(p){return p.id!==id;});
   _updateStats();_applyFilter();
-  _ghSave('data/products.json',_products,'Delete product: '+id,null);
+  _ghSave('data/products_index.json',_products,'Admin: delete product '+id+' from index',null);
+  _ghDeleteFile('data/products/'+id+'.json','Admin: delete product detail '+id);
 }
 
 function _selectAll(checked){
@@ -487,7 +503,7 @@ function _bulkStatus(newStatus){
   if(!ids.length){alert('Select at least one product.');return;}
   ids.forEach(function(id){var p=_products.find(function(x){return x.id===id;});if(p)p.status=newStatus;});
   _updateStats();_applyFilter();
-  _ghSave('data/products.json',_products,'Bulk status → '+newStatus,null);
+  _ghSave('data/products_index.json',_products,'Bulk status → '+newStatus,null);
 }
 
 function _bulkBadge(badge){
@@ -498,7 +514,7 @@ function _bulkBadge(badge){
     if(p){p.badges=p.badges||[];if(p.badges.indexOf(badge)<0)p.badges.push(badge);}
   });
   _updateStats();_applyFilter();
-  _ghSave('data/products.json',_products,'Bulk badge: '+badge,null);
+  _ghSave('data/products_index.json',_products,'Bulk badge: '+badge,null);
 }
 
 function _bulkDelete(){
@@ -507,7 +523,9 @@ function _bulkDelete(){
   if(!confirm('Delete '+ids.length+' product(s)? Cannot be undone.'))return;
   _products=_products.filter(function(p){return ids.indexOf(p.id)<0;});
   _updateStats();_applyFilter();
-  _ghSave('data/products.json',_products,'Bulk delete '+ids.length+' products',null);
+  _ghSave('data/products_index.json',_products,'Bulk delete '+ids.length+' products (index)',null);
+  /* also delete individual detail files */
+  ids.forEach(function(id){ _ghDeleteFile('data/products/'+id+'.json','Admin: delete product detail '+id); });
 }
 
 function _csvUpload(){
@@ -516,7 +534,7 @@ function _csvUpload(){
 
 document.addEventListener('DOMContentLoaded',function(){
   _loadLibrary();
-  fetch('../data/products.json?_='+Date.now())
+  fetch('../data/products_index.json?_='+Date.now())
     .then(function(r){return r.json();})
     .then(function(data){_products=Array.isArray(data)?data:[];_updateStats();_applyFilter();})
     .catch(function(e){console.error('Failed to load products:',e);});

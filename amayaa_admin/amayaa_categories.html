@@ -226,20 +226,35 @@ if(!sessionStorage.getItem('amayaa_admin')){
       <!-- REGIONS / WEAVES -->
       <div class="card">
         <div class="card-header">
-          <div><div class="card-title">🗺 Regions / Weaves</div><div class="card-sub">12 regions · feeds Region filter and product form</div></div>
-          <button class="btn btn-primary btn-sm" onclick="addItem('region')">+ Add Region</button>
+          <div><div class="card-title">🗺 Regions / Weaves</div><div class="card-sub">Each entry has a Weave Name, Origin city, and Weave style</div></div>
+          <button class="btn btn-primary btn-sm" onclick="_openAddRegionForm()">+ Add Region</button>
         </div>
-        <div style="max-height:260px;overflow-y:auto;border-radius:8px;">
+        <div style="max-height:280px;overflow-y:auto;border-radius:8px;">
         <table class="tbl">
-          <thead><tr><th style="position:sticky;top:0;z-index:1;background:rgba(240,230,216,.95);">Region Name</th><th style="position:sticky;top:0;z-index:1;background:rgba(240,230,216,.95);">Code</th><th style="position:sticky;top:0;z-index:1;background:rgba(240,230,216,.95);">Products</th><th style="position:sticky;top:0;z-index:1;background:rgba(240,230,216,.95);"></th></tr></thead>
-          <tbody id="region-tbody"><tr><td colspan="4" style="color:#B0967E;font-size:12px;padding:12px;">Loading…</td></tr></tbody>
+          <thead><tr>
+            <th style="position:sticky;top:0;z-index:1;background:rgba(240,230,216,.95);">Weave Name</th>
+            <th style="position:sticky;top:0;z-index:1;background:rgba(240,230,216,.95);">Region / Origin</th>
+            <th style="position:sticky;top:0;z-index:1;background:rgba(240,230,216,.95);">Weave Style</th>
+            <th style="position:sticky;top:0;z-index:1;background:rgba(240,230,216,.95);">Products</th>
+            <th style="position:sticky;top:0;z-index:1;background:rgba(240,230,216,.95);"></th>
+          </tr></thead>
+          <tbody id="region-tbody"><tr><td colspan="5" style="color:#B0967E;font-size:12px;padding:12px;">Loading…</td></tr></tbody>
         </table>
         </div>
-        <div style="display:flex;gap:8px;margin-top:14px;">
-          <input class="fi" placeholder="New region name" id="add-input-region" style="flex:1;">
-          <button class="btn btn-primary btn-sm" onclick="addItem('region')">Add</button>
+        <!-- Add Region inline form -->
+        <div id="addRegionForm" style="display:none;border:1.5px solid rgba(196,98,45,.25);border-radius:10px;padding:14px;margin-top:14px;background:rgba(196,98,45,.04);">
+          <div style="font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#C4622D;margin-bottom:10px;">Add New Region / Weave</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px;">
+            <div><label style="font-size:11px;color:#7A6050;display:block;margin-bottom:4px;">Weave Name *</label><input class="fi" id="add-region-label" placeholder="e.g. Banarasi"></div>
+            <div><label style="font-size:11px;color:#7A6050;display:block;margin-bottom:4px;">Region / Origin *</label><input class="fi" id="add-region-origin" placeholder="e.g. Varanasi, UP"></div>
+            <div><label style="font-size:11px;color:#7A6050;display:block;margin-bottom:4px;">Weave Style</label><input class="fi" id="add-region-weave" placeholder="e.g. Banarasi Silk"></div>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <button class="btn btn-primary btn-sm" onclick="addRegionItem()">Add Region</button>
+            <button class="btn btn-ghost btn-sm" onclick="document.getElementById('addRegionForm').style.display='none'">Cancel</button>
+          </div>
         </div>
-        <p style="font-size:11px;color:#B0967E;margin-top:6px;">⚠ Cannot delete a region that has products assigned. Reassign products first.</p>
+        <p style="font-size:11px;color:#B0967E;margin-top:8px;">⚠ Cannot delete a region that has products assigned. Reassign products first.</p>
       </div>
 
       <!-- FABRIC TYPES -->
@@ -356,19 +371,20 @@ function _renderTable3(filterId, tbodyId){
   }).join('');
 }
 
-/* ── Render the region table (4-col: name | code placeholder | count | actions) ── */
+/* ── Render the region table (5-col: label | origin | weave | count | actions) ── */
 function _renderRegionTable(){
   var tbody = document.getElementById('region-tbody');
   if(!tbody)return;
   var f = _getFilter('region');
-  if(!f){tbody.innerHTML='<tr><td colspan="4" style="color:#B0967E;font-size:12px;padding:12px;">No data for "region"</td></tr>';return;}
-  if(!f.items||!f.items.length){tbody.innerHTML='<tr><td colspan="4" style="color:#B0967E;font-size:12px;padding:12px;">No items yet.</td></tr>';return;}
+  if(!f){tbody.innerHTML='<tr><td colspan="5" style="color:#B0967E;font-size:12px;padding:12px;">No data for "region"</td></tr>';return;}
+  if(!f.items||!f.items.length){tbody.innerHTML='<tr><td colspan="5" style="color:#B0967E;font-size:12px;padding:12px;">No items yet.</td></tr>';return;}
   tbody.innerHTML = f.items.map(function(item,idx){
     return '<tr data-filter="region" data-idx="'+idx+'">'
-      +'<td style="font-weight:600;" class="item-label">'+_escHtml(item.label)+'</td>'
-      +'<td style="color:#9A8070;">—</td>'
-      +'<td>'+_escHtml(item.count)+'</td>'
-      +'<td><div style="display:flex;gap:6px;"><button class="btn btn-edit btn-sm" onclick="editItem(\'region\','+idx+')">&#9998; Edit</button>'
+      +'<td style="font-weight:600;" class="item-label" data-field="label">'+_escHtml(item.label)+'</td>'
+      +'<td class="item-origin" data-field="origin" style="color:#5A4030;font-size:12px;">'+_escHtml(item.origin||'—')+'</td>'
+      +'<td class="item-weave" data-field="weave" style="color:#7A6050;font-size:12px;">'+_escHtml(item.weave||'—')+'</td>'
+      +'<td style="color:#9A8070;">'+_escHtml(item.count||0)+'</td>'
+      +'<td><div style="display:flex;gap:6px;"><button class="btn btn-edit btn-sm" onclick="editRegionItem('+idx+')">&#9998; Edit</button>'
       +'<button class="btn btn-danger btn-sm" onclick="deleteItem(\'region\','+idx+')">&#128465;</button></div></td>'
       +'</tr>';
   }).join('');
@@ -449,8 +465,51 @@ function deleteItem(filterId, idx){
   });
 }
 
-/* ── Add item from the relevant input field ── */
+/* ── Region-specific: open the add form ── */
+function _openAddRegionForm(){
+  var form = document.getElementById('addRegionForm');
+  form.style.display = 'block';
+  document.getElementById('add-region-label').focus();
+}
+
+/* ── Region-specific: add from 3-field form ── */
+function addRegionItem(){
+  var label  = document.getElementById('add-region-label').value.trim();
+  var origin = document.getElementById('add-region-origin').value.trim();
+  var weave  = document.getElementById('add-region-weave').value.trim();
+  if(!label || !origin){ alert('Weave Name and Region/Origin are required.'); return; }
+  var f = _getFilter('region');
+  if(!f){ alert('Categories not loaded yet.'); return; }
+  if(!f.items) f.items = [];
+  f.items.push({label:label, origin:origin, weave:weave, count:0});
+  document.getElementById('add-region-label').value  = '';
+  document.getElementById('add-region-origin').value = '';
+  document.getElementById('add-region-weave').value  = '';
+  document.getElementById('addRegionForm').style.display = 'none';
+  _renderAll();
+}
+
+/* ── Region-specific: inline edit all 3 fields ── */
+function editRegionItem(idx){
+  var f = _getFilter('region');
+  if(!f || !f.items[idx]) return;
+  var item = f.items[idx];
+  var newLabel  = prompt('Weave Name:', item.label);
+  if(newLabel === null) return; // cancelled
+  var newOrigin = prompt('Region / Origin:', item.origin || '');
+  if(newOrigin === null) return;
+  var newWeave  = prompt('Weave Style:', item.weave || '');
+  if(newWeave === null) return;
+  if(!newLabel.trim() || !newOrigin.trim()){ alert('Weave Name and Region/Origin are required.'); return; }
+  f.items[idx].label  = newLabel.trim();
+  f.items[idx].origin = newOrigin.trim();
+  f.items[idx].weave  = newWeave.trim();
+  _renderAll();
+}
+
+/* ── Add item from the relevant input field (non-region) ── */
 function addItem(filterId){
+  if(filterId === 'region'){ _openAddRegionForm(); return; }
   var el = document.getElementById('add-input-'+filterId);
   if(!el)return;
   var label = el.value.trim();

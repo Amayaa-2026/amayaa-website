@@ -178,6 +178,37 @@ var GH_REPO   = 'Amayaa-2026/amayaa-website';
 var GH_BRANCH = 'main';
 var _editId   = null; // set from URL ?id=
 var _isEdit   = false;
+var _isDirty  = false; // true once any field is touched
+
+function _markDirty(){ _isDirty = true; }
+
+function _cancelEdit(){
+  if(_isDirty){
+    var ok = confirm('You have unsaved changes. Discard them and go back to the Product Manager?');
+    if(!ok) return;
+  }
+  _isDirty = false;
+  window.location.href = 'amayaa_products.html';
+}
+
+window.addEventListener('beforeunload', function(e){
+  if(_isDirty){
+    e.preventDefault();
+    e.returnValue = '';
+  }
+});
+
+/* Intercept sidebar/nav link clicks when dirty */
+document.addEventListener('click', function(e){
+  if(!_isDirty) return;
+  var anchor = e.target.closest('a[href]');
+  if(!anchor) return;
+  var href = anchor.getAttribute('href');
+  if(!href || href === '#' || href.startsWith('javascript')) return;
+  e.preventDefault();
+  var ok = confirm('You have unsaved changes. Discard them and navigate away?');
+  if(ok){ _isDirty = false; window.location.href = href; }
+});
 
 function _ghTok(){ return localStorage.getItem('amayaa_gh_token') || ''; }
 function _ghHdrs(){ return { Authorization: 'token ' + _ghTok(), 'Content-Type': 'application/json' }; }
@@ -224,6 +255,7 @@ function _ghSave(path, content, msg, doneCb){
     </div>
     <div class="topbar-actions" style="align-items:center;">
       <span id="saveStatus"></span>
+      <button class="btn btn-ghost" onclick="_cancelEdit()" style="color:#9A6050;">✕ Cancel</button>
       <button class="btn btn-ghost" onclick="_saveProduct(true)">💾 Save Draft</button>
       <button class="btn btn-primary" id="btnPublish" onclick="_saveProduct(false)">✅ Save &amp; Publish</button>
     </div>
@@ -1296,7 +1328,7 @@ function _collectFormData(asDraft){
   var offerOn  = document.getElementById('offerToggle').checked;
   var offerUntil = document.getElementById('offerValidUntil').value || null;
   var soldOut  = document.getElementById('isSoldOut').checked;
-  var status   = asDraft ? 'hidden' : document.getElementById('statusSelect').value;
+  var status   = asDraft ? 'draft' : document.getElementById('statusSelect').value;
   var isNew    = document.getElementById('isNew').checked;
   var isFeatured = document.getElementById('isFeatured').checked;
 
@@ -1469,6 +1501,7 @@ function _saveProduct(asDraft){
           st.textContent = asDraft ? '✅ Draft saved!' : '✅ Published!';
           st.className = 'ok';
           st2.textContent = asDraft ? '✅ Draft saved!' : '✅ Published!';
+          _isDirty = false; // clear guard after successful save
           // Switch to edit mode if new
           if(!_isEdit){ _isEdit=true; _editId=data.id; }
           // Update breadcrumb
@@ -1493,6 +1526,12 @@ function _saveProduct(asDraft){
 <!-- ── DOMContentLoaded — boot ── -->
 <script>
 document.addEventListener('DOMContentLoaded', function(){
+  // Wire dirty-tracking to all inputs, selects, textareas
+  document.querySelectorAll('input,select,textarea').forEach(function(el){
+    el.addEventListener('input', _markDirty);
+    el.addEventListener('change', _markDirty);
+  });
+
   // Init UI
   _renderSlots();
   updateGradientPreview();

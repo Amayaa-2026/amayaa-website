@@ -242,7 +242,7 @@ if(!sessionStorage.getItem('amayaa_admin')){
       <div class="stat s1"><div class="stat-val" id="stat-total">—</div><div class="stat-label">Total Products</div></div>
       <div class="stat s2"><div class="stat-val" id="stat-active">—</div><div class="stat-label">Active</div></div>
       <div class="stat s3"><div class="stat-val" id="stat-sold">—</div><div class="stat-label">Sold Out</div></div>
-      <div class="stat s4"><div class="stat-val" id="stat-hidden">—</div><div class="stat-label">Hidden</div></div>
+      <div class="stat s4"><div class="stat-val" id="stat-draft">—</div><div class="stat-label">Drafts</div></div>
     </div>
 
     <!-- FILTERS -->
@@ -253,6 +253,7 @@ if(!sessionStorage.getItem('amayaa_admin')){
       <div class="filter-pill" data-filter="sold_out">Sold Out</div>
       <div class="filter-pill" data-filter="hidden">Hidden</div>
       <div class="filter-pill" data-filter="new">New Arrival</div>
+      <div class="filter-pill" data-filter="draft" style="color:#7A5A00;border-color:rgba(200,150,0,.35);">📝 Drafts</div>
     </div>
 
     <!-- SEARCH -->
@@ -355,8 +356,9 @@ var PAGE_SIZE = 50;
 var _curPage = 0;
 
 function _statusBadge(status){
-  if(status==='active') return '<span class="badge badge-active">Active</span>';
+  if(status==='active')   return '<span class="badge badge-active">Active</span>';
   if(status==='sold_out') return '<span class="badge badge-sold">Sold Out</span>';
+  if(status==='draft')    return '<span class="badge badge-draft">Draft</span>';
   return '<span class="badge badge-hidden">Hidden</span>';
 }
 
@@ -378,7 +380,7 @@ function _renderTable(){
     return '<tr style="cursor:pointer;" onclick="_openQV(\''+p.id+'\')">' 
       +'<td onclick="event.stopPropagation()"><input type="checkbox" class="row-chk" data-id="'+p.id+'" style="accent-color:#C4622D;"></td>'
       +'<td><div style="display:flex;align-items:center;gap:10px;">'
-        +(p.thumbnail?'<div class="prod-thumb" style="overflow:hidden;"><img src="../'+p.thumbnail+'" alt="'+p.name+'" style="width:100%;height:100%;object-fit:cover;display:block;"></div>':'<div class="prod-thumb" style="background:linear-gradient(135deg,'+(p.gradientFrom||'#8B1A4A')+','+(p.gradientTo||'#C4622D')+');"></div>')
+        +(p.thumbnail?'<div class="prod-thumb" style="overflow:hidden;"><img src="'+(p.thumbnail.match(/^https?:\/\//)?p.thumbnail:'../'+p.thumbnail)+'" alt="'+p.name+'" style="width:100%;height:100%;object-fit:cover;display:block;"></div>':'<div class="prod-thumb" style="background:linear-gradient(135deg,'+(p.gradientFrom||'#8B1A4A')+','+(p.gradientTo||'#C4622D')+');"></div>')
         +'<div><div style="font-weight:600;color:#1A0A04;font-size:13px;">'+p.name+'</div><div style="font-size:11px;color:#9A8070;">'+p.id+'</div></div>'
       +'</div></td>'
       +'<td style="color:#5A4030;">'+(p.type||'')+'</td>'
@@ -415,18 +417,20 @@ function _updateStats(){
   var active=_products.filter(function(p){return p.status==='active';}).length;
   var sold=_products.filter(function(p){return p.status==='sold_out';}).length;
   var hidden=_products.filter(function(p){return p.status==='hidden';}).length;
+  var drafts=_products.filter(function(p){return p.status==='draft';}).length;
   var elT=document.getElementById('stat-total');if(elT)elT.textContent=total;
   var elA=document.getElementById('stat-active');if(elA)elA.textContent=active;
   var elS=document.getElementById('stat-sold');if(elS)elS.textContent=sold;
-  var elH=document.getElementById('stat-hidden');if(elH)elH.textContent=hidden;
+  var elD=document.getElementById('stat-draft');if(elD)elD.textContent=drafts;
   // update pill counts
   document.querySelectorAll('[data-filter]').forEach(function(pill){
     var f=pill.dataset.filter;
     var cnt=f==='all'?total:f==='active'?active:f==='sold_out'?sold:f==='hidden'?hidden
+      :f==='draft'?drafts
       :f==='offer'?_products.filter(function(p){return p.badges&&p.badges.indexOf('offer')>-1;}).length
       :f==='new'?_products.filter(function(p){return p.badges&&p.badges.indexOf('new')>-1;}).length:0;
-    pill.textContent=pill.textContent.replace(/\s*\(\d+\)/,'');
-    pill.textContent+=' ('+cnt+')';
+    pill.textContent=pill.textContent.replace(/\s*\(\d+\)/,'').replace(/^📝\s*/,'');
+    pill.textContent=(f==='draft'?'📝 ':'')+pill.textContent.trim()+' ('+cnt+')';
   });
 }
 
@@ -442,6 +446,7 @@ function _applyFilter(){
     if(_activeFilter==='active') mf=p.status==='active';
     else if(_activeFilter==='sold_out') mf=p.status==='sold_out';
     else if(_activeFilter==='hidden') mf=p.status==='hidden';
+    else if(_activeFilter==='draft') mf=p.status==='draft';
     else if(_activeFilter==='offer') mf=p.badges&&p.badges.indexOf('offer')>-1;
     else if(_activeFilter==='new') mf=p.badges&&p.badges.indexOf('new')>-1;
     var mq=!q||(p.name&&p.name.toLowerCase().indexOf(q)>-1)||(p.type&&p.type.toLowerCase().indexOf(q)>-1)||(p.id&&p.id.toLowerCase().indexOf(q)>-1)||(p.fabric&&p.fabric.toLowerCase().indexOf(q)>-1);

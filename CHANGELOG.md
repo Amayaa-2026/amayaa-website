@@ -19,6 +19,8 @@
 | **v3.1** | **Aug 12 2026** | **All dummy/partial admin pages wired to GitHub API. All public pages JSON-driven (About, Blog, Contact, Offers, Search, Home). Traceability matrix updated with Code Push column + Token reminder.** |
 | **v3.2** | **Aug 15 2026** | **Content Library system, Product Edit full rewrite, QR code in product drawer, Quick-view panel in Product Manager, Offers page drawer fix.** |
 | **v3.3** | **Aug 16 2026** | **Bulk Upload admin page — add new records or update existing ones via Excel for Products, Categories, and Content Library. Advanced filter-based search with pre-filled Excel download. Collections image upgrade, Admin Settings tab redesign. Removed redundant Special Offers nav link. Admin sidebar scrollbar redesigned — dark themed, no white flash.** |
+| **v3.4** | **Aug 17 2026** | **Hero fold bar restructured (trust strip moved to 15vh gap). Blog post reader page. Blog page + admin editor data-driven. Our Story enriched (3rd section, 4 weaver profiles, values). Silk Mark replaces GI Tag sitewide. Trust strip items swapped. Section header typography system added.** |
+| **v3.5** | **Aug 22 2026** | **Our Story UI redesign (horizontal weaver cards, 4-col promise grid, font fixes). 30 product catalogue (18 new sarees, full regional/fabric/occasion diversity). Offers page: dynamic count, sort+filter fully wired, chips+sort on same row. Sarees sort bug fixed. Product drawer GST fine print. Blog content BLG-001–006 fully written with govt source credits.** |
 
 ---
 
@@ -959,3 +961,95 @@ JS added: `_loadContentLibrary()`, `_populateContentSelects()`, `onBundleChange(
 ```bash
 cd ~/Downloads/Amayaa_site && rm -f .git/index.lock .git/HEAD.lock && git push origin main
 ```
+
+---
+
+## v3.4 · Aug 17 2026 — Content, Typography & Blog
+
+### v3.4-1 · Hero Fold Bar Restructure
+**File:** `index.html`
+- Trust strip (6-item scrolling bar) moved out of the hero section into a dedicated 15vh gap below the hero
+- Fold bar `.hfb-explore` Explore button centered with `flex:1` on `.hfb-group` (horizontal) and `bottom:calc(7.5vh - 32px)` on `.scroll-hint` (vertical 32px correction)
+- Standalone `#pageExploreIndex` Explore button now tracks same pixel position across all content sections
+- Trust strip: "Handpicked Traditional Weavers" swapped to left group first; "500+ Authentic Sarees" to right group last
+- Decorative dots (`.pdots`) removed from Collections and New Arrivals sections
+- `.sec-lbl` font increased 11px → 12px; `.sec-desc` class added for section subtitles
+- All three content sections (Collections, New Arrivals, Blog) now have `<p class="sec-desc">` subtitle lines
+
+### v3.4-2 · Silk Mark Certification Sitewide
+**Files:** `index.html`, `amayaa_sarees.html`, `amayaa_offers.html`, `amayaa_search.html`, `amayaa_about.html`, `product-drawer.js`, all admin pages
+- All references to "GI Tagged" / "GI Tag" replaced with "Silk Mark Certified" / "Silk Mark Certification"
+- Trust strip updated from "GI Tagged Products" to "Silk Mark Certified"
+- Search page toggle filter updated to "Silk Mark Certified"
+
+### v3.4-3 · Blog Post Reader + Admin Editor
+**Files:** `amayaa_blog_post.html` (new), `amayaa_blog.html`, `amayaa_admin/amayaa_blog.html`, `data/blog.json`
+- `amayaa_blog_post.html` created — full markdown-rendered blog reader page with hero band, article layout, related posts, back button
+- `amayaa_blog.html` made fully data-driven — fetches `data/blog.json`, renders cards, links to reader page via `?id=`
+- Admin blog editor upgraded with EasyMDE markdown editor + 5 content templates (Weave Type, Weaver Story, Care Guide, Regional Style, Comparison)
+- Blog body saved as markdown in `blog.json` under each post's `body` field
+- BLG-001 full markdown body added
+
+### v3.4-4 · Our Story Page Enrichment
+**Files:** `data/about.json`, `amayaa_about.html`
+- 3rd story section added: "Our Promise — Authenticity You Can Trace"
+- 4 weaver profiles fully written with community/cooperative details and provenance
+- 4 values cards enriched with longer, more specific descriptions
+- Blog content BLG-002 through BLG-006 written in full with government source credits (handlooms.gov.in, silkmarkindia.com, ipindia.gov.in, csb.gov.in, craftscouncilofindia.org)
+
+---
+
+## v3.5 · Aug 22 2026 — Product Catalogue, Offers & UI Fixes
+
+### v3.5-1 · Our Story UI Redesign
+**File:** `amayaa_about.html`
+- Weaver cards redesigned from 4-column vertical stack → 2-column horizontal profile cards (130×130px square image left, text right)
+- Promise cards: `.vs-grid` changed from `repeat(3,1fr)` → `repeat(4,1fr)` — all 4 in one row
+- Font sizes increased: `.wcard-name` 18→22px, `.wcard-region` 11→13px, `.wcard-desc` 13→15px
+
+### v3.5-2 · 30-Product Catalogue
+**Files:** `data/products.json`, `data/products_index.json`, `data/products/AMY-*.json` (18 new files)
+- 18 new sarees added, reaching 30 total
+- Coverage: Nauvari, Phulkari, Gadwal, Kasavu, Banarasi Georgette, Chettinad, Kotpad, Dhakai Jamdani, Kanjivaram Bridal, Bhagalpuri Linen, Bomkai, Ilkal, Patan Patola, Rajkot Bandhani, Tant Jamdani Fusion, Madurai Sungudi, Assam Khadi, Sualkuchi Muga
+- Price range ₹1,800–₹22,000; all regions, fabrics, occasions, badge combinations represented
+- New 18 use gradient placeholders (`thumbnail: null`) — real photos can be swapped in via admin
+- 18 individual `data/products/AMY-XXX.json` detail files created (required for product drawer)
+- Original 12 real image thumbnails preserved correctly
+
+### v3.5-3 · Offers Page — Full Sort/Filter Fix
+**File:** `amayaa_offers.html`
+- `sortOffers()` and `filterOffers()` were called from HTML but never defined — now fully implemented
+- `_allOfferItems`, `_activeOfferFilter`, `_activeOfferSort` exposed on `window` for stateful re-renders
+- `_renderOfferGrid()` applies current filter then sort and re-renders grid
+- All 4 sort options working: Featured First, Price Low→High, Price High→Low, Highest Saving
+- All 5 filter chips working: All / Silk Sarees / Cotton Sarees / Wedding / Festive
+- Offer count dynamic — JS counts `originalPrice > price` products after load, updates chip label and stat
+- Sort select + filter chips moved onto same horizontal row (`.off-sort-chips-row`)
+- Stats strip font increased: `.ostat-main` 13→15px, `.ostat-sub` 11→12px; items properly centered
+- "Offer valid while stocks last" restored as fine-print below heading
+- "All prices inclusive of GST" removed from stats bar
+
+### v3.5-4 · Sarees Page — Sort Fix + Alignment
+**File:** `amayaa_sarees.html`
+- Sort `_sort()` function was matching `val.indexOf('Low to High')` against option values (`price-asc` etc.) — always -1, so sort never worked. Fixed to `val === 'price-asc'` etc.
+- Filters button and sort select given identical `height:42px; box-sizing:border-box` for horizontal alignment
+
+### v3.5-5 · Product Drawer — GST Fine Print
+**Files:** `product-drawer.js`, `product-drawer.css`
+- `<div class="pd-gst-note">All prices inclusive of GST</div>` added below price row in every product drawer
+- `.pd-gst-note` styled at 11px, muted `#9A8070`, appears on every saree detail view across all pages
+
+---
+
+## Pending for Launch
+
+| Item | Priority | Notes |
+|---|---|---|
+| Real photos for 18 new sarees | High | Gradient placeholders active; upload via Admin Product Edit |
+| #68 GoatCounter audit | Medium | Verify tracking fires correctly on all pages |
+| #69 ImageKit.io CDN | Medium | Replace local `images/` paths with CDN URLs |
+| #71 Formspree contact form | Medium | Verify form submits and email arrives |
+| #74 Full functional testing | High | All pages, all filters, all drawers, mobile + desktop |
+| #77 Custom domain email | Low | hello@amayaabypolkadots.in setup |
+| Typography admin wiring | Low | Currently read-only preview; save not wired |
+| Dashboard live analytics | Low | GoatCounter API + WA click counter |

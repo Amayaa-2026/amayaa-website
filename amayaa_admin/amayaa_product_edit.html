@@ -6,6 +6,8 @@
 
 <link rel="stylesheet" href="admin.css">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&family=Caveat:wght@700&family=Nunito:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
 <style>
 /* ── AMAYAA ADMIN SHARED SIDEBAR CSS ── */
 aside.sidebar{position:fixed;top:0;left:0;width:240px;height:100vh;background:radial-gradient(ellipse at 15% 25%,rgba(240,67,147,.55) 0%,transparent 55%),radial-gradient(ellipse at 85% 75%,rgba(240,67,147,.45) 0%,transparent 50%),radial-gradient(ellipse at 50% 10%,rgba(200,30,110,.40) 0%,transparent 45%),#2A0A1A;color:white;overflow:hidden;z-index:100;display:flex;flex-direction:column;}
@@ -134,6 +136,37 @@ body{font-family:'Jost',sans-serif;background:linear-gradient(135deg,#E4DFD9 0%,
 #saveStatus{font-size:13px;color:#9A8070;align-self:center;}
 #saveStatus.ok{color:#1A7A40;}
 #saveStatus.err{color:#AA2020;}
+
+/* ── IMAGE SLOTS ── */
+.img-slots-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.img-slot{border-radius:10px;overflow:hidden;border:1px solid rgba(0,0,0,.08);background:#FAFAF8;display:flex;flex-direction:column;}
+.img-slot.slot-main{border-color:rgba(196,98,45,.25);}
+.img-slot.slot-drag-over .slot-zone{border-color:#C4622D !important;background:rgba(196,98,45,.07) !important;}
+.slot-lbl{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#9A8070;padding:7px 10px 4px;display:flex;align-items:center;gap:6px;min-height:28px;}
+.slot-main-badge{background:#C4622D;color:white;font-size:8px;padding:1px 5px;border-radius:4px;letter-spacing:1px;}
+.slot-zone{aspect-ratio:4/5;width:100%;cursor:pointer;position:relative;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:5px;transition:all .2s;overflow:hidden;}
+.slot-empty{border:2px dashed rgba(0,0,0,.1);}
+.slot-empty:hover{border-color:#C4622D;background:rgba(196,98,45,.04);}
+.slot-cam{font-size:30px;opacity:.25;pointer-events:none;}
+.slot-hint{font-size:10px;color:#C0A888;letter-spacing:1px;pointer-events:none;}
+.slot-img{width:100%;height:100%;object-fit:cover;display:block;}
+.slot-acts{display:flex;gap:6px;padding:6px 8px;border-top:1px solid rgba(0,0,0,.06);}
+.slot-btn{flex:1;padding:5px 4px;border-radius:6px;border:1px solid rgba(0,0,0,.1);background:rgba(240,230,216,.6);font-size:10px;font-weight:600;color:#7A6050;cursor:pointer;font-family:'Jost',sans-serif;letter-spacing:.5px;transition:all .2s;}
+.slot-btn:hover{background:rgba(196,98,45,.1);border-color:rgba(196,98,45,.3);color:#C4622D;}
+.slot-btn-rm:hover{background:rgba(200,50,50,.08);border-color:rgba(200,50,50,.25);color:#AA2020;}
+.slot-status{font-size:10px;text-align:center;padding:3px 8px;min-height:18px;color:#1A7A40;font-weight:600;}
+/* ── CROP MODAL ── */
+#cropModal{position:fixed;inset:0;background:rgba(0,0,0,.78);z-index:2000;display:none;align-items:center;justify-content:center;}
+.crop-box{background:white;border-radius:16px;width:540px;max-width:95vw;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.45);}
+.crop-head{padding:15px 20px;background:#1A0A04;display:flex;align-items:center;justify-content:space-between;}
+.crop-title{font-family:'Cormorant Garamond',serif;font-size:20px;color:white;font-weight:400;}
+.crop-close{background:none;border:none;color:rgba(255,255,255,.6);font-size:22px;cursor:pointer;line-height:1;padding:0;}
+.crop-close:hover{color:white;}
+.crop-img-area{background:#111;height:360px;overflow:hidden;position:relative;}
+.crop-img-area img{display:block;max-width:100%;max-height:360px;margin:auto;}
+.crop-foot{padding:12px 18px;border-top:1px solid rgba(0,0,0,.08);display:flex;align-items:center;gap:10px;background:#FAFAF8;}
+.crop-info{flex:1;font-size:11px;color:#9A8070;line-height:1.5;}
+.crop-progress{padding:10px 18px;background:rgba(196,98,45,.06);border-top:1px solid rgba(196,98,45,.12);font-size:12px;color:#C4622D;text-align:center;display:none;}
 </style>
 </head>
 <body>
@@ -429,15 +462,14 @@ function _ghSave(path, content, msg, doneCb){
           <div id="sidebarSaveStatus" style="font-size:12px;color:#9A8070;text-align:center;margin-top:8px;min-height:16px;"></div>
         </div>
 
-        <!-- PHOTOS -->
+        <!-- PHOTOS — Smart slot image manager v2 -->
         <div class="card" style="margin-bottom:16px;">
           <div class="card-header">
-            <div><div class="card-title">Product Photos</div><div class="card-sub">Up to 8 · First photo = main image</div></div>
+            <div><div class="card-title">Product Photos</div><div class="card-sub">Drop photo → auto-crop → upload · Up to 4 slots</div></div>
           </div>
-          <div id="photo-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:11px;"></div>
-          <button class="btn btn-ghost" style="width:100%;justify-content:center;" onclick="_addPhoto()">📁 Upload Photo</button>
-          <div id="photo-status" style="font-size:11px;color:#9A8070;text-align:center;margin-top:6px;min-height:16px;"></div>
-          <p style="font-size:11px;color:#C0A888;margin-top:4px;text-align:center;">JPG/PNG/WebP · Max 5MB · Uploaded to ImageKit CDN</p>
+          <div class="img-slots-grid" id="imgSlotsGrid"></div>
+          <div id="photo-status" style="font-size:11px;color:#9A8070;text-align:center;margin-top:8px;min-height:16px;"></div>
+          <p style="font-size:11px;color:#C0A888;margin-top:4px;text-align:center;">JPG/PNG/WebP · Auto-resized to 800×1000px · Uploaded to ImageKit CDN</p>
         </div>
 
         <!-- LIVE PREVIEW -->
@@ -558,7 +590,8 @@ function updatePreview(){
   var t      = document.getElementById('gradientTo').value;
   var isNew  = document.getElementById('isNew').checked;
   var isOff  = document.getElementById('offerToggle').checked;
-  var ph     = _productPhotos[0] || null;
+  var mainSlot = _imageSlots[0];
+  var ph = mainSlot ? (mainSlot.thumbUrl || mainSlot.viewerUrl) : null;
 
   document.getElementById('previewName').textContent = name;
   document.getElementById('previewRegion').textContent = type + ' · ' + region;
@@ -676,48 +709,214 @@ function _loadCategories(currentType, currentFabric){
 }
 </script>
 
-<!-- ── Product Photos via ImageKit ── -->
+<!-- ── Product Photos — Smart slot manager v2 ── -->
 <script>
-var _productPhotos = [];
+/* ────────────────────────────────────────────────────────
+   STATE
+   _imageSlots[0..3]: null | { viewerUrl, thumbUrl }
+   slot 0 = Main Photo, slots 1-3 = Gallery
+──────────────────────────────────────────────────────── */
+var _imageSlots      = [null, null, null, null];
+var _cropperInst     = null;
+var _cropSlotIdx     = -1;
+var _SLOT_LABELS     = ['Main Photo', 'Gallery 2', 'Gallery 3', 'Gallery 4'];
 
-function _renderPhotoGrid(){
-  var grid = document.getElementById('photo-grid');
-  if(!grid)return;
-  var html = '';
-  _productPhotos.forEach(function(url,i){
-    var isMain = i===0;
-    html += '<div style="aspect-ratio:3/4;border-radius:9px;overflow:hidden;position:relative;background:#f5f0eb;">'
-      +'<img src="'+url+'" style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy">'
-      +(isMain?'<span style="position:absolute;bottom:6px;left:6px;background:#C4622D;color:white;font-size:9px;font-weight:600;padding:2px 6px;border-radius:4px;">MAIN</span>':'')
-      +'<span onclick="_removePhoto('+i+')" style="position:absolute;top:6px;right:6px;background:rgba(0,0,0,.5);color:white;font-size:11px;padding:2px 7px;border-radius:4px;cursor:pointer;">✕</span>'
-      +'</div>';
+/* ── RENDER ── */
+function _renderSlots(){
+  var grid = document.getElementById('imgSlotsGrid');
+  if(!grid) return;
+  grid.innerHTML = '';
+  _imageSlots.forEach(function(slot, i){
+    var el = document.createElement('div');
+    el.className = 'img-slot' + (i===0 ? ' slot-main' : '');
+    el.setAttribute('data-slot', i);
+
+    /* drag-and-drop */
+    el.addEventListener('dragover', function(e){ e.preventDefault(); el.classList.add('slot-drag-over'); });
+    el.addEventListener('dragleave', function(){ el.classList.remove('slot-drag-over'); });
+    el.addEventListener('drop', function(e){
+      e.preventDefault(); el.classList.remove('slot-drag-over');
+      var f = e.dataTransfer.files && e.dataTransfer.files[0];
+      if(f) _startCrop(f, i);
+    });
+
+    var lblHtml = '<div class="slot-lbl">' + _SLOT_LABELS[i]
+      + (i===0 ? ' <span class="slot-main-badge">MAIN</span>' : '') + '</div>';
+
+    if(slot && (slot.thumbUrl || slot.viewerUrl)){
+      var displayUrl = slot.thumbUrl || slot.viewerUrl;
+      el.innerHTML = lblHtml
+        + '<div class="slot-zone slot-filled">'
+        + '<img src="' + displayUrl + '" class="slot-img" loading="lazy">'
+        + '</div>'
+        + '<div class="slot-acts">'
+        + '<button class="slot-btn" onclick="_recropSlot(' + i + ')">✏ Replace</button>'
+        + '<button class="slot-btn slot-btn-rm" onclick="_removeSlot(' + i + ')">✕ Remove</button>'
+        + '</div>';
+    } else {
+      el.innerHTML = lblHtml
+        + '<div class="slot-zone slot-empty" onclick="_triggerSlotPick(' + i + ')">'
+        + '<div class="slot-cam">📷</div>'
+        + '<div class="slot-hint">Drop or click</div>'
+        + '</div>';
+    }
+
+    var statusEl = document.createElement('div');
+    statusEl.className = 'slot-status';
+    statusEl.id = 'slotSt' + i;
+    el.appendChild(statusEl);
+    grid.appendChild(el);
   });
-  if(_productPhotos.length < 8){
-    html += '<div onclick="_addPhoto()" style="aspect-ratio:3/4;border-radius:9px;border:2px dashed rgba(0,0,0,.12);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;cursor:pointer;background:rgba(240,230,216,.4);">'
-      +'<div style="font-size:22px;color:#C0A888;">+</div>'
-      +'<div style="font-size:10px;color:#C0A888;letter-spacing:1px;">ADD PHOTO</div>'
-      +'</div>';
-  }
-  grid.innerHTML = html;
   updatePreview();
 }
 
-function _addPhoto(){
-  var statusEl = document.getElementById('photo-status');
-  _ikPick('/products', function(url){
-    _productPhotos.push(url);
-    _renderPhotoGrid();
-    if(_productPhotos.length===1 && statusEl){
-      statusEl.textContent = '✅ First photo set as main image';
-      setTimeout(function(){statusEl.textContent='';},3000);
-    }
-  }, statusEl);
+/* ── PICK / REMOVE ── */
+function _triggerSlotPick(idx){
+  var fi = document.createElement('input');
+  fi.type='file'; fi.accept='image/jpeg,image/png,image/webp';
+  fi.onchange = function(e){ if(e.target.files[0]) _startCrop(e.target.files[0], idx); };
+  fi.click();
+}
+function _recropSlot(idx){ _triggerSlotPick(idx); }
+function _removeSlot(idx){
+  if(!confirm('Remove photo from ' + _SLOT_LABELS[idx] + '?')) return;
+  _imageSlots[idx] = null;
+  _renderSlots();
 }
 
-function _removePhoto(idx){
-  _productPhotos.splice(idx,1);
-  _renderPhotoGrid();
+/* ── CROP FLOW ── */
+function _startCrop(file, slotIdx){
+  if(file.size > 20*1024*1024){ alert('File must be under 20MB.'); return; }
+  _cropSlotIdx = slotIdx;
+
+  var modal = document.getElementById('cropModal');
+  var cropImg = document.getElementById('cropImg');
+  document.getElementById('cropModalTitle').textContent = 'Crop Photo — ' + _SLOT_LABELS[slotIdx];
+  document.getElementById('cropProgress').style.display = 'none';
+  document.getElementById('cropProgress').textContent = '';
+  document.getElementById('cropUploadBtn').disabled = false;
+
+  if(_cropperInst){ _cropperInst.destroy(); _cropperInst = null; }
+
+  var reader = new FileReader();
+  reader.onload = function(ev){
+    cropImg.src = ev.target.result;
+    modal.style.display = 'flex';
+    cropImg.onload = function(){
+      _cropperInst = new Cropper(cropImg, {
+        aspectRatio: 4/5,
+        viewMode: 1,
+        minCropBoxWidth: 160,
+        minCropBoxHeight: 200,
+        dragMode: 'move',
+        autoCropArea: 0.88,
+        responsive: true,
+        ready: function(){ _updateCropInfo(); },
+        cropend: function(){ _updateCropInfo(); }
+      });
+    };
+  };
+  reader.readAsDataURL(file);
 }
+
+function _updateCropInfo(){
+  var el = document.getElementById('cropInfo');
+  if(!el) return;
+  var approxKb = Math.round(800*1000*0.85*0.15/1024);
+  var thumbKb  = Math.round(400*500*0.80*0.15/1024);
+  el.textContent = '4:5 portrait · Viewer 800×1000px (~'+approxKb+'KB) + Thumb 400×500px (~'+thumbKb+'KB)';
+}
+
+function _cropReset(){
+  if(_cropperInst) _cropperInst.reset();
+}
+
+function _cropCancel(){
+  if(_cropperInst){ _cropperInst.destroy(); _cropperInst=null; }
+  document.getElementById('cropModal').style.display='none';
+  _cropSlotIdx = -1;
+}
+
+function _cropConfirm(){
+  if(!_cropperInst || _cropSlotIdx < 0) return;
+
+  var btn      = document.getElementById('cropUploadBtn');
+  var progress = document.getElementById('cropProgress');
+  btn.disabled = true;
+  progress.style.display = 'block';
+  progress.textContent   = '⏳ Resizing…';
+
+  /* Viewer canvas — 800×1000 */
+  var viewerCanvas = _cropperInst.getCroppedCanvas({
+    width: 800, height: 1000,
+    fillColor: '#FFFFFF',
+    imageSmoothingEnabled: true,
+    imageSmoothingQuality: 'high'
+  });
+
+  /* Thumbnail canvas — 400×500 (scale from viewer) */
+  var thumbCanvas = document.createElement('canvas');
+  thumbCanvas.width = 400; thumbCanvas.height = 500;
+  thumbCanvas.getContext('2d').drawImage(viewerCanvas, 0, 0, 400, 500);
+
+  /* SKU → folder name */
+  var sku = document.getElementById('skuVal').textContent.trim().replace(/[^A-Za-z0-9\-]/g,'');
+  if(!sku || sku==='—'){
+    progress.textContent = '⚠ Save the product first to get a SKU, then upload photos.';
+    btn.disabled=false; return;
+  }
+
+  var slotNum   = _cropSlotIdx + 1;
+  var ikFolder  = '/products/' + sku;
+  var captureIdx = _cropSlotIdx; /* capture before async clears it */
+
+  progress.textContent = '⏳ Uploading viewer image (1/2)…';
+
+  viewerCanvas.toBlob(function(viewerBlob){
+    _ikUpload(viewerBlob, ikFolder, 'img'+slotNum+'.jpg')
+    .then(function(viewerUrl){
+      progress.textContent = '⏳ Uploading thumbnail (2/2)…';
+      thumbCanvas.toBlob(function(thumbBlob){
+        _ikUpload(thumbBlob, ikFolder, 'thumb'+slotNum+'.jpg')
+        .then(function(thumbUrl){
+          /* success — store in slot */
+          _imageSlots[captureIdx] = { viewerUrl: viewerUrl, thumbUrl: thumbUrl };
+
+          /* close modal */
+          _cropperInst.destroy(); _cropperInst = null;
+          document.getElementById('cropModal').style.display = 'none';
+          _cropSlotIdx = -1;
+          btn.disabled = false;
+          progress.style.display = 'none';
+
+          _renderSlots();
+
+          /* slot success tick */
+          var stEl = document.getElementById('slotSt'+captureIdx);
+          if(stEl){ stEl.textContent='✅ Saved'; setTimeout(function(){if(stEl)stEl.textContent='';},3000); }
+
+          /* global status */
+          var gst = document.getElementById('photo-status');
+          if(gst){ gst.textContent='✅ Photo '+(captureIdx===0?'(Main)':'(Gallery '+(captureIdx+1)+')')+' uploaded'; setTimeout(function(){gst.textContent='';},4000); }
+        })
+        .catch(function(err){
+          progress.textContent='❌ Thumbnail upload failed: '+err.message;
+          btn.disabled=false;
+        });
+      }, 'image/jpeg', 0.80);
+    })
+    .catch(function(err){
+      progress.textContent='❌ Viewer upload failed: '+err.message;
+      btn.disabled=false;
+    });
+  }, 'image/jpeg', 0.85);
+}
+
+/* Close modal on backdrop click */
+document.addEventListener('click', function(e){
+  var modal = document.getElementById('cropModal');
+  if(e.target === modal) _cropCancel();
+});
 </script>
 
 <!-- ── SKU Auto-generation ── -->
@@ -840,9 +1039,19 @@ function _populateForm(d){
   document.getElementById('seoTitle').value = d.seoTitle || '';
   document.getElementById('seoDescription').value = d.seoDescription || '';
 
-  // Photos
-  _productPhotos = Array.isArray(d.photos) ? d.photos.slice() : (d.thumbnail ? [d.thumbnail] : []);
-  _renderPhotoGrid();
+  // Photos — populate slots from saved data
+  _imageSlots = [null, null, null, null];
+  var savedPhotos = Array.isArray(d.photos) ? d.photos : (d.thumbnail ? [d.thumbnail] : []);
+  var savedThumbs = Array.isArray(d.imageThumbs) ? d.imageThumbs : [];
+  savedPhotos.forEach(function(viewerUrl, i){
+    if(i < 4){
+      _imageSlots[i] = {
+        viewerUrl: viewerUrl,
+        thumbUrl: savedThumbs[i] || (i===0 ? (d.thumbnail||viewerUrl) : viewerUrl)
+      };
+    }
+  });
+  _renderSlots();
 
   // Load categories with current type/fabric
   _loadCategories(d.type, d.fabric);
@@ -904,8 +1113,10 @@ function _collectFormData(asDraft){
   var seoTitle  = document.getElementById('seoTitle').value.trim();
   var seoDesc   = document.getElementById('seoDescription').value.trim();
 
-  var thumbnail = _productPhotos[0] || '';
-  var photos = _productPhotos.slice();
+  /* Photos from slots */
+  var photos     = _imageSlots.map(function(s){ return s ? s.viewerUrl : null; }).filter(Boolean);
+  var imageThumbs= _imageSlots.map(function(s){ return s ? s.thumbUrl  : null; }).filter(Boolean);
+  var thumbnail  = (_imageSlots[0] && _imageSlots[0].thumbUrl) || photos[0] || '';
 
   // Badges
   var badges = [];
@@ -937,6 +1148,7 @@ function _collectFormData(asDraft){
     shortDescription: shortDesc,
     tags: tags,
     photos: photos,
+    imageThumbs: imageThumbs,
     thumbnail: thumbnail,
     seoTitle: seoTitle,
     seoDescription: seoDesc,
@@ -1080,7 +1292,7 @@ function _saveProduct(asDraft){
 <script>
 document.addEventListener('DOMContentLoaded', function(){
   // Init UI
-  _renderPhotoGrid();
+  _renderSlots();
   updateGradientPreview();
   updatePreview();
 
@@ -1113,6 +1325,25 @@ document.addEventListener('DOMContentLoaded', function(){
   }
 });
 </script>
+<!-- ── CROP MODAL ── -->
+<div id="cropModal">
+  <div class="crop-box">
+    <div class="crop-head">
+      <div class="crop-title" id="cropModalTitle">Crop Photo</div>
+      <button class="crop-close" onclick="_cropCancel()">✕</button>
+    </div>
+    <div class="crop-img-area" id="cropImgArea">
+      <img id="cropImg" alt="">
+    </div>
+    <div class="crop-foot">
+      <div class="crop-info" id="cropInfo">4:5 portrait · Uploads at 800×1000px viewer + 400×500px thumbnail</div>
+      <button class="btn btn-ghost btn-sm" onclick="_cropReset()">⟳ Re-centre</button>
+      <button class="btn btn-primary btn-sm" id="cropUploadBtn" onclick="_cropConfirm()">Upload ↑</button>
+    </div>
+    <div class="crop-progress" id="cropProgress"></div>
+  </div>
+</div>
+
 <script data-goatcounter="https://amayaa.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 <script src="imagekit.js"></script>
 <script src="sidebar.js"></script>

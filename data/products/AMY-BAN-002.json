@@ -15,7 +15,7 @@
   "occasion": [
     "wedding",
     "festive",
-    "casual"
+    "regular"
   ],
   "gradientFrom": "#6B1A4A",
   "gradientTo": "#9A4A7A",
@@ -36,15 +36,16 @@
   "weaveType": "Handloom Brocade",
   "weavingDays": "8-12",
   "giTagged": true,
-  "weaveStoryId": null,
-  "descriptionId": null,
+  "weaveStoryId": "WS-002",
+  "descriptionId": "DESC-017",
   "contentBundleId": null,
-  "careSuggestionId": null,
+  "careSuggestionId": "CI-SILK",
   "photos": [
     "https://ik.imagekit.io/Amayaa2026/products/AMY-BAN-002_Look1.jpg?tr=f-auto,q-85"
   ],
   "seoTitle": "",
   "seoDescription": "",
   "offerValidUntil": null,
-  "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-BAN-002_Look1.jpg?tr=f-auto,q-85"
+  "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-BAN-002_Look1.jpg?tr=f-auto,q-85",
+  "careInstructionId": null
 }

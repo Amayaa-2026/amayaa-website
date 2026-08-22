@@ -11,7 +11,7 @@
   "featured": false,
   "badges": [],
   "occasion": [
-    "casual",
+    "regular",
     "puja",
     "festive"
   ],
@@ -33,15 +33,16 @@
   "weaveType": "Handloom",
   "weavingDays": "5-7",
   "giTagged": false,
-  "weaveStoryId": null,
-  "descriptionId": null,
+  "weaveStoryId": "WS-018",
+  "descriptionId": "DESC-019",
   "contentBundleId": null,
-  "careSuggestionId": null,
+  "careSuggestionId": "CI-COTTON",
   "photos": [
     "https://ik.imagekit.io/Amayaa2026/products/AMY-KOT-001_Look1.jpg?tr=f-auto,q-85"
   ],
   "seoTitle": "",
   "seoDescription": "",
   "offerValidUntil": null,
-  "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-KOT-001_Look1.jpg?tr=f-auto,q-85"
+  "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-KOT-001_Look1.jpg?tr=f-auto,q-85",
+  "careInstructionId": null
 }

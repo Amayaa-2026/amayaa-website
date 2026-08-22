@@ -11,8 +11,8 @@
   "featured": false,
   "badges": [],
   "occasion": [
-    "casual",
-    "daily"
+    "regular",
+    "regular"
   ],
   "length": "6.3 metres",
   "blousePiece": "Included — 0.8 metres",
@@ -42,5 +42,6 @@
   "weaveStoryId": "WS-011",
   "descriptionId": "DESC-011",
   "contentBundleId": null,
-  "careSuggestionId": "CI-011"
+  "careSuggestionId": "CI-COTTON",
+  "careInstructionId": null
 }

@@ -16,7 +16,7 @@
   "occasion": [
     "wedding",
     "festive",
-    "casual"
+    "regular"
   ],
   "gradientFrom": "#2A2A3A",
   "gradientTo": "#6A6A9A",
@@ -37,15 +37,16 @@
   "weaveType": "Supplementary Weft Jamdani",
   "weavingDays": "20-25",
   "giTagged": true,
-  "weaveStoryId": null,
-  "descriptionId": null,
+  "weaveStoryId": "WS-005",
+  "descriptionId": "DESC-020",
   "contentBundleId": null,
-  "careSuggestionId": null,
+  "careSuggestionId": "CI-MUSLIN",
   "photos": [
     "https://ik.imagekit.io/Amayaa2026/products/AMY-DHA-001_Look1.jpg?tr=f-auto,q-85"
   ],
   "seoTitle": "",
   "seoDescription": "",
   "offerValidUntil": null,
-  "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-DHA-001_Look1.jpg?tr=f-auto,q-85"
+  "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-DHA-001_Look1.jpg?tr=f-auto,q-85",
+  "careInstructionId": null
 }

@@ -13,7 +13,7 @@
     "new"
   ],
   "occasion": [
-    "casual",
+    "regular",
     "festive",
     "puja"
   ],
@@ -45,5 +45,6 @@
   "weaveStoryId": "WS-003",
   "descriptionId": "DESC-003",
   "contentBundleId": null,
-  "careSuggestionId": "CI-003"
+  "careSuggestionId": "CI-SILK-COTTON",
+  "careInstructionId": null
 }

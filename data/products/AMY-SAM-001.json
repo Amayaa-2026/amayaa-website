@@ -14,7 +14,7 @@
   ],
   "occasion": [
     "festive",
-    "casual",
+    "regular",
     "puja"
   ],
   "length": "6.3 metres",
@@ -45,5 +45,6 @@
   "weaveStoryId": "WS-010",
   "descriptionId": "DESC-010",
   "contentBundleId": null,
-  "careSuggestionId": "CI-010"
+  "careSuggestionId": "CI-SILK",
+  "careInstructionId": null
 }

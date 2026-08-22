@@ -35,15 +35,16 @@
   "weaveType": "Pit Loom Handloom",
   "weavingDays": "10-14",
   "giTagged": true,
-  "weaveStoryId": null,
-  "descriptionId": null,
+  "weaveStoryId": "WS-015",
+  "descriptionId": "DESC-015",
   "contentBundleId": null,
-  "careSuggestionId": null,
+  "careSuggestionId": "CI-SILK-COTTON",
   "photos": [
     "https://ik.imagekit.io/Amayaa2026/products/AMY-GAD-001_Look1.jpg?tr=f-auto,q-85"
   ],
   "seoTitle": "",
   "seoDescription": "",
   "offerValidUntil": null,
-  "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-GAD-001_Look1.jpg?tr=f-auto,q-85"
+  "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-GAD-001_Look1.jpg?tr=f-auto,q-85",
+  "careInstructionId": null
 }

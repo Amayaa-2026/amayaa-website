@@ -11,8 +11,8 @@
   "featured": false,
   "badges": [],
   "occasion": [
-    "casual",
-    "daily",
+    "regular",
+    "regular",
     "festive"
   ],
   "gradientFrom": "#0A2A1A",
@@ -35,15 +35,16 @@
   "weaveType": "Tant Handloom with Jamdani Motif",
   "weavingDays": "4-6",
   "giTagged": false,
-  "weaveStoryId": null,
-  "descriptionId": null,
+  "weaveStoryId": "WS-011",
+  "descriptionId": "DESC-027",
   "contentBundleId": null,
-  "careSuggestionId": null,
+  "careSuggestionId": "CI-COTTON",
   "photos": [
     "https://ik.imagekit.io/Amayaa2026/products/AMY-TAN-002_Look1.jpg?tr=f-auto,q-85"
   ],
   "seoTitle": "",
   "seoDescription": "",
   "offerValidUntil": null,
-  "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-TAN-002_Look1.jpg?tr=f-auto,q-85"
+  "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-TAN-002_Look1.jpg?tr=f-auto,q-85",
+  "careInstructionId": null
 }

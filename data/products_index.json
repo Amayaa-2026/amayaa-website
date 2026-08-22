@@ -35,7 +35,7 @@
     "contentRefs": [
       "WS-002",
       "DESC-002",
-      "CI-002"
+      "CI-SILK"
     ]
   },
   {
@@ -72,7 +72,7 @@
     "contentRefs": [
       "WS-006",
       "DESC-006",
-      "CI-006"
+      "CI-SILK"
     ]
   },
   {
@@ -107,7 +107,7 @@
     "contentRefs": [
       "WS-001",
       "DESC-001",
-      "CI-001"
+      "CI-SILK"
     ]
   },
   {
@@ -126,7 +126,7 @@
       "offer"
     ],
     "occasion": [
-      "casual",
+      "regular",
       "festive",
       "puja"
     ],
@@ -146,7 +146,7 @@
     "contentRefs": [
       "WS-003",
       "DESC-003",
-      "CI-003"
+      "CI-SILK-COTTON"
     ]
   },
   {
@@ -165,7 +165,7 @@
     ],
     "occasion": [
       "festive",
-      "casual",
+      "regular",
       "puja"
     ],
     "gradientFrom": "#3A0A0A",
@@ -184,7 +184,7 @@
     "contentRefs": [
       "WS-010",
       "DESC-010",
-      "CI-010"
+      "CI-SILK"
     ]
   },
   {
@@ -223,7 +223,7 @@
     "contentRefs": [
       "WS-009",
       "DESC-009",
-      "CI-009"
+      "CI-SILK"
     ]
   },
   {
@@ -239,7 +239,7 @@
     "featured": false,
     "badges": [],
     "occasion": [
-      "casual",
+      "regular",
       "festive",
       "puja"
     ],
@@ -259,7 +259,7 @@
     "contentRefs": [
       "WS-012",
       "DESC-012",
-      "CI-012"
+      "CI-TUSSAR"
     ]
   },
   {
@@ -278,7 +278,7 @@
     ],
     "occasion": [
       "festive",
-      "casual"
+      "regular"
     ],
     "gradientFrom": "#0A2A3A",
     "gradientTo": "#1A7A6A",
@@ -296,7 +296,7 @@
     "contentRefs": [
       "WS-004",
       "DESC-004",
-      "CI-004"
+      "CI-SILK"
     ]
   },
   {
@@ -312,7 +312,7 @@
     "featured": false,
     "badges": [],
     "occasion": [
-      "casual",
+      "regular",
       "puja",
       "festive"
     ],
@@ -332,7 +332,7 @@
     "contentRefs": [
       "WS-007",
       "DESC-007",
-      "CI-007"
+      "CI-SILK-COTTON"
     ]
   },
   {
@@ -371,7 +371,7 @@
     "contentRefs": [
       "WS-008",
       "DESC-008",
-      "CI-008"
+      "CI-SILK"
     ]
   },
   {
@@ -388,7 +388,7 @@
     "badges": [],
     "occasion": [
       "festive",
-      "casual"
+      "regular"
     ],
     "gradientFrom": "#2A2A1A",
     "gradientTo": "#6A6A3A",
@@ -406,7 +406,7 @@
     "contentRefs": [
       "WS-005",
       "DESC-005",
-      "CI-005"
+      "CI-MUSLIN"
     ]
   },
   {
@@ -422,8 +422,8 @@
     "featured": false,
     "badges": [],
     "occasion": [
-      "casual",
-      "daily"
+      "regular",
+      "regular"
     ],
     "gradientFrom": "#0A1A3A",
     "gradientTo": "#1A3A6A",
@@ -441,7 +441,7 @@
     "contentRefs": [
       "WS-011",
       "DESC-011",
-      "CI-011"
+      "CI-COTTON"
     ]
   },
   {
@@ -475,7 +475,11 @@
       "maroon"
     ],
     "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-NAU-001_Look1.jpg?tr=f-auto,q-85",
-    "contentRefs": []
+    "contentRefs": [
+      "WS-013",
+      "DESC-013",
+      "CI-SILK"
+    ]
   },
   {
     "id": "AMY-PHU-001",
@@ -490,7 +494,7 @@
     "featured": false,
     "badges": [],
     "occasion": [
-      "casual",
+      "regular",
       "festive",
       "puja"
     ],
@@ -507,7 +511,11 @@
       "orange"
     ],
     "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-PHU-001_Look1.jpg?tr=f-auto,q-85",
-    "contentRefs": []
+    "contentRefs": [
+      "WS-014",
+      "DESC-014",
+      "CI-COTTON"
+    ]
   },
   {
     "id": "AMY-GAD-001",
@@ -541,7 +549,11 @@
       "gi-tagged"
     ],
     "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-GAD-001_Look1.jpg?tr=f-auto,q-85",
-    "contentRefs": []
+    "contentRefs": [
+      "WS-015",
+      "DESC-015",
+      "CI-SILK-COTTON"
+    ]
   },
   {
     "id": "AMY-KAS-001",
@@ -560,7 +572,7 @@
     "occasion": [
       "festive",
       "puja",
-      "casual"
+      "regular"
     ],
     "gradientFrom": "#3A3A1A",
     "gradientTo": "#8A8A3A",
@@ -576,7 +588,11 @@
       "gi-tagged"
     ],
     "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-KAS-001_Look1.jpg?tr=f-auto,q-85",
-    "contentRefs": []
+    "contentRefs": [
+      "WS-016",
+      "DESC-016",
+      "CI-COTTON"
+    ]
   },
   {
     "id": "AMY-BAN-002",
@@ -595,7 +611,7 @@
     "occasion": [
       "wedding",
       "festive",
-      "casual"
+      "regular"
     ],
     "gradientFrom": "#6B1A4A",
     "gradientTo": "#9A4A7A",
@@ -611,7 +627,11 @@
       "gi-tagged"
     ],
     "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-BAN-002_Look1.jpg?tr=f-auto,q-85",
-    "contentRefs": []
+    "contentRefs": [
+      "WS-002",
+      "DESC-017",
+      "CI-SILK"
+    ]
   },
   {
     "id": "AMY-NAT-001",
@@ -626,8 +646,8 @@
     "featured": false,
     "badges": [],
     "occasion": [
-      "casual",
-      "daily",
+      "regular",
+      "regular",
       "puja"
     ],
     "gradientFrom": "#2A0A0A",
@@ -644,7 +664,11 @@
       "black"
     ],
     "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-NAT-001_Look1.jpg?tr=f-auto,q-85",
-    "contentRefs": []
+    "contentRefs": [
+      "WS-017",
+      "DESC-018",
+      "CI-COTTON"
+    ]
   },
   {
     "id": "AMY-KOT-001",
@@ -659,7 +683,7 @@
     "featured": false,
     "badges": [],
     "occasion": [
-      "casual",
+      "regular",
       "puja",
       "festive"
     ],
@@ -676,7 +700,11 @@
       "terracotta"
     ],
     "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-KOT-001_Look1.jpg?tr=f-auto,q-85",
-    "contentRefs": []
+    "contentRefs": [
+      "WS-018",
+      "DESC-019",
+      "CI-COTTON"
+    ]
   },
   {
     "id": "AMY-DHA-001",
@@ -696,7 +724,7 @@
     "occasion": [
       "wedding",
       "festive",
-      "casual"
+      "regular"
     ],
     "gradientFrom": "#2A2A3A",
     "gradientTo": "#6A6A9A",
@@ -712,7 +740,11 @@
       "gi-tagged"
     ],
     "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-DHA-001_Look1.jpg?tr=f-auto,q-85",
-    "contentRefs": []
+    "contentRefs": [
+      "WS-005",
+      "DESC-020",
+      "CI-MUSLIN"
+    ]
   },
   {
     "id": "AMY-KAN-002",
@@ -747,7 +779,11 @@
       "gi-tagged"
     ],
     "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-KAN-002_Look1.jpg?tr=f-auto,q-85",
-    "contentRefs": []
+    "contentRefs": [
+      "WS-006",
+      "DESC-021",
+      "CI-SILK"
+    ]
   },
   {
     "id": "AMY-SUT-001",
@@ -764,7 +800,7 @@
       "new"
     ],
     "occasion": [
-      "casual",
+      "regular",
       "office",
       "festive"
     ],
@@ -782,7 +818,11 @@
       "everyday"
     ],
     "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-SUT-001_Look1.jpg?tr=f-auto,q-85",
-    "contentRefs": []
+    "contentRefs": [
+      "WS-026",
+      "DESC-022",
+      "CI-LINEN"
+    ]
   },
   {
     "id": "AMY-BOM-001",
@@ -817,7 +857,11 @@
       "gi-tagged"
     ],
     "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-BOM-001_Look1.jpg?tr=f-auto,q-85",
-    "contentRefs": []
+    "contentRefs": [
+      "WS-019",
+      "DESC-023",
+      "CI-SILK"
+    ]
   },
   {
     "id": "AMY-ILL-001",
@@ -833,7 +877,7 @@
     "badges": [],
     "occasion": [
       "festive",
-      "casual",
+      "regular",
       "puja"
     ],
     "gradientFrom": "#5A1A0A",
@@ -850,7 +894,11 @@
       "gi-tagged"
     ],
     "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-ILL-001_Look1.jpg?tr=f-auto,q-85",
-    "contentRefs": []
+    "contentRefs": [
+      "WS-020",
+      "DESC-024",
+      "CI-SILK-COTTON"
+    ]
   },
   {
     "id": "AMY-PAT-001",
@@ -884,7 +932,11 @@
       "gi-tagged"
     ],
     "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-PAT-001_Look1.jpg?tr=f-auto,q-85",
-    "contentRefs": []
+    "contentRefs": [
+      "WS-021",
+      "DESC-025",
+      "CI-SILK"
+    ]
   },
   {
     "id": "AMY-RAJ-001",
@@ -920,7 +972,11 @@
       "gi-tagged"
     ],
     "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-RAJ-001_Look1.jpg?tr=f-auto,q-85",
-    "contentRefs": []
+    "contentRefs": [
+      "WS-022",
+      "DESC-026",
+      "CI-SILK"
+    ]
   },
   {
     "id": "AMY-TAN-002",
@@ -935,8 +991,8 @@
     "featured": false,
     "badges": [],
     "occasion": [
-      "casual",
-      "daily",
+      "regular",
+      "regular",
       "festive"
     ],
     "gradientFrom": "#0A2A1A",
@@ -954,7 +1010,11 @@
       "daily"
     ],
     "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-TAN-002_Look1.jpg?tr=f-auto,q-85",
-    "contentRefs": []
+    "contentRefs": [
+      "WS-011",
+      "DESC-027",
+      "CI-COTTON"
+    ]
   },
   {
     "id": "AMY-MAD-001",
@@ -969,8 +1029,8 @@
     "featured": false,
     "badges": [],
     "occasion": [
-      "casual",
-      "daily",
+      "regular",
+      "regular",
       "office"
     ],
     "gradientFrom": "#6A2A1A",
@@ -988,7 +1048,11 @@
       "office"
     ],
     "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-MAD-001_Look1.jpg?tr=f-auto,q-85",
-    "contentRefs": []
+    "contentRefs": [
+      "WS-023",
+      "DESC-028",
+      "CI-COTTON"
+    ]
   },
   {
     "id": "AMY-KHA-001",
@@ -1005,7 +1069,7 @@
       "offer"
     ],
     "occasion": [
-      "casual",
+      "regular",
       "puja",
       "festive"
     ],
@@ -1023,7 +1087,11 @@
       "casual"
     ],
     "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-KHA-001_Look1.jpg?tr=f-auto,q-85",
-    "contentRefs": []
+    "contentRefs": [
+      "WS-024",
+      "DESC-029",
+      "CI-SILK"
+    ]
   },
   {
     "id": "AMY-MUG-001",
@@ -1058,6 +1126,10 @@
       "gi-tagged"
     ],
     "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-MUG-001_Look1.jpg?tr=f-auto,q-85",
-    "contentRefs": []
+    "contentRefs": [
+      "WS-025",
+      "DESC-030",
+      "CI-SILK"
+    ]
   }
 ]

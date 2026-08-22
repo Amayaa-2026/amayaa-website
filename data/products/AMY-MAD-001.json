@@ -11,8 +11,8 @@
   "featured": false,
   "badges": [],
   "occasion": [
-    "casual",
-    "daily",
+    "regular",
+    "regular",
     "office"
   ],
   "gradientFrom": "#6A2A1A",
@@ -35,15 +35,16 @@
   "weaveType": "Sungudi Resist Print",
   "weavingDays": "2-4",
   "giTagged": false,
-  "weaveStoryId": null,
-  "descriptionId": null,
+  "weaveStoryId": "WS-023",
+  "descriptionId": "DESC-028",
   "contentBundleId": null,
-  "careSuggestionId": null,
+  "careSuggestionId": "CI-COTTON",
   "photos": [
     "https://ik.imagekit.io/Amayaa2026/products/AMY-MAD-001_Look1.jpg?tr=f-auto,q-85"
   ],
   "seoTitle": "",
   "seoDescription": "",
   "offerValidUntil": null,
-  "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-MAD-001_Look1.jpg?tr=f-auto,q-85"
+  "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-MAD-001_Look1.jpg?tr=f-auto,q-85",
+  "careInstructionId": null
 }

@@ -11,7 +11,7 @@
   "featured": false,
   "badges": [],
   "occasion": [
-    "casual",
+    "regular",
     "puja",
     "festive"
   ],
@@ -43,5 +43,6 @@
   "weaveStoryId": "WS-007",
   "descriptionId": "DESC-007",
   "contentBundleId": null,
-  "careSuggestionId": "CI-007"
+  "careSuggestionId": "CI-SILK-COTTON",
+  "careInstructionId": null
 }

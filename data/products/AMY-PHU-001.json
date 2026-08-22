@@ -11,7 +11,7 @@
   "featured": false,
   "badges": [],
   "occasion": [
-    "casual",
+    "regular",
     "festive",
     "puja"
   ],
@@ -33,15 +33,16 @@
   "weaveType": "Embroidered",
   "weavingDays": "8-12",
   "giTagged": false,
-  "weaveStoryId": null,
-  "descriptionId": null,
+  "weaveStoryId": "WS-014",
+  "descriptionId": "DESC-014",
   "contentBundleId": null,
-  "careSuggestionId": null,
+  "careSuggestionId": "CI-COTTON",
   "photos": [
     "https://ik.imagekit.io/Amayaa2026/products/AMY-PHU-001_Look1.jpg?tr=f-auto,q-85"
   ],
   "seoTitle": "",
   "seoDescription": "",
   "offerValidUntil": null,
-  "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-PHU-001_Look1.jpg?tr=f-auto,q-85"
+  "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-PHU-001_Look1.jpg?tr=f-auto,q-85",
+  "careInstructionId": null
 }

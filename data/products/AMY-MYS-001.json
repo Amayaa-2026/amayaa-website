@@ -46,5 +46,6 @@
   "weaveStoryId": "WS-008",
   "descriptionId": "DESC-008",
   "contentBundleId": null,
-  "careSuggestionId": "CI-008"
+  "careSuggestionId": "CI-SILK",
+  "careInstructionId": null
 }

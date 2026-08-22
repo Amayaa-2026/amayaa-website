@@ -1,9 +1,21 @@
 {
   "sortOptions": [
-    { "label": "Sort: Newest First", "value": "newest" },
-    { "label": "Price: Low to High",  "value": "price-asc" },
-    { "label": "Price: High to Low",  "value": "price-desc" },
-    { "label": "Name: A to Z",        "value": "name-asc" }
+    {
+      "label": "Sort: Newest First",
+      "value": "newest"
+    },
+    {
+      "label": "Price: Low to High",
+      "value": "price-asc"
+    },
+    {
+      "label": "Price: High to Low",
+      "value": "price-desc"
+    },
+    {
+      "label": "Name: A to Z",
+      "value": "name-asc"
+    }
   ],
   "filters": [
     {
@@ -12,34 +24,118 @@
       "mobTitle": "Region / Weave",
       "type": "chips",
       "items": [
-        { "label": "Banarasi",    "count": 2  },
-        { "label": "Kanjivaram",  "count": 2  },
-        { "label": "Baluchari",   "count": 1  },
-        { "label": "Chanderi",    "count": 1  },
-        { "label": "Sambalpuri",  "count": 1  },
-        { "label": "Paithani",    "count": 1  },
-        { "label": "Pochampally", "count": 1  },
-        { "label": "Bhagalpuri",  "count": 2  },
-        { "label": "Maheshwari",  "count": 1  },
-        { "label": "Jamdani",     "count": 2  },
-        { "label": "Tussar",      "count": 1  },
-        { "label": "Ikat",        "count": 1  },
-        { "label": "Mysore",      "count": 1  },
-        { "label": "Tant",        "count": 2  },
-        { "label": "Nauvari",     "count": 1  },
-        { "label": "Phulkari",    "count": 1  },
-        { "label": "Gadwal",      "count": 1  },
-        { "label": "Kasavu",      "count": 1  },
-        { "label": "Chettinad",   "count": 1  },
-        { "label": "Kotpad",      "count": 1  },
-        { "label": "Bomkai",      "count": 1  },
-        { "label": "Ilkal",       "count": 1  },
-        { "label": "Patola",      "count": 1  },
-        { "label": "Bandhani",    "count": 1  },
-        { "label": "Sungudi",     "count": 1  },
-        { "label": "Khadi",       "count": 1  },
-        { "label": "Muga",        "count": 1  },
-        { "label": "Linen",       "count": 1  }
+        {
+          "label": "Banarasi",
+          "count": 2
+        },
+        {
+          "label": "Kanjivaram",
+          "count": 2
+        },
+        {
+          "label": "Baluchari",
+          "count": 1
+        },
+        {
+          "label": "Chanderi",
+          "count": 1
+        },
+        {
+          "label": "Sambalpuri",
+          "count": 1
+        },
+        {
+          "label": "Paithani",
+          "count": 1
+        },
+        {
+          "label": "Pochampally",
+          "count": 1
+        },
+        {
+          "label": "Bhagalpuri",
+          "count": 2
+        },
+        {
+          "label": "Maheshwari",
+          "count": 1
+        },
+        {
+          "label": "Jamdani",
+          "count": 2
+        },
+        {
+          "label": "Tussar",
+          "count": 1
+        },
+        {
+          "label": "Ikat",
+          "count": 1
+        },
+        {
+          "label": "Mysore",
+          "count": 1
+        },
+        {
+          "label": "Tant",
+          "count": 2
+        },
+        {
+          "label": "Nauvari",
+          "count": 1
+        },
+        {
+          "label": "Phulkari",
+          "count": 1
+        },
+        {
+          "label": "Gadwal",
+          "count": 1
+        },
+        {
+          "label": "Kasavu",
+          "count": 1
+        },
+        {
+          "label": "Chettinad",
+          "count": 1
+        },
+        {
+          "label": "Kotpad",
+          "count": 1
+        },
+        {
+          "label": "Bomkai",
+          "count": 1
+        },
+        {
+          "label": "Ilkal",
+          "count": 1
+        },
+        {
+          "label": "Patola",
+          "count": 1
+        },
+        {
+          "label": "Bandhani",
+          "count": 1
+        },
+        {
+          "label": "Sungudi",
+          "count": 1
+        },
+        {
+          "label": "Khadi",
+          "count": 1
+        },
+        {
+          "label": "Muga",
+          "count": 1
+        },
+        {
+          "label": "Linen",
+          "count": 1
+        }
       ]
     },
     {
@@ -48,11 +144,26 @@
       "mobTitle": "Fabric Type",
       "type": "chips",
       "items": [
-        { "label": "Silk",       "count": 18 },
-        { "label": "Cotton",     "count": 10 },
-        { "label": "Tussar Silk","count": 1  },
-        { "label": "Linen",      "count": 1  },
-        { "label": "Muslin",     "count": 2  }
+        {
+          "label": "Silk",
+          "count": 18
+        },
+        {
+          "label": "Cotton",
+          "count": 10
+        },
+        {
+          "label": "Tussar Silk",
+          "count": 1
+        },
+        {
+          "label": "Linen",
+          "count": 1
+        },
+        {
+          "label": "Muslin",
+          "count": 2
+        }
       ]
     },
     {
@@ -61,11 +172,31 @@
       "mobTitle": "Occasion",
       "type": "chips",
       "items": [
-        { "label": "Wedding",       "deskLabel": "Wedding",  "count": 14 },
-        { "label": "Festive",       "deskLabel": "Festive",  "count": 22 },
-        { "label": "Casual",        "deskLabel": "Casual",   "count": 15 },
-        { "label": "Office",        "deskLabel": "Office",   "count": 3  },
-        { "label": "Puja",          "deskLabel": "Puja",     "count": 16 }
+        {
+          "label": "Wedding",
+          "deskLabel": "Wedding",
+          "count": 14
+        },
+        {
+          "label": "Festive",
+          "deskLabel": "Festive",
+          "count": 22
+        },
+        {
+          "label": "Regular",
+          "deskLabel": "Regular",
+          "count": 15
+        },
+        {
+          "label": "Office",
+          "deskLabel": "Office",
+          "count": 3
+        },
+        {
+          "label": "Puja",
+          "deskLabel": "Puja",
+          "count": 16
+        }
       ]
     },
     {
@@ -74,9 +205,18 @@
       "mobTitle": "Show Only",
       "type": "chips",
       "items": [
-        { "label": "New Arrivals",  "deskLabel": "New"      },
-        { "label": "Special Offers","deskLabel": "Offers"   },
-        { "label": "Featured",      "deskLabel": "Featured" }
+        {
+          "label": "New Arrivals",
+          "deskLabel": "New"
+        },
+        {
+          "label": "Special Offers",
+          "deskLabel": "Offers"
+        },
+        {
+          "label": "Featured",
+          "deskLabel": "Featured"
+        }
       ]
     }
   ]

@@ -31,9 +31,10 @@ const validFabrics  = (fabricFilter?.items  || []).map(i => (i.label || '').toLo
 const validOccasions = (occasionFilter?.items || []).map(i => ((i.deskLabel || i.label) || '').toLowerCase());
 
 const bundleIds = new Set((cl.contentBundles || []).map(b => b.id));
-const wsIds     = new Set((cl.weaveStories   || []).map(s => s.id));
-const ciIds     = new Set((cl.careInstructions || []).map(c => c.id));
-const descIds   = new Set((cl.descriptions   || []).map(d => d.id));
+// content_library.json uses: weaveStory, careSuggestions, description (singular/plural mixed)
+const wsIds   = new Set((cl.weaveStory || cl.weaveStories || []).map(s => s.id));
+const ciIds   = new Set((cl.careSuggestions || cl.careInstructions || []).map(c => c.id));
+const descIds = new Set((cl.description || cl.descriptions || []).map(d => d.id));
 
 /* ── CI substring match (same as _ci in sarees JS) ─────── */
 function ci(a, b) {

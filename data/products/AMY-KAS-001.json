@@ -15,7 +15,7 @@
   "occasion": [
     "festive",
     "puja",
-    "casual"
+    "regular"
   ],
   "gradientFrom": "#3A3A1A",
   "gradientTo": "#8A8A3A",
@@ -36,15 +36,16 @@
   "weaveType": "Handloom",
   "weavingDays": "5-8",
   "giTagged": true,
-  "weaveStoryId": null,
-  "descriptionId": null,
+  "weaveStoryId": "WS-016",
+  "descriptionId": "DESC-016",
   "contentBundleId": null,
-  "careSuggestionId": null,
+  "careSuggestionId": "CI-COTTON",
   "photos": [
     "https://ik.imagekit.io/Amayaa2026/products/AMY-KAS-001_Look1.jpg?tr=f-auto,q-85"
   ],
   "seoTitle": "",
   "seoDescription": "",
   "offerValidUntil": null,
-  "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-KAS-001_Look1.jpg?tr=f-auto,q-85"
+  "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-KAS-001_Look1.jpg?tr=f-auto,q-85",
+  "careInstructionId": null
 }

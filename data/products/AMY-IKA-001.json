@@ -14,7 +14,7 @@
   ],
   "occasion": [
     "festive",
-    "casual"
+    "regular"
   ],
   "length": "6.3 metres",
   "blousePiece": "Included — 0.8 metres",
@@ -44,5 +44,6 @@
   "weaveStoryId": "WS-004",
   "descriptionId": "DESC-004",
   "contentBundleId": null,
-  "careSuggestionId": "CI-004"
+  "careSuggestionId": "CI-SILK",
+  "careInstructionId": null
 }

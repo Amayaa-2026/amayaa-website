@@ -285,6 +285,7 @@
           <div class="pd-type-line">${_esc(p.type || p.region || '')}</div>
           <div class="pd-title">${_esc(p.name)}</div>
           <div class="pd-price-row">${priceHtml}</div>
+          <div class="pd-gst-note">All prices inclusive of GST</div>
           ${giLine}
           <div class="pd-wish-share-row">
             <button class="pd-btn-wish${wished ? ' pd-wished' : ''}" id="pd-wish-btn"

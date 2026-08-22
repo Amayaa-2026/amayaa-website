@@ -264,6 +264,9 @@
   background: #1A5A2A; color: #fff;
   padding: 2px 10px; border-radius: 20px; letter-spacing: .4px;
 }
+.pd-gst-note {
+  font-size: 11px; color: #9A8070; letter-spacing: .2px; margin-top: 2px;
+}
 .pd-gi-line {
   font-size: 13px; font-weight: 600; color: #C4622D;
   display: flex; align-items: center; gap: 5px; letter-spacing: .3px;

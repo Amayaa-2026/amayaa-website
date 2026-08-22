@@ -78,9 +78,8 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
 .offer-stats-inner{max-width:1380px;margin:0 auto;display:flex;gap:32px;align-items:center;flex-wrap:wrap;justify-content:center;}
 .offer-stat{display:flex;align-items:center;gap:10px;}
 .ostat-icon{font-size:20px;flex-shrink:0;}
-.ostat-main{font-size:13px;font-weight:600;color:#1A0A04;}
-.ostat-sub{font-size:11px;color:#9A8070;}
-.ostat-note{font-size:11px;color:#9A8070;margin-left:auto;line-height:1.6;text-align:right;}
+.ostat-main{font-size:15px;font-weight:600;color:#1A0A04;}
+.ostat-sub{font-size:12px;color:#9A8070;}
 /* ── Offers grid header ───────────────────────── */
 .offers-grid-hdr{position:relative;display:flex;align-items:center;justify-content:flex-end;padding:28px 0;margin-bottom:20px;}
 .offers-grid-title{position:absolute;left:0;right:0;text-align:center;pointer-events:none;}
@@ -97,7 +96,6 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
   .offer-stats-bar{padding:12px 16px;}
   .offer-stats-inner{display:grid;grid-template-columns:1fr 1fr;gap:10px 12px;justify-items:start;}
   .ostat-icon{font-size:18px;}
-  .ostat-note{grid-column:1/-1;margin-left:0;text-align:center;border-top:1px solid rgba(0,0,0,.06);padding-top:8px;width:100%;}
   /* Grid header: stack heading above sort */
   .offers-grid-hdr{flex-direction:column;align-items:center;gap:36px;}
   .offers-grid-title{position:relative;left:auto;right:auto;}
@@ -500,7 +498,6 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
     <div class="offer-stat"><span class="ostat-icon">💰</span><div><div class="ostat-main">Up to 29% Off</div><div class="ostat-sub">On selected weaves</div></div></div>
     <div class="offer-stat"><span class="ostat-icon">✅</span><div><div class="ostat-main">100% Authentic</div><div class="ostat-sub">Silk Mark Certified</div></div></div>
     <div class="offer-stat"><span class="ostat-icon">💬</span><div><div class="ostat-main">Order via WhatsApp</div><div class="ostat-sub">Personal service always</div></div></div>
-    <div class="ostat-note" id="off-stats-note">Offer valid while stocks last · All prices inclusive of GST</div>
   </div>
 </div>
 
@@ -707,11 +704,19 @@ function slowScrollTo(targetId){
     .then(function(data){
       if(!data) return;
       var offerItems = data.filter(function(p){
-        return p.originalPrice !== null && p.originalPrice !== undefined && p.originalPrice > p.price;
-      }).slice(0,8);
+        return p.status !== 'sold_out' && p.originalPrice !== null && p.originalPrice !== undefined && p.originalPrice > p.price;
+      });
       if(!offerItems.length) return;
       var grid = document.getElementById('offers-product-grid');
       if(grid) grid.innerHTML = offerItems.map(_buildCard).join('');
+      /* Dynamic count — update "All Offers (N)" chip and stat */
+      var n = offerItems.length;
+      var firstChip = document.querySelector('#off-filter-row .fp');
+      if(firstChip) firstChip.textContent = 'All Offers (' + n + ')';
+      var statEls = document.querySelectorAll('.ostat-main');
+      statEls.forEach(function(el){
+        if(el.textContent.indexOf('Products on Offer') !== -1) el.textContent = n + ' Products on Offer';
+      });
       if(typeof window._offersMoreFn==='function') setTimeout(window._offersMoreFn, 100);
     })
     .catch(function(){/* silently keep fallback */});
@@ -745,7 +750,7 @@ function slowScrollTo(targetId){
       d.stats.forEach(function(s){
         html += '<div class="offer-stat"><span class="ostat-icon">'+s.icon+'</span><div><div class="ostat-main">'+s.main+'</div><div class="ostat-sub">'+s.sub+'</div></div></div>';
       });
-      html += '<div class="ostat-note" id="off-stats-note">'+(d.statsNote||'')+'</div>';
+      /* statsNote removed — GST text moved to product drawer */
       statsInner.innerHTML = html;
     }
     /* Filter row */

@@ -1,0 +1,49 @@
+{
+  "id": "AMY-DHA-001",
+  "name": "Dhakai Jamdani Silk Saree",
+  "type": "Jamdani",
+  "region": "Nadia, WB",
+  "fabric": "Silk Muslin",
+  "colour": "White & Silver",
+  "price": 13500,
+  "originalPrice": 16800,
+  "status": "active",
+  "featured": false,
+  "badges": [
+    "offer",
+    "new"
+  ],
+  "occasion": [
+    "wedding",
+    "festive",
+    "casual"
+  ],
+  "gradientFrom": "#2A2A3A",
+  "gradientTo": "#6A6A9A",
+  "shortDescription": "Dhakai-style Jamdani in silk-muslin — supplementary weft floral motifs in silver. UNESCO-heritage weave, Bengali tradition.",
+  "tags": [
+    "silk",
+    "muslin",
+    "jamdani",
+    "west bengal",
+    "silver",
+    "white",
+    "wedding",
+    "gi-tagged"
+  ],
+  "length": "6.2 metres",
+  "blousePiece": "Included — 0.8 metres",
+  "blouseIncluded": true,
+  "weaveType": "Supplementary Weft Jamdani",
+  "weavingDays": "20-25",
+  "giTagged": true,
+  "weaveStoryId": null,
+  "descriptionId": null,
+  "contentBundleId": null,
+  "careSuggestionId": null,
+  "photos": [],
+  "seoTitle": "",
+  "seoDescription": "",
+  "offerValidUntil": null,
+  "thumbnail": null
+}

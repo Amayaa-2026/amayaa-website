@@ -690,14 +690,21 @@ function slowScrollTo(targetId){
 <script>
 /* ── Offers products loader: renders offer cards from products_index.json ── */
 (function(){
-  function _buildCard(p){
-    var saveStr = '<span class="badge b-offer">Special Offer</span>';
+  /* Exposed so filterOffers / sortOffers can re-render */
+  window._allOfferItems = [];
+  window._activeOfferFilter = 'all';
+  window._activeOfferSort = 'default';
+
+  window._buildOfferCard = function(p){
     var savePct = p.originalPrice ? Math.round((p.originalPrice-p.price)/p.originalPrice*100) : 0;
+    var imgHtml = p.thumbnail
+      ? '<img src="'+p.thumbnail+'" alt="'+p.name+'" style="width:100%;height:240px;object-fit:cover;display:block;">'
+      : '<div class="gf" style="background:linear-gradient(160deg,'+p.gradientFrom+','+p.gradientTo+');height:240px;"></div>';
     return '<div class="pc" onclick="ProductDrawer.open(\''+p.id+'\')" style="cursor:pointer">'+
-      '<div class="pi"><div class="gf" style="background:linear-gradient(160deg,'+p.gradientFrom+','+p.gradientTo+');height:240px;"></div>'+
-      '<div class="pbadges">'+saveStr+
+      '<div class="pi">'+imgHtml+
+      '<div class="pbadges"><span class="badge b-offer">Special Offer</span>'+
       (p.badges&&p.badges.includes('new')?'<span class="badge b-new">New</span>':'')+
-      (p.status==='sold-out'?'<span class="badge b-sold">Sold Out</span>':'')+
+      (p.status==='sold_out'?'<span class="badge b-sold">Sold Out</span>':'')+
       '</div></div>'+
       '<div class="pinfo"><div class="preg">'+p.region+'</div><div class="pname">'+p.name+'</div>'+
       '<div class="pfab">'+p.fabric+' &middot; '+p.colour+'</div>'+
@@ -707,19 +714,61 @@ function slowScrollTo(targetId){
       '</div>'+
       '<a href="https://wa.me/919583946000?text=Hello!%20Interested%20in%3A%20'+encodeURIComponent(p.name)+'%20(%E2%82%B9'+p.price.toLocaleString('en-IN')+').%20Please%20share%20availability." class="be" target="_blank" rel="noopener">&#128172; Enquire on WhatsApp</a>'+
       '</div></div>';
-  }
+  };
+
+  window._renderOfferGrid = function(){
+    var items = window._allOfferItems.slice();
+    /* Filter */
+    var f = window._activeOfferFilter;
+    if(f !== 'all'){
+      items = items.filter(function(p){
+        if(f==='silk')    return (p.fabric||'').toLowerCase().includes('silk');
+        if(f==='cotton')  return (p.fabric||'').toLowerCase().includes('cotton');
+        if(f==='wedding') return (p.occasion||[]).some(function(o){ return o.toLowerCase().includes('wedding'); });
+        if(f==='festive') return (p.occasion||[]).some(function(o){ return o.toLowerCase().includes('festive'); });
+        return true;
+      });
+    }
+    /* Sort */
+    var s = window._activeOfferSort;
+    if(s==='price-asc')  items.sort(function(a,b){ return a.price-b.price; });
+    else if(s==='price-desc') items.sort(function(a,b){ return b.price-a.price; });
+    else if(s==='saving') items.sort(function(a,b){
+      var pa = a.originalPrice ? (a.originalPrice-a.price)/a.originalPrice : 0;
+      var pb = b.originalPrice ? (b.originalPrice-b.price)/b.originalPrice : 0;
+      return pb-pa;
+    });
+    /* Render */
+    var grid = document.getElementById('offers-product-grid');
+    if(grid) grid.innerHTML = items.length
+      ? items.map(window._buildOfferCard).join('')
+      : '<p style="text-align:center;padding:40px;color:#9A8070;">No offers match this filter.</p>';
+    if(typeof window._offersMoreFn==='function') setTimeout(window._offersMoreFn, 100);
+  };
+
+  window.filterOffers = function(val, el){
+    window._activeOfferFilter = val;
+    document.querySelectorAll('#off-filter-row .fp').forEach(function(c){ c.classList.remove('active'); });
+    if(el) el.classList.add('active');
+    window._renderOfferGrid();
+  };
+
+  window.sortOffers = function(val){
+    window._activeOfferSort = val;
+    window._renderOfferGrid();
+  };
+
   fetch('data/products_index.json')
     .then(function(r){ return r.ok ? r.json() : null; })
     .then(function(data){
       if(!data) return;
-      var offerItems = data.filter(function(p){
+      window._allOfferItems = data.filter(function(p){
         return p.status !== 'sold_out' && p.originalPrice !== null && p.originalPrice !== undefined && p.originalPrice > p.price;
       });
-      if(!offerItems.length) return;
-      var grid = document.getElementById('offers-product-grid');
-      if(grid) grid.innerHTML = offerItems.map(_buildCard).join('');
-      /* Dynamic count — update "All Offers (N)" chip and stat */
-      var n = offerItems.length;
+      if(!window._allOfferItems.length) return;
+      window._renderOfferGrid();
+      /* Dynamic count */
+      var n = window._allOfferItems.length;
       var firstChip = document.querySelector('#off-filter-row .fp');
       if(firstChip) firstChip.textContent = 'All Offers (' + n + ')';
       var statEls = document.querySelectorAll('.ostat-main');

@@ -44,7 +44,8 @@
     "weaveStoryId": "WS-002",
     "descriptionId": "DESC-002",
     "contentBundleId": null,
-    "careSuggestionId": "CI-002"
+    "careSuggestionId": "CI-002",
+    "thumbnail": "images/products/AMY-BAN-001.jpg"
   },
   {
     "id": "AMY-KAN-001",
@@ -89,7 +90,8 @@
     "weaveStoryId": "WS-006",
     "descriptionId": "DESC-006",
     "contentBundleId": null,
-    "careSuggestionId": "CI-006"
+    "careSuggestionId": "CI-006",
+    "thumbnail": "images/products/AMY-KAN-001.jpg"
   },
   {
     "id": "AMY-BAL-001",
@@ -132,7 +134,8 @@
     "weaveStoryId": "WS-001",
     "descriptionId": "DESC-001",
     "contentBundleId": null,
-    "careSuggestionId": "CI-001"
+    "careSuggestionId": "CI-001",
+    "thumbnail": "images/products/AMY-BAL-001.jpg"
   },
   {
     "id": "AMY-CHA-001",
@@ -178,7 +181,8 @@
     "weaveStoryId": "WS-003",
     "descriptionId": "DESC-003",
     "contentBundleId": null,
-    "careSuggestionId": "CI-003"
+    "careSuggestionId": "CI-003",
+    "thumbnail": "images/products/AMY-CHA-001.jpg"
   },
   {
     "id": "AMY-SAM-001",
@@ -224,7 +228,8 @@
     "weaveStoryId": "WS-010",
     "descriptionId": "DESC-010",
     "contentBundleId": null,
-    "careSuggestionId": "CI-010"
+    "careSuggestionId": "CI-010",
+    "thumbnail": "images/products/AMY-SAM-001.jpg"
   },
   {
     "id": "AMY-PAI-001",
@@ -271,7 +276,8 @@
     "weaveStoryId": "WS-009",
     "descriptionId": "DESC-009",
     "contentBundleId": null,
-    "careSuggestionId": "CI-009"
+    "careSuggestionId": "CI-009",
+    "thumbnail": "images/products/AMY-PAI-001.jpg"
   },
   {
     "id": "AMY-TUS-001",
@@ -315,7 +321,8 @@
     "weaveStoryId": "WS-012",
     "descriptionId": "DESC-012",
     "contentBundleId": null,
-    "careSuggestionId": "CI-012"
+    "careSuggestionId": "CI-012",
+    "thumbnail": "images/products/AMY-TUS-001.jpg"
   },
   {
     "id": "AMY-IKA-001",
@@ -360,7 +367,8 @@
     "weaveStoryId": "WS-004",
     "descriptionId": "DESC-004",
     "contentBundleId": null,
-    "careSuggestionId": "CI-004"
+    "careSuggestionId": "CI-004",
+    "thumbnail": "images/products/AMY-IKA-001.jpg"
   },
   {
     "id": "AMY-MAH-001",
@@ -404,7 +412,8 @@
     "weaveStoryId": "WS-007",
     "descriptionId": "DESC-007",
     "contentBundleId": null,
-    "careSuggestionId": "CI-007"
+    "careSuggestionId": "CI-007",
+    "thumbnail": "images/products/AMY-MAH-001.jpg"
   },
   {
     "id": "AMY-MYS-001",
@@ -451,7 +460,8 @@
     "weaveStoryId": "WS-008",
     "descriptionId": "DESC-008",
     "contentBundleId": null,
-    "careSuggestionId": "CI-008"
+    "careSuggestionId": "CI-008",
+    "thumbnail": "images/products/AMY-MYS-001.jpg"
   },
   {
     "id": "AMY-JAM-001",
@@ -494,7 +504,8 @@
     "weaveStoryId": "WS-005",
     "descriptionId": "DESC-005",
     "contentBundleId": null,
-    "careSuggestionId": "CI-005"
+    "careSuggestionId": "CI-005",
+    "thumbnail": "images/products/AMY-JAM-001.jpg"
   },
   {
     "id": "AMY-TAN-001",
@@ -537,7 +548,8 @@
     "weaveStoryId": "WS-011",
     "descriptionId": "DESC-011",
     "contentBundleId": null,
-    "careSuggestionId": "CI-011"
+    "careSuggestionId": "CI-011",
+    "thumbnail": "images/products/AMY-TAN-001.jpg"
   },
   {
     "id": "AMY-NAU-001",
@@ -583,7 +595,7 @@
     "seoTitle": "",
     "seoDescription": "",
     "offerValidUntil": null,
-    "thumbnail": "images/products/AMY-NAU-001.jpg"
+    "thumbnail": null
   },
   {
     "id": "AMY-PHU-001",
@@ -628,7 +640,7 @@
     "seoTitle": "",
     "seoDescription": "",
     "offerValidUntil": null,
-    "thumbnail": "images/products/AMY-PHU-001.jpg"
+    "thumbnail": null
   },
   {
     "id": "AMY-GAD-001",
@@ -675,7 +687,7 @@
     "seoTitle": "",
     "seoDescription": "",
     "offerValidUntil": null,
-    "thumbnail": "images/products/AMY-GAD-001.jpg"
+    "thumbnail": null
   },
   {
     "id": "AMY-KAS-001",
@@ -723,7 +735,7 @@
     "seoTitle": "",
     "seoDescription": "",
     "offerValidUntil": null,
-    "thumbnail": "images/products/AMY-KAS-001.jpg"
+    "thumbnail": null
   },
   {
     "id": "AMY-BAN-002",
@@ -771,7 +783,7 @@
     "seoTitle": "",
     "seoDescription": "",
     "offerValidUntil": null,
-    "thumbnail": "images/products/AMY-BAN-002.jpg"
+    "thumbnail": null
   },
   {
     "id": "AMY-NAT-001",
@@ -817,7 +829,7 @@
     "seoTitle": "",
     "seoDescription": "",
     "offerValidUntil": null,
-    "thumbnail": "images/products/AMY-NAT-001.jpg"
+    "thumbnail": null
   },
   {
     "id": "AMY-KOT-001",
@@ -862,7 +874,7 @@
     "seoTitle": "",
     "seoDescription": "",
     "offerValidUntil": null,
-    "thumbnail": "images/products/AMY-KOT-001.jpg"
+    "thumbnail": null
   },
   {
     "id": "AMY-DHA-001",
@@ -911,7 +923,7 @@
     "seoTitle": "",
     "seoDescription": "",
     "offerValidUntil": null,
-    "thumbnail": "images/products/AMY-DHA-001.jpg"
+    "thumbnail": null
   },
   {
     "id": "AMY-KAN-002",
@@ -959,7 +971,7 @@
     "seoTitle": "",
     "seoDescription": "",
     "offerValidUntil": null,
-    "thumbnail": "images/products/AMY-KAN-002.jpg"
+    "thumbnail": null
   },
   {
     "id": "AMY-SUT-001",
@@ -1007,7 +1019,7 @@
     "seoTitle": "",
     "seoDescription": "",
     "offerValidUntil": null,
-    "thumbnail": "images/products/AMY-SUT-001.jpg"
+    "thumbnail": null
   },
   {
     "id": "AMY-BOM-001",
@@ -1055,7 +1067,7 @@
     "seoTitle": "",
     "seoDescription": "",
     "offerValidUntil": null,
-    "thumbnail": "images/products/AMY-BOM-001.jpg"
+    "thumbnail": null
   },
   {
     "id": "AMY-ILL-001",
@@ -1101,7 +1113,7 @@
     "seoTitle": "",
     "seoDescription": "",
     "offerValidUntil": null,
-    "thumbnail": "images/products/AMY-ILL-001.jpg"
+    "thumbnail": null
   },
   {
     "id": "AMY-PAT-001",
@@ -1148,7 +1160,7 @@
     "seoTitle": "",
     "seoDescription": "",
     "offerValidUntil": null,
-    "thumbnail": "images/products/AMY-PAT-001.jpg"
+    "thumbnail": null
   },
   {
     "id": "AMY-RAJ-001",
@@ -1197,7 +1209,7 @@
     "seoTitle": "",
     "seoDescription": "",
     "offerValidUntil": null,
-    "thumbnail": "images/products/AMY-RAJ-001.jpg"
+    "thumbnail": null
   },
   {
     "id": "AMY-TAN-002",
@@ -1244,7 +1256,7 @@
     "seoTitle": "",
     "seoDescription": "",
     "offerValidUntil": null,
-    "thumbnail": "images/products/AMY-TAN-002.jpg"
+    "thumbnail": null
   },
   {
     "id": "AMY-MAD-001",
@@ -1291,7 +1303,7 @@
     "seoTitle": "",
     "seoDescription": "",
     "offerValidUntil": null,
-    "thumbnail": "images/products/AMY-MAD-001.jpg"
+    "thumbnail": null
   },
   {
     "id": "AMY-KHA-001",
@@ -1339,7 +1351,7 @@
     "seoTitle": "",
     "seoDescription": "",
     "offerValidUntil": null,
-    "thumbnail": "images/products/AMY-KHA-001.jpg"
+    "thumbnail": null
   },
   {
     "id": "AMY-MUG-001",
@@ -1387,6 +1399,6 @@
     "seoTitle": "",
     "seoDescription": "",
     "offerValidUntil": null,
-    "thumbnail": "images/products/AMY-MUG-001.jpg"
+    "thumbnail": null
   }
 ]

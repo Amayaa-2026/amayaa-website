@@ -1,0 +1,48 @@
+{
+  "id": "AMY-KHA-001",
+  "name": "Assam Khadi Silk Saree",
+  "type": "Khadi Silk",
+  "region": "Guwahati, AS",
+  "fabric": "Khadi Silk",
+  "colour": "Natural Gold & Brown",
+  "price": 6400,
+  "originalPrice": 7800,
+  "status": "active",
+  "featured": false,
+  "badges": [
+    "offer"
+  ],
+  "occasion": [
+    "casual",
+    "puja",
+    "festive"
+  ],
+  "gradientFrom": "#5A4A00",
+  "gradientTo": "#9A8A20",
+  "shortDescription": "Assam Khadi silk hand-spun on charkha — natural golden sheen from indigenous eri silkworm. Lightweight and earthy.",
+  "tags": [
+    "khadi",
+    "silk",
+    "assam",
+    "eri silk",
+    "handspun",
+    "natural",
+    "golden",
+    "casual"
+  ],
+  "length": "6 metres",
+  "blousePiece": "Included — 0.8 metres",
+  "blouseIncluded": true,
+  "weaveType": "Hand-spun Khadi",
+  "weavingDays": "8-12",
+  "giTagged": false,
+  "weaveStoryId": null,
+  "descriptionId": null,
+  "contentBundleId": null,
+  "careSuggestionId": null,
+  "photos": [],
+  "seoTitle": "",
+  "seoDescription": "",
+  "offerValidUntil": null,
+  "thumbnail": null
+}

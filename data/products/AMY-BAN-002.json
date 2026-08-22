@@ -1,0 +1,48 @@
+{
+  "id": "AMY-BAN-002",
+  "name": "Banarasi Georgette Silk Saree",
+  "type": "Banarasi",
+  "region": "Varanasi, UP",
+  "fabric": "Georgette Silk",
+  "colour": "Dusty Rose & Silver",
+  "price": 7200,
+  "originalPrice": null,
+  "status": "active",
+  "featured": false,
+  "badges": [
+    "new"
+  ],
+  "occasion": [
+    "wedding",
+    "festive",
+    "casual"
+  ],
+  "gradientFrom": "#6B1A4A",
+  "gradientTo": "#9A4A7A",
+  "shortDescription": "Lightweight Banarasi georgette with silver zari bootis — easier to drape than pure silk, equally elegant.",
+  "tags": [
+    "georgette",
+    "silk",
+    "banarasi",
+    "varanasi",
+    "silver",
+    "rose",
+    "festive",
+    "gi-tagged"
+  ],
+  "length": "6.3 metres",
+  "blousePiece": "Included — 0.8 metres",
+  "blouseIncluded": true,
+  "weaveType": "Handloom Brocade",
+  "weavingDays": "8-12",
+  "giTagged": true,
+  "weaveStoryId": null,
+  "descriptionId": null,
+  "contentBundleId": null,
+  "careSuggestionId": null,
+  "photos": [],
+  "seoTitle": "",
+  "seoDescription": "",
+  "offerValidUntil": null,
+  "thumbnail": null
+}

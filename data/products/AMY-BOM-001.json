@@ -1,0 +1,48 @@
+{
+  "id": "AMY-BOM-001",
+  "name": "Bomkai Pure Silk Saree",
+  "type": "Bomkai",
+  "region": "Sonepur, OD",
+  "fabric": "Pure Silk",
+  "colour": "Purple & Gold",
+  "price": 8900,
+  "originalPrice": 11200,
+  "status": "active",
+  "featured": false,
+  "badges": [
+    "offer"
+  ],
+  "occasion": [
+    "festive",
+    "wedding",
+    "puja"
+  ],
+  "gradientFrom": "#3A0A5A",
+  "gradientTo": "#7A2A9A",
+  "shortDescription": "Bomkai silk with thread-work body and contrasting pallu with temple motifs. Odisha's royal weave.",
+  "tags": [
+    "silk",
+    "bomkai",
+    "odisha",
+    "sonepur",
+    "purple",
+    "temple",
+    "zari",
+    "gi-tagged"
+  ],
+  "length": "6.2 metres",
+  "blousePiece": "Included — 0.8 metres",
+  "blouseIncluded": true,
+  "weaveType": "Extra Weft Bomkai",
+  "weavingDays": "12-18",
+  "giTagged": true,
+  "weaveStoryId": null,
+  "descriptionId": null,
+  "contentBundleId": null,
+  "careSuggestionId": null,
+  "photos": [],
+  "seoTitle": "",
+  "seoDescription": "",
+  "offerValidUntil": null,
+  "thumbnail": null
+}

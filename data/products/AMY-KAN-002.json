@@ -1,0 +1,48 @@
+{
+  "id": "AMY-KAN-002",
+  "name": "Kanjivaram Bridal Silk",
+  "type": "Kanjivaram",
+  "region": "Kanchipuram, TN",
+  "fabric": "Pure Silk",
+  "colour": "Emerald Green & Gold",
+  "price": 22000,
+  "originalPrice": null,
+  "status": "active",
+  "featured": true,
+  "badges": [
+    "featured",
+    "new"
+  ],
+  "occasion": [
+    "wedding",
+    "festive"
+  ],
+  "gradientFrom": "#0A3A1A",
+  "gradientTo": "#1A8A3A",
+  "shortDescription": "Grand Kanjivaram bridal saree with contrast emerald body and deep gold pallu. Heavyweight zari weave for once-in-a-lifetime occasions.",
+  "tags": [
+    "silk",
+    "kanjivaram",
+    "kanchipuram",
+    "bridal",
+    "emerald",
+    "gold",
+    "wedding",
+    "gi-tagged"
+  ],
+  "length": "6.3 metres",
+  "blousePiece": "Included — 0.8 metres",
+  "blouseIncluded": true,
+  "weaveType": "Handloom Zari Brocade",
+  "weavingDays": "25-35",
+  "giTagged": true,
+  "weaveStoryId": null,
+  "descriptionId": null,
+  "contentBundleId": null,
+  "careSuggestionId": null,
+  "photos": [],
+  "seoTitle": "",
+  "seoDescription": "",
+  "offerValidUntil": null,
+  "thumbnail": null
+}

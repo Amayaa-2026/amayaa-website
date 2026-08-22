@@ -1,0 +1,48 @@
+{
+  "id": "AMY-MUG-001",
+  "name": "Sualkuchi Muga Silk Saree",
+  "type": "Muga",
+  "region": "Sualkuchi, AS",
+  "fabric": "Muga Silk",
+  "colour": "Golden & Deep Maroon",
+  "price": 12800,
+  "originalPrice": null,
+  "status": "active",
+  "featured": false,
+  "badges": [
+    "new"
+  ],
+  "occasion": [
+    "wedding",
+    "festive",
+    "puja"
+  ],
+  "gradientFrom": "#4A2A00",
+  "gradientTo": "#8A5A10",
+  "shortDescription": "Sualkuchi Muga — the golden silk unique to Assam. GI-protected, naturally lustrous, grows more beautiful with age.",
+  "tags": [
+    "muga",
+    "silk",
+    "assam",
+    "sualkuchi",
+    "golden",
+    "wedding",
+    "festive",
+    "gi-tagged"
+  ],
+  "length": "6 metres",
+  "blousePiece": "Included — 0.8 metres",
+  "blouseIncluded": true,
+  "weaveType": "Handloom Muga Silk",
+  "weavingDays": "15-20",
+  "giTagged": true,
+  "weaveStoryId": null,
+  "descriptionId": null,
+  "contentBundleId": null,
+  "careSuggestionId": null,
+  "photos": [],
+  "seoTitle": "",
+  "seoDescription": "",
+  "offerValidUntil": null,
+  "thumbnail": null
+}

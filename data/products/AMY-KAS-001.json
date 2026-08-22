@@ -1,0 +1,48 @@
+{
+  "id": "AMY-KAS-001",
+  "name": "Kerala Kasavu Cotton Saree",
+  "type": "Kasavu",
+  "region": "Balaramapuram, KL",
+  "fabric": "Fine Cotton",
+  "colour": "Ivory & Gold",
+  "price": 4500,
+  "originalPrice": null,
+  "status": "active",
+  "featured": true,
+  "badges": [
+    "featured"
+  ],
+  "occasion": [
+    "festive",
+    "puja",
+    "casual"
+  ],
+  "gradientFrom": "#3A3A1A",
+  "gradientTo": "#8A8A3A",
+  "shortDescription": "Kerala Kasavu cotton with classic gold zari border. The iconic white-and-gold saree of Onam and Vishu.",
+  "tags": [
+    "cotton",
+    "kasavu",
+    "kerala",
+    "ivory",
+    "gold",
+    "festive",
+    "onam",
+    "gi-tagged"
+  ],
+  "length": "6 metres",
+  "blousePiece": "Included — 0.8 metres",
+  "blouseIncluded": true,
+  "weaveType": "Handloom",
+  "weavingDays": "5-8",
+  "giTagged": true,
+  "weaveStoryId": null,
+  "descriptionId": null,
+  "contentBundleId": null,
+  "careSuggestionId": null,
+  "photos": [],
+  "seoTitle": "",
+  "seoDescription": "",
+  "offerValidUntil": null,
+  "thumbnail": null
+}

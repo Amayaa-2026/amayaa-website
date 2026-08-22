@@ -1,0 +1,46 @@
+{
+  "id": "AMY-NAU-001",
+  "name": "Nauvari Pure Silk Saree",
+  "type": "Nauvari",
+  "region": "Kolhapur, MH",
+  "fabric": "Pure Silk",
+  "colour": "Maroon & Gold",
+  "price": 15500,
+  "originalPrice": 19500,
+  "status": "active",
+  "featured": false,
+  "badges": [
+    "offer"
+  ],
+  "occasion": [
+    "wedding",
+    "festive"
+  ],
+  "gradientFrom": "#6B1A2A",
+  "gradientTo": "#C4622D",
+  "shortDescription": "Nine-yard Nauvari saree in pure silk with rich gold zari border. Traditional Maharashtrian bridal drape.",
+  "tags": [
+    "silk",
+    "nauvari",
+    "maharashtra",
+    "bridal",
+    "nine-yard",
+    "zari",
+    "maroon"
+  ],
+  "length": "9 metres",
+  "blousePiece": "Not included",
+  "blouseIncluded": false,
+  "weaveType": "Handloom Zari Border",
+  "weavingDays": "12-18",
+  "giTagged": false,
+  "weaveStoryId": null,
+  "descriptionId": null,
+  "contentBundleId": null,
+  "careSuggestionId": null,
+  "photos": [],
+  "seoTitle": "",
+  "seoDescription": "",
+  "offerValidUntil": null,
+  "thumbnail": null
+}

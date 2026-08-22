@@ -1,0 +1,47 @@
+{
+  "id": "AMY-GAD-001",
+  "name": "Gadwal Silk Cotton Saree",
+  "type": "Gadwal",
+  "region": "Gadwal, TG",
+  "fabric": "Silk Cotton",
+  "colour": "Teal & Gold",
+  "price": 6800,
+  "originalPrice": null,
+  "status": "active",
+  "featured": false,
+  "badges": [
+    "new"
+  ],
+  "occasion": [
+    "festive",
+    "puja",
+    "wedding"
+  ],
+  "gradientFrom": "#0A3A3A",
+  "gradientTo": "#1A7A6A",
+  "shortDescription": "Gadwal saree with pure silk pallu and cotton body — light yet luxurious. Geometric zari border from Telangana.",
+  "tags": [
+    "silk cotton",
+    "gadwal",
+    "telangana",
+    "zari",
+    "teal",
+    "festive",
+    "gi-tagged"
+  ],
+  "length": "6.2 metres",
+  "blousePiece": "Included — 0.8 metres",
+  "blouseIncluded": true,
+  "weaveType": "Pit Loom Handloom",
+  "weavingDays": "10-14",
+  "giTagged": true,
+  "weaveStoryId": null,
+  "descriptionId": null,
+  "contentBundleId": null,
+  "careSuggestionId": null,
+  "photos": [],
+  "seoTitle": "",
+  "seoDescription": "",
+  "offerValidUntil": null,
+  "thumbnail": null
+}

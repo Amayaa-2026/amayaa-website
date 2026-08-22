@@ -1,0 +1,48 @@
+{
+  "id": "AMY-SUT-001",
+  "name": "Bhagalpuri Linen Silk Saree",
+  "type": "Linen",
+  "region": "Bhagalpur, BR",
+  "fabric": "Linen Silk",
+  "colour": "Navy Blue & Gold",
+  "price": 5900,
+  "originalPrice": null,
+  "status": "active",
+  "featured": false,
+  "badges": [
+    "new"
+  ],
+  "occasion": [
+    "casual",
+    "office",
+    "festive"
+  ],
+  "gradientFrom": "#0A1A3A",
+  "gradientTo": "#2A4A8A",
+  "shortDescription": "Bhagalpur linen-silk blend — the ideal office-to-evening saree. Natural texture with subtle gold border.",
+  "tags": [
+    "linen",
+    "silk",
+    "bhagalpur",
+    "bihar",
+    "navy",
+    "office",
+    "casual",
+    "everyday"
+  ],
+  "length": "6 metres",
+  "blousePiece": "Included — 0.8 metres",
+  "blouseIncluded": true,
+  "weaveType": "Handloom",
+  "weavingDays": "5-8",
+  "giTagged": false,
+  "weaveStoryId": null,
+  "descriptionId": null,
+  "contentBundleId": null,
+  "careSuggestionId": null,
+  "photos": [],
+  "seoTitle": "",
+  "seoDescription": "",
+  "offerValidUntil": null,
+  "thumbnail": null
+}

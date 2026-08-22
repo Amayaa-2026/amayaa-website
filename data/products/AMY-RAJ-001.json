@@ -1,0 +1,49 @@
+{
+  "id": "AMY-RAJ-001",
+  "name": "Rajkot Bandhani Silk Saree",
+  "type": "Bandhani",
+  "region": "Rajkot, GJ",
+  "fabric": "Pure Silk",
+  "colour": "Royal Blue & Gold",
+  "price": 9500,
+  "originalPrice": null,
+  "status": "active",
+  "featured": false,
+  "badges": [
+    "new"
+  ],
+  "occasion": [
+    "festive",
+    "wedding",
+    "puja"
+  ],
+  "gradientFrom": "#0A1A5A",
+  "gradientTo": "#2A4A9A",
+  "shortDescription": "Rajkot Bandhani silk with thousands of hand-tied dots in royal blue on gold silk base. Festive Gujarat craft.",
+  "tags": [
+    "silk",
+    "bandhani",
+    "gujarat",
+    "rajkot",
+    "tie-dye",
+    "blue",
+    "gold",
+    "festive",
+    "gi-tagged"
+  ],
+  "length": "5.5 metres",
+  "blousePiece": "Included — 0.8 metres",
+  "blouseIncluded": true,
+  "weaveType": "Bandhani Tie-Dye",
+  "weavingDays": "7-12",
+  "giTagged": true,
+  "weaveStoryId": null,
+  "descriptionId": null,
+  "contentBundleId": null,
+  "careSuggestionId": null,
+  "photos": [],
+  "seoTitle": "",
+  "seoDescription": "",
+  "offerValidUntil": null,
+  "thumbnail": null
+}

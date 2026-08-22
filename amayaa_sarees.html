@@ -468,6 +468,20 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
 .desk-flt-chips{display:flex;flex-wrap:wrap;gap:5px;}
 .desk-flt-chip{padding:5px 13px;border-radius:20px;font-size:12px;font-weight:500;border:1px solid rgba(196,98,45,.22);background:rgba(255,255,255,.6);color:#5A4030;cursor:pointer;transition:all .18s;white-space:nowrap;}
 .desk-flt-chip:hover,.desk-flt-chip.on{background:rgba(196,98,45,.12);border-color:rgba(196,98,45,.5);color:#A04010;}
+/* ── Region/Weave searchable combobox ── */
+.region-srch-wrap{position:relative;margin-bottom:6px;}
+.region-srch-inp{width:100%;box-sizing:border-box;padding:6px 12px;border-radius:16px;border:1px solid rgba(196,98,45,.25);background:rgba(255,255,255,.7);font-family:'Jost',sans-serif;font-size:12px;color:#3A2A1A;outline:none;transition:border-color .2s;}
+.region-srch-inp:focus{border-color:rgba(196,98,45,.55);background:#fff;}
+.region-srch-inp::placeholder{color:#C0A888;}
+.region-srch-drop{display:none;position:absolute;top:calc(100% + 4px);left:0;right:0;background:#fff;border:1px solid rgba(196,98,45,.22);border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,.1);z-index:300;max-height:170px;overflow-y:auto;}
+.region-srch-drop.open{display:block;}
+.region-srch-item{padding:6px 13px;font-size:12px;color:#3A2A1A;cursor:pointer;transition:background .15s;}
+.region-srch-item:hover{background:rgba(196,98,45,.08);color:#A04010;}
+.region-srch-item em{font-style:normal;color:#C4622D;font-weight:600;}
+.region-sel-chips{display:flex;flex-wrap:wrap;gap:5px;min-height:0;}
+.region-sel-chips .desk-flt-chip.on{cursor:default;display:inline-flex;align-items:center;gap:4px;}
+.region-sel-chips .chip-rm{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;background:rgba(196,98,45,.2);border:none;cursor:pointer;font-size:10px;color:#A04010;line-height:1;padding:0;flex-shrink:0;}
+.region-sel-chips .chip-rm:hover{background:rgba(196,98,45,.4);}
 .desk-flt-close{width:28px;height:28px;border-radius:50%;border:1px solid rgba(0,0,0,.12);background:rgba(255,255,255,.7);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;color:#9A8070;flex-shrink:0;transition:all .2s;align-self:flex-start;padding:0;font-family:'Jost',sans-serif;line-height:1;}
 .desk-flt-close:hover{background:rgba(196,98,45,.1);color:#C4622D;border-color:rgba(196,98,45,.3);}
 .desk-pr-row{display:flex;gap:5px;align-items:center;}
@@ -1249,8 +1263,17 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')mobFltClose(
     document.querySelectorAll('#mobFilterSheet input[type=checkbox]').forEach(function(el){ el.checked=false; });
     document.querySelectorAll('.sw.sel').forEach(function(el){ el.classList.remove('sel'); });
     document.querySelectorAll('.pr-input').forEach(function(el){ el.value=''; });
+    /* also reset region combobox */
+    var rsi = document.getElementById('regionSrchInp');
+    var rsd = document.getElementById('regionSrchDrop');
+    var rsc = document.getElementById('regionSelChips');
+    if(rsi) rsi.value='';
+    if(rsd) rsd.classList.remove('open');
+    if(rsc) rsc.innerHTML='';
     _apply();
   };
+  /* expose for region combobox callbacks */
+  window.sareesApply = _apply;
 
   /* ── Wire all filter events ───────────────────────────── */
   function _wireEvents(){
@@ -1292,7 +1315,9 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')mobFltClose(
   }
   function _chipVals(section){
     if(!section) return [];
-    return Array.from(section.querySelectorAll('.desk-flt-chip.on')).map(function(el){ return el.textContent.trim(); });
+    return Array.from(section.querySelectorAll('.desk-flt-chip.on')).map(function(el){
+      return el.dataset.val || el.textContent.trim();
+    });
   }
   function _checkVals(group){
     if(!group) return [];
@@ -1317,6 +1342,52 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')mobFltClose(
 (function(){
   var _chipEvt = 'this.classList.toggle(\'on\');this.setAttribute(\'aria-checked\',this.classList.contains(\'on\'))';
 
+  /* ── Region combobox helpers (window-scoped so oninput/onmousedown can reach them) ── */
+  window._regionItems = [];
+
+  window._regionSearch = function(q){
+    var drop = document.getElementById('regionSrchDrop');
+    if(!drop) return;
+    if(!q){ drop.classList.remove('open'); return; }
+    var lo = q.toLowerCase();
+    var matches = window._regionItems.filter(function(r){ return r.toLowerCase().indexOf(lo) > -1; });
+    if(!matches.length){ drop.classList.remove('open'); return; }
+    var esc = function(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); };
+    var re  = new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + ')','gi');
+    drop.innerHTML = matches.map(function(r){
+      var hi = esc(r).replace(re,'<em>$1</em>');
+      return '<div class="region-srch-item" onmousedown="event.preventDefault();window._regionSelect(\''+esc(r).replace(/'/g,"\\'")+'\')">' + hi + '</div>';
+    }).join('');
+    drop.classList.add('open');
+  };
+
+  window._regionSelect = function(lbl){
+    var chips = document.getElementById('regionSelChips');
+    if(!chips) return;
+    /* skip duplicates */
+    if(Array.from(chips.querySelectorAll('.desk-flt-chip.on')).some(function(el){ return el.dataset.val === lbl; })) return;
+    var span = document.createElement('span');
+    span.className   = 'desk-flt-chip on';
+    span.dataset.val = lbl;
+    span.appendChild(document.createTextNode(lbl + '\u00a0'));
+    var btn = document.createElement('button');
+    btn.className = 'chip-rm'; btn.type = 'button'; btn.title = 'Remove';
+    btn.innerHTML = '&times;';
+    btn.onclick = function(e){
+      e.stopPropagation();
+      span.remove();
+      if(window.sareesApply) window.sareesApply();
+    };
+    span.appendChild(btn);
+    chips.appendChild(span);
+    /* clear input + close dropdown */
+    var inp  = document.getElementById('regionSrchInp');
+    var drop = document.getElementById('regionSrchDrop');
+    if(inp)  inp.value = '';
+    if(drop) drop.classList.remove('open');
+    if(window.sareesApply) window.sareesApply();
+  };
+
   function _renderDesktop(filters){
     var dyn = document.getElementById('desk-filter-dynamic');
     var sho = document.getElementById('desk-filter-showonly');
@@ -1324,6 +1395,21 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')mobFltClose(
     var html = '';
     filters.forEach(function(f){
       if(f.id === 'showonly') return; /* handled separately after colour/price */
+      if(f.id === 'region'){
+        /* searchable combobox — keeps overlay height fixed regardless of item count */
+        window._regionItems = f.items.map(function(item){ return item.deskLabel || item.label; });
+        html += '<div class="desk-flt-section" style="min-width:190px;">'
+          + '<div class="desk-flt-stitle">'+f.deskTitle+'</div>'
+          + '<div class="region-srch-wrap">'
+          + '<input class="region-srch-inp" id="regionSrchInp" type="text" placeholder="Type to search weave…" autocomplete="off"'
+          + ' oninput="window._regionSearch(this.value)"'
+          + ' onblur="setTimeout(function(){var d=document.getElementById(\'regionSrchDrop\');if(d)d.classList.remove(\'open\');},150)">'
+          + '<div class="region-srch-drop" id="regionSrchDrop"></div>'
+          + '</div>'
+          + '<div class="region-sel-chips desk-flt-chips" id="regionSelChips"></div>'
+          + '</div>';
+        return;
+      }
       html += '<div class="desk-flt-section"><div class="desk-flt-stitle">'+f.deskTitle+'</div><div class="desk-flt-chips">';
       f.items.forEach(function(item){
         var lbl = item.deskLabel || item.label;

@@ -1944,20 +1944,27 @@ async function _cleanup(){
   }
 
   // 3. ImageKit — browser cannot call Management API (CORS-blocked).
-  //    Generate curl commands for Terminal instead.
+  //    Render individual copy-paste boxes for Terminal instead.
   _logLine('');
-  _logLine('── ImageKit folder deletion — run these in Terminal ──');
+  _logLine('── ImageKit folder deletion — copy each command into Terminal ──');
   for(var j=0;j<skus.length;j++){
     var sk=skus[j];
-    var curlCmd='curl -X DELETE "https://api.imagekit.io/v1/folder" \\\n'+
-      '  -H "Content-Type: application/json" \\\n'+
-      '  -u "'+ikKey+':" \\\n'+
-      '  -d \'{"folderPath":"/products/'+sk+'"}\''
-    ;
-    _logLine(curlCmd);
+    // Single-line — no \ continuations, safe to paste directly
+    var curlCmd='curl -X DELETE "https://api.imagekit.io/v1/folder"'+
+      ' -H "Content-Type: application/json"'+
+      ' -u "'+ikKey+':"'+
+      ' -d \'{"folderPath":"/products/'+sk+'"}\'';
+    log.innerHTML+='<div style="margin:6px 0;">'+
+      '<div style="font-size:10px;color:#9A8070;margin-bottom:3px;">📁 /products/'+sk+'</div>'+
+      '<div style="background:rgba(0,0,0,.06);border-radius:6px;padding:7px 10px;display:flex;align-items:center;gap:8px;">'+
+        '<code style="flex:1;font-size:11px;word-break:break-all;color:#1A1208;">'+curlCmd+'</code>'+
+        '<button onclick="navigator.clipboard.writeText(this.dataset.cmd);this.textContent=\'✓ Copied\';" '+
+          'data-cmd="'+curlCmd.replace(/"/g,'&quot;')+'" '+
+          'style="flex-shrink:0;padding:4px 10px;border:1.5px solid rgba(196,98,45,.4);border-radius:6px;background:white;color:#C4622D;font-size:11px;font-weight:700;cursor:pointer;">Copy</button>'+
+      '</div>'+
+    '</div>';
   }
   _logLine('');
-  _logLine('Copy the curl command(s) above → paste into Mac Terminal → press Enter.');
 
   status.textContent='Done';
   _logLine('─── Cleanup complete ───');

@@ -107,11 +107,10 @@ input[type=color].fi{padding:4px 6px;height:40px;cursor:pointer;}
 .prev-btn{padding:8px 16px;border-radius:16px;background:linear-gradient(135deg,#C4622D,#E8843D);color:white;border:none;font-weight:600;}
 .prev-badge{display:inline-block;padding:3px 10px;border-radius:10px;background:rgba(46,160,67,.12);color:#2E7D32;font-weight:600;font-size:11px;}
 .prev-body{line-height:1.7;color:#3A2A1A;margin-top:10px;}
-/* locked state — blocks all interaction without hiding controls */
-.tp-locked .fi,.tp-locked .step-btn,.tp-locked .style-btn,.tp-locked .colour-preview,.tp-locked input[type=color]{pointer-events:none;opacity:.72;cursor:default;}
-.tp-locked .fi{background:rgba(255,255,255,.5);}
-.tp-locked .section-card{border-color:rgba(0,0,0,.04);}
-.tp-locked .scope-tab{pointer-events:none;}
+/* per-card locked state */
+.section-card.locked .fi,.section-card.locked .step-btn,.section-card.locked .style-btn,.section-card.locked .colour-preview,.section-card.locked input[type=color]{pointer-events:none;opacity:.72;cursor:default;}
+.section-card.locked .fi{background:rgba(255,255,255,.5);}
+.section-card.locked{border-color:rgba(0,0,0,.04);}
 </style>
 </head>
 <body>
@@ -127,9 +126,6 @@ input[type=color].fi{padding:4px 6px;height:40px;cursor:pointer;}
     </div>
     <div class="topbar-actions">
       <span id="save-status" style="font-size:12px;color:#9A8070;font-weight:500;"></span>
-      <button class="btn btn-ghost btn-sm" id="btn-edit" onclick="_startEdit()">✏️ Edit</button>
-      <button class="btn btn-primary btn-sm" id="btn-save" style="display:none" onclick="_saveAndLock()">💾 Save</button>
-      <button class="btn btn-ghost btn-sm" id="btn-cancel" style="display:none" onclick="_cancelEdit()">✗ Cancel</button>
     </div>
   </div>
 
@@ -147,9 +143,11 @@ input[type=color].fi{padding:4px 6px;height:40px;cursor:pointer;}
       <div>
 
         <!-- 1. FONT STYLE (FAMILY) -->
-        <div class="section-card">
-          <div class="section-heading">Font Style</div>
-          <div class="section-desc">Choose the typeface for body/UI text and for headings. Includes Google Fonts, system fonts and serif/sans-serif options.</div>
+        <div class="section-card locked" id="card-font-style">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:16px;">
+            <div><div class="section-heading">Font Style</div><div class="section-desc" style="margin-bottom:0;">Choose the typeface for body/UI text and for headings. Includes Google Fonts, system fonts and serif/sans-serif options.</div></div>
+            <div style="display:flex;gap:6px;flex-shrink:0;"><button class="btn btn-edit btn-sm" id="btn-edit-font-style" onclick="editCard('font-style')">✏ Edit</button><button class="btn btn-primary btn-sm" id="btn-save-font-style" style="display:none" onclick="saveCard('font-style')">💾 Save</button><button class="btn btn-ghost btn-sm" id="btn-cancel-font-style" style="display:none" onclick="cancelCard('font-style')">✗ Cancel</button></div>
+          </div>
           <div class="font-grid" style="margin-bottom:16px;">
             <div class="fg">
               <label>Primary Font — Body &amp; UI</label>
@@ -207,9 +205,11 @@ input[type=color].fi{padding:4px 6px;height:40px;cursor:pointer;}
         </div>
 
         <!-- 2. BASE FONT SIZES -->
-        <div class="section-card">
-          <div class="section-heading">Base Font Sizes</div>
-          <div class="section-desc">Controls text size for each UI element. Use +/- to step up or down by 1px.</div>
+        <div class="section-card locked" id="card-base-sizes">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:16px;">
+            <div><div class="section-heading">Base Font Sizes</div><div class="section-desc" style="margin-bottom:0;">Controls text size for each UI element. Use +/- to step up or down by 1px.</div></div>
+            <div style="display:flex;gap:6px;flex-shrink:0;"><button class="btn btn-edit btn-sm" id="btn-edit-base-sizes" onclick="editCard('base-sizes')">✏ Edit</button><button class="btn btn-primary btn-sm" id="btn-save-base-sizes" style="display:none" onclick="saveCard('base-sizes')">💾 Save</button><button class="btn btn-ghost btn-sm" id="btn-cancel-base-sizes" style="display:none" onclick="cancelCard('base-sizes')">✗ Cancel</button></div>
+          </div>
           <div class="font-grid">
             <div class="fg"><label>Body / Base</label><div class="size-stepper"><button class="step-btn" onclick="step('sz-body',-1)">-</button><div class="step-val" id="sz-body">14px</div><button class="step-btn" onclick="step('sz-body',1)">+</button></div></div>
             <div class="fg"><label>Page Title (Topbar)</label><div class="size-stepper"><button class="step-btn" onclick="step('sz-title',-1)">-</button><div class="step-val" id="sz-title">26px</div><button class="step-btn" onclick="step('sz-title',1)">+</button></div></div>
@@ -225,9 +225,11 @@ input[type=color].fi{padding:4px 6px;height:40px;cursor:pointer;}
         </div>
 
         <!-- 3. SIDEBAR FONT SIZES -->
-        <div class="section-card">
-          <div class="section-heading">Sidebar Font Sizes</div>
-          <div class="section-desc">Controls text sizes within the navigation panel.</div>
+        <div class="section-card locked" id="card-sidebar-sizes">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:16px;">
+            <div><div class="section-heading">Sidebar Font Sizes</div><div class="section-desc" style="margin-bottom:0;">Controls text sizes within the navigation panel.</div></div>
+            <div style="display:flex;gap:6px;flex-shrink:0;"><button class="btn btn-edit btn-sm" id="btn-edit-sidebar-sizes" onclick="editCard('sidebar-sizes')">✏ Edit</button><button class="btn btn-primary btn-sm" id="btn-save-sidebar-sizes" style="display:none" onclick="saveCard('sidebar-sizes')">💾 Save</button><button class="btn btn-ghost btn-sm" id="btn-cancel-sidebar-sizes" style="display:none" onclick="cancelCard('sidebar-sizes')">✗ Cancel</button></div>
+          </div>
           <div class="font-grid">
             <div class="fg"><label>Brand Name</label><div class="size-stepper"><button class="step-btn" onclick="step('sz-brand',-1)">-</button><div class="step-val" id="sz-brand">18px</div><button class="step-btn" onclick="step('sz-brand',1)">+</button></div></div>
             <div class="fg"><label>Brand Subtitle</label><div class="size-stepper"><button class="step-btn" onclick="step('sz-brandsub',-1)">-</button><div class="step-val" id="sz-brandsub">11px</div><button class="step-btn" onclick="step('sz-brandsub',1)">+</button></div></div>
@@ -237,9 +239,11 @@ input[type=color].fi{padding:4px 6px;height:40px;cursor:pointer;}
         </div>
 
         <!-- 4. FONT STYLES (B/I/U) -->
-        <div class="section-card">
-          <div class="section-heading">Font Styles</div>
-          <div class="section-desc">Bold, italic and underline settings per element.</div>
+        <div class="section-card locked" id="card-biu">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:16px;">
+            <div><div class="section-heading">Font Styles</div><div class="section-desc" style="margin-bottom:0;">Bold, italic and underline settings per element.</div></div>
+            <div style="display:flex;gap:6px;flex-shrink:0;"><button class="btn btn-edit btn-sm" id="btn-edit-biu" onclick="editCard('biu')">✏ Edit</button><button class="btn btn-primary btn-sm" id="btn-save-biu" style="display:none" onclick="saveCard('biu')">💾 Save</button><button class="btn btn-ghost btn-sm" id="btn-cancel-biu" style="display:none" onclick="cancelCard('biu')">✗ Cancel</button></div>
+          </div>
           <div class="row-item">
             <div><div class="row-label">Page Title</div><div class="row-sub">Dashboard, Banners, Blog…</div></div>
             <div class="style-toggles" id="biu-page-title"><button class="style-btn bb active" onclick="this.classList.toggle('active');updatePreview()">B</button><button class="style-btn bi" onclick="this.classList.toggle('active');updatePreview()">I</button></div>
@@ -275,9 +279,11 @@ input[type=color].fi{padding:4px 6px;height:40px;cursor:pointer;}
         </div>
 
         <!-- 5. FONT COLOURS -->
-        <div class="section-card">
-          <div class="section-heading">Font Colours</div>
-          <div class="section-desc">Set the text colour for each element type. Click the colour swatch to open the colour picker.</div>
+        <div class="section-card locked" id="card-colours">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:16px;">
+            <div><div class="section-heading">Font Colours</div><div class="section-desc" style="margin-bottom:0;">Set the text colour for each element type. Click the colour swatch to open the colour picker.</div></div>
+            <div style="display:flex;gap:6px;flex-shrink:0;"><button class="btn btn-edit btn-sm" id="btn-edit-colours" onclick="editCard('colours')">✏ Edit</button><button class="btn btn-primary btn-sm" id="btn-save-colours" style="display:none" onclick="saveCard('colours')">💾 Save</button><button class="btn btn-ghost btn-sm" id="btn-cancel-colours" style="display:none" onclick="cancelCard('colours')">✗ Cancel</button></div>
+          </div>
           <div class="row-item">
             <div><div class="row-label">Body Text</div><div class="row-sub">General content and paragraphs</div></div>
             <div class="colour-row"><input type="color" class="colour-preview" id="col-body" value="#1A1208" oninput="syncHex(this,'hex-body');updatePreview()"><input class="fi colour-hex" id="hex-body" value="#1A1208" onchange="syncColor(this,'col-body');updatePreview()"></div>
@@ -313,9 +319,11 @@ input[type=color].fi{padding:4px 6px;height:40px;cursor:pointer;}
         </div>
 
         <!-- 6. SPACING -->
-        <div class="section-card">
-          <div class="section-heading">Spacing &amp; Readability</div>
-          <div class="section-desc">Line height, letter spacing and text transform settings.</div>
+        <div class="section-card locked" id="card-spacing">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:16px;">
+            <div><div class="section-heading">Spacing &amp; Readability</div><div class="section-desc" style="margin-bottom:0;">Line height, letter spacing and text transform settings.</div></div>
+            <div style="display:flex;gap:6px;flex-shrink:0;"><button class="btn btn-edit btn-sm" id="btn-edit-spacing" onclick="editCard('spacing')">✏ Edit</button><button class="btn btn-primary btn-sm" id="btn-save-spacing" style="display:none" onclick="saveCard('spacing')">💾 Save</button><button class="btn btn-ghost btn-sm" id="btn-cancel-spacing" style="display:none" onclick="cancelCard('spacing')">✗ Cancel</button></div>
+          </div>
           <div class="font-grid-3">
             <div class="fg">
               <label>Line Height (Body)</label>
@@ -348,9 +356,11 @@ input[type=color].fi{padding:4px 6px;height:40px;cursor:pointer;}
         </div>
 
         <!-- 7. PAGE BACKGROUND ORBS -->
-        <div class="section-card">
-          <div class="section-heading">Page Background Orbs</div>
-          <div class="section-desc">Floating gradient orbs that define the background mood of each page. Colour picker sets the primary orb; the remaining orbs shade automatically.</div>
+        <div class="section-card locked" id="card-orbs">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:16px;">
+            <div><div class="section-heading">Page Background Orbs</div><div class="section-desc" style="margin-bottom:0;">Floating gradient orbs that define the background mood of each page. Colour picker sets the primary orb; the remaining orbs shade automatically.</div></div>
+            <div style="display:flex;gap:6px;flex-shrink:0;"><button class="btn btn-edit btn-sm" id="btn-edit-orbs" onclick="editCard('orbs')">✏ Edit</button><button class="btn btn-primary btn-sm" id="btn-save-orbs" style="display:none" onclick="saveCard('orbs')">💾 Save</button><button class="btn btn-ghost btn-sm" id="btn-cancel-orbs" style="display:none" onclick="cancelCard('orbs')">✗ Cancel</button></div>
+          </div>
 
           <!-- Single-colour pages (1 orb picker) -->
           <div class="row-item">
@@ -463,9 +473,11 @@ input[type=color].fi{padding:4px 6px;height:40px;cursor:pointer;}
       <div>
 
         <!-- PW-1: HEADING TYPOGRAPHY -->
-        <div class="section-card">
-          <div class="section-heading">Heading Typography</div>
-          <div class="section-desc">Font sizes for titles and headings on public-facing pages (homepage, sarees, blog, etc.).</div>
+        <div class="section-card locked" id="card-pw-heading">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:16px;">
+            <div><div class="section-heading">Heading Typography</div><div class="section-desc" style="margin-bottom:0;">Font sizes for titles and headings on public-facing pages (homepage, sarees, blog, etc.).</div></div>
+            <div style="display:flex;gap:6px;flex-shrink:0;"><button class="btn btn-edit btn-sm" id="btn-edit-pw-heading" onclick="editCard('pw-heading')">✏ Edit</button><button class="btn btn-primary btn-sm" id="btn-save-pw-heading" style="display:none" onclick="saveCard('pw-heading')">💾 Save</button><button class="btn btn-ghost btn-sm" id="btn-cancel-pw-heading" style="display:none" onclick="cancelCard('pw-heading')">✗ Cancel</button></div>
+          </div>
 
           <div class="row-item">
             <div><div class="row-label">Hero Heading</div><div class="row-sub">Main h1 on homepage hero slides</div></div>
@@ -520,9 +532,11 @@ input[type=color].fi{padding:4px 6px;height:40px;cursor:pointer;}
         </div>
 
         <!-- PW-2: BODY TYPOGRAPHY -->
-        <div class="section-card">
-          <div class="section-heading">Body Typography</div>
-          <div class="section-desc">Font sizes for paragraphs, hero subtitles, and supporting text on public pages.</div>
+        <div class="section-card locked" id="card-pw-body">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:16px;">
+            <div><div class="section-heading">Body Typography</div><div class="section-desc" style="margin-bottom:0;">Font sizes for paragraphs, hero subtitles, and supporting text on public pages.</div></div>
+            <div style="display:flex;gap:6px;flex-shrink:0;"><button class="btn btn-edit btn-sm" id="btn-edit-pw-body" onclick="editCard('pw-body')">✏ Edit</button><button class="btn btn-primary btn-sm" id="btn-save-pw-body" style="display:none" onclick="saveCard('pw-body')">💾 Save</button><button class="btn btn-ghost btn-sm" id="btn-cancel-pw-body" style="display:none" onclick="cancelCard('pw-body')">✗ Cancel</button></div>
+          </div>
 
           <div class="row-item">
             <div><div class="row-label">Hero Subtitle</div><div class="row-sub">Supporting text below hero heading</div></div>
@@ -567,9 +581,11 @@ input[type=color].fi{padding:4px 6px;height:40px;cursor:pointer;}
         </div>
 
         <!-- PW-3: PUBLIC COLOUR PALETTE -->
-        <div class="section-card">
-          <div class="section-heading">Public Colour Palette</div>
-          <div class="section-desc">Colours that define the look and feel of the public-facing website.</div>
+        <div class="section-card locked" id="card-pw-colours">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:16px;">
+            <div><div class="section-heading">Public Colour Palette</div><div class="section-desc" style="margin-bottom:0;">Colours that define the look and feel of the public-facing website.</div></div>
+            <div style="display:flex;gap:6px;flex-shrink:0;"><button class="btn btn-edit btn-sm" id="btn-edit-pw-colours" onclick="editCard('pw-colours')">✏ Edit</button><button class="btn btn-primary btn-sm" id="btn-save-pw-colours" style="display:none" onclick="saveCard('pw-colours')">💾 Save</button><button class="btn btn-ghost btn-sm" id="btn-cancel-pw-colours" style="display:none" onclick="cancelCard('pw-colours')">✗ Cancel</button></div>
+          </div>
 
           <div class="row-item">
             <div><div class="row-label">Brand (Primary)</div><div class="row-sub">Buttons, links, accents, highlights</div></div>
@@ -786,9 +802,8 @@ document.addEventListener('DOMContentLoaded',function(){
       }
       updatePreview();
       pwUpdatePreview();
-      _lockEdit();
     })
-    .catch(function(e){console.warn('typography.json load failed:',e);_lockEdit();});
+    .catch(function(e){console.warn('typography.json load failed:',e);});
 });
 
 function step(id,dir){const el=document.getElementById(id);const v=parseInt(el.textContent);const n=Math.max(8,Math.min(60,v+dir));el.textContent=n+'px';updatePreview();}
@@ -963,22 +978,52 @@ function saveDraft(onDone){
 }
 function resetAll(){location.reload();}
 
-/* ── Edit / Lock / Cancel / Save ── */
-function _startEdit(){
-  document.querySelector('.content').classList.remove('tp-locked');
-  document.getElementById('btn-edit').style.display='none';
-  document.getElementById('btn-save').style.display='';
-  document.getElementById('btn-cancel').style.display='';
-  var si=document.getElementById('save-status'); if(si) si.textContent='Editing…';
+/* ── Per-card Edit / Save / Cancel (Settings-page pattern) ── */
+var _snapshots={};
+
+function editCard(id){
+  var card=document.getElementById('card-'+id);
+  /* snapshot current values so Cancel can revert */
+  var snap={};
+  card.querySelectorAll('.fi').forEach(function(el){if(el.id) snap[el.id]=el.value;});
+  card.querySelectorAll('.step-val').forEach(function(el){if(el.id) snap[el.id]=el.textContent;});
+  card.querySelectorAll('.style-btn').forEach(function(el,i){snap['_sb_'+id+'_'+i]=el.classList.contains('active');});
+  _snapshots[id]=snap;
+  /* unlock */
+  card.classList.remove('locked');
+  document.getElementById('btn-edit-'+id).style.display='none';
+  document.getElementById('btn-save-'+id).style.display='';
+  document.getElementById('btn-cancel-'+id).style.display='';
 }
-function _lockEdit(){
-  document.querySelector('.content').classList.add('tp-locked');
-  document.getElementById('btn-edit').style.display='';
-  document.getElementById('btn-save').style.display='none';
-  document.getElementById('btn-cancel').style.display='none';
+
+function _lockCard(id){
+  var card=document.getElementById('card-'+id);
+  card.classList.add('locked');
+  var eb=document.getElementById('btn-edit-'+id);
+  var sb=document.getElementById('btn-save-'+id);
+  var cb=document.getElementById('btn-cancel-'+id);
+  if(eb){eb.style.display='';eb.disabled=false;eb.textContent='✏ Edit';}
+  if(sb){sb.style.display='none';sb.disabled=false;sb.textContent='💾 Save';}
+  if(cb) cb.style.display='none';
 }
-function _cancelEdit(){location.reload();}
-function _saveAndLock(){saveDraft(_lockEdit);}
+
+function saveCard(id){
+  var sb=document.getElementById('btn-save-'+id);
+  if(sb){sb.disabled=true;sb.textContent='Saving…';}
+  saveDraft(function(){_lockCard(id);});
+}
+
+function cancelCard(id){
+  var snap=_snapshots[id];
+  if(snap){
+    var card=document.getElementById('card-'+id);
+    card.querySelectorAll('.fi').forEach(function(el){if(el.id&&snap[el.id]!==undefined) el.value=snap[el.id];});
+    card.querySelectorAll('.step-val').forEach(function(el){if(el.id&&snap[el.id]!==undefined) el.textContent=snap[el.id];});
+    card.querySelectorAll('.style-btn').forEach(function(el,i){var k='_sb_'+id+'_'+i;if(snap[k]!==undefined) el.classList.toggle('active',snap[k]);});
+    updatePreview(); pwUpdatePreview();
+  }
+  _lockCard(id);
+}
 
 function updatePreview(){
   var ffPrimary = document.getElementById('ff-primary').value;

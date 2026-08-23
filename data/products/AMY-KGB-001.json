@@ -1,0 +1,30 @@
+{
+  "id": "AMY-KGB-001",
+  "name": "Khaddi Georgette Banarasi Sarees",
+  "type": "Banarasi",
+  "region": "",
+  "fabric": "",
+  "colour": "Deep Red",
+  "price": 0,
+  "originalPrice": "",
+  "status": "active",
+  "featured": false,
+  "shortDescription": "",
+  "weaveStoryId": "",
+  "careSuggestionId": "",
+  "descriptionId": "",
+  "contentBundleId": "",
+  "photos": [
+    "https://ik.imagekit.io/Amayaa2026/products/AMY-KGB-001/img1.jpg?tr=f-auto,q-85",
+    "https://ik.imagekit.io/Amayaa2026/products/AMY-KGB-001/img2.jpg?tr=f-auto,q-85",
+    "https://ik.imagekit.io/Amayaa2026/products/AMY-KGB-001/img3.jpg?tr=f-auto,q-85",
+    "https://ik.imagekit.io/Amayaa2026/products/AMY-KGB-001/img4.jpg?tr=f-auto,q-85"
+  ],
+  "imageThumbs": [
+    "https://ik.imagekit.io/Amayaa2026/products/AMY-KGB-001/thumb1.jpg?tr=f-auto,q-85",
+    "https://ik.imagekit.io/Amayaa2026/products/AMY-KGB-001/thumb2.jpg?tr=f-auto,q-85",
+    "https://ik.imagekit.io/Amayaa2026/products/AMY-KGB-001/thumb3.jpg?tr=f-auto,q-85",
+    "https://ik.imagekit.io/Amayaa2026/products/AMY-KGB-001/thumb4.jpg?tr=f-auto,q-85"
+  ],
+  "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-KGB-001/thumb1.jpg?tr=f-auto,q-85"
+}

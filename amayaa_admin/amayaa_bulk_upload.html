@@ -1093,7 +1093,7 @@ function _renderPreview(){
         skuCols.map(function(c){return '<th>'+c+'</th>';}).join('')+'<th>Warnings</th></tr></thead><tbody>'+
       newRows.map(function(r,i){
         return '<tr><td><span class="pill p-new">NEW</span></td>'+
-          '<td><input class="fi" style="font-size:12px;padding:5px 8px;font-family:monospace;width:140px;" '+
+          '<td><input class="fi sku-edit-input" style="font-size:12px;padding:5px 8px;font-family:monospace;width:140px;" '+
             'value="'+r._genId+'" '+
             'onchange="_skuEdits['+i+']=this.value.trim().toUpperCase();_bu_checkSkuDup(this,'+i+');" '+
             'onblur="_bu_checkSkuDup(this,'+i+');" '+
@@ -1236,34 +1236,45 @@ async function _commit(){
   // ── Apply all changes to a clone of live data ──
   try{
     const cfg=ENT[_entity];
-    let updated=JSON.parse(JSON.stringify(_liveData)); // deep clone
 
-    // Build live ID map
+    // ── STEP 0: Always fetch fresh data FIRST so ID generation and collision checks
+    //   use what's actually on GitHub right now (not stale page-load cache) ──
+    document.getElementById('prog-status').textContent='Fetching latest data from GitHub…';
+    const _freshFile=await _ghGet(cfg.file);
+    _liveSha=_freshFile.sha;
+    _liveData=JSON.parse(_ub64(_freshFile.content)); // update cache
+
+    let updated=JSON.parse(JSON.stringify(_liveData)); // deep clone of FRESH data
+
+    // Build live ID map from fresh data
     const items=_getLiveItemsFrom(updated);
     const liveMap={};
-    items.forEach((item,idx)=>{if(item[cfg.idField])liveMap[String(item[cfg.idField])]={item,idx};});
+    items.forEach((item,idx)=>{if(item[cfg.idField])liveMap[String(item[cfg.idField]).toUpperCase()]={item,idx};});
 
-    // Generate next ID: weave-prefix + per-prefix max+1 (no collisions within session)
+    // Generate next ID using fresh data — guaranteed no collision with existing entries
     const _genCounts={};
     function _genId(row){
       const typeStr=String((row&&(row.type||row.region))||'').toLowerCase();
       const prefix=_weavePrefix(typeStr);
       const pKey='AMY-'+prefix+'-';
       const liveMax=items.reduce(function(mx,item){
-        const id=String(item[cfg.idField]||'');
-        if(id.toUpperCase().startsWith(pKey.toUpperCase())){
+        const id=String(item[cfg.idField]||'').toUpperCase();
+        if(id.startsWith(pKey.toUpperCase())){
           const n=parseInt(id.slice(pKey.length),10);
           return isNaN(n)?mx:Math.max(mx,n);
         }
         return mx;
       },0);
-      const next=Math.max(liveMax,_genCounts[prefix]||0)+1;
+      var next=Math.max(liveMax,_genCounts[prefix]||0)+1;
+      // Extra safety: skip if generated ID somehow already exists
+      var candidate='AMY-'+prefix+'-'+String(next).padStart(3,'0');
+      while(liveMap[candidate.toUpperCase()]){next++;candidate='AMY-'+prefix+'-'+String(next).padStart(3,'0');}
       _genCounts[prefix]=next;
-      return 'AMY-'+prefix+'-'+String(next).padStart(3,'0');
+      return candidate;
     }
 
+    // ── Assign IDs and build updated array ──
     toProcess.forEach((vRow,i)=>{
-      // Animate icon
       const pi=document.getElementById('pi-'+i);
       if(pi){pi.className='prog-ic load';pi.textContent='↻';}
 
@@ -1273,21 +1284,23 @@ async function _commit(){
           const v=vRow.row[c];
           if(v!==''&&v!==undefined)newItem[c]=_coerce(c,v);
         });
-        // assign ID
-        const rid=String(vRow.row[cfg.idField]||'').trim();
-        // if ID already exists → generate new
-        newItem[cfg.idField]=rid&&!liveMap[rid]?rid:(vRow._genId&&_skuEdits[vRow._idx]!==undefined?_skuEdits[vRow._idx]:vRow._genId)||_genId(vRow.row);
-        // Force draft for Add mode products — never publish without photos
+        // Resolve SKU: user-edited > pre-generated > auto-generate — never overwrite existing
+        const rid=String(vRow.row[cfg.idField]||'').trim().toUpperCase();
+        var assignedId=(_skuEdits[vRow._idx]||'').trim().toUpperCase()||
+                       (vRow._genId||'').toUpperCase()||
+                       _genId(vRow.row).toUpperCase();
+        newItem[cfg.idField]=assignedId;
+        // Force draft — new products NEVER go live without photos
         if(_mode==='add'&&_entity==='products') newItem.status='draft';
-        vRow._committedId=newItem[cfg.idField]; // track generated ID for Step 2
+        vRow._committedId=assignedId;
         if(cfg.isArr)updated.push(newItem);
         else _pushToEntityData(updated,newItem);
       } else if(vRow.status==='update'){
-        const rid=String(vRow.row[cfg.idField]).trim();
+        const rid=String(vRow.row[cfg.idField]).trim().toUpperCase();
         const entry=liveMap[rid];
         if(!entry)return;
         cfg.updCols.forEach(c=>{
-          if(!_fieldMask[c])return; // skip if chip off
+          if(!_fieldMask[c])return;
           const v=String(vRow.row[c]||'').trim();
           if(v!=='')entry.item[c]=_coerce(c,v);
         });
@@ -1299,24 +1312,27 @@ async function _commit(){
       },50*i);
     });
 
-    // ── Single PUT — refresh SHA + rebuild liveMap from fresh data to catch duplicates ──
-    document.getElementById('prog-status').textContent='Checking for conflicts…';
-    const _freshFile=await _ghGet(cfg.file);
-    _liveSha=_freshFile.sha;
-    // Build fresh collision map from what's actually on GitHub right now
-    const _freshItems=_getLiveItemsFrom(JSON.parse(_ub64(_freshFile.content)));
-    const _freshMap={};
-    _freshItems.forEach(function(item){if(item[cfg.idField])_freshMap[String(item[cfg.idField]).toUpperCase()]=true;});
-    // Check every newly-assigned ID against fresh live data
-    var _dupWarnings=[];
+    // ── HARD BLOCK: reject any new SKU that already exists on GitHub (any status) ──
+    var _dupBlocked=[];
     toProcess.filter(function(vr){return vr.status==='new';}).forEach(function(vr){
-      var assignedId=String(vr._committedId||'').toUpperCase();
-      if(assignedId&&_freshMap[assignedId])_dupWarnings.push(assignedId);
+      var id=(vr._committedId||'').toUpperCase();
+      if(id&&liveMap[id])_dupBlocked.push(id);
     });
-    if(_dupWarnings.length){
-      var _proceed=confirm('⚠ Duplicate SKU conflict detected!\n\nThese SKUs already exist on GitHub:\n  '+_dupWarnings.join(', ')+'\n\nCommitting will OVERWRITE the existing entries.\n\nProceed anyway? (Cancel to go back and fix SKUs.)');
-      if(!_proceed){document.getElementById('prog-status').textContent='Cancelled — fix duplicate SKUs before committing.';document.getElementById('commit-btn').disabled=false;document.getElementById('commit-btn').textContent='✔ Commit '+toProcess.length+' rows';return;}
+    if(_dupBlocked.length){
+      document.getElementById('prog-status').innerHTML=
+        '<span style="color:#C43232;">✗ Blocked — SKU already exists: <strong>'+_dupBlocked.join(', ')+'</strong>. '+
+        'Fix the SKU in the preview table and try again.</span>';
+      document.getElementById('commit-btn').disabled=false;
+      document.getElementById('commit-btn').textContent='✔ Commit '+toProcess.length+' rows';
+      // Highlight offending inputs
+      document.querySelectorAll('.sku-edit-input').forEach(function(inp){
+        if(_dupBlocked.includes(inp.value.trim().toUpperCase())){
+          inp.style.borderColor='#C43232';inp.style.background='rgba(200,50,50,.07)';
+        }
+      });
+      return;
     }
+
     document.getElementById('prog-status').textContent='Writing to GitHub…';
     const msg='[Bulk Upload] '+_mode+' '+toProcess.length+' '+cfg.label.toLowerCase()+' — amayaa_bulk_upload';
     await _ghPut(cfg.file,updated,_liveSha,msg);

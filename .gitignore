@@ -14,3 +14,8 @@ Thumbs.db
 # Node (testing tools)
 node_modules/
 .DS_Store
+
+# Testing generated artifacts — regenerate with npm test
+testing/playwright-report/
+testing/test-results/
+testing/tests/visual.spec.js-snapshots/

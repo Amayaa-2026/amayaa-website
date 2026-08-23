@@ -1283,8 +1283,10 @@ async function _commit(){
       },50*i);
     });
 
-    // ── Single PUT ──
+    // ── Single PUT — always refresh SHA first to avoid 409 after cleanup ──
     document.getElementById('prog-status').textContent='Writing to GitHub…';
+    const _freshFile=await _ghGet(cfg.file);
+    _liveSha=_freshFile.sha;
     const msg='[Bulk Upload] '+_mode+' '+toProcess.length+' '+cfg.label.toLowerCase()+' — amayaa_bulk_upload';
     await _ghPut(cfg.file,updated,_liveSha,msg);
 

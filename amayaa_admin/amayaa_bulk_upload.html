@@ -495,7 +495,7 @@ const ENT={
     file:'data/products_index.json',
     isArr:true,       // root is a flat array
     idField:'id',
-    idPrefix:'AMY-BULK',
+    idPrefix:'AMY',
     requiredCols:['name','price'],
     templateCols:['id','name','type','region','fabric','colour','price','originalPrice','status','featured','offerValidUntil','shortDescription','weaveStoryId','careSuggestionId','descriptionId','contentBundleId'],
     updCols:['name','type','region','fabric','colour','price','originalPrice','status','featured','offerValidUntil','shortDescription','weaveStoryId','careSuggestionId','descriptionId','contentBundleId'],
@@ -1065,10 +1065,46 @@ function _renderPreview(){
   const cfg=ENT[_entity];
   const cols=cfg.dispCols;
 
-  // New tab
-  document.getElementById('tab-new').innerHTML=newRows.length?
-    _tblHead(cols)+_tblBody(cols,newRows,'p-new','NEW'):
-    '<div class="empty-state">No new records.</div>';
+  // New tab — for products in add mode, pre-generate SKUs and show editable inputs
+  if(_entity==='products'&&_mode==='add'&&newRows.length){
+    _skuEdits={};
+    const _tmpC={};
+    newRows.forEach(function(vRow,i){
+      vRow._idx=i;
+      const typeStr=String((vRow.row.type||vRow.row.region)||'').toLowerCase();
+      const prefix=_weavePrefix(typeStr);
+      const pKey='AMY-'+prefix+'-';
+      const liveMax=(_liveData||[]).reduce(function(mx,item){
+        const id=String(item.id||'');
+        if(id.toUpperCase().startsWith(pKey.toUpperCase())){const n=parseInt(id.slice(pKey.length),10);return isNaN(n)?mx:Math.max(mx,n);}
+        return mx;
+      },0);
+      const next=Math.max(liveMax,_tmpC[prefix]||0)+1;
+      _tmpC[prefix]=next;
+      vRow._genId='AMY-'+prefix+'-'+String(next).padStart(3,'0');
+    });
+    const skuCols=cols.filter(function(c){return c!=='id';});
+    document.getElementById('tab-new').innerHTML=
+      '<div style="font-size:12px;color:#9A6000;margin-bottom:10px;padding:8px 12px;background:rgba(196,98,45,.07);border-radius:8px;">'+
+        '✏ SKUs below are auto-generated from weave type. Edit any before committing — they cannot be changed after upload.'+
+      '</div>'+
+      '<table class="res-tbl" style="width:100%;"><thead><tr><th>Status</th><th>SKU (editable)</th>'+
+        skuCols.map(function(c){return '<th>'+c+'</th>';}).join('')+'<th>Warnings</th></tr></thead><tbody>'+
+      newRows.map(function(r,i){
+        return '<tr><td><span class="pill p-new">NEW</span></td>'+
+          '<td><input class="fi" style="font-size:12px;padding:5px 8px;font-family:monospace;width:140px;" '+
+            'value="'+r._genId+'" '+
+            'onchange="_skuEdits['+i+']=this.value.trim().toUpperCase();" '+
+            'title="Edit SKU before committing — cannot be changed after."></td>'+
+          skuCols.map(function(c){return '<td>'+_fmtCell(r.row[c])+'</td>';}).join('')+
+          '<td style="font-size:11px;color:#9A6000;">'+(r.warnings.map(function(w){return w.col+': '+w.msg;}).join('<br>')||'<span style="color:#C0A888;">—</span>')+'</td>'+
+          '</tr>';
+      }).join('')+'</tbody></table>';
+  } else {
+    document.getElementById('tab-new').innerHTML=newRows.length?
+      _tblHead(cols)+_tblBody(cols,newRows,'p-new','NEW'):
+      '<div class="empty-state">No new records.</div>';
+  }
 
   // Updated tab
   if(updRows.length){
@@ -1128,6 +1164,32 @@ function _switchPreviewTab(tab,btn){
   btn.classList.add('active');
 }
 
+
+var _skuEdits={};  // {rowIdx: userEditedSku} — overrides generated SKU
+
+/* ── Derive 3-letter weave prefix from a type/region string ── */
+function _weavePrefix(s){
+  var m={
+    'banarasi':'BAN','banaras':'BAN','banaras':'BAN',
+    'kanjivaram':'KAN','kanjeevaram':'KAN','kanchipuram':'KAN',
+    'paithani':'PAI','chanderi':'CHA',
+    'ikat':'IKA','ikkat':'IKA','pochampally':'POC',
+    'patola':'PAT','sambalpuri':'SAM','baluchari':'BAL',
+    'tussar':'TUS','tassar':'TUS','muga':'MUG',
+    'gadwal':'GAD','nauvari':'NAU','nauwari':'NAU',
+    'mysore':'MYS','mysuru':'MYS','bomkai':'BOM','ilkal':'ILL',
+    'maheshwari':'MAH','kota':'KOT','dhaniakhali':'DHA','jamdani':'JAM',
+    'kasavu':'KAS','phulkari':'PHU','kalamkari':'KAL','bandhani':'BND',
+    'khaddi':'KHA','khadi':'KHA','tant':'TAN','tanchoi':'TAN',
+    'nathdwara':'NAT','rajasthani':'RAJ','rajkot':'RAJ',
+    'sutra':'SUT','madhubani':'MAD','madurai':'MAD'
+  };
+  var str=String(s||'').toLowerCase();
+  for(var k in m){if(str.indexOf(k)!==-1)return m[k];}
+  var clean=str.replace(/[^a-z]/g,'');
+  return (clean.slice(0,3)||'GEN').toUpperCase();
+}
+
 /* ═══════════════════════════════════════════
    BATCH COMMIT
 ═══════════════════════════════════════════ */
@@ -1164,11 +1226,23 @@ async function _commit(){
     const liveMap={};
     items.forEach((item,idx)=>{if(item[cfg.idField])liveMap[String(item[cfg.idField])]={item,idx};});
 
-    // Generate next ID counter for new records
-    let nextIdx=items.length+1;
-    function _genId(){
-      const prefix=cfg.idPrefix||'BULK';
-      return prefix+'-'+String(nextIdx++).padStart(3,'0');
+    // Generate next ID: weave-prefix + per-prefix max+1 (no collisions within session)
+    const _genCounts={};
+    function _genId(row){
+      const typeStr=String((row&&(row.type||row.region))||'').toLowerCase();
+      const prefix=_weavePrefix(typeStr);
+      const pKey='AMY-'+prefix+'-';
+      const liveMax=items.reduce(function(mx,item){
+        const id=String(item[cfg.idField]||'');
+        if(id.toUpperCase().startsWith(pKey.toUpperCase())){
+          const n=parseInt(id.slice(pKey.length),10);
+          return isNaN(n)?mx:Math.max(mx,n);
+        }
+        return mx;
+      },0);
+      const next=Math.max(liveMax,_genCounts[prefix]||0)+1;
+      _genCounts[prefix]=next;
+      return 'AMY-'+prefix+'-'+String(next).padStart(3,'0');
     }
 
     toProcess.forEach((vRow,i)=>{
@@ -1185,7 +1259,7 @@ async function _commit(){
         // assign ID
         const rid=String(vRow.row[cfg.idField]||'').trim();
         // if ID already exists → generate new
-        newItem[cfg.idField]=rid&&!liveMap[rid]?rid:_genId();
+        newItem[cfg.idField]=rid&&!liveMap[rid]?rid:(vRow._genId&&_skuEdits[vRow._idx]!==undefined?_skuEdits[vRow._idx]:vRow._genId)||_genId(vRow.row);
         // Force draft for Add mode products — never publish without photos
         if(_mode==='add'&&_entity==='products') newItem.status='draft';
         vRow._committedId=newItem[cfg.idField]; // track generated ID for Step 2
@@ -1493,7 +1567,7 @@ function _bu_renderUploadPanel(sku){
       slotsHtml+='<div class="im-thumb'+(isMain?' is-main':'')+'" style="width:80px;height:100px;">'
         +'<img src="'+urls[i]+'" alt="" style="width:100%;height:100%;object-fit:cover;">'
         +(isMain?'<div class="im-thumb-lbl">Main</div>':
-          '<div class="im-thumb-set" title="Set as main" onclick="_bu_setMain(\''+sku+'\','+i+')">★</div>')
+          '<div class="im-thumb-set" title="Click to set as main photo" onclick="_bu_setMain(\''+sku+'\','+i+')" style="width:auto;height:auto;border-radius:4px;font-size:10px;font-weight:700;padding:2px 5px;letter-spacing:.3px;">★ MAIN</div>')
         +'<div class="im-thumb-rm" onclick="_bu_removeSlot(\''+sku+'\','+i+')">✕</div>'
         +'</div>';
     } else if(isPend){
@@ -1672,16 +1746,35 @@ async function _bu_publishOne(sku,ikKeyOverride){
       var tUrl=await _bu_ikUploadCanvas(thumbCv,folder,'thumb'+slotNum+'.jpg',authHdr,IK_UPLOAD);
       viewers.push(vUrl);thumbs.push(tUrl);
     }
-    // Update product detail JSON
+    // Update or CREATE product detail JSON
     var detailPath='data/products/'+sku+'.json';
     try{
-      var df=await _ghGet(detailPath);
-      var detail=JSON.parse(_ub64(df.content));
-      detail.photos=viewers;detail.imageThumbs=thumbs;
-      if(thumbs[0])detail.thumbnail=thumbs[0];
-      detail.status='active';
-      await _ghPut(detailPath,detail,df.sha,'Admin: bulk upload — publish '+sku+' ('+filled.length+' photos)');
-    }catch(e){console.warn('Detail JSON for '+sku+' not found, skipping detail update');}
+      var _existSha=undefined,_detail=null;
+      try{
+        var df=await _ghGet(detailPath);
+        _detail=JSON.parse(_ub64(df.content));
+        _existSha=df.sha;
+      }catch(_nf){
+        // File doesn't exist — build skeleton from batch product data
+        var _bp=(_bu_batch&&_bu_batch.products||[]).find(function(p){return p.id===sku;})||{};
+        _detail={
+          id:sku,name:_bp.name||'',type:_bp.type||'',region:_bp.region||'',
+          fabric:_bp.fabric||'',colour:_bp.colour||'',
+          price:Number(_bp.price)||0,originalPrice:_bp.originalPrice||'',
+          status:'draft',featured:!!_bp.featured,
+          shortDescription:_bp.shortDescription||'',
+          weaveStoryId:_bp.weaveStoryId||'',careSuggestionId:_bp.careSuggestionId||'',
+          descriptionId:_bp.descriptionId||'',contentBundleId:_bp.contentBundleId||'',
+          photos:[],imageThumbs:[],thumbnail:''
+        };
+        // _existSha stays undefined → GitHub API creates new file (no sha field in body)
+      }
+      _detail.photos=viewers;
+      _detail.imageThumbs=thumbs;
+      if(thumbs[0])_detail.thumbnail=thumbs[0];
+      _detail.status='active';
+      await _ghPut(detailPath,_detail,_existSha,'Admin: bulk upload — publish '+sku+' ('+filled.length+' photos)');
+    }catch(e){console.warn('Detail JSON update failed for '+sku+':',e);}
     // Update products_index.json
     try{
       var idxFile=await _ghGet('data/products_index.json');
@@ -1772,6 +1865,113 @@ async function _bu_ikUploadCanvas(canvas,folder,fileName,authHdr,url){
   }
   return data.url+IK_TR;
 }
+
+/* ═══════════════════════════════════════════
+   CLEANUP / ROLLBACK
+═══════════════════════════════════════════ */
+async function _cleanup(){
+  var raw=(document.getElementById('cleanup-skus').value||'').trim();
+  if(!raw){alert('Enter at least one SKU to remove.');return;}
+  var skus=raw.split(/[,\n\s]+/).map(function(s){return s.trim().toUpperCase();}).filter(Boolean);
+  if(!confirm('Permanently delete:\n  '+skus.join(', ')+'\n\nFrom: products_index.json + individual JSONs + ImageKit folders.\n\nThis cannot be undone. Proceed?'))return;
+
+  var ikKey=localStorage.getItem('amayaa_ik_private_key')||'';
+  if(!ikKey){
+    ikKey=prompt('ImageKit Private Key (for folder deletion — stored locally only):');
+    if(!ikKey)return;
+    localStorage.setItem('amayaa_ik_private_key',ikKey);
+  }
+
+  var log=document.getElementById('cleanup-log');
+  var status=document.getElementById('cleanup-status');
+  log.style.display='block';log.innerHTML='';
+  status.textContent='Running…';
+
+  function _logLine(msg,ok){
+    var col=ok===true?'#2E7D32':ok===false?'#C03020':'#9A8070';
+    log.innerHTML+='<div style="padding:2px 0;color:'+col+';">'+msg+'</div>';
+    log.scrollTop=log.scrollHeight;
+  }
+
+  _logLine('Cleaning: '+skus.join(', '));
+
+  // 1. Remove from products_index.json
+  try{
+    var idxFile=await _ghGet('data/products_index.json');
+    var idxArr=JSON.parse(_ub64(idxFile.content));
+    var before=idxArr.length;
+    idxArr=idxArr.filter(function(p){return skus.indexOf(String(p.id||'').toUpperCase())===-1;});
+    var removed=before-idxArr.length;
+    if(removed>0){
+      await _ghPut('data/products_index.json',idxArr,idxFile.sha,'Admin: cleanup — remove '+skus.join(', ')+' from index');
+      _logLine('✓ Removed '+removed+' product'+(removed===1?'':'s')+' from products_index.json',true);
+    } else {
+      _logLine('⚠ No matching IDs found in products_index.json');
+    }
+  }catch(e){_logLine('✗ products_index.json: '+e.message,false);}
+
+  // 2. Delete individual product detail JSONs
+  for(var i=0;i<skus.length;i++){
+    var sku=skus[i];
+    try{
+      var pf=await _ghGet('data/products/'+sku+'.json');
+      var dr=await fetch('https://api.github.com/repos/'+GH.repo+'/contents/data/products/'+sku+'.json',{
+        method:'DELETE',headers:_hdrs(),
+        body:JSON.stringify({message:'Admin: cleanup — delete '+sku+'.json',sha:pf.sha,branch:GH.branch})
+      });
+      if(dr.ok||dr.status===200){_logLine('✓ Deleted data/products/'+sku+'.json',true);}
+      else {_logLine('✗ Delete '+sku+'.json — HTTP '+dr.status,false);}
+    }catch(e){
+      _logLine('⚠ '+sku+'.json not found on GitHub (already absent or never created)');
+    }
+  }
+
+  // 3. Delete ImageKit folders
+  var authHdr='Basic '+btoa(ikKey+':');
+  for(var j=0;j<skus.length;j++){
+    var sk=skus[j];
+    try{
+      var ir=await fetch('https://api.imagekit.io/v1/folder',{
+        method:'DELETE',
+        headers:{Authorization:authHdr,'Content-Type':'application/json'},
+        body:JSON.stringify({folderPath:'/products/'+sk})
+      });
+      if(ir.ok||ir.status===204||ir.status===200){
+        _logLine('✓ Deleted ImageKit folder /products/'+sk,true);
+      } else {
+        var ird=await ir.json().catch(function(){return {};});
+        _logLine('⚠ ImageKit /products/'+sk+': '+(ird.message||'HTTP '+ir.status));
+      }
+    }catch(e){_logLine('✗ ImageKit: '+e.message,false);}
+  }
+
+  status.textContent='Done';
+  _logLine('─── Cleanup complete ───');
+}
+
 </script>
+
+  <!-- ── CLEANUP / ROLLBACK CARD ── -->
+  <div class="card" id="cleanup-card" style="margin-top:32px;border:1.5px solid rgba(200,50,50,.15);">
+    <div class="card-header">
+      <div>
+        <div class="section-heading" style="font-size:18px;">🗑 Cleanup — Remove Failed Uploads</div>
+        <div class="section-desc" style="margin-bottom:0;">Delete mistaken or failed bulk products from GitHub (products_index + detail JSON) and ImageKit folder.</div>
+      </div>
+    </div>
+    <div style="display:grid;gap:14px;margin-top:16px;">
+      <div class="fg">
+        <label>SKU IDs to remove</label>
+        <textarea class="fi" id="cleanup-skus" rows="3" placeholder="AMY-BULK-031, AMY-BULK-032&#10;One per line or comma-separated — e.g. IDs from a failed session"></textarea>
+      </div>
+      <div style="font-size:12px;color:#9A8070;">Removes from <code>products_index.json</code> · Deletes <code>data/products/SKU.json</code> · Deletes ImageKit folder <code>/products/SKU/</code></div>
+      <div style="display:flex;gap:10px;align-items:center;">
+        <button class="btn btn-danger" onclick="_cleanup()">🗑 Run Cleanup</button>
+        <span id="cleanup-status" style="font-size:12px;color:#9A8070;"></span>
+      </div>
+      <div id="cleanup-log" style="font-family:monospace;background:rgba(0,0,0,.03);border-radius:8px;padding:10px;display:none;max-height:200px;overflow-y:auto;"></div>
+    </div>
+  </div>
+
 </body>
 </html>

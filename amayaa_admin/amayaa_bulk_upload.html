@@ -1895,14 +1895,9 @@ async function _cleanup(){
   var raw=(document.getElementById('cleanup-skus').value||'').trim();
   if(!raw){alert('Enter at least one SKU to remove.');return;}
   var skus=raw.split(/[,\n\s]+/).map(function(s){return s.trim().toUpperCase();}).filter(Boolean);
-  if(!confirm('Permanently delete:\n  '+skus.join(', ')+'\n\nFrom: products_index.json + individual JSONs + ImageKit folders.\n\nThis cannot be undone. Proceed?'))return;
+  if(!confirm('Remove from GitHub:\n  '+skus.join(', ')+'\n\n• products_index.json (removed immediately)\n• data/products/SKU.json (deleted immediately)\n• ImageKit folders → curl commands shown to run in Terminal\n\nProceed?'))return;
 
-  var ikKey=localStorage.getItem('amayaa_ik_private_key')||'';
-  if(!ikKey){
-    ikKey=prompt('ImageKit Private Key (for folder deletion — stored locally only):');
-    if(!ikKey)return;
-    localStorage.setItem('amayaa_ik_private_key',ikKey);
-  }
+  var ikKey=localStorage.getItem('amayaa_ik_private_key')||'YOUR_IMAGEKIT_PRIVATE_KEY';
 
   var log=document.getElementById('cleanup-log');
   var status=document.getElementById('cleanup-status');
@@ -1948,24 +1943,21 @@ async function _cleanup(){
     }
   }
 
-  // 3. Delete ImageKit folders
-  var authHdr='Basic '+btoa(ikKey+':');
+  // 3. ImageKit — browser cannot call Management API (CORS-blocked).
+  //    Generate curl commands for Terminal instead.
+  _logLine('');
+  _logLine('── ImageKit folder deletion — run these in Terminal ──');
   for(var j=0;j<skus.length;j++){
     var sk=skus[j];
-    try{
-      var ir=await fetch('https://api.imagekit.io/v1/folder',{
-        method:'DELETE',
-        headers:{Authorization:authHdr,'Content-Type':'application/json'},
-        body:JSON.stringify({folderPath:'/products/'+sk})
-      });
-      if(ir.ok||ir.status===204||ir.status===200){
-        _logLine('✓ Deleted ImageKit folder /products/'+sk,true);
-      } else {
-        var ird=await ir.json().catch(function(){return {};});
-        _logLine('⚠ ImageKit /products/'+sk+': '+(ird.message||'HTTP '+ir.status));
-      }
-    }catch(e){_logLine('✗ ImageKit: '+e.message,false);}
+    var curlCmd='curl -X DELETE "https://api.imagekit.io/v1/folder" \\\n'+
+      '  -H "Content-Type: application/json" \\\n'+
+      '  -u "'+ikKey+':" \\\n'+
+      '  -d \'{"folderPath":"/products/'+sk+'"}\''
+    ;
+    _logLine(curlCmd);
   }
+  _logLine('');
+  _logLine('Copy the curl command(s) above → paste into Mac Terminal → press Enter.');
 
   status.textContent='Done';
   _logLine('─── Cleanup complete ───');

@@ -194,6 +194,7 @@ body{font-family:'Jost',sans-serif;background:linear-gradient(135deg,#E4DFD9 0%,
     <div style="display:flex;gap:10px;align-items:center;">
       <span id="load-status" style="font-size:12px;color:#9A8070;"></span>
       <button class="btn btn-ghost btn-sm" onclick="_resetAll()">🔄 Reset</button>
+      <button class="btn btn-danger btn-sm" onclick="document.getElementById('cleanup-modal').style.display='flex';" title="Remove any product from the system">🗑 Remove Product</button>
     </div>
   </div>
 
@@ -448,28 +449,6 @@ body{font-family:'Jost',sans-serif;background:linear-gradient(135deg,#E4DFD9 0%,
     </div>
 
     </div><!-- /csv-panel -->
-
-  <!-- ── CLEANUP / ROLLBACK CARD ── -->
-  <div class="card" id="cleanup-card" style="margin-top:32px;border:1.5px solid rgba(200,50,50,.15);">
-    <div class="card-header">
-      <div>
-        <div class="section-heading" style="font-size:18px;">🗑 Cleanup — Remove Failed Uploads</div>
-        <div class="section-desc" style="margin-bottom:0;">Delete mistaken or failed bulk products from GitHub (products_index + detail JSON) and ImageKit folder.</div>
-      </div>
-    </div>
-    <div style="display:grid;gap:14px;margin-top:16px;">
-      <div class="fg">
-        <label>SKU IDs to remove</label>
-        <textarea class="fi" id="cleanup-skus" rows="3" placeholder="AMY-BULK-031, AMY-BULK-032&#10;One per line or comma-separated — e.g. IDs from a failed session"></textarea>
-      </div>
-      <div style="font-size:12px;color:#9A8070;">Removes from <code>products_index.json</code> · Deletes <code>data/products/SKU.json</code> · Deletes ImageKit folder <code>/products/SKU/</code></div>
-      <div style="display:flex;gap:10px;align-items:center;">
-        <button class="btn btn-danger" onclick="_cleanup()">🗑 Run Cleanup</button>
-        <span id="cleanup-status" style="font-size:12px;color:#9A8070;"></span>
-      </div>
-      <div id="cleanup-log" style="font-family:monospace;background:rgba(0,0,0,.03);border-radius:8px;padding:10px;display:none;max-height:200px;overflow-y:auto;"></div>
-    </div>
-  </div>
 
   </div><!-- /content -->
 </div><!-- /main -->
@@ -1321,12 +1300,11 @@ async function _commit(){
     // Add mode + products → collect new products and launch Step 2 wizard
     if(_mode==='add'&&_entity==='products'){
       var _newProds=toProcess.filter(function(vr){return vr.status==='new';}).map(function(vr){
-        return {
-          id:vr._committedId||String(vr.row[cfg.idField]||'').trim(),
-          name:String(vr.row.name||'').trim(),
-          colour:String(vr.row.colour||'').trim(),
-          type:String(vr.row.type||'').trim()
-        };
+        // Store full row so _bu_publishOne can build a complete skeleton detail JSON
+        var _bp={id:vr._committedId||String(vr.row[cfg.idField]||'').trim()};
+        cfg.templateCols.forEach(function(col){_bp[col]=vr.row[col]!==undefined?vr.row[col]:'';});
+        _bp.id=vr._committedId||String(vr.row[cfg.idField]||'').trim(); // committed ID wins
+        return _bp;
       });
       if(_newProds.length) setTimeout(function(){_bu_showStep2(_newProds);},400);
     }
@@ -1972,5 +1950,24 @@ async function _cleanup(){
 
 </script>
 
+
+<!-- ── CLEANUP MODAL (topbar trigger) ── -->
+<div id="cleanup-modal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.45);backdrop-filter:blur(4px);align-items:center;justify-content:center;">
+  <div style="background:#FAF7F2;border-radius:16px;padding:28px 30px;width:min(560px,92vw);max-height:85vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.25);position:relative;">
+    <button onclick="document.getElementById('cleanup-modal').style.display='none';" style="position:absolute;top:14px;right:16px;background:none;border:none;font-size:20px;cursor:pointer;color:#9A8070;line-height:1;">✕</button>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:#1A0A04;margin-bottom:4px;">🗑 Remove Products</div>
+    <div style="font-size:12px;color:#9A8070;margin-bottom:20px;line-height:1.6;">Permanently removes any product by SKU — from <code>products_index.json</code>, its detail JSON, and its ImageKit folder.<br>Works on any product, not just bulk uploads.</div>
+    <div class="fg" style="margin-bottom:14px;">
+      <label>SKU IDs to remove</label>
+      <textarea class="fi" id="cleanup-skus" rows="3" placeholder="AMY-KGB-001, AMY-BAN-003&#10;One per line or comma-separated"></textarea>
+    </div>
+    <div style="font-size:12px;color:#9A8070;margin-bottom:14px;">GitHub changes happen immediately. ImageKit: curl commands shown below — copy &amp; run in Terminal.</div>
+    <div style="display:flex;gap:10px;align-items:center;margin-bottom:12px;">
+      <button class="btn btn-danger" onclick="_cleanup()">🗑 Run Cleanup</button>
+      <span id="cleanup-status" style="font-size:12px;color:#9A8070;"></span>
+    </div>
+    <div id="cleanup-log" style="font-family:monospace;font-size:11px;background:rgba(0,0,0,.04);border-radius:8px;padding:10px;display:none;max-height:220px;overflow-y:auto;"></div>
+  </div>
+</div>
 </body>
 </html>

@@ -96,3 +96,31 @@ input:checked+.toggle-slider:before{transform:translateX(18px);}
 /* MISC */
 .ic{width:18px;text-align:center;font-size:14px;}
 .bc{font-size:13px;color:#9A8070;margin-bottom:20px;}
+
+/* FORM INPUTS — canonical .fi (affects all pages without a local override) */
+.fi{padding:9px 12px;border:1.5px solid rgba(0,0,0,.12);border-radius:8px;font-family:'Jost',sans-serif;font-size:14px;background:rgba(255,255,255,.88);color:#1A1208;width:100%;transition:border-color .2s;}
+.fi:focus{outline:none;border-color:#C4622D;}
+.fi:disabled{background:#F5F0EA;color:#B0967E;cursor:not-allowed;}
+.fi::placeholder{color:#C0A888;}
+textarea.fi{resize:vertical;min-height:80px;line-height:1.6;}
+select.fi{cursor:pointer;}
+input[type=color].fi{padding:4px 6px;height:40px;cursor:pointer;}
+
+/* SECTION CARDS */
+.section-card{background:rgba(255,255,255,.88);border:1px solid rgba(0,0,0,.06);border-radius:14px;padding:24px;margin-bottom:20px;}
+.section-heading{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;color:#1A0A04;margin-bottom:4px;}
+.section-desc{font-size:12px;color:#9A8070;margin-bottom:20px;line-height:1.6;}
+
+/* ROW TYPOGRAPHY */
+.row-label{font-size:14px;font-weight:500;color:#1A1208;}
+.row-sub{font-size:12px;color:#9A8070;margin-top:2px;}
+.divider{border:none;border-top:1px solid rgba(0,0,0,.06);margin:16px 0;}
+
+/* STAT CARDS */
+.stat-val{font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:300;color:#1A0A04;line-height:1;}
+.stat-label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#9A8070;margin-top:6px;}
+.stat-sub{font-size:11px;color:#B0967E;margin-top:4px;}
+
+/* TABLES */
+.tbl th{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#9A8070;padding:9px 13px;text-align:left;border-bottom:1.5px solid rgba(0,0,0,.07);background:rgba(240,230,216,.5);}
+.tbl td{padding:10px 13px;border-bottom:1px solid rgba(0,0,0,.05);font-size:13px;color:#3A2A1A;vertical-align:top;}

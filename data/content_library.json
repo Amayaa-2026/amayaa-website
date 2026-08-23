@@ -403,6 +403,13 @@
       "weaveStoryId": "WS-002",
       "careSuggestionId": "CI-SILK",
       "descriptionId": "DESC-002"
+    },
+    {
+      "id": "CB-003",
+      "name": "Khaddi Georgette Banarasi",
+      "weaveStoryId": "WS-027",
+      "careSuggestionId": "CI-SILK",
+      "descriptionId": "DESC-031"
     }
   ]
 }

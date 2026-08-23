@@ -343,6 +343,12 @@
       "key": "desc_muga",
       "label": "Sualkuchi Muga Silk Saree",
       "text": "Sualkuchi — the Manchester of Assam — is the weaving town on the Brahmaputra where Muga silk has been woven for centuries. This rare golden silk, GI-tagged and exclusive to Assam, is produced from wild silkworms that feed on Som trees. Muga grows more lustrous with every wash — a saree that improves with age."
+    },
+    {
+      "id": "DESC-031",
+      "key": "desc_031",
+      "label": "khaddi georgette banarasi",
+      "text": "Made from pure silk with highly twisted warp and weft yarns that create a bouncy, sheer, and subtly grainy feel. Much lighter and more fluid than stiff Katan silk, making it easy to carry for long hours."
     }
   ],
   "careSuggestions": [

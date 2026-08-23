@@ -742,10 +742,14 @@ document.addEventListener('DOMContentLoaded',function(){
   fetch('../data/typography.json?_='+Date.now())
     .then(function(r){return r.json();})
     .then(function(t){
-      /* font selects — fix: display font key is 'ff-display' */
+      /* font selects — 'ff-display' is current key; fall back to old 'ff-body' for migration */
       if(t.fonts){
         var fp=document.getElementById('ff-primary'); if(fp&&t.fonts['ff-primary']) fp.value=t.fonts['ff-primary'];
-        var fd=document.getElementById('ff-display'); if(fd&&t.fonts['ff-display']) fd.value=t.fonts['ff-display'];
+        var fd=document.getElementById('ff-display');
+        if(fd){
+          var fdVal=t.fonts['ff-display']||t.fonts['ff-body']; // migration: accept old key
+          if(fdVal) fd.value=fdVal;
+        }
       }
       /* admin font sizes */
       if(t.fontSizes) Object.keys(t.fontSizes).forEach(function(k){var el=document.getElementById(k);if(el) el.textContent=t.fontSizes[k];});

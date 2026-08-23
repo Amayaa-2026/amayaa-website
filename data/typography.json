@@ -1,7 +1,7 @@
 {
   "fonts": {
-    "ff-primary": "Cormorant Garamond",
-    "ff-body": "Jost"
+    "ff-primary": "Jost",
+    "ff-display": "Cormorant Garamond"
   },
   "fontSizes": {
     "sz-body": "14px",
@@ -44,14 +44,14 @@
     "productPriceSize": "15px",
     "metaSize": "12px",
     "colours": {
-      "brand":       "#C4622D",
-      "brandDark":   "#8B1A4A",
-      "deepText":    "#1A0A04",
-      "bodyText":    "#3A2A1A",
-      "muted":       "#9A8070",
-      "background":  "#F5F0E8",
-      "heroText":    "#FFFFFF",
-      "heroMuted":   "rgba(255,248,238,0.85)"
+      "brand": "#C4622D",
+      "brandDark": "#8B1A4A",
+      "deepText": "#1A0A04",
+      "bodyText": "#3A2A1A",
+      "muted": "#9A8070",
+      "background": "#F5F0E8",
+      "heroText": "#FFFFFF",
+      "heroMuted": "rgba(255,248,238,0.85)"
     }
   },
   "orbColours": {

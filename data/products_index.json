@@ -1131,21 +1131,5 @@
       "DESC-030",
       "CI-SILK"
     ]
-  },
-  {
-    "name": "Khaddi Georgette Banarasi Sarees",
-    "type": "Banarasi",
-    "region": "Varanasi UP",
-    "fabric": "Georgette Silk",
-    "colour": "Navy Blue",
-    "price": 19500,
-    "status": "active",
-    "featured": true,
-    "weaveStoryId": "WS-027",
-    "careSuggestionId": "CI-SILK",
-    "descriptionId": "DESC-031",
-    "contentBundleId": "CB-003",
-    "id": "AMY-KGB-002",
-    "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-KGB-002/thumb1.jpg?tr=f-auto,q-85"
   }
 ]

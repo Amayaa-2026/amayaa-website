@@ -449,6 +449,28 @@ body{font-family:'Jost',sans-serif;background:linear-gradient(135deg,#E4DFD9 0%,
 
     </div><!-- /csv-panel -->
 
+  <!-- ── CLEANUP / ROLLBACK CARD ── -->
+  <div class="card" id="cleanup-card" style="margin-top:32px;border:1.5px solid rgba(200,50,50,.15);">
+    <div class="card-header">
+      <div>
+        <div class="section-heading" style="font-size:18px;">🗑 Cleanup — Remove Failed Uploads</div>
+        <div class="section-desc" style="margin-bottom:0;">Delete mistaken or failed bulk products from GitHub (products_index + detail JSON) and ImageKit folder.</div>
+      </div>
+    </div>
+    <div style="display:grid;gap:14px;margin-top:16px;">
+      <div class="fg">
+        <label>SKU IDs to remove</label>
+        <textarea class="fi" id="cleanup-skus" rows="3" placeholder="AMY-BULK-031, AMY-BULK-032&#10;One per line or comma-separated — e.g. IDs from a failed session"></textarea>
+      </div>
+      <div style="font-size:12px;color:#9A8070;">Removes from <code>products_index.json</code> · Deletes <code>data/products/SKU.json</code> · Deletes ImageKit folder <code>/products/SKU/</code></div>
+      <div style="display:flex;gap:10px;align-items:center;">
+        <button class="btn btn-danger" onclick="_cleanup()">🗑 Run Cleanup</button>
+        <span id="cleanup-status" style="font-size:12px;color:#9A8070;"></span>
+      </div>
+      <div id="cleanup-log" style="font-family:monospace;background:rgba(0,0,0,.03);border-radius:8px;padding:10px;display:none;max-height:200px;overflow-y:auto;"></div>
+    </div>
+  </div>
+
   </div><!-- /content -->
 </div><!-- /main -->
 
@@ -1950,28 +1972,6 @@ async function _cleanup(){
 }
 
 </script>
-
-  <!-- ── CLEANUP / ROLLBACK CARD ── -->
-  <div class="card" id="cleanup-card" style="margin-top:32px;border:1.5px solid rgba(200,50,50,.15);">
-    <div class="card-header">
-      <div>
-        <div class="section-heading" style="font-size:18px;">🗑 Cleanup — Remove Failed Uploads</div>
-        <div class="section-desc" style="margin-bottom:0;">Delete mistaken or failed bulk products from GitHub (products_index + detail JSON) and ImageKit folder.</div>
-      </div>
-    </div>
-    <div style="display:grid;gap:14px;margin-top:16px;">
-      <div class="fg">
-        <label>SKU IDs to remove</label>
-        <textarea class="fi" id="cleanup-skus" rows="3" placeholder="AMY-BULK-031, AMY-BULK-032&#10;One per line or comma-separated — e.g. IDs from a failed session"></textarea>
-      </div>
-      <div style="font-size:12px;color:#9A8070;">Removes from <code>products_index.json</code> · Deletes <code>data/products/SKU.json</code> · Deletes ImageKit folder <code>/products/SKU/</code></div>
-      <div style="display:flex;gap:10px;align-items:center;">
-        <button class="btn btn-danger" onclick="_cleanup()">🗑 Run Cleanup</button>
-        <span id="cleanup-status" style="font-size:12px;color:#9A8070;"></span>
-      </div>
-      <div id="cleanup-log" style="font-family:monospace;background:rgba(0,0,0,.03);border-radius:8px;padding:10px;display:none;max-height:200px;overflow-y:auto;"></div>
-    </div>
-  </div>
 
 </body>
 </html>

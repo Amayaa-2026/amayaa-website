@@ -1185,6 +1185,8 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')mobFltClose(
     var showOnly  = _uniq(dShowOnly.concat(mShowOnly));
 
     return products.filter(function(p){
+      /* hide non-public products */
+      if(p.status==='draft'||p.status==='hidden') return false;
       /* type / weave */
       if(types.length && !types.some(function(t){ return _ci(p.type, t); })) return false;
       /* fabric */

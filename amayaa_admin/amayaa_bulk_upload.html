@@ -157,7 +157,7 @@ body{font-family:'Jost',sans-serif;background:linear-gradient(135deg,#E4DFD9 0%,
 .im-bucket-name{font-weight:600;font-size:13px;color:#1A0A04;line-height:1.3;}
 .im-bucket-sku{font-size:11px;color:#9A8070;letter-spacing:1px;margin-top:2px;}
 .im-thumb-row{display:flex;gap:6px;flex-wrap:wrap;}
-.im-thumb{width:64px;height:80px;border-radius:7px;overflow:hidden;position:relative;border:2px solid transparent;flex-shrink:0;background:rgba(0,0,0,.06);}
+.im-thumb{width:96px;height:120px;border-radius:8px;overflow:hidden;position:relative;border:2px solid transparent;flex-shrink:0;background:rgba(0,0,0,.06);}
 .im-thumb img{width:100%;height:100%;object-fit:cover;display:block;}
 .im-thumb.is-main{border-color:#C4622D;}
 .im-thumb-lbl{position:absolute;bottom:0;left:0;right:0;background:rgba(196,98,45,.85);color:white;font-size:9px;font-weight:700;letter-spacing:1px;text-align:center;padding:2px 0;}
@@ -1095,7 +1095,8 @@ function _renderPreview(){
         return '<tr><td><span class="pill p-new">NEW</span></td>'+
           '<td><input class="fi" style="font-size:12px;padding:5px 8px;font-family:monospace;width:140px;" '+
             'value="'+r._genId+'" '+
-            'onchange="_skuEdits['+i+']=this.value.trim().toUpperCase();" '+
+            'onchange="_skuEdits['+i+']=this.value.trim().toUpperCase();_bu_checkSkuDup(this,'+i+');" '+
+            'onblur="_bu_checkSkuDup(this,'+i+');" '+
             'title="Edit SKU before committing — cannot be changed after."></td>'+
           skuCols.map(function(c){return '<td>'+_fmtCell(r.row[c])+'</td>';}).join('')+
           '<td style="font-size:11px;color:#9A6000;">'+(r.warnings.map(function(w){return w.col+': '+w.msg;}).join('<br>')||'<span style="color:#C0A888;">—</span>')+'</td>'+
@@ -1165,6 +1166,21 @@ function _switchPreviewTab(tab,btn){
   btn.classList.add('active');
 }
 
+
+
+/* Check if a manually-typed SKU already exists — highlight input red if so */
+function _bu_checkSkuDup(input,idx){
+  var val=input.value.trim().toUpperCase();
+  var exists=(_liveData||[]).some(function(p){return String(p.id||'').toUpperCase()===val;});
+  input.style.borderColor=exists?'#C43232':'';
+  input.style.background=exists?'rgba(200,50,50,.06)':'';
+  var warn=input.parentNode.querySelector('.sku-dup-warn');
+  if(exists){
+    if(!warn){var w=document.createElement('div');w.className='sku-dup-warn';w.style.cssText='font-size:11px;color:#C43232;margin-top:3px;';w.textContent='⚠ This SKU already exists';input.parentNode.appendChild(w);}
+  } else {
+    if(warn)warn.remove();
+  }
+}
 
 var _skuEdits={};  // {rowIdx: userEditedSku} — overrides generated SKU
 
@@ -1283,10 +1299,25 @@ async function _commit(){
       },50*i);
     });
 
-    // ── Single PUT — always refresh SHA first to avoid 409 after cleanup ──
-    document.getElementById('prog-status').textContent='Writing to GitHub…';
+    // ── Single PUT — refresh SHA + rebuild liveMap from fresh data to catch duplicates ──
+    document.getElementById('prog-status').textContent='Checking for conflicts…';
     const _freshFile=await _ghGet(cfg.file);
     _liveSha=_freshFile.sha;
+    // Build fresh collision map from what's actually on GitHub right now
+    const _freshItems=_getLiveItemsFrom(JSON.parse(_ub64(_freshFile.content)));
+    const _freshMap={};
+    _freshItems.forEach(function(item){if(item[cfg.idField])_freshMap[String(item[cfg.idField]).toUpperCase()]=true;});
+    // Check every newly-assigned ID against fresh live data
+    var _dupWarnings=[];
+    toProcess.filter(function(vr){return vr.status==='new';}).forEach(function(vr){
+      var assignedId=String(vr._committedId||'').toUpperCase();
+      if(assignedId&&_freshMap[assignedId])_dupWarnings.push(assignedId);
+    });
+    if(_dupWarnings.length){
+      var _proceed=confirm('⚠ Duplicate SKU conflict detected!\n\nThese SKUs already exist on GitHub:\n  '+_dupWarnings.join(', ')+'\n\nCommitting will OVERWRITE the existing entries.\n\nProceed anyway? (Cancel to go back and fix SKUs.)');
+      if(!_proceed){document.getElementById('prog-status').textContent='Cancelled — fix duplicate SKUs before committing.';document.getElementById('commit-btn').disabled=false;document.getElementById('commit-btn').textContent='✔ Commit '+toProcess.length+' rows';return;}
+    }
+    document.getElementById('prog-status').textContent='Writing to GitHub…';
     const msg='[Bulk Upload] '+_mode+' '+toProcess.length+' '+cfg.label.toLowerCase()+' — amayaa_bulk_upload';
     await _ghPut(cfg.file,updated,_liveSha,msg);
 
@@ -1573,10 +1604,10 @@ function _bu_renderUploadPanel(sku){
         +'<div class="im-thumb-rm" onclick="_bu_removeSlot(\''+sku+'\','+i+')">✕</div>'
         +'</div>';
     } else if(isPend){
-      slotsHtml+='<div class="im-thumb" style="width:80px;height:100px;display:flex;align-items:center;justify-content:center;background:rgba(196,98,45,.05);">'
+      slotsHtml+='<div class="im-thumb" style="width:96px;height:120px;display:flex;align-items:center;justify-content:center;background:rgba(196,98,45,.05);">'
         +'<span style="font-size:18px;animation:spin .7s linear infinite;">↻</span></div>';
     } else {
-      slotsHtml+='<div class="im-add-slot" style="width:80px;height:100px;" onclick="_bu_addSlot(\''+sku+'\','+i+')">'
+      slotsHtml+='<div class="im-add-slot" style="width:96px;height:120px;" onclick="_bu_addSlot(\''+sku+'\','+i+')">'
         +(i===0?'📷':'+')+
         '</div>';
     }

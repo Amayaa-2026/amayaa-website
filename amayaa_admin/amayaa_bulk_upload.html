@@ -331,7 +331,7 @@ body{font-family:'Jost',sans-serif;background:linear-gradient(135deg,#E4DFD9 0%,
            ondragover="event.preventDefault();this.classList.add('drag')"
            ondragleave="this.classList.remove('drag')"
            ondrop="_onDrop(event)">
-        <input type="file" id="file-input" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" style="display:none" onchange="_onFileInput(this)">
+        <input type="file" id="file-input" style="display:none" onchange="_onFileInput(this)">
         <div id="dz-content">
           <div style="font-size:34px;margin-bottom:8px;">📂</div>
           <div style="font-size:14px;font-weight:500;color:#5A4030;margin-bottom:4px;">Drop your Excel file here, or click to browse</div>

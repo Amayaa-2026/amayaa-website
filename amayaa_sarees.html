@@ -1480,6 +1480,15 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')mobFltClose(
     if(data.sortOptions) { _renderSort(data.sortOptions); }
   }
 
+  /* ── URL param pre-selection (e.g. ?region=Banarasi from collection strip) ── */
+  function _applyUrlParams(){
+    try {
+      var sp = new URLSearchParams(window.location.search);
+      var region = sp.get('region');
+      if(region && window._regionSelect) window._regionSelect(region);
+    } catch(e){}
+  }
+
   /* Inline fallback so filters are never blank if fetch fails */
   _render({
     sortOptions:[{label:'Sort: Newest First',value:'newest'},{label:'Price: Low to High',value:'price-asc'},{label:'Price: High to Low',value:'price-desc'},{label:'Name: A to Z',value:'name-asc'}],
@@ -1490,10 +1499,11 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')mobFltClose(
       {id:'showonly',deskTitle:'Show Only',mobTitle:'Show Only',items:[{label:'New Arrivals',deskLabel:'New'},{label:'Special Offers',deskLabel:'Offers'},{label:'Featured',deskLabel:'Featured'}]}
     ]
   });
+  _applyUrlParams(); /* pre-select filter from URL after fallback render */
 
   fetch('data/categories.json')
     .then(function(r){ return r.ok ? r.json() : null; })
-    .then(function(data){ if(data) _render(data); })
+    .then(function(data){ if(data){ _render(data); _applyUrlParams(); } })
     .catch(function(){});
 })();
 </script>

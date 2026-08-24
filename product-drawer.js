@@ -213,6 +213,16 @@
       _swatches = DUMMY_LABELS.map((_, i) => _gradSwatch(i));
     }
 
+    /* Offer lapse check — if offerValidUntil is in the past, treat as no offer */
+    const _offerActive = (() => {
+      if (!p.offerValidUntil) return true;  // no expiry set → always active
+      try {
+        const exp = new Date(p.offerValidUntil);
+        exp.setHours(23, 59, 59, 999);      // expires at end of that day
+        return exp >= new Date();
+      } catch(e) { return true; }
+    })();
+
     const badges   = _buildBadges(p, _offerActive);
     const specs    = _buildSpecs(p);
     const wished   = _wishlist.includes(p.id);
@@ -227,16 +237,6 @@
     /* Silk Mark line (replaces old GI line) */
     const giLine = (p.silkMark || p.giTagged)
       ? `<div class="pd-gi-line">✦ Silk Mark Certified</div>` : '';
-
-    /* Offer lapse check — if offerValidUntil is in the past, treat as no offer */
-    const _offerActive = (() => {
-      if (!p.offerValidUntil) return true;  // no expiry set → always active
-      try {
-        const exp = new Date(p.offerValidUntil);
-        exp.setHours(23, 59, 59, 999);      // expires at end of that day
-        return exp >= new Date();
-      } catch(e) { return true; }
-    })();
 
     /* WA message */
     const waMsg = encodeURIComponent(`Hello! I'm interested in: ${p.name} (₹${_fmt(p.price)}). Please share more details.`);

@@ -36,6 +36,7 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
 .b-new{background:linear-gradient(135deg,#C4622D,#E8843D);color:white;}
 .b-offer{background:linear-gradient(135deg,#7B2D8B,#B44FD0);color:white;}
 .b-sold{background:rgba(20,20,20,.75);color:white;}
+.b-featured{background:linear-gradient(135deg,#1A6AAA,#2A9ADD);color:white;}
 .pg4{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;}
 .pg3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
 .pc{border-radius:18px;overflow:hidden;cursor:pointer;transition:transform .3s,box-shadow .3s;background:rgba(255,255,255,.65);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.88);box-shadow:0 4px 18px rgba(0,0,0,.07);text-decoration:none;display:block;}
@@ -639,9 +640,9 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
   <h2 class="sec-ttl">Weaves, Weavers &amp; the Wisdom of Indian Textiles</h2>
   <p class="sec-desc">The craft, the culture, the artisans — stories behind every thread that make handloom more than fabric.</p>
   <div class="pg3" id="home-blog-grid">
-    <a href="amayaa_blog.html" class="bc"><div class="bt" style="background:linear-gradient(135deg,#3A1A0A,#8A3A0A)"></div><div class="bb"><div class="bcat">Weaves</div><div class="bttl">The Art of Banarasi Weaving &mdash; 15 Centuries of Brocade</div><div class="bmeta">June 12, 2026 &middot; 8 min read</div><div class="brm">Read More &rarr;</div></div></a>
-    <a href="amayaa_blog.html" class="bc"><div class="bt" style="background:linear-gradient(135deg,#0A1A3A,#1A4A6A)"></div><div class="bb"><div class="bcat">Threads</div><div class="bttl">Tussar vs Kosa Silk &mdash; Understanding India&apos;s Wild Silks</div><div class="bmeta">May 28, 2026 &middot; 5 min read</div><div class="brm">Read More &rarr;</div></div></a>
-    <a href="amayaa_blog.html" class="bc"><div class="bt" style="background:linear-gradient(135deg,#1A2A0A,#3A5A1A)"></div><div class="bb"><div class="bcat">Heritage</div><div class="bttl">The Weavers of Bishnupur &mdash; Keepers of the Baluchari Tradition</div><div class="bmeta">May 14, 2026 &middot; 6 min read</div><div class="brm">Read More &rarr;</div></div></a>
+    <a href="amayaa_blog_post.html?id=BLG-001" class="bc"><div class="bt" style="background:linear-gradient(135deg,#3A1A0A,#8A3A0A)"></div><div class="bb"><div class="bcat">Weaves</div><div class="bttl">The Art of Banarasi Weaving &mdash; 15 Centuries of Brocade</div><div class="bmeta">June 12, 2026 &middot; 8 min read</div><div class="brm">Read More &rarr;</div></div></a>
+    <a href="amayaa_blog_post.html?id=BLG-002" class="bc"><div class="bt" style="background:linear-gradient(135deg,#0A1A3A,#1A4A6A)"></div><div class="bb"><div class="bcat">Threads</div><div class="bttl">Tussar vs Kosa Silk &mdash; Understanding India&apos;s Wild Silks</div><div class="bmeta">May 28, 2026 &middot; 5 min read</div><div class="brm">Read More &rarr;</div></div></a>
+    <a href="amayaa_blog_post.html?id=BLG-003" class="bc"><div class="bt" style="background:linear-gradient(135deg,#1A2A0A,#3A5A1A)"></div><div class="bb"><div class="bcat">Heritage</div><div class="bttl">The Weavers of Bishnupur &mdash; Keepers of the Baluchari Tradition</div><div class="bmeta">May 14, 2026 &middot; 6 min read</div><div class="brm">Read More &rarr;</div></div></a>
   </div>
   <a href="amayaa_blog.html" class="va">Read All Stories <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
 </div>
@@ -685,9 +686,15 @@ function slowScrollTo(t){var e=document.getElementById(t);if(!e)return;var s=win
       : '<div class="gf" style="background:linear-gradient(160deg,'+(p.gradientFrom||'#8B1A4A')+','+(p.gradientTo||'#C4622D')+');height:240px;"></div>';
     return '<div class="pc" onclick="ProductDrawer.open(\''+p.id+'\')" style="cursor:pointer">'+
       '<div class="pi">'+imgHtml+
-      '<div class="pbadges">'+(p.badges&&p.badges.length?'<span class="badge b-'+p.badges[0]+'">'+p.badges[0].charAt(0).toUpperCase()+p.badges[0].slice(1)+'</span>':'')+
+      '<div class="pbadges">'+
+      ((p.badges||[]).map(function(b){
+        if(b==='new')     return '<span class="badge b-new">New</span>';
+        if(b==='offer')   return '<span class="badge b-offer">Special Offer</span>';
+        if(b==='featured')return '<span class="badge b-featured">Featured</span>';
+        return '';
+      }).join(''))+
       (p.status==='sold_out'?'<span class="badge b-sold">Sold Out</span>':'')+
-      (p.originalPrice?'<span class="badge b-offer">Special Offer</span>':'')+'</div></div>'+
+      '</div></div>'+
       '<div class="pinfo"><div class="preg">'+p.region+'</div><div class="pname">'+p.name+'</div>'+
       '<div class="pfab">'+p.fabric+' &middot; '+p.colour+'</div>'+
       '<div class="ppr"><span class="pnew">&#8377; '+p.price.toLocaleString('en-IN')+'</span>'+
@@ -716,7 +723,7 @@ function slowScrollTo(t){var e=document.getElementById(t);if(!e)return;var s=win
     var thumbHtml = p.thumbnailImage
       ? '<img src="'+p.thumbnailImage+'" alt="'+p.title+'" class="bt" style="object-fit:cover;width:100%;display:block;">'
       : '<div class="bt" style="background:linear-gradient(135deg,'+(p.gradientFrom||'#8B1A4A')+','+(p.gradientTo||'#C4622D')+')"></div>';
-    return '<a href="amayaa_blog.html" class="bc">'+
+    return '<a href="amayaa_blog_post.html?id='+p.id+'" class="bc">'+
       thumbHtml+
       '<div class="bb"><div class="bcat">'+p.category+'</div>'+
       '<div class="bttl">'+p.title+'</div>'+

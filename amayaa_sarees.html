@@ -735,8 +735,6 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
 </div>
 <div id="nav-wrap"></div>
 <div class="page">
-  <div class="bc" aria-label="Breadcrumb"><a href="index.html">Home</a><span>&#8250;</span><span>Sarees</span></div>
-
   <div style="margin-bottom:28px;">
     <p class="sec-lbl center">The Collection</p>
     <h1 class="sec-ttl center" style="margin-bottom:16px;">Handloom Sarees of India</h1>
@@ -816,10 +814,7 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
     <button class="desk-flt-close" onclick="deskFltToggle()" aria-label="Close filters">&#215;</button>
   </div>
 
-  <div class="atags" aria-label="Active filters">
-    <span class="atag">Silk <button aria-label="Remove filter">&times;</button></span>
-    <span class="atag">Wedding <button aria-label="Remove filter">&times;</button></span>
-  </div>
+  <div class="atags" id="active-filters" aria-label="Active filters"></div>
 
   <!-- Mobile filter backdrop -->
   <div class="mob-flt-backdrop" id="mobFltBackdrop" onclick="mobFltClose()"></div>
@@ -1117,6 +1112,48 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')mobFltClose(
     .then(function(data){ _boot(data); })
     .catch(function(){}); /* already showing fallback, nothing to do */
 
+  /* ── Active filter tags bar ──────────────────────────── */
+  function _renderActiveTags(){
+    var wrap = document.getElementById('active-filters');
+    if(!wrap) return;
+    var tags = [];
+
+    /* Region chips (combobox-style, live in #regionSelChips) */
+    document.querySelectorAll('#regionSelChips .desk-flt-chip.on').forEach(function(el){
+      var val = el.dataset.val || el.textContent.replace('×','').trim();
+      tags.push({ label: val, rm: function(){ el.remove(); _apply(); } });
+    });
+
+    /* All other overlay chips (type, fabric, occasion, showonly) */
+    document.querySelectorAll('#deskFltOverlay .desk-flt-chip.on').forEach(function(chip){
+      if(chip.closest('#regionSelChips')) return; /* already handled */
+      var val = chip.dataset.val || chip.textContent.trim();
+      tags.push({ label: val, rm: (function(c){ return function(){
+        c.classList.remove('on'); c.setAttribute('aria-checked','false'); _apply();
+      }; })(chip) });
+    });
+
+    /* Active colour swatches */
+    document.querySelectorAll('.desk-sw.sel').forEach(function(sw){
+      var val = sw.getAttribute('title') || sw.getAttribute('aria-label') || 'Colour';
+      tags.push({ label: val, rm: (function(s){ return function(){
+        s.classList.remove('sel'); _apply();
+      }; })(sw) });
+    });
+
+    if(!tags.length){ wrap.innerHTML=''; return; }
+
+    wrap.innerHTML = tags.map(function(t,i){
+      return '<span class="atag" data-ti="'+i+'">'+_esc(t.label)+
+             ' <button type="button" aria-label="Remove '+_esc(t.label)+' filter">&times;</button></span>';
+    }).join('');
+
+    wrap.querySelectorAll('.atag').forEach(function(span){
+      var idx = parseInt(span.dataset.ti,10);
+      span.querySelector('button').addEventListener('click', function(){ tags[idx].rm(); });
+    });
+  }
+
   /* ── Apply filters + sort, then re-render ──────────────── */
   function _apply(){
     _filtered = _sort(_filter(_all));
@@ -1125,6 +1162,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')mobFltClose(
     if(g) g.innerHTML = '';
     var l = document.getElementById('sarees-loading');
     if(l) l.style.display = 'none';
+    _renderActiveTags();
     _loadBatch();
   }
   window.sareesFltApply = _apply;

@@ -498,8 +498,8 @@ const ENT={
     idField:'id',
     idPrefix:'AMY',
     requiredCols:['name','price'],
-    templateCols:['id','name','type','region','fabric','colour','price','originalPrice','status','featured','offerValidUntil','shortDescription','weaveStoryId','careSuggestionId','descriptionId','contentBundleId'],
-    updCols:['name','type','region','fabric','colour','price','originalPrice','status','featured','offerValidUntil','shortDescription','weaveStoryId','careSuggestionId','descriptionId','contentBundleId'],
+    templateCols:['id','name','type','region','fabric','colour','price','originalPrice','status','featured','silkMark','shortDescription','weaveStoryId','careSuggestionId','descriptionId','contentBundleId'],
+    updCols:['name','type','region','fabric','colour','price','originalPrice','status','featured','silkMark','shortDescription','weaveStoryId','careSuggestionId','descriptionId','contentBundleId'],
     searchFields:[
       {k:'name',        l:'Name',             t:'text'},
       {k:'type',        l:'Weave / Region',   t:'catsel', cat:'region'},
@@ -511,7 +511,7 @@ const ENT={
       {k:'featured',    l:'Featured',         t:'bool'},
     ],
     dispCols:['id','name','type','fabric','price','status'],
-    templateExample:{id:'',name:'Crimson Zari Banarasi',type:'Banarasi',region:'Varanasi UP',fabric:'Katan Silk',colour:'Deep Red',price:18500,originalPrice:'',status:'active',featured:'false',offerValidUntil:'',shortDescription:'',weaveStoryId:'WS-001',careSuggestionId:'CI-001',descriptionId:'DESC-001',contentBundleId:'CB-001'},
+    templateExample:{id:'',name:'Crimson Zari Banarasi',type:'Banarasi',region:'Varanasi UP',fabric:'Katan Silk',colour:'Deep Red',price:18500,originalPrice:'',status:'active',featured:'false',silkMark:'false',shortDescription:'',weaveStoryId:'WS-001',careSuggestionId:'CI-001',descriptionId:'DESC-001',contentBundleId:'CB-001'},
   },
   categories:{
     label:'Categories',icon:'🏷',
@@ -1372,7 +1372,7 @@ async function _commit(){
 
 function _coerce(col,v){
   const numCols=['price','originalPrice','count'];
-  const boolCols=['featured','blouseIncluded','giTagged'];
+  const boolCols=['featured','blouseIncluded','silkMark'];
   if(numCols.includes(col))return isNaN(Number(v))?v:Number(v);
   if(boolCols.includes(col))return ['true','yes','1'].includes(String(v).toLowerCase());
   return v;

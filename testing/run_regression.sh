@@ -84,30 +84,20 @@ echo "════════════════════════�
 echo "  LAYER 3 — Structural Test Script (306 checks)"
 echo "════════════════════════════════════════════════════════════"
 echo ""
-if [ -f "$HOME/Downloads/test_and_deploy.sh" ]; then
-  # Zip current site for the test script
-  TMPZIP="$HOME/Downloads/Amayaa_FINAL_Full.zip"
-  cd "$SITE_DIR/.."
-  zip -r "$TMPZIP" Amayaa_site/ \
-    -x "*/testing/node_modules/*" \
-    -x "*/testing/test-results/*" \
-    -x "*/testing/playwright-report/*" \
-    -x "*/.git/*" \
-    -x "*/node_modules/*" -q
-  echo "  Zipped for test script → $(basename $TMPZIP)"
-  bash "$HOME/Downloads/test_and_deploy.sh" test
+TEST_SCRIPT="$SCRIPT_DIR/test_and_deploy.sh"
+if [ -f "$TEST_SCRIPT" ]; then
+  bash "$TEST_SCRIPT" test
   L3_EXIT=$?
   echo ""
   if [ $L3_EXIT -eq 0 ]; then
-    echo "  ✓ LAYER 3 PASSED — all 306 structural checks green"
+    echo "  ✓ LAYER 3 PASSED — all structural checks green"
     PASS=$((PASS+1))
   else
     echo "  ✗ LAYER 3 FAILED — structural checks failed"
     FAIL=$((FAIL+1))
   fi
 else
-  echo "  ⚠ test_and_deploy.sh not found — skipping Layer 3"
-  echo "  Run manually: bash ~/Downloads/test_and_deploy.sh test"
+  echo "  ⚠ test_and_deploy.sh not found at $TEST_SCRIPT"
 fi
 echo ""
 

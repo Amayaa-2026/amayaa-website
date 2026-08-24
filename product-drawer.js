@@ -196,10 +196,13 @@
     /* Swatches — prefer real photos[], fall back to thumbnail, then gradient */
     const photos = (p.photos || []).filter(Boolean);
     const thumb  = p.thumbnail || null;
-    const grad   = 'linear-gradient(160deg,' + (p.gradientFrom||'#4A1060') + ',' + (p.gradientTo||'#9B7DC4') + ')';
+    const grad   = 'linear-gradient(160deg,#4A1060,#9B7DC4)';
     const _gradSwatch = (i) => ({ src: null, label: DUMMY_LABELS[i] || ('Look '+(i+1)), isImg: false, gradient: grad });
     if (photos.length >= 4) {
       _swatches = photos.slice(0, 4).map((src, i) => ({ src, label: 'Look ' + (i+1), isImg: true }));
+    } else if (photos.length === 3) {
+      /* Exactly 3 real photos — show 3 slots only, no dummy 4th slot */
+      _swatches = photos.map((src, i) => ({ src, label: 'Look ' + (i+1), isImg: true }));
     } else if (photos.length > 0) {
       _swatches = photos.map((src, i) => ({ src, label: 'Look ' + (i+1), isImg: true }));
       while (_swatches.length < 4) _swatches.push(_gradSwatch(_swatches.length));
@@ -210,7 +213,7 @@
       _swatches = DUMMY_LABELS.map((_, i) => _gradSwatch(i));
     }
 
-    const badges   = _buildBadges(p);
+    const badges   = _buildBadges(p, _offerActive);
     const specs    = _buildSpecs(p);
     const wished   = _wishlist.includes(p.id);
 
@@ -221,17 +224,19 @@
          <span class="pd-savings">Save ₹${_fmt(p.originalPrice - p.price)}</span>`
       : `<span class="pd-price">₹${_fmt(p.price)}</span>`;
 
-    /* GI line */
-    const giLine = p.giTagged || (p.tags||[]).some(t => t.toLowerCase().includes('gi'))
-      ? `<div class="pd-gi-line">✦ GI Tagged — Government of India Certified</div>` : '';
+    /* Silk Mark line (replaces old GI line) */
+    const giLine = (p.silkMark || p.giTagged)
+      ? `<div class="pd-gi-line">✦ Silk Mark Certified</div>` : '';
 
-    /* Weave facts */
-    const weaveFacts = p.weavingDays
-      ? `<div class="pd-weave-facts">
-           <div class="pd-wf"><div class="pd-wf-num">${p.weavingDays.replace('–','-')}</div><div class="pd-wf-label">Days to Weave</div></div>
-           <div class="pd-wf"><div class="pd-wf-num">7</div><div class="pd-wf-label">Generations</div></div>
-           <div class="pd-wf"><div class="pd-wf-num">100%</div><div class="pd-wf-label">Handloom</div></div>
-         </div>` : '';
+    /* Offer lapse check — if offerValidUntil is in the past, treat as no offer */
+    const _offerActive = (() => {
+      if (!p.offerValidUntil) return true;  // no expiry set → always active
+      try {
+        const exp = new Date(p.offerValidUntil);
+        exp.setHours(23, 59, 59, 999);      // expires at end of that day
+        return exp >= new Date();
+      } catch(e) { return true; }
+    })();
 
     /* WA message */
     const waMsg = encodeURIComponent(`Hello! I'm interested in: ${p.name} (₹${_fmt(p.price)}). Please share more details.`);
@@ -254,7 +259,7 @@
 
     const sectionStory = `<div class="pd-section">
       <div class="pd-section-hdr">Weave Story</div>
-      <div class="pd-section-body">${_esc(content.weaveStory || 'Weave story coming soon.')}${weaveFacts}</div>
+      <div class="pd-section-body">${_esc(content.weaveStory || 'Weave story coming soon.')}</div>
     </div>`;
 
     const sectionCare  = `<div class="pd-section">
@@ -508,15 +513,16 @@
   }
 
   /* ── Badges ─────────────────────────────────────────────── */
-  function _buildBadges(p) {
+  function _buildBadges(p, offerActive) {
     const out = [];
     (p.badges || []).forEach(b => {
       if (b === 'new')      out.push(`<span class="pd-badge pd-badge-new">New</span>`);
-      if (b === 'offer')    out.push(`<span class="pd-badge pd-badge-offer">Special Offer</span>`);
+      if (b === 'offer' && offerActive !== false)
+        out.push(`<span class="pd-badge pd-badge-offer">Special Offer</span>`);
       if (b === 'featured') out.push(`<span class="pd-badge pd-badge-feat">Featured</span>`);
     });
-    if (p.giTagged || (p.tags||[]).some(t => t.toLowerCase().includes('gi')))
-      out.push(`<span class="pd-badge pd-badge-gi">✦ GI Tagged</span>`);
+    if (p.silkMark || p.giTagged)
+      out.push(`<span class="pd-badge pd-badge-gi">✦ Silk Mark</span>`);
     if (p.status === 'sold_out')
       out.push(`<span class="pd-badge pd-badge-sold">Sold Out</span>`);
     return out.join('');
@@ -526,10 +532,10 @@
   function _buildSpecs(p) {
     const rows = [];
     const add = (label, val) => { if (val) rows.push(`<div class="pd-spec"><span class="pd-spec-label">${label}</span><span class="pd-spec-val">${_esc(String(val))}</span></div>`); };
+    add('Type',    p.type);
     add('Region',  p.region);
     add('Fabric',  p.fabric);
     add('Colour',  p.colour);
-    add('Weave',   p.weaveType);
     add('Length',  p.length);
     add('Blouse',  p.blousePiece || (p.blouseIncluded ? 'Included' : null));
     if ((p.occasion||[]).length) add('Occasion', (p.occasion||[]).map(o => o.charAt(0).toUpperCase()+o.slice(1)).join(', '));

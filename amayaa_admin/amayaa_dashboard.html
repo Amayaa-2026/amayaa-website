@@ -338,7 +338,7 @@ document.addEventListener('DOMContentLoaded', function() {
       tbody.innerHTML = recent.map(function(p) {
         var statusLabel=p.status==='active'?'Active':p.status==='sold_out'?'Sold Out':'Hidden';
         var statusClass=p.status==='active'?'active':p.status==='sold_out'?'sold':'hidden';
-        return '<tr><td><div style="display:flex;align-items:center;gap:10px;"><div style="width:32px;height:38px;border-radius:6px;background:linear-gradient(135deg,'+(p.gradientFrom||'#8B1A4A')+','+(p.gradientTo||'#C4622D')+');flex-shrink:0;"></div><span style="font-weight:500;">'+p.name+'</span></div></td><td>'+p.type+'</td><td>&#8377; '+p.price.toLocaleString('en-IN')+'</td><td><span class="badge badge-'+statusClass+'">'+statusLabel+'</span></td></tr>';
+        return '<tr><td><div style="display:flex;align-items:center;gap:10px;"><div style="width:32px;height:38px;border-radius:6px;background:linear-gradient(135deg,#8B1A4A,#C4622D);flex-shrink:0;"></div><span style="font-weight:500;">'+p.name+'</span></div></td><td>'+p.type+'</td><td>&#8377; '+p.price.toLocaleString('en-IN')+'</td><td><span class="badge badge-'+statusClass+'">'+statusLabel+'</span></td></tr>';
       }).join('');
     }).catch(function(){});
 

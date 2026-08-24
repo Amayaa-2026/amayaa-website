@@ -122,7 +122,7 @@ const weaveStories = [
   { id:'WS-018', key:'ws_kotpad', label:'Kotpad',
     text:'Kotpad tribal weaving is practised by the Kostha weavers of Kotpad, Odisha. What makes Kotpad unique is its use of lac-based natural dyes in earthy terracotta, brown, and red — colours derived entirely from plants and insects found in the surrounding Bastar forests. Kotpad has a GI tag.' },
   { id:'WS-019', key:'ws_bomkai', label:'Bomkai',
-    text:'Bomkai — also known as Sonepuri — is a GI-tagged handloom tradition from Ganjam district, Odisha. The sarees are distinguished by intricate tribal motifs (fish, conch, temple spires, birds) woven into the body and border using the supplementary weft technique.' },
+    text:'Bomkai — also known as Sonepuri — is a Silk Mark certified handloom tradition from Ganjam district, Odisha. The sarees are distinguished by intricate tribal motifs (fish, conch, temple spires, birds) woven into the body and border using the supplementary weft technique.' },
   { id:'WS-020', key:'ws_ilkal', label:'Ilkal',
     text:'Ilkal is a handloom tradition from Ilkal town in Karnataka. The signature feature is the joining of the body and a contrasting silk pallu using the unique Koppada interlocking technique — a skill so specific that it has evolved in only one town on earth. The Tope Teni border and warm colour palette are hallmarks of this tradition.' },
   { id:'WS-021', key:'ws_patola', label:'Patan Patola',
@@ -134,7 +134,7 @@ const weaveStories = [
   { id:'WS-024', key:'ws_khadi_silk', label:'Assam Khadi Silk',
     text:'Assam Khadi is hand-spun and hand-woven silk, made by artisans across the Brahmaputra valley following Gandhi\'s vision of self-reliant village enterprise. Unlike industrial silk, Assam Khadi retains a natural texture and deliberate irregularity — the mark of a human hand behind every thread.' },
   { id:'WS-025', key:'ws_muga', label:'Muga Silk',
-    text:'Muga silk is the golden silk of Assam — among the rarest natural fibres in the world, produced exclusively in the Brahmaputra valley. The Antheraea assamensis silkworm feeds on Som and Soalu trees, yielding a naturally golden thread that grows more lustrous with every wash. Muga silk is GI-tagged.' },
+    text:'Muga silk is the golden silk of Assam — among the rarest natural fibres in the world, produced exclusively in the Brahmaputra valley. The Antheraea assamensis silkworm feeds on Som and Soalu trees, yielding a naturally golden thread that grows more lustrous with every wash. Muga silk is Silk Mark certified.' },
   { id:'WS-026', key:'ws_linen', label:'Bhagalpuri Linen Silk',
     text:'Bhagalpuri linen represents a contemporary evolution of Bhagalpur\'s centuries-old weaving tradition. The master weavers of Silk City — long celebrated for Tussar — have adapted their craft to blend linen\'s breathability with silk\'s lustre, creating a fabric modern yet deeply rooted in Bihar\'s handloom heritage.' },
 ];
@@ -185,7 +185,7 @@ const descriptions = [
   { id:'DESC-022', key:'desc_linen_silk', label:'Bhagalpuri Linen Silk Saree',
     text:'Bhagalpuri linen silk combines the breathability of linen with the subtle lustre of silk — a contemporary fusion from Bihar\'s legendary Silk City. Lightweight, elegant, and versatile, this saree is equally at home in the office and at a festive gathering.' },
   { id:'DESC-023', key:'desc_bomkai', label:'Bomkai Pure Silk Saree',
-    text:'The Bomkai saree from Odisha\'s Ganjam district is a study in contrast — a striking silk saree where tribal geometric motifs and temple patterns are woven in supplementary weft, creating a visual language that bridges ancient craft and timeless beauty. GI-tagged and deeply treasured.' },
+    text:'The Bomkai saree from Odisha\'s Ganjam district is a study in contrast — a striking silk saree where tribal geometric motifs and temple patterns are woven in supplementary weft, creating a visual language that bridges ancient craft and timeless beauty. Silk Mark certified and deeply treasured.' },
   { id:'DESC-024', key:'desc_ilkal', label:'Ilkal Cotton Silk Saree',
     text:'The Ilkal saree from Karnataka is instantly recognisable by its contrasting pallu — joined to the body by the unique Koppada interlocking technique found nowhere else on earth. This cotton-silk Ilkal features traditional Tope Teni border work and the distinctive warm colour palette of the Bagalkot tradition.' },
   { id:'DESC-025', key:'desc_patola', label:'Patan Patola Double Ikat',
@@ -199,7 +199,7 @@ const descriptions = [
   { id:'DESC-029', key:'desc_khadi_silk', label:'Assam Khadi Silk Saree',
     text:'Assam Khadi silk is hand-spun and hand-woven by artisans of the Brahmaputra valley, following Gandhi\'s vision of self-reliant village enterprise. The natural texture and deliberate irregularity of Khadi — impossible to replicate by machine — give it an honest, artisanal beauty that grows on you with every wearing.' },
   { id:'DESC-030', key:'desc_muga', label:'Sualkuchi Muga Silk Saree',
-    text:'Sualkuchi — the Manchester of Assam — is the weaving town on the Brahmaputra where Muga silk has been woven for centuries. This rare golden silk, GI-tagged and exclusive to Assam, is produced from wild silkworms that feed on Som trees. Muga grows more lustrous with every wash — a saree that improves with age.' },
+    text:'Sualkuchi — the Manchester of Assam — is the weaving town on the Brahmaputra where Muga silk has been woven for centuries. This rare golden silk, Silk Mark certified and exclusive to Assam, is produced from wild silkworms that feed on Som trees. Muga grows more lustrous with every wash — a saree that improves with age.' },
 ];
 
 const contentBundles = [

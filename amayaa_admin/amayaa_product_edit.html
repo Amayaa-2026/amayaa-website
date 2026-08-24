@@ -332,26 +332,6 @@ function _ghSave(path, content, msg, doneCb){
             </div>
           </div>
 
-          <!-- GRADIENT COLOURS — for product card background -->
-          <div class="form-grid" style="margin-bottom:16px;">
-            <div class="fg" style="margin-bottom:0;">
-              <label>Card Gradient — From *</label>
-              <div style="display:flex;gap:8px;align-items:center;">
-                <input type="color" id="gradientFrom" value="#8B1A4A" style="width:44px;height:38px;border:1.5px solid rgba(0,0,0,.1);border-radius:8px;cursor:pointer;padding:2px;">
-                <input class="fi" id="gradientFromHex" value="#8B1A4A" placeholder="#RRGGBB" style="flex:1;" oninput="syncColor('gradientFrom','gradientFromHex')">
-              </div>
-            </div>
-            <div class="fg" style="margin-bottom:0;">
-              <label>Card Gradient — To *</label>
-              <div style="display:flex;gap:8px;align-items:center;">
-                <input type="color" id="gradientTo" value="#C4622D" style="width:44px;height:38px;border:1.5px solid rgba(0,0,0,.1);border-radius:8px;cursor:pointer;padding:2px;">
-                <input class="fi" id="gradientToHex" value="#C4622D" placeholder="#RRGGBB" style="flex:1;" oninput="syncColor('gradientTo','gradientToHex')">
-              </div>
-            </div>
-          </div>
-          <!-- gradient preview -->
-          <div id="gradientPreview" style="height:36px;border-radius:9px;margin-bottom:16px;transition:background .3s;"></div>
-
           <!-- OCCASION -->
           <div class="fg">
             <label>Occasion (select all that apply) *</label>
@@ -376,7 +356,6 @@ function _ghSave(path, content, msg, doneCb){
             <div class="fg"><label>Blouse Length (m)</label><input class="fi" id="blouseLength" value="0.8" type="number" step="0.1"></div>
           </div>
 
-          <div class="fg"><label>Weave Type / Technique</label><input class="fi" id="weaveType" placeholder="e.g. Handloom Brocade, Ikat, Jamdani"></div>
           <div class="fg"><label>Tags (comma-separated, for search)</label><input class="fi" id="tagsInput" placeholder="e.g. banarasi, silk, wedding, red, zari"></div>
         </div>
 
@@ -584,24 +563,10 @@ function toggleOffer(){
   updatePreview();
 }
 
-/* Gradient sync */
-function syncColor(pickerId, hexId){
-  var hex = document.getElementById(hexId).value.trim();
-  if(/^#[0-9a-fA-F]{6}$/.test(hex)) document.getElementById(pickerId).value = hex;
-  updateGradientPreview();
-  updatePreview();
-}
 document.addEventListener('change', function(e){
-  if(e.target.id==='gradientFrom'){ document.getElementById('gradientFromHex').value=e.target.value; updateGradientPreview(); updatePreview(); }
-  if(e.target.id==='gradientTo')  { document.getElementById('gradientToHex').value=e.target.value;   updateGradientPreview(); updatePreview(); }
   if(e.target.id==='isNew')       { updatePreview(); }
   if(e.target.id==='offerToggle') { updatePreview(); }
 });
-function updateGradientPreview(){
-  var f = document.getElementById('gradientFrom').value;
-  var t = document.getElementById('gradientTo').value;
-  document.getElementById('gradientPreview').style.background = 'linear-gradient(135deg,'+f+','+t+')';
-}
 
 /* Short description char count */
 document.addEventListener('input', function(e){
@@ -620,8 +585,6 @@ function updatePreview(){
   var region = document.getElementById('regionInput').value || '—';
   var price  = document.getElementById('priceInput').value;
   var orig   = document.getElementById('originalPrice').value;
-  var f      = document.getElementById('gradientFrom').value;
-  var t      = document.getElementById('gradientTo').value;
   var isNew  = document.getElementById('isNew').checked;
   var isOff  = document.getElementById('offerToggle').checked;
   var mainSlot = _imageSlots[0];
@@ -631,7 +594,7 @@ function updatePreview(){
   document.getElementById('previewRegion').textContent = type + ' · ' + region;
   document.getElementById('previewPrice').textContent = price ? '₹ ' + Number(price).toLocaleString('en-IN') : '₹ —';
   document.getElementById('previewOriginal').textContent = (orig && !isOff) ? '' : (orig ? '₹ ' + Number(orig).toLocaleString('en-IN') : '');
-  document.getElementById('previewBg').style.background = 'linear-gradient(160deg,'+f+','+t+')';
+  document.getElementById('previewBg').style.background = 'linear-gradient(160deg,#8B1A4A,#C4622D)';
   document.getElementById('previewNewBadge').style.display = isNew ? '' : 'none';
   document.getElementById('previewOfferBadge').style.display = isOff ? '' : 'none';
   var thumb = document.getElementById('previewThumb');
@@ -1219,17 +1182,6 @@ function _populateForm(d){
   document.getElementById('regionInput').value = d.region || '';
   document.getElementById('colourInput').value = d.colour || '';
 
-  // Gradients
-  if(d.gradientFrom){
-    document.getElementById('gradientFrom').value = d.gradientFrom;
-    document.getElementById('gradientFromHex').value = d.gradientFrom;
-  }
-  if(d.gradientTo){
-    document.getElementById('gradientTo').value = d.gradientTo;
-    document.getElementById('gradientToHex').value = d.gradientTo;
-  }
-  updateGradientPreview();
-
   // Occasion
   var occasions = Array.isArray(d.occasion) ? d.occasion : (d.occasion ? [d.occasion] : []);
   ['wedding','festive','casual','puja','office'].forEach(function(v){
@@ -1243,7 +1195,6 @@ function _populateForm(d){
   document.getElementById('blouseIncluded').value = d.blouseIncluded ? 'true' : 'false';
   var blVal = d.blousePiece ? String(d.blousePiece).replace(/[^0-9.]/g,'').split(' ')[0] : (d.blouseLength||'');
   document.getElementById('blouseLength').value = blVal;
-  document.getElementById('weaveType').value = d.weaveType || '';
   document.getElementById('tagsInput').value = (d.tags||[]).join(', ');
 
   // Pricing
@@ -1314,9 +1265,6 @@ function _collectFormData(asDraft){
   var region = document.getElementById('regionInput').value.trim();
   var fabric = document.getElementById('fabricSelect').value;
   var colour = document.getElementById('colourInput').value.trim();
-  var gFrom  = document.getElementById('gradientFrom').value;
-  var gTo    = document.getElementById('gradientTo').value;
-
   var occasions = [];
   ['wedding','festive','casual','puja','office'].forEach(function(v){
     var cb = document.getElementById('occ-'+v);
@@ -1335,7 +1283,6 @@ function _collectFormData(asDraft){
   var lenRaw = document.getElementById('lengthInput').value;
   var blouseOn = document.getElementById('blouseIncluded').value === 'true';
   var blouseLen = document.getElementById('blouseLength').value;
-  var weaveType = document.getElementById('weaveType').value.trim();
   var tagsRaw = document.getElementById('tagsInput').value;
   var tags = tagsRaw ? tagsRaw.split(',').map(function(t){return t.trim();}).filter(Boolean) : [];
 
@@ -1376,9 +1323,6 @@ function _collectFormData(asDraft){
     length: lenRaw ? lenRaw + ' metres' : '',
     blousePiece: blouseOn ? ('Included — ' + (blouseLen||'0.8') + ' metres') : 'Not included',
     blouseIncluded: blouseOn,
-    weaveType: weaveType,
-    gradientFrom: gFrom,
-    gradientTo: gTo,
     shortDescription: shortDesc,
     tags: tags,
     photos: photos,
@@ -1410,8 +1354,6 @@ function _collectFormData(asDraft){
     featured: isFeatured,
     badges: badges,
     occasion: occasions,
-    gradientFrom: gFrom,
-    gradientTo: gTo,
     shortDescription: shortDesc,
     tags: tags,
     thumbnail: thumbnail,
@@ -1429,7 +1371,6 @@ function _validateProduct(data){
   if(!data.detail.fabric) errors.push('Fabric Type is required.');
   if(!data.detail.price || data.detail.price <= 0) errors.push('Selling Price must be greater than 0.');
   if(!data.detail.occasion || !data.detail.occasion.length) errors.push('At least one Occasion must be selected.');
-  if(!data.detail.gradientFrom || !data.detail.gradientTo) errors.push('Card gradient colours are required.');
   // Photos: minimum 2 to publish (always — no exceptions)
   var photoCount = _imageSlots.filter(function(s){ return s && s.viewerUrl; }).length;
   if(data.indexEntry.status !== 'draft' && photoCount < 2) errors.push('At least 2 photos are required before publishing. Save as Draft first, then add photos.');
@@ -1537,7 +1478,6 @@ document.addEventListener('DOMContentLoaded', function(){
 
   // Init UI
   _renderSlots();
-  updateGradientPreview();
   updatePreview();
 
   // Read URL param

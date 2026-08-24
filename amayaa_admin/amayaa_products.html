@@ -231,6 +231,7 @@ if(!sessionStorage.getItem('amayaa_admin')){
   <div class="topbar">
     <div><div class="topbar-title">Product Manager</div><div class="topbar-sub">547 products total &middot; 12 hidden &middot; 8 sold out &middot; 24 on offer</div></div>
     <div class="topbar-actions">
+      <button class="btn btn-ghost" onclick="_exportXlsx()">📊 Export Excel</button>
       <button class="btn btn-ghost" onclick="_csvUpload()">📥 Bulk Upload CSV</button>
       <a href="amayaa_product_edit.html" class="btn btn-primary">+ Add New Product</a>
     </div>
@@ -380,7 +381,7 @@ function _renderTable(){
     return '<tr style="cursor:pointer;" onclick="_openQV(\''+p.id+'\')">' 
       +'<td onclick="event.stopPropagation()"><input type="checkbox" class="row-chk" data-id="'+p.id+'" style="accent-color:#C4622D;"></td>'
       +'<td><div style="display:flex;align-items:center;gap:10px;">'
-        +(p.thumbnail?'<div class="prod-thumb" style="overflow:hidden;"><img src="'+(p.thumbnail.match(/^https?:\/\//)?p.thumbnail:'../'+p.thumbnail)+'" alt="'+p.name+'" style="width:100%;height:100%;object-fit:cover;display:block;"></div>':'<div class="prod-thumb" style="background:linear-gradient(135deg,'+(p.gradientFrom||'#8B1A4A')+','+(p.gradientTo||'#C4622D')+');"></div>')
+        +(p.thumbnail?'<div class="prod-thumb" style="overflow:hidden;"><img src="'+(p.thumbnail.match(/^https?:\/\//)?p.thumbnail:'../'+p.thumbnail)+'" alt="'+p.name+'" style="width:100%;height:100%;object-fit:cover;display:block;"></div>':'<div class="prod-thumb" style="background:linear-gradient(135deg,#8B1A4A,#C4622D);"></div>')
         +'<div><div style="font-weight:600;color:#1A0A04;font-size:13px;">'+p.name+'</div><div style="font-size:11px;color:#9A8070;">'+p.id+'</div></div>'
       +'</div></td>'
       +'<td style="color:#5A4030;">'+(p.type||'')+'</td>'
@@ -704,8 +705,7 @@ function _renderQV(p){
     var _qvThumb = p.thumbnail.match(/^https?:\/\//) ? p.thumbnail : '../'+p.thumbnail;
     html += '<img class="qv-img" src="'+_esc(_qvThumb)+'" alt="'+_esc(p.name)+'" onerror="this.style.display=\'none\'">';
   } else {
-    var gf=p.gradientFrom||'#D4C5B0', gt=p.gradientTo||'#B8A898';
-    html += '<div class="qv-img-placeholder" style="background:linear-gradient(135deg,'+_esc(gf)+','+_esc(gt)+')">&#129528;</div>';
+    html += '<div class="qv-img-placeholder" style="background:linear-gradient(135deg,#D4C5B0,#B8A898)">&#129528;</div>';
   }
   // Price
   var priceHtml = '<div class="qv-price">&#8377;'+(p.price||0).toLocaleString('en-IN');
@@ -716,7 +716,7 @@ function _renderQV(p){
   var statusHtml = '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;">';
   statusHtml += '<span class="badge badge-'+(p.status||'draft')+'">'+_esc(p.status||'')+'</span>';
   (p.badges||[]).forEach(function(b){statusHtml+='<span class="badge badge-'+_esc(b)+'">'+_esc(b)+'</span>';});
-  if(p.giTagged) statusHtml+='<span class="badge badge-new">Silk Mark Certified</span>';
+  if(p.silkMark||p.giTagged) statusHtml+='<span class="badge badge-new">Silk Mark Certified</span>';
   statusHtml += '</div>';
   html += statusHtml;
   // Fields
@@ -730,9 +730,6 @@ function _renderQV(p){
   html += '<div class="qv-field"><label>Blouse</label><span>'+_esc(p.blousePiece||(p.blouseIncluded?'Included':'Not included'))+'</span></div>';
   html += '<div class="qv-field"><label>Region</label><span>'+_esc(p.region||'—')+'</span></div>';
   html += '</div>';
-  if(p.weaveType){
-    html += '<div class="qv-row"><div class="qv-field" style="flex:1"><label>Weave Type</label><span>'+_esc(p.weaveType)+'</span></div></div>';
-  }
   if(p.occasion&&p.occasion.length){
     html += '<div class="qv-row"><div class="qv-field" style="flex:1"><label>Occasions</label><span>'+_esc(p.occasion.join(', '))+'</span></div></div>';
   }
@@ -782,6 +779,62 @@ function _genQR(id){
       correctLevel: QRCode.CorrectLevel.M
     });
   }catch(e){container.innerHTML='<span style="font-size:12px;color:#B0967E;">QR unavailable</span>';}
+}
+
+/* ── Export to Excel ──────────────────────────────────── */
+function _exportXlsx(){
+  var src = (_products && _products.length) ? _products : [];
+  if(!src.length){ alert('No products loaded yet.'); return; }
+
+  function _doExport(){
+    var rows = src.map(function(p){
+      var occ = Array.isArray(p.occasion) ? p.occasion.join(', ') : (p.occasion||'');
+      return {
+        'ID': p.id||'',
+        'Name': p.name||'',
+        'Type': p.type||'',
+        'Region': p.region||'',
+        'Fabric': p.fabric||'',
+        'Colour': p.colour||'',
+        'Price (₹)': p.price||'',
+        'Original Price (₹)': p.originalPrice||'',
+        'Status': p.status||'',
+        'Featured': p.featured ? 'true' : 'false',
+        'Silk Mark': (p.silkMark||p.giTagged) ? 'true' : 'false',
+        'Badges': (p.badges||[]).join(', '),
+        'Occasion': occ,
+        'Short Description': p.shortDescription||'',
+        'Thumbnail': p.thumbnail||'',
+        'Tags': (p.tags||[]).join(', '),
+        'Weave Story ID': p.weaveStoryId||'',
+        'Care ID': p.careSuggestionId||'',
+        'Description ID': p.descriptionId||'',
+        'Bundle ID': p.contentBundleId||''
+      };
+    });
+
+    var ws = XLSX.utils.json_to_sheet(rows);
+    /* Column width hints */
+    ws['!cols'] = [
+      {wch:14},{wch:32},{wch:14},{wch:20},{wch:16},{wch:20},
+      {wch:10},{wch:14},{wch:10},{wch:9},{wch:10},{wch:16},
+      {wch:24},{wch:40},{wch:50},{wch:30},{wch:10},{wch:10},{wch:10},{wch:10}
+    ];
+    var wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Products');
+    var date = new Date().toISOString().slice(0,10);
+    XLSX.writeFile(wb, 'Amayaa_Products_' + date + '.xlsx');
+  }
+
+  if(typeof XLSX !== 'undefined'){
+    _doExport();
+  } else {
+    var s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
+    s.onload = _doExport;
+    s.onerror = function(){ alert('Could not load SheetJS library. Check your internet connection.'); };
+    document.head.appendChild(s);
+  }
 }
 
 </script>

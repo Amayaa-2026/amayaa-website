@@ -291,7 +291,7 @@ function _ghSave(filePath,dat,msg,btnEl,onSuccess){
   if(!tok){alert('No GitHub token. Set it in Admin → Settings first.');return;}
   var orig=btnEl?btnEl.textContent:'';
   if(btnEl){btnEl.textContent='Saving…';btnEl.disabled=true;}
-  fetch('https://api.github.com/repos/'+GH_REPO+'/contents/'+filePath+'?ref='+GH_BRANCH,{headers:_ghHdrs()})
+  fetch('https://api.github.com/repos/'+GH_REPO+'/contents/'+filePath+'?ref='+GH_BRANCH+'&_='+Date.now(),{headers:_ghHdrs(),cache:'no-store'})
     .then(function(r){return r.json();})
     .then(function(ex){
       if(!ex.sha)throw new Error(ex.message||'No SHA');

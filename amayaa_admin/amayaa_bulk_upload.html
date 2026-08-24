@@ -331,7 +331,7 @@ body{font-family:'Jost',sans-serif;background:linear-gradient(135deg,#E4DFD9 0%,
            ondragover="event.preventDefault();this.classList.add('drag')"
            ondragleave="this.classList.remove('drag')"
            ondrop="_onDrop(event)">
-        <input type="file" id="file-input" accept=".xlsx" style="display:none" onchange="_onFileInput(this)">
+        <input type="file" id="file-input" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" style="display:none" onchange="_onFileInput(this)">
         <div id="dz-content">
           <div style="font-size:34px;margin-bottom:8px;">📂</div>
           <div style="font-size:14px;font-weight:500;color:#5A4030;margin-bottom:4px;">Drop your Excel file here, or click to browse</div>
@@ -1707,7 +1707,7 @@ function _bu_onDrop(event,sku){
 
 function _bu_addSlot(sku,slotIdx){
   var fi=document.createElement('input');
-  fi.type='file';fi.accept='image/jpeg,image/png,image/webp';fi.multiple=(slotIdx===null);
+  fi.type='file';fi.accept='image/*';fi.multiple=(slotIdx===null);
   fi.style.cssText='position:fixed;top:-9999px;left:-9999px;opacity:0;';
   fi.onchange=function(e){
     var files=Array.from(e.target.files);

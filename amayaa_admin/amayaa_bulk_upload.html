@@ -498,8 +498,8 @@ const ENT={
     idField:'id',
     idPrefix:'AMY',
     requiredCols:['name','price'],
-    templateCols:['id','name','type','region','fabric','colour','price','originalPrice','status','featured','silkMark','shortDescription','weaveStoryId','careSuggestionId','descriptionId','contentBundleId'],
-    updCols:['name','type','region','fabric','colour','price','originalPrice','status','featured','silkMark','shortDescription','weaveStoryId','careSuggestionId','descriptionId','contentBundleId'],
+    templateCols:['id','name','type','region','fabric','colour','price','originalPrice','status','featured','silkMark','blouseIncluded','blouseLength','shortDescription','weaveStoryId','careSuggestionId','descriptionId','contentBundleId'],
+    updCols:['name','type','region','fabric','colour','price','originalPrice','status','featured','silkMark','blouseIncluded','blouseLength','shortDescription','weaveStoryId','careSuggestionId','descriptionId','contentBundleId'],
     searchFields:[
       {k:'name',        l:'Name',             t:'text'},
       {k:'type',        l:'Weave / Region',   t:'catsel', cat:'region'},
@@ -511,7 +511,7 @@ const ENT={
       {k:'featured',    l:'Featured',         t:'bool'},
     ],
     dispCols:['id','name','type','fabric','price','status'],
-    templateExample:{id:'',name:'Crimson Zari Banarasi',type:'Banarasi',region:'Varanasi UP',fabric:'Katan Silk',colour:'Deep Red',price:18500,originalPrice:'',status:'active',featured:'false',silkMark:'false',shortDescription:'',weaveStoryId:'WS-001',careSuggestionId:'CI-001',descriptionId:'DESC-001',contentBundleId:'CB-001'},
+    templateExample:{id:'',name:'Crimson Zari Banarasi',type:'Banarasi',region:'Varanasi UP',fabric:'Katan Silk',colour:'Deep Red',price:18500,originalPrice:'',status:'active',featured:'false',silkMark:'false',blouseIncluded:'true',blouseLength:0.8,shortDescription:'',weaveStoryId:'WS-001',careSuggestionId:'CI-001',descriptionId:'DESC-001',contentBundleId:'CB-001'},
   },
   categories:{
     label:'Categories',icon:'🏷',
@@ -1304,6 +1304,12 @@ async function _commit(){
           const v=String(vRow.row[c]||'').trim();
           if(v!=='')entry.item[c]=_coerce(c,v);
         });
+        // Recompute blousePiece whenever blouse fields are updated
+        if(_entity==='products' && (_fieldMask['blouseIncluded']||_fieldMask['blouseLength'])){
+          var _bi=entry.item.blouseIncluded;
+          var _bl=entry.item.blouseLength||'0.8';
+          entry.item.blousePiece=_bi?('Included — '+_bl+' metres'):'Not included';
+        }
       }
 
       setTimeout(()=>{
@@ -1824,11 +1830,15 @@ async function _bu_publishOne(sku,ikKeyOverride){
       }catch(_nf){
         // File doesn't exist — build skeleton from batch product data
         var _bp=(_bu_batch&&_bu_batch.products||[]).find(function(p){return p.id===sku;})||{};
+        var _bpBI=!!_bp.blouseIncluded;
+        var _bpBL=_bp.blouseLength||'0.8';
         _detail={
           id:sku,name:_bp.name||'',type:_bp.type||'',region:_bp.region||'',
           fabric:_bp.fabric||'',colour:_bp.colour||'',
           price:Number(_bp.price)||0,originalPrice:_bp.originalPrice||'',
           status:'draft',featured:!!_bp.featured,
+          blouseIncluded:_bpBI,blouseLength:_bpBL,
+          blousePiece:_bpBI?('Included — '+_bpBL+' metres'):'Not included',
           shortDescription:_bp.shortDescription||'',
           weaveStoryId:_bp.weaveStoryId||'',careSuggestionId:_bp.careSuggestionId||'',
           descriptionId:_bp.descriptionId||'',contentBundleId:_bp.contentBundleId||'',

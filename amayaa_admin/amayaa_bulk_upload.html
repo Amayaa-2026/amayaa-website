@@ -1708,8 +1708,10 @@ function _bu_onDrop(event,sku){
 function _bu_addSlot(sku,slotIdx){
   var fi=document.createElement('input');
   fi.type='file';fi.accept='image/jpeg,image/png,image/webp';fi.multiple=(slotIdx===null);
+  fi.style.cssText='position:fixed;top:-9999px;left:-9999px;opacity:0;';
   fi.onchange=function(e){
     var files=Array.from(e.target.files);
+    document.body.removeChild(fi);
     if(!files.length)return;
     if(slotIdx!==null){
       _bu_cropAndFill(sku,slotIdx,files[0]);
@@ -1717,6 +1719,7 @@ function _bu_addSlot(sku,slotIdx){
       _bu_addFiles(sku,files);
     }
   };
+  document.body.appendChild(fi);
   fi.click();
 }
 

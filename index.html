@@ -639,11 +639,7 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
   <p class="sec-lbl">Stories from the Loom</p>
   <h2 class="sec-ttl">Weaves, Weavers &amp; the Wisdom of Indian Textiles</h2>
   <p class="sec-desc">The craft, the culture, the artisans — stories behind every thread that make handloom more than fabric.</p>
-  <div class="pg3" id="home-blog-grid">
-    <a href="amayaa_blog_post.html?id=BLG-001" class="bc"><div class="bt" style="background:linear-gradient(135deg,#3A1A0A,#8A3A0A)"></div><div class="bb"><div class="bcat">Weaves</div><div class="bttl">The Art of Banarasi Weaving &mdash; 15 Centuries of Brocade</div><div class="bmeta">June 12, 2026 &middot; 8 min read</div><div class="brm">Read More &rarr;</div></div></a>
-    <a href="amayaa_blog_post.html?id=BLG-002" class="bc"><div class="bt" style="background:linear-gradient(135deg,#0A1A3A,#1A4A6A)"></div><div class="bb"><div class="bcat">Threads</div><div class="bttl">Tussar vs Kosa Silk &mdash; Understanding India&apos;s Wild Silks</div><div class="bmeta">May 28, 2026 &middot; 5 min read</div><div class="brm">Read More &rarr;</div></div></a>
-    <a href="amayaa_blog_post.html?id=BLG-003" class="bc"><div class="bt" style="background:linear-gradient(135deg,#1A2A0A,#3A5A1A)"></div><div class="bb"><div class="bcat">Heritage</div><div class="bttl">The Weavers of Bishnupur &mdash; Keepers of the Baluchari Tradition</div><div class="bmeta">May 14, 2026 &middot; 6 min read</div><div class="brm">Read More &rarr;</div></div></a>
-  </div>
+  <div class="pg3" id="home-blog-grid"></div>
   <a href="amayaa_blog.html" class="va">Read All Stories <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
 </div>
 
@@ -734,7 +730,9 @@ function slowScrollTo(t){var e=document.getElementById(t);if(!e)return;var s=win
     .then(function(r){ return r.ok ? r.json() : null; })
     .then(function(data){
       if(!data) return;
-      var published = data.filter(function(p){ return p.published !== false; }).slice(0,3);
+      var published = data.filter(function(p){ return p.published !== false; });
+      published.sort(function(a,b){ return new Date(b.date||0) - new Date(a.date||0); });
+      published = published.slice(0,3);
       if(!published.length) return;
       var grid = document.getElementById('home-blog-grid');
       if(grid) grid.innerHTML = published.map(_buildBlogCard).join('');

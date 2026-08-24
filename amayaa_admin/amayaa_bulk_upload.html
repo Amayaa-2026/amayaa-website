@@ -1931,7 +1931,6 @@ function _bu_autoCrop(file,cb){
 
 /* ── Upload a canvas to ImageKit ── */
 async function _bu_ikUploadCanvas(canvas,folder,fileName,authHdr,url){
-  var IK_TR='?tr=f-auto,q-85';
   var blob=await new Promise(function(res){canvas.toBlob(res,'image/jpeg',0.85);});
   var reader=new FileReader();
   var b64=await new Promise(function(res){reader.onload=function(e){res(e.target.result);};reader.readAsDataURL(blob);});
@@ -1944,7 +1943,7 @@ async function _bu_ikUploadCanvas(canvas,folder,fileName,authHdr,url){
     if(data.message&&data.message.toLowerCase().includes('auth'))localStorage.removeItem('amayaa_ik_private_key');
     throw new Error(data.message||'IK upload failed');
   }
-  return data.url+IK_TR;
+  return data.url;
 }
 
 /* ═══════════════════════════════════════════

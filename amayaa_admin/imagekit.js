@@ -6,7 +6,6 @@
 
 var IK_BASE = 'https://ik.imagekit.io/Amayaa2026';
 var IK_UPLOAD_URL = 'https://upload.imagekit.io/api/v1/files/upload';
-var IK_TR = '?tr=f-auto,q-85';
 
 function _ikPrivateKey() {
   return localStorage.getItem('amayaa_ik_private_key') || '';
@@ -52,7 +51,7 @@ function _ikUpload(file, folder, fileName) {
       .then(function(r) { return r.json(); })
       .then(function(res) {
         if (res.url) {
-          resolve(res.url + IK_TR);
+          resolve(res.url);
         } else {
           // Bad key? clear it so next attempt re-prompts
           if (res.message && res.message.toLowerCase().includes('auth')) {

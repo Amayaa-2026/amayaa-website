@@ -383,7 +383,8 @@ function _editPost(idx){
   // show thumbnail preview if exists
   var box=document.getElementById('thumb-preview-box');
   if(box && p.thumbnailImage){
-    box.style.backgroundImage='url(../'+p.thumbnailImage+')';
+    var _thumbUrl=/^https?:\/\//i.test(p.thumbnailImage)?p.thumbnailImage:'../'+p.thumbnailImage;
+    box.style.backgroundImage='url('+_thumbUrl+')';
     box.style.backgroundSize='cover';
     box.style.backgroundPosition='center';
     document.getElementById('thumb-preview-label').style.display='none';

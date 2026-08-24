@@ -730,7 +730,7 @@ function slowScrollTo(t){var e=document.getElementById(t);if(!e)return;var s=win
       '<div class="bmeta">'+p.date+' &middot; '+p.readTime+'</div>'+
       '<div class="brm">Read More &rarr;</div></div></a>';
   }
-  fetch('data/blog.json')
+  fetch('data/blog.json?_='+Date.now(),{cache:'no-store'})
     .then(function(r){ return r.ok ? r.json() : null; })
     .then(function(data){
       if(!data) return;

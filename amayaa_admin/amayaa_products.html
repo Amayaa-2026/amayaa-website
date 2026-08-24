@@ -487,9 +487,41 @@ function _ghDeleteFile(filePath, msg){
     .catch(function(){});
 }
 
+function _showIkCleanup(photosByProduct){
+  // photosByProduct: [{id, photos:[url,...]}]
+  var hasPhotos = photosByProduct.some(function(p){return p.photos.length>0;});
+  if(!hasPhotos) return;
+  var lines = [];
+  photosByProduct.forEach(function(p){
+    if(!p.photos.length) return;
+    lines.push('<strong>'+p.id+'</strong>');
+    p.photos.forEach(function(url){
+      // Strip transforms and extract filename
+      var clean = url.replace(/\?.*$/,'');
+      var fname = clean.split('/').pop();
+      lines.push('<code style="font-size:11px;background:#f5f0eb;padding:1px 4px;border-radius:3px;">'+fname+'</code>');
+    });
+  });
+  var html = '<div style="background:#FFF8EC;border:1px solid #E8C87A;border-radius:8px;padding:16px;margin-top:16px;font-size:13px;">'
+    +'<div style="font-weight:600;color:#8B5E00;margin-bottom:8px;">📦 GitHub files deleted ✓ — clean up ImageKit manually</div>'
+    +'<div style="color:#5A4030;margin-bottom:10px;">These images remain in ImageKit. Delete them from the '
+    +'<a href="https://imagekit.io/dashboard/media-library" target="_blank" style="color:#C4622D;">ImageKit Media Library</a>:</div>'
+    +'<div style="line-height:1.8;">'+lines.join('<br>')+'</div>'
+    +'</div>';
+  var el = document.getElementById('ikCleanupBanner');
+  if(!el){
+    el = document.createElement('div');
+    el.id = 'ikCleanupBanner';
+    var main = document.querySelector('.content') || document.body;
+    main.insertAdjacentElement('afterbegin', el);
+  }
+  el.innerHTML = html;
+  el.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
 function _deleteProduct(id){
-  if(!confirm('Delete '+id+'? This will remove it from the product list, delete its detail file, AND remove photos from ImageKit. Cannot be undone.'))return;
-  // Fetch detail JSON first to get photo URLs for IK cleanup
+  if(!confirm('Delete '+id+'? This removes it from the index and deletes its detail file from GitHub. Cannot be undone.\n\nYou will be shown which ImageKit images to delete manually.'))return;
+  // Fetch detail JSON first to collect photo URLs for post-delete IK cleanup guide
   fetch('https://api.github.com/repos/'+GH_REPO+'/contents/data/products/'+id+'.json?ref='+GH_BRANCH,{headers:_ghHdrs()})
     .then(function(r){return r.ok?r.json():null;})
     .then(function(f){
@@ -499,7 +531,6 @@ function _deleteProduct(id){
           var detail=JSON.parse(atob(f.content.replace(/\n/g,'')));
           photos=(detail.photos||[]).concat(detail.imageThumbs||[]);
           if(detail.thumbnail)photos.push(detail.thumbnail);
-          // deduplicate
           photos=photos.filter(function(u,i,a){return u&&a.indexOf(u)===i;});
         }catch(_){}
       }
@@ -511,12 +542,7 @@ function _deleteProduct(id){
       _updateStats();_applyFilter();
       _ghSave('data/products_index.json',_products,'Admin: delete product '+id+' from index',null);
       _ghDeleteFile('data/products/'+id+'.json','Admin: delete product detail '+id);
-      if(photos.length&&_ikPrivateKey()){
-        _ikDeleteProductImages(id,photos).then(function(res){
-          if(res.deleted>0)console.log('IK: deleted '+res.deleted+' image(s) for '+id);
-          if(res.failed>0)console.warn('IK: '+res.failed+' image(s) could not be deleted for '+id+' — remove manually from ImageKit console.');
-        });
-      }
+      _showIkCleanup([{id:id, photos:photos}]);
     });
 }
 
@@ -550,8 +576,7 @@ function _bulkBadge(badge){
 function _bulkDelete(){
   var ids=_selectedIds();
   if(!ids.length){alert('Select at least one product.');return;}
-  if(!confirm('Delete '+ids.length+' product(s)? This removes them from the index, deletes detail files, AND removes photos from ImageKit. Cannot be undone.'))return;
-  // Fetch all detail JSONs first to collect photo URLs
+  if(!confirm('Delete '+ids.length+' product(s)? Removes from index and deletes detail files from GitHub.\n\nYou will be shown which ImageKit images to delete manually. Cannot be undone.'))return;
   var fetches=ids.map(function(id){
     return fetch('https://api.github.com/repos/'+GH_REPO+'/contents/data/products/'+id+'.json?ref='+GH_BRANCH,{headers:_ghHdrs()})
       .then(function(r){return r.ok?r.json():null;})
@@ -573,12 +598,8 @@ function _bulkDelete(){
     _ghSave('data/products_index.json',_products,'Bulk delete '+ids.length+' products (index)',null);
     results.forEach(function(r){
       _ghDeleteFile('data/products/'+r.id+'.json','Admin: delete product detail '+r.id);
-      if(r.photos.length&&_ikPrivateKey()){
-        _ikDeleteProductImages(r.id,r.photos).then(function(res){
-          if(res.failed>0)console.warn('IK: '+res.failed+' image(s) not deleted for '+r.id+' — remove manually from ImageKit console.');
-        });
-      }
     });
+    _showIkCleanup(results);
   });
 }
 
@@ -706,8 +727,8 @@ function _renderQV(p){
   html += '</div>';
   html += '<div class="qv-row">';
   html += '<div class="qv-field"><label>Colour</label><span>'+_esc(p.colour||'—')+'</span></div>';
-  html += '<div class="qv-field"><label>Weaving Days</label><span>'+_esc(p.weavingDays||'—')+'</span></div>';
-  html += '<div class="qv-field"><label>Blouse</label><span>'+(p.blouseIncluded?'Included':'Not included')+'</span></div>';
+  html += '<div class="qv-field"><label>Blouse</label><span>'+_esc(p.blousePiece||(p.blouseIncluded?'Included':'Not included'))+'</span></div>';
+  html += '<div class="qv-field"><label>Region</label><span>'+_esc(p.region||'—')+'</span></div>';
   html += '</div>';
   if(p.weaveType){
     html += '<div class="qv-row"><div class="qv-field" style="flex:1"><label>Weave Type</label><span>'+_esc(p.weaveType)+'</span></div></div>';

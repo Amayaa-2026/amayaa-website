@@ -1639,7 +1639,8 @@ function _bu_renderUploadPanel(sku){
 
   document.getElementById('bu-upload-panel').innerHTML=
     '<div>'
-      +'<div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px;">'
+      /* ── header row ── */
+      +'<div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;">'
         +'<div>'
           +'<div style="font-size:15px;font-weight:600;color:#1A0A04;">'+_escHtml(prod.name)+'</div>'
           +'<div style="font-size:11px;color:#9A8070;letter-spacing:.5px;margin-top:3px;">'
@@ -1650,19 +1651,26 @@ function _bu_renderUploadPanel(sku){
         +'</div>'
         +'<div>'+statusBadge+'</div>'
       +'</div>'
-      +'<div class="dropzone" style="padding:16px;margin-bottom:14px;" '
-        +'ondragover="event.preventDefault();this.classList.add(\'drag\')" '
-        +'ondragleave="this.classList.remove(\'drag\')" '
-        +'ondrop="_bu_onDrop(event,\''+sku+'\')" '
-        +'onclick="_bu_addSlot(\''+sku+'\',null)">'
-        +'<div style="font-size:13px;color:#7A6050;">📂 Drop photos here, or click to browse</div>'
-        +'<div style="font-size:11px;color:#9A8070;margin-top:4px;">Files matching <code>'+_escHtml(prod.id)+'</code>, <code>'+(prod.type||'').toLowerCase()+'</code>, or <code>'+(prod.colour||'').toLowerCase()+'</code> are auto-ranked first</div>'
-      +'</div>'
-      +'<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">'+slotsHtml+'</div>'
-      +(filledCount<2&&filledCount>0?'<div style="font-size:12px;color:#9A6000;margin-bottom:12px;">⚠ Add '+(2-filledCount)+' more photo'+(2-filledCount===1?'':'s')+' to enable publishing</div>':'')
-      +'<div style="display:flex;gap:10px;flex-wrap:wrap;">'
-        +'<button class="btn btn-success" '+(canPublish?'':'disabled style="opacity:.4;cursor:not-allowed;"')+' '+(canPublish?'onclick="_bu_publishOne(\''+sku+'\')"':'')+'>🚀 Publish This Product</button>'
-        +'<button class="btn btn-ghost" onclick="_bu_skipProduct(\''+sku+'\')">⏭ Skip for now</button>'
+      /* ── two-column body: left = photos, right = CTAs ── */
+      +'<div style="display:flex;gap:16px;align-items:flex-start;">'
+        /* left column */
+        +'<div style="flex:1;min-width:0;">'
+          +'<div class="dropzone" style="padding:14px;margin-bottom:12px;" '
+            +'ondragover="event.preventDefault();this.classList.add(\'drag\')" '
+            +'ondragleave="this.classList.remove(\'drag\')" '
+            +'ondrop="_bu_onDrop(event,\''+sku+'\')" '
+            +'onclick="_bu_addSlot(\''+sku+'\',null)">'
+            +'<div style="font-size:13px;color:#7A6050;">📂 Drop photos here, or click to browse</div>'
+            +'<div style="font-size:11px;color:#9A8070;margin-top:4px;">Files matching <code>'+_escHtml(prod.id)+'</code>, <code>'+(prod.type||'').toLowerCase()+'</code>, or <code>'+(prod.colour||'').toLowerCase()+'</code> are auto-ranked first</div>'
+          +'</div>'
+          +'<div style="display:flex;gap:8px;flex-wrap:wrap;">'+slotsHtml+'</div>'
+          +(filledCount<2&&filledCount>0?'<div style="font-size:12px;color:#9A6000;margin-top:10px;">⚠ Add '+(2-filledCount)+' more photo'+(2-filledCount===1?'':'s')+' to enable publishing</div>':'')
+        +'</div>'
+        /* right column – CTAs stacked */
+        +'<div style="display:flex;flex-direction:column;gap:8px;min-width:160px;padding-top:4px;">'
+          +'<button class="btn btn-success" style="width:100%;" '+(canPublish?'':'disabled style="width:100%;opacity:.4;cursor:not-allowed;"')+' '+(canPublish?'onclick="_bu_publishOne(\''+sku+'\')"':'')+'>🚀 Publish</button>'
+          +'<button class="btn btn-ghost" style="width:100%;" onclick="_bu_skipProduct(\''+sku+'\')">⏭ Skip</button>'
+        +'</div>'
       +'</div>'
     +'</div>';
 }

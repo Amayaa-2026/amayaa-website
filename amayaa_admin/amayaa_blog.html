@@ -203,7 +203,7 @@ if(!sessionStorage.getItem('amayaa_admin')){
   <div class="topbar">
     <div><div class="topbar-title">Blog Manager</div><div class="topbar-sub">6 published · 1 draft</div></div>
     <div class="topbar-actions">
-      <button class="btn btn-primary" onclick="document.getElementById('blogForm').style.display='block'">+ Write New Post</button>
+      <button class="btn btn-primary" onclick="_showNewPostForm()">+ Write New Post</button>
     </div>
   </div>
   <div class="content">
@@ -394,6 +394,8 @@ function _editPost(idx){
   var form=document.getElementById('blogForm');
   form.style.display='block';
   form.scrollIntoView({behavior:'smooth'});
+  // CodeMirror layout breaks when shown after display:none — refresh to fix
+  setTimeout(function(){ if(typeof _mde!=='undefined'&&_mde&&_mde.codemirror) _mde.codemirror.refresh(); }, 50);
 }
 
 function _deletePost(idx){
@@ -429,6 +431,7 @@ function _publishPost(published){
     gradientFrom: existing.gradientFrom||'#8B1A4A',
     gradientTo: existing.gradientTo||'#C4622D',
     thumbnailImage: thumbVal||existing.thumbnailImage||'',
+    coverImage: existing.coverImage||thumbVal||existing.thumbnailImage||'',
     excerpt: excerpt,
     body: body,
     seoTitle: document.getElementById('bf-seotitle').value.trim()||title,
@@ -559,15 +562,17 @@ function _applyTemplate(key){
   _mde.codemirror.focus();
 }
 
-/* ── Wire "New Post" topbar button ── */
+/* ── Show new-post form (also called from inline onclick) ── */
+function _showNewPostForm(){
+  _clearForm();
+  var form=document.getElementById('blogForm');
+  form.style.display='block';
+  form.scrollIntoView({behavior:'smooth'});
+  // Refresh CodeMirror so it renders correctly after a hide/show cycle
+  setTimeout(function(){ if(typeof _mde!=='undefined'&&_mde&&_mde.codemirror) _mde.codemirror.refresh(); }, 50);
+}
+
 document.addEventListener('DOMContentLoaded',function(){
-  var newBtn=document.querySelector('.topbar-actions .btn-primary');
-  if(newBtn) newBtn.addEventListener('click',function(){
-    _clearForm();
-    var form=document.getElementById('blogForm');
-    form.style.display='block';
-    form.scrollIntoView({behavior:'smooth'});
-  });
   _setupMDE();
   fetch('../data/blog.json?_='+Date.now())
     .then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json();})

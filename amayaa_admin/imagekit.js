@@ -69,6 +69,73 @@ function _ikUpload(file, folder, fileName) {
 }
 
 /**
+ * Delete a single ImageKit file by its fileId.
+ * @param {string} fileId — ImageKit fileId (not the URL)
+ * @param {string} key — IK private key
+ * @returns {Promise}
+ */
+function _ikDeleteFile(fileId, key) {
+  var auth = 'Basic ' + btoa(key + ':');
+  return fetch('https://api.imagekit.io/v1/files/' + fileId, {
+    method: 'DELETE',
+    headers: { 'Authorization': auth }
+  });
+}
+
+/**
+ * Search ImageKit for a file by name in /products folder, return fileIds.
+ * @param {string} fileName — e.g. "AMY-KGB-001_Look1.jpg"
+ * @param {string} key — IK private key
+ * @returns {Promise<string[]>} array of fileIds
+ */
+function _ikFindByName(fileName, key) {
+  var auth = 'Basic ' + btoa(key + ':');
+  // Strip transform params from URL if full URL was passed
+  fileName = fileName.replace(/\?.*$/, '').split('/').pop();
+  return fetch('https://api.imagekit.io/v1/files?path=/products&name=' + encodeURIComponent(fileName), {
+    headers: { 'Authorization': auth }
+  })
+  .then(function(r) { return r.ok ? r.json() : []; })
+  .then(function(arr) { return Array.isArray(arr) ? arr.map(function(f){return f.fileId;}) : []; })
+  .catch(function() { return []; });
+}
+
+/**
+ * Delete all ImageKit photos for a product.
+ * Resolves fileIds by searching for each URL's filename, then bulk-deletes.
+ * @param {string} productId — e.g. "AMY-KGB-001"
+ * @param {string[]} photoUrls — IK photo URLs from detail JSON
+ * @returns {Promise<{deleted:number, failed:number}>}
+ */
+function _ikDeleteProductImages(productId, photoUrls) {
+  var key = _ikPrivateKey();
+  if (!key || !photoUrls || !photoUrls.length) {
+    return Promise.resolve({ deleted: 0, failed: 0 });
+  }
+  var auth = 'Basic ' + btoa(key + ':');
+  // Collect all fileId lookups in parallel
+  var lookups = photoUrls.map(function(url) { return _ikFindByName(url, key); });
+  return Promise.all(lookups)
+    .then(function(results) {
+      var fileIds = [];
+      results.forEach(function(ids) { ids.forEach(function(id){if(id)fileIds.push(id);}); });
+      if (!fileIds.length) return { deleted: 0, failed: 0 };
+      return fetch('https://api.imagekit.io/v1/files/bulk/delete', {
+        method: 'POST',
+        headers: { 'Authorization': auth, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ fileIds: fileIds })
+      })
+      .then(function(r) { return r.json(); })
+      .then(function(res) {
+        var deleted = (res.successfullyDeletedFileIds || []).length;
+        var failed  = fileIds.length - deleted;
+        return { deleted: deleted, failed: failed };
+      });
+    })
+    .catch(function() { return { deleted: 0, failed: 0 }; });
+}
+
+/**
  * Convenience: open file picker, upload, call back with URL
  * @param {string} folder — ImageKit target folder
  * @param {function} onUrl — callback(url) on success

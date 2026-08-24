@@ -488,11 +488,36 @@ function _ghDeleteFile(filePath, msg){
 }
 
 function _deleteProduct(id){
-  if(!confirm('Delete '+id+'? This will remove it from the product list AND delete its detail file. Cannot be undone.'))return;
-  _products=_products.filter(function(p){return p.id!==id;});
-  _updateStats();_applyFilter();
-  _ghSave('data/products_index.json',_products,'Admin: delete product '+id+' from index',null);
-  _ghDeleteFile('data/products/'+id+'.json','Admin: delete product detail '+id);
+  if(!confirm('Delete '+id+'? This will remove it from the product list, delete its detail file, AND remove photos from ImageKit. Cannot be undone.'))return;
+  // Fetch detail JSON first to get photo URLs for IK cleanup
+  fetch('https://api.github.com/repos/'+GH_REPO+'/contents/data/products/'+id+'.json?ref='+GH_BRANCH,{headers:_ghHdrs()})
+    .then(function(r){return r.ok?r.json():null;})
+    .then(function(f){
+      var photos=[];
+      if(f&&f.content){
+        try{
+          var detail=JSON.parse(atob(f.content.replace(/\n/g,'')));
+          photos=(detail.photos||[]).concat(detail.imageThumbs||[]);
+          if(detail.thumbnail)photos.push(detail.thumbnail);
+          // deduplicate
+          photos=photos.filter(function(u,i,a){return u&&a.indexOf(u)===i;});
+        }catch(_){}
+      }
+      return photos;
+    })
+    .catch(function(){return[];})
+    .then(function(photos){
+      _products=_products.filter(function(p){return p.id!==id;});
+      _updateStats();_applyFilter();
+      _ghSave('data/products_index.json',_products,'Admin: delete product '+id+' from index',null);
+      _ghDeleteFile('data/products/'+id+'.json','Admin: delete product detail '+id);
+      if(photos.length&&_ikPrivateKey()){
+        _ikDeleteProductImages(id,photos).then(function(res){
+          if(res.deleted>0)console.log('IK: deleted '+res.deleted+' image(s) for '+id);
+          if(res.failed>0)console.warn('IK: '+res.failed+' image(s) could not be deleted for '+id+' — remove manually from ImageKit console.');
+        });
+      }
+    });
 }
 
 function _selectAll(checked){
@@ -525,12 +550,36 @@ function _bulkBadge(badge){
 function _bulkDelete(){
   var ids=_selectedIds();
   if(!ids.length){alert('Select at least one product.');return;}
-  if(!confirm('Delete '+ids.length+' product(s)? Cannot be undone.'))return;
-  _products=_products.filter(function(p){return ids.indexOf(p.id)<0;});
-  _updateStats();_applyFilter();
-  _ghSave('data/products_index.json',_products,'Bulk delete '+ids.length+' products (index)',null);
-  /* also delete individual detail files */
-  ids.forEach(function(id){ _ghDeleteFile('data/products/'+id+'.json','Admin: delete product detail '+id); });
+  if(!confirm('Delete '+ids.length+' product(s)? This removes them from the index, deletes detail files, AND removes photos from ImageKit. Cannot be undone.'))return;
+  // Fetch all detail JSONs first to collect photo URLs
+  var fetches=ids.map(function(id){
+    return fetch('https://api.github.com/repos/'+GH_REPO+'/contents/data/products/'+id+'.json?ref='+GH_BRANCH,{headers:_ghHdrs()})
+      .then(function(r){return r.ok?r.json():null;})
+      .then(function(f){
+        if(!f||!f.content)return{id:id,photos:[]};
+        try{
+          var d=JSON.parse(atob(f.content.replace(/\n/g,'')));
+          var ph=(d.photos||[]).concat(d.imageThumbs||[]);
+          if(d.thumbnail)ph.push(d.thumbnail);
+          ph=ph.filter(function(u,i,a){return u&&a.indexOf(u)===i;});
+          return{id:id,photos:ph};
+        }catch(_){return{id:id,photos:[]};}
+      })
+      .catch(function(){return{id:id,photos:[]};});
+  });
+  Promise.all(fetches).then(function(results){
+    _products=_products.filter(function(p){return ids.indexOf(p.id)<0;});
+    _updateStats();_applyFilter();
+    _ghSave('data/products_index.json',_products,'Bulk delete '+ids.length+' products (index)',null);
+    results.forEach(function(r){
+      _ghDeleteFile('data/products/'+r.id+'.json','Admin: delete product detail '+r.id);
+      if(r.photos.length&&_ikPrivateKey()){
+        _ikDeleteProductImages(r.id,r.photos).then(function(res){
+          if(res.failed>0)console.warn('IK: '+res.failed+' image(s) not deleted for '+r.id+' — remove manually from ImageKit console.');
+        });
+      }
+    });
+  });
 }
 
 function _csvUpload(){
@@ -715,5 +764,6 @@ function _genQR(id){
 }
 
 </script>
+<script src="imagekit.js"></script>
 <script src="sidebar.js"></script>
 </body></html>

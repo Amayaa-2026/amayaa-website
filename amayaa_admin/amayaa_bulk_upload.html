@@ -439,7 +439,7 @@ body{font-family:'Jost',sans-serif;background:linear-gradient(135deg,#E4DFD9 0%,
           <div id="bu-product-list"></div>
         </div>
         <!-- Right: upload panel -->
-        <div id="bu-upload-panel" style="padding:18px;">
+        <div id="bu-upload-panel" style="display:flex;flex-direction:column;">
           <div class="empty-state" style="height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;">
             <div style="font-size:28px;">←</div>
             <div>Select a product to begin uploading photos</div>
@@ -1607,71 +1607,83 @@ function _bu_renderUploadPanel(sku){
   var st=_bu_pubStatus[sku]||'pending';
   var canPublish=filledCount>=2&&st!=='published'&&st!=='uploading';
 
+  /* ── Build 2x2 photo grid ── */
   var slotsHtml='';
   for(var i=0;i<visibleSlots;i++){
     var isMain=i===0;
     var hasImg=slots[i]&&slots[i]!=='__';
     var isPend=slots[i]==='__';
     if(hasImg){
-      slotsHtml+='<div class="im-thumb'+(isMain?' is-main':'')+'" style="width:80px;height:100px;">'
-        +'<img src="'+urls[i]+'" alt="" style="width:100%;height:100%;object-fit:cover;">'
-        +(isMain?'<div class="im-thumb-lbl">Main</div>':
-          '<div class="im-thumb-set" title="Click to set as main photo" onclick="_bu_setMain(\''+sku+'\','+i+')" style="width:auto;height:auto;border-radius:4px;font-size:10px;font-weight:700;padding:2px 5px;letter-spacing:.3px;">★ MAIN</div>')
-        +'<div class="im-thumb-rm" onclick="_bu_removeSlot(\''+sku+'\','+i+')">✕</div>'
+      slotsHtml+=
+        '<div class="im-thumb'+(isMain?' is-main':'')+'" style="height:190px;border-radius:10px;">'
+        +'<img src="'+urls[i]+'" alt="" style="width:100%;height:100%;object-fit:cover;display:block;">'
+        +(isMain
+          ?'<div class="im-thumb-lbl" style="font-size:10px;padding:4px 0;letter-spacing:1.5px;">★ MAIN PHOTO</div>'
+          :'<div class="im-thumb-set" onclick="_bu_setMain(\''+sku+'\','+i+')" style="width:auto;height:auto;border-radius:5px;font-size:9px;font-weight:700;padding:3px 7px;letter-spacing:.5px;top:6px;left:6px;">★ Set Main</div>')
+        +'<div class="im-thumb-rm" onclick="_bu_removeSlot(\''+sku+'\','+i+')" style="top:6px;right:6px;width:22px;height:22px;font-size:12px;">✕</div>'
         +'</div>';
     } else if(isPend){
-      slotsHtml+='<div class="im-thumb" style="width:96px;height:120px;display:flex;align-items:center;justify-content:center;background:rgba(196,98,45,.05);">'
-        +'<span style="font-size:18px;animation:spin .7s linear infinite;">↻</span></div>';
+      slotsHtml+=
+        '<div style="height:190px;border-radius:10px;background:rgba(196,98,45,.05);border:2px solid rgba(196,98,45,.12);display:flex;align-items:center;justify-content:center;">'
+        +'<span style="font-size:24px;animation:spin .7s linear infinite;color:#C4622D;">↻</span>'
+        +'</div>';
     } else {
-      slotsHtml+='<div class="im-add-slot" style="width:96px;height:120px;" onclick="_bu_addSlot(\''+sku+'\','+i+')">'
-        +(i===0?'📷':'+')+
-        '</div>';
+      var borderOp=i===0?'.4':'.2';
+      var bgOp=i===0?'.03':'.01';
+      slotsHtml+=
+        '<div onclick="_bu_addSlot(\''+sku+'\','+i+')" '
+          +'style="height:190px;border-radius:10px;border:2px dashed rgba(196,98,45,'+borderOp+');display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;cursor:pointer;background:rgba(196,98,45,'+bgOp+');transition:all .2s;" '
+          +'onmouseover="this.style.background=\'rgba(196,98,45,.07)\';this.style.borderColor=\'#C4622D\'" '
+          +'onmouseout="this.style.background=\'rgba(196,98,45,'+bgOp+')\';this.style.borderColor=\'rgba(196,98,45,'+borderOp+')\'">'
+          +(i===0
+            ?'<span style="font-size:32px;">📷</span><span style="font-size:12px;font-weight:600;color:#C4622D;">Add Main Photo</span><span style="font-size:11px;color:#9A8070;">Shown as thumbnail</span>'
+            :'<span style="font-size:32px;font-weight:200;color:#C4622D;line-height:1;">+</span><span style="font-size:11px;color:#9A8070;">Add Photo '+(i+1)+'</span>')
+        +'</div>';
     }
   }
 
   var statusBadge='';
   if(st==='published') statusBadge='<span class="pill p-ok">✅ Published</span>';
   else if(st==='uploading') statusBadge='<span class="pill p-warn">⏳ Uploading…</span>';
-  else if(st==='error') statusBadge='<span class="pill p-warn">⚠ Error — try again</span>';
+  else if(st==='error') statusBadge='<span class="pill p-warn">⚠ Error — retry</span>';
   else if(filledCount>=2) statusBadge='<span class="pill p-new">Ready to publish</span>';
-  else if(filledCount>0) statusBadge='<span class="pill p-skip">Add '+(2-filledCount)+' more photo'+(filledCount===1?'':'s')+'</span>';
+  else if(filledCount>0) statusBadge='<span class="pill p-skip">Need '+(2-filledCount)+' more</span>';
   else statusBadge='<span class="pill p-skip">No photos yet</span>';
 
   document.getElementById('bu-upload-panel').innerHTML=
-    '<div>'
-      /* ── header row ── */
-      +'<div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;">'
-        +'<div>'
-          +'<div style="font-size:15px;font-weight:600;color:#1A0A04;">'+_escHtml(prod.name)+'</div>'
-          +'<div style="font-size:11px;color:#9A8070;letter-spacing:.5px;margin-top:3px;">'
-            +_escHtml(prod.id)
-            +(prod.type?' &nbsp;·&nbsp; '+_escHtml(prod.type):'')
-            +(prod.colour?' &nbsp;·&nbsp; '+_escHtml(prod.colour):'')
-          +'</div>'
-        +'</div>'
-        +'<div>'+statusBadge+'</div>'
-      +'</div>'
-      /* ── two-column body: left = photos, right = CTAs ── */
-      +'<div style="display:flex;gap:16px;align-items:flex-start;">'
-        /* left column */
-        +'<div style="flex:1;min-width:0;">'
-          +'<div class="dropzone" style="padding:14px;margin-bottom:12px;" '
-            +'ondragover="event.preventDefault();this.classList.add(\'drag\')" '
-            +'ondragleave="this.classList.remove(\'drag\')" '
-            +'ondrop="_bu_onDrop(event,\''+sku+'\')" '
-            +'onclick="_bu_addSlot(\''+sku+'\',null)">'
-            +'<div style="font-size:13px;color:#7A6050;">📂 Drop photos here, or click to browse</div>'
-            +'<div style="font-size:11px;color:#9A8070;margin-top:4px;">Files matching <code>'+_escHtml(prod.id)+'</code>, <code>'+(prod.type||'').toLowerCase()+'</code>, or <code>'+(prod.colour||'').toLowerCase()+'</code> are auto-ranked first</div>'
-          +'</div>'
-          +'<div style="display:flex;gap:8px;flex-wrap:wrap;">'+slotsHtml+'</div>'
-          +(filledCount<2&&filledCount>0?'<div style="font-size:12px;color:#9A6000;margin-top:10px;">⚠ Add '+(2-filledCount)+' more photo'+(2-filledCount===1?'':'s')+' to enable publishing</div>':'')
-        +'</div>'
-        /* right column – CTAs stacked */
-        +'<div style="display:flex;flex-direction:column;gap:8px;min-width:160px;padding-top:4px;">'
-          +'<button class="btn btn-success" style="width:100%;" '+(canPublish?'':'disabled style="width:100%;opacity:.4;cursor:not-allowed;"')+' '+(canPublish?'onclick="_bu_publishOne(\''+sku+'\')"':'')+'>🚀 Publish</button>'
-          +'<button class="btn btn-ghost" style="width:100%;" onclick="_bu_skipProduct(\''+sku+'\')">⏭ Skip</button>'
+    /* Header */
+    '<div style="display:flex;align-items:flex-start;justify-content:space-between;padding:16px 18px 14px;border-bottom:1px solid rgba(0,0,0,.06);">'
+      +'<div>'
+        +'<div style="font-size:15px;font-weight:600;color:#1A0A04;">'+_escHtml(prod.name)+'</div>'
+        +'<div style="font-size:11px;color:#9A8070;letter-spacing:.5px;margin-top:3px;">'
+          +_escHtml(prod.id)
+          +(prod.type?' &nbsp;&middot;&nbsp; '+_escHtml(prod.type):'')
+          +(prod.colour?' &nbsp;&middot;&nbsp; '+_escHtml(prod.colour):'')
         +'</div>'
       +'</div>'
+      +'<div>'+statusBadge+'</div>'
+    +'</div>'
+    /* 2x2 Photo grid */
+    +'<div style="padding:16px 18px;">'
+      +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">'+slotsHtml+'</div>'
+      /* Compact dropzone bar */
+      +'<div style="display:flex;align-items:center;gap:12px;border:1.5px dashed rgba(196,98,45,.25);border-radius:8px;padding:10px 14px;cursor:pointer;background:rgba(196,98,45,.015);transition:background .2s;" '
+        +'ondragover="event.preventDefault();this.style.background=\'rgba(196,98,45,.07)\'" '
+        +'ondragleave="this.style.background=\'rgba(196,98,45,.015)\'" '
+        +'ondrop="_bu_onDrop(event,\''+sku+'\')" '
+        +'onclick="_bu_addSlot(\''+sku+'\',null)">'
+        +'<span style="font-size:20px;flex-shrink:0;">📂</span>'
+        +'<div style="min-width:0;">'
+          +'<div style="font-size:12px;font-weight:600;color:#7A5030;">Drop photos here, or click to browse</div>'
+          +'<div style="font-size:11px;color:#9A8070;margin-top:2px;">Auto-matches <code>'+_escHtml(prod.id)+'</code>'+(prod.type?', <code>'+(prod.type||'').toLowerCase()+'</code>':'')+(prod.colour?', <code>'+(prod.colour||'').toLowerCase()+'</code>':'')+'</div>'
+        +'</div>'
+      +'</div>'
+      +(filledCount>0&&filledCount<2?'<div style="font-size:12px;color:#9A6000;margin-top:8px;padding:6px 10px;background:rgba(200,150,0,.06);border-radius:6px;">⚠ Add '+(2-filledCount)+' more photo'+(2-filledCount===1?'':'s')+' to enable publishing</div>':'')
+    +'</div>'
+    /* Footer CTAs */
+    +'<div style="display:flex;align-items:center;justify-content:flex-end;gap:10px;padding:12px 18px;border-top:1px solid rgba(0,0,0,.06);background:rgba(240,230,216,.15);">'
+      +'<button class="btn btn-ghost btn-sm" onclick="_bu_skipProduct(\''+sku+'\')">⏭ Skip for now</button>'
+      +'<button class="btn btn-success" '+(canPublish?'onclick="_bu_publishOne(\''+sku+'\')"':'disabled style="opacity:.4;cursor:not-allowed;"')+'>🚀 Publish This Product</button>'
     +'</div>';
 }
 

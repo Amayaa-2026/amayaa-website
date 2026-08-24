@@ -921,7 +921,9 @@ function runSearch(q){
   
   // Search across name, region, fabric, colour, occasion, price
   var results = products.filter(function(p){
-    var searchable = [p.name,p.region,p.fabric,p.colour,p.occasion,p.price+''].join(' ').toLowerCase();
+    if(p.status==='draft'||p.status==='hidden') return false;
+    var occ = Array.isArray(p.occasion) ? p.occasion.join(' ') : (p.occasion||'');
+    var searchable = [p.name,p.region,p.fabric,p.colour,occ,p.price+''].join(' ').toLowerCase();
     // Also handle price queries like "under 5000" or "below 10000"
     if(q.includes('under') || q.includes('below')){
       var num = parseInt(q.replace(/[^0-9]/g,''));

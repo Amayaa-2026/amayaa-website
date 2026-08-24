@@ -1849,8 +1849,12 @@ async function _bu_publishOne(sku,ikKeyOverride){
       var prod=idxArr.find(function(p){return p.id===sku;});
       if(prod){prod.thumbnail=thumbs[0]||'';prod.status='active';}
       await _ghPut('data/products_index.json',idxArr,idxFile.sha,'Admin: bulk upload — set '+sku+' active');
-    }catch(e){console.warn('Index patch failed:',e);}
-    _bu_pubStatus[sku]='published';
+      _bu_pubStatus[sku]='published';
+    }catch(e){
+      console.warn('Index patch failed:',e);
+      _bu_pubStatus[sku]='index_failed';
+      _logLine('⚠ '+sku+': photos uploaded but index patch failed — product may still show as draft. Please edit in Product Manager to set status active.',false);
+    }
     if(_bu_batch){
       _bu_batch.published=_bu_batch.published||[];
       if(_bu_batch.published.indexOf(sku)===-1)_bu_batch.published.push(sku);

@@ -631,7 +631,8 @@ function _renderQV(p){
   var html = '';
   // Image
   if(p.thumbnail){
-    html += '<img class="qv-img" src="../'+_esc(p.thumbnail)+'" alt="'+_esc(p.name)+'" onerror="this.style.display=\'none\'">';
+    var _qvThumb = p.thumbnail.match(/^https?:\/\//) ? p.thumbnail : '../'+p.thumbnail;
+    html += '<img class="qv-img" src="'+_esc(_qvThumb)+'" alt="'+_esc(p.name)+'" onerror="this.style.display=\'none\'">';
   } else {
     var gf=p.gradientFrom||'#D4C5B0', gt=p.gradientTo||'#B8A898';
     html += '<div class="qv-img-placeholder" style="background:linear-gradient(135deg,'+_esc(gf)+','+_esc(gt)+')">&#129528;</div>';

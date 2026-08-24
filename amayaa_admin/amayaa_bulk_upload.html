@@ -1618,8 +1618,8 @@ function _bu_renderUploadPanel(sku){
         +'<img src="'+urls[i]+'" alt="" style="width:100%;height:100%;object-fit:cover;display:block;">'
         +(isMain
           ?'<div class="im-thumb-lbl" style="font-size:10px;padding:4px 0;letter-spacing:1.5px;">★ MAIN</div>'
-          :'<div class="im-thumb-set" onclick="_bu_setMain(''+sku+'','+i+')" style="width:auto;height:auto;border-radius:5px;font-size:9px;font-weight:700;padding:3px 7px;top:5px;left:5px;">★ Main</div>')
-        +'<div class="im-thumb-rm" onclick="_bu_removeSlot(''+sku+'','+i+')" style="top:5px;right:5px;width:20px;height:20px;font-size:11px;">✕</div>'
+          :'<div class="im-thumb-set" onclick="_bu_setMain(\''+sku+'\','+i+')" style="width:auto;height:auto;border-radius:5px;font-size:9px;font-weight:700;padding:3px 7px;top:5px;left:5px;">★ Main</div>')
+        +'<div class="im-thumb-rm" onclick="_bu_removeSlot(\''+sku+'\','+i+')" style="top:5px;right:5px;width:20px;height:20px;font-size:11px;">✕</div>'
         +'</div>';
     } else if(isPend){
       slotsHtml+=
@@ -1630,10 +1630,10 @@ function _bu_renderUploadPanel(sku){
       var bOp=i===0?'.35':'.2';
       var bgOp=i===0?'.025':'.008';
       slotsHtml+=
-        '<div onclick="_bu_addSlot(''+sku+'','+i+')" '
+        '<div onclick="_bu_addSlot(\''+sku+'\','+i+')" '
           +'style="flex:1;min-width:0;height:190px;border-radius:8px;border:1.5px dashed rgba(196,98,45,'+bOp+');display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;cursor:pointer;background:rgba(196,98,45,'+bgOp+');transition:all .2s;" '
-          +'onmouseover="this.style.background='rgba(196,98,45,.07)';this.style.borderColor='#C4622D'" '
-          +'onmouseout="this.style.background='rgba(196,98,45,'+bgOp+')';this.style.borderColor='rgba(196,98,45,'+bOp+')'">'
+          +'onmouseover="this.style.background=\'rgba(196,98,45,.07)\';this.style.borderColor=\'#C4622D\'" '
+          +'onmouseout="this.style.background=\'rgba(196,98,45,'+bgOp+')\';this.style.borderColor=\'rgba(196,98,45,'+bOp+')\'">'
           +(i===0
             ?'<span style="font-size:28px;">📷</span><span style="font-size:11px;font-weight:600;color:#C4622D;text-align:center;">Main Photo</span>'
             :'<span style="font-size:26px;font-weight:200;color:#C4622D;line-height:1;">+</span><span style="font-size:10px;color:#9A8070;">Photo '+(i+1)+'</span>')
@@ -1650,7 +1650,6 @@ function _bu_renderUploadPanel(sku){
   else statusBadge='<span class="pill p-skip">No photos yet</span>';
 
   document.getElementById('bu-upload-panel').innerHTML=
-    /* Header */
     '<div style="display:flex;align-items:flex-start;justify-content:space-between;padding:16px 18px 14px;border-bottom:1px solid rgba(0,0,0,.06);">'
       +'<div>'
         +'<div style="font-size:15px;font-weight:600;color:#1A0A04;">'+_escHtml(prod.name)+'</div>'
@@ -1662,27 +1661,26 @@ function _bu_renderUploadPanel(sku){
       +'</div>'
       +'<div>'+statusBadge+'</div>'
     +'</div>'
-    /* Dropzone — centered */
     +'<div style="display:flex;align-items:center;justify-content:center;gap:10px;border:1.5px dashed rgba(196,98,45,.25);border-radius:8px;margin:14px 18px 0;padding:10px 14px;cursor:pointer;background:rgba(196,98,45,.015);transition:background .2s;text-align:center;" '
-      +'ondragover="event.preventDefault();this.style.background='rgba(196,98,45,.07)'" '
-      +'ondragleave="this.style.background='rgba(196,98,45,.015)'" '
-      +'ondrop="_bu_onDrop(event,''+sku+'')" '
-      +'onclick="_bu_addSlot(''+sku+'',null)">'
+      +'ondragover="event.preventDefault();this.style.background=\'rgba(196,98,45,.07)\'" '
+      +'ondragleave="this.style.background=\'rgba(196,98,45,.015)\'" '
+      +'ondrop="_bu_onDrop(event,\''+sku+'\')" '
+      +'onclick="_bu_addSlot(\''+sku+'\',null)">'
       +'<span style="font-size:18px;flex-shrink:0;">📂</span>'
       +'<div>'
         +'<div style="font-size:12px;font-weight:600;color:#7A5030;">Drop photos here, or click to browse</div>'
         +'<div style="font-size:11px;color:#9A8070;margin-top:2px;">Auto-matches <code>'+_escHtml(prod.id)+'</code>'+(prod.type?', <code>'+(prod.type||'').toLowerCase()+'</code>':'')+(prod.colour?', <code>'+(prod.colour||'').toLowerCase()+'</code>':'')+'</div>'
       +'</div>'
     +'</div>'
-    /* 4-slot row + side CTAs */
     +'<div style="display:flex;align-items:flex-start;gap:14px;padding:14px 18px;">'
       +'<div style="flex:1;display:flex;gap:8px;border:1.5px solid rgba(0,0,0,.08);border-radius:10px;padding:10px;background:rgba(240,230,216,.1);">'+slotsHtml+'</div>'
       +'<div style="display:flex;flex-direction:column;gap:8px;min-width:145px;padding-top:4px;">'
-        +'<button class="btn btn-ghost btn-sm" style="width:100%;" onclick="_bu_skipProduct(''+sku+'')">Skip for now</button>'
-        +'<button class="btn btn-success" style="width:100%;" '+(canPublish?'onclick="_bu_publishOne(''+sku+'')"':'disabled style="width:100%;opacity:.4;cursor:not-allowed;"')+'>🚀 Publish This</button>'
+        +'<button class="btn btn-ghost btn-sm" style="width:100%;" onclick="_bu_skipProduct(\''+sku+'\')">Skip for now</button>'
+        +'<button class="btn btn-success" style="width:100%;" '+(canPublish?'onclick="_bu_publishOne(\''+sku+'\')"':'disabled style="width:100%;opacity:.4;cursor:not-allowed;"')+'>🚀 Publish This</button>'
       +'</div>'
     +'</div>';
 }
+
 
 /* ── Fuzzy score: how well does a filename match this product? ── */
 function _bu_scoreFile(filename,prod){

@@ -277,13 +277,6 @@ select.fi{cursor:pointer;}
     </div>
   </div>
 
-  <div class="save-bar">
-    <span class="save-status" id="save-status">All changes auto-saved to browser. Click "Save All" to export.</span>
-    <div style="display:flex;gap:8px;">
-      <button class="btn btn-ghost btn-sm" onclick="resetToDefaults()">↩ Reset to Defaults</button>
-      <button class="btn btn-teal btn-sm" onclick="exportJSON()">⬇ Export JSON</button>
-    </div>
-  </div>
 </div>
 
 <script>
@@ -587,9 +580,6 @@ function setImgPos(i,pos){ data.story[i].imgPos=pos; renderStory(); autoSave(); 
 
 function autoSave(){
   localStorage.setItem('amayaa_about_data', JSON.stringify(data));
-  var s=document.getElementById('save-status');
-  s.textContent='✓ Auto-saved — '+new Date().toLocaleTimeString();
-  s.style.color='#2E7D32';
 }
 
 function saveAll(){
@@ -597,17 +587,6 @@ function saveAll(){
   _ghSave('data/about.json', data, 'Admin: update About page', btn);
 }
 
-function resetToDefaults(){
-  if(!confirm('Reset ALL content to defaults? This cannot be undone.'))return;
-  localStorage.removeItem('amayaa_about_data');
-  location.reload();
-}
-
-function exportJSON(){
-  var blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
-  var a=document.createElement('a'); a.href=URL.createObjectURL(blob);
-  a.download='amayaa_about.json'; a.click();
-}
 
 renderAll();
 </script>

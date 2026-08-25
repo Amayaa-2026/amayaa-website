@@ -105,21 +105,5 @@
     "featured": false,
     "slug": "how-to-drape-a-saree-6-regional-styles-explained",
     "published": true
-  },
-  {
-    "id": "BLG-1786535498518",
-    "category": "Weaves",
-    "title": "Test Post",
-    "date": "August 12, 2026",
-    "readTime": "5 min read",
-    "gradientFrom": "#8B1A4A",
-    "gradientTo": "#C4622D",
-    "excerpt": "Start writing your article here. Use the toolbar above to format text, add headings, images, and links.…",
-    "body": "Start writing your article here. Use the toolbar above to format text, add headings, images, and links.",
-    "featured": false,
-    "slug": "test-post",
-    "published": false,
-    "thumbnailImage": "https://ik.imagekit.io/Amayaa2026/blog/BLG-1786535498518.jpg?tr=f-auto,q-85",
-    "coverImage": "https://ik.imagekit.io/Amayaa2026/blog/BLG-1786535498518.jpg?tr=f-auto,q-85"
   }
 ]

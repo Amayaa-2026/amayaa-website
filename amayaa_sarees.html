@@ -1518,12 +1518,46 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')mobFltClose(
     if(data.sortOptions) { _renderSort(data.sortOptions); }
   }
 
-  /* ── URL param pre-selection (e.g. ?region=Banarasi from collection strip) ── */
+  /* ── URL param pre-selection ── */
+  /* Activates a desktop filter chip whose text matches keyword (case-insensitive exact) */
+  function _activateChip(keyword){
+    var kw = keyword.trim().toLowerCase();
+    var found = false;
+    document.querySelectorAll('#deskFltOverlay .desk-flt-chip').forEach(function(chip){
+      if(chip.textContent.trim().toLowerCase() === kw){
+        chip.classList.add('on');
+        chip.setAttribute('aria-checked','true');
+        found = true;
+      }
+    });
+    return found;
+  }
+
   function _applyUrlParams(){
     try {
       var sp = new URLSearchParams(window.location.search);
+      var changed = false;
+
+      /* ?region=Banarasi — existing collection-strip deep-link */
       var region = sp.get('region');
-      if(region && window._regionSelect) window._regionSelect(region);
+      if(region && window._regionSelect){ window._regionSelect(region); changed = true; }
+
+      /* ?filter=new|offers|featured  →  Show Only chips */
+      var filter = sp.get('filter');
+      if(filter){
+        var filterMap = {new:'New', offer:'Offers', offers:'Offers', featured:'Featured'};
+        var chipText = filterMap[filter.toLowerCase()];
+        if(chipText) changed = _activateChip(chipText) || changed;
+      }
+
+      /* ?occasion=wedding|festive|office|gift  →  Occasion chips */
+      var occasion = sp.get('occasion');
+      if(occasion){
+        var occ = occasion.charAt(0).toUpperCase() + occasion.slice(1).toLowerCase();
+        changed = _activateChip(occ) || changed;
+      }
+
+      if(changed) _apply();
     } catch(e){}
   }
 

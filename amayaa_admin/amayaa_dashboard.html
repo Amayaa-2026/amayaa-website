@@ -493,7 +493,11 @@ window._refreshVisitorsFromGC = function(){
       headers:{'Authorization':'Bearer '+ghTok,'Accept':'application/vnd.github+json'}
     }).then(function(r){return r.json();}).then(function(f){
       var sha=f.sha;
-      var s=JSON.parse(atob(f.content.replace(/\s/g,'')));
+      // Decode base64 → UTF-8 bytes → string (plain atob mangles multi-byte chars)
+      var _raw=atob(f.content.replace(/\s/g,''));
+      var _bytes=new Uint8Array(_raw.length);
+      for(var _i=0;_i<_raw.length;_i++) _bytes[_i]=_raw.charCodeAt(_i);
+      var s=JSON.parse(new TextDecoder('utf-8').decode(_bytes));
       s.siteStats=s.siteStats||{};
       s.siteStats.visitorCount=count;
       s.siteStats.lastSynced=today;

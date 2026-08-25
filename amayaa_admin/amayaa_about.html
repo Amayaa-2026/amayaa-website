@@ -340,6 +340,9 @@ var data = {
 var saved = localStorage.getItem('amayaa_about_data');
 if(saved) try { data = JSON.parse(saved); } catch(e) {}
 
+var _editingSections = {};   // {index: true} when section is in edit mode
+var _sectionSnapshots = {};  // {index: deepCopy} snapshot taken at Edit click (for Cancel)
+
 document.addEventListener('DOMContentLoaded', function() {
   fetch('../data/about.json')
     .then(function(r){ return r.json(); })
@@ -365,41 +368,105 @@ function switchTab(t) {
 
 function renderAll() { renderStory(); renderValues(); renderWeavers(); renderPromise(); }
 
+function _imgSrc(url){
+  // Returns correct src: absolute https:// URLs used as-is; relative paths get ../ prefix
+  if(!url) return '';
+  return /^https?:\/\//i.test(url) ? url : ('../'+url);
+}
+
 function renderStory() {
   var el = document.getElementById('story-sections');
   el.innerHTML = data.story.map(function(s, i) {
-    return '<div class="section-card">'+
-      '<div class="section-header">'+
-        '<div style="display:flex;align-items:center;">'+
-          '<span class="section-num">Section '+(i+1)+'</span>'+
-          '<span class="section-title">'+s.heading+'</span>'+
-        '</div>'+
-        '<div class="section-actions">'+
-          (i>0?'<button class="btn btn-ghost btn-sm btn-icon" onclick="moveSection('+i+',-1)" title="Move up">↑</button>':'')+
-          (i<data.story.length-1?'<button class="btn btn-ghost btn-sm btn-icon" onclick="moveSection('+i+',1)" title="Move down">↓</button>':'')+
-          '<button class="btn btn-danger btn-sm" onclick="removeSection('+i+')">Remove</button>'+
-        '</div>'+
-      '</div>'+
-      '<div class="form-row">'+
-        '<div class="fg"><label>Section Label</label><input class="fi" value="'+esc(s.label)+'" onchange="data.story['+i+'].label=this.value;autoSave()"></div>'+
-        '<div class="fg"><label>Image Position</label>'+
-          '<div class="img-pos-toggle">'+
-            '<button class="pos-opt'+(s.imgPos==='left'?' active':'')+'" onclick="setImgPos('+i+',\'left\')">◧ Left</button>'+
-            '<button class="pos-opt'+(s.imgPos==='right'?' active':'')+'" onclick="setImgPos('+i+',\'right\')">◨ Right</button>'+
+    var editing = !!_editingSections[i];
+    var imgSrc = _imgSrc(s.imgUrl);
+
+    if(editing) {
+      // ── EDIT MODE ────────────────────────────────────────────────────
+      return '<div class="section-card" style="border-left:3px solid #C4622D">'+
+        '<div class="section-header">'+
+          '<div style="display:flex;align-items:center;">'+
+            '<span class="section-num">Section '+(i+1)+'</span>'+
+            '<span class="section-title">'+esc(s.heading)+'</span>'+
+          '</div>'+
+          '<div class="section-actions">'+
+            '<button class="btn btn-save btn-sm" onclick="saveSection('+i+')">💾 Save</button>'+
+            '<button class="btn btn-ghost btn-sm" onclick="cancelSection('+i+')">✕ Cancel</button>'+
+            (i>0?'<button class="btn btn-ghost btn-sm btn-icon" onclick="moveSection('+i+',-1)" title="Move up">↑</button>':'')+
+            (i<data.story.length-1?'<button class="btn btn-ghost btn-sm btn-icon" onclick="moveSection('+i+',1)" title="Move down">↓</button>':'')+
+            '<button class="btn btn-danger btn-sm" onclick="removeSection('+i+')">Remove</button>'+
           '</div>'+
         '</div>'+
-      '</div>'+
-      '<div class="form-row full"><div class="fg"><label>Section Heading</label><input class="fi" value="'+esc(s.heading)+'" onchange="data.story['+i+'].heading=this.value;autoSave()"></div></div>'+
-      '<div class="form-row full"><div class="fg"><label>Body Text (use new line for paragraphs)</label><textarea class="fi" rows="4" onchange="data.story['+i+'].body=this.value;autoSave()">'+esc(s.body)+'</textarea></div></div>'+
-      '<div class="form-row"><div class="fg"><label>Section Image</label>'+
-        '<div style="display:flex;gap:8px;align-items:center;">'+
-          '<input class="fi" id="story-img-'+i+'" value="'+esc(s.imgUrl||'')+'" placeholder="https://ik.imagekit.io/Amayaa2026/ourstory/filename.jpg" onchange="data.story['+i+'].imgUrl=this.value;autoSave()" style="flex:1;">'+
-          '<button class="btn btn-ghost btn-sm" onclick="uploadStoryImg('+i+')">📁 Upload</button>'+
+        '<div class="form-row">'+
+          '<div class="fg"><label>Section Label</label><input class="fi" value="'+esc(s.label)+'" onchange="data.story['+i+'].label=this.value;autoSave()"></div>'+
+          '<div class="fg"><label>Image Position</label>'+
+            '<div class="img-pos-toggle">'+
+              '<button class="pos-opt'+(s.imgPos==='left'?' active':'')+'" onclick="setImgPos('+i+',\'left\')">◧ Left</button>'+
+              '<button class="pos-opt'+(s.imgPos==='right'?' active':'')+'" onclick="setImgPos('+i+',\'right\')">◨ Right</button>'+
+            '</div>'+
+          '</div>'+
         '</div>'+
-        (s.imgUrl?'<img src="../'+esc(s.imgUrl)+'" style="margin-top:6px;height:80px;object-fit:cover;border-radius:8px;width:100%;">':'')+
-      '</div></div>'+
-    '</div>';
+        '<div class="form-row full"><div class="fg"><label>Section Heading</label><input class="fi" value="'+esc(s.heading)+'" onchange="data.story['+i+'].heading=this.value;autoSave()"></div></div>'+
+        '<div class="form-row full"><div class="fg"><label>Body Text (use new line for paragraphs)</label><textarea class="fi" rows="4" onchange="data.story['+i+'].body=this.value;autoSave()">'+esc(s.body)+'</textarea></div></div>'+
+        '<div class="form-row"><div class="fg"><label>Section Image</label>'+
+          '<div style="display:flex;gap:8px;align-items:center;">'+
+            '<input class="fi" id="story-img-'+i+'" value="'+esc(s.imgUrl||'')+'" placeholder="https://ik.imagekit.io/Amayaa2026/ourstory/filename.jpg" onchange="data.story['+i+'].imgUrl=this.value;autoSave()" style="flex:1;">'+
+            '<button class="btn btn-ghost btn-sm" onclick="uploadStoryImg('+i+')">📁 Upload</button>'+
+          '</div>'+
+          (imgSrc?'<img src="'+imgSrc+'" style="margin-top:6px;height:80px;object-fit:cover;border-radius:8px;width:100%;">':'')+
+        '</div></div>'+
+      '</div>';
+    } else {
+      // ── VIEW MODE (locked) ───────────────────────────────────────────
+      return '<div class="section-card">'+
+        '<div class="section-header">'+
+          '<div style="display:flex;align-items:center;">'+
+            '<span class="section-num">Section '+(i+1)+'</span>'+
+            '<span class="section-title">'+esc(s.heading)+'</span>'+
+          '</div>'+
+          '<div class="section-actions">'+
+            '<button class="btn btn-primary btn-sm" onclick="editSection('+i+')">✏ Edit</button>'+
+            (i>0?'<button class="btn btn-ghost btn-sm btn-icon" onclick="moveSection('+i+',-1)" title="Move up">↑</button>':'')+
+            (i<data.story.length-1?'<button class="btn btn-ghost btn-sm btn-icon" onclick="moveSection('+i+',1)" title="Move down">↓</button>':'')+
+            '<button class="btn btn-danger btn-sm" onclick="removeSection('+i+')">Remove</button>'+
+          '</div>'+
+        '</div>'+
+        '<div style="display:flex;gap:14px;align-items:flex-start;">'+
+          (imgSrc?'<img src="'+imgSrc+'" style="width:80px;height:80px;object-fit:cover;border-radius:8px;flex-shrink:0;" onerror="this.style.display=\'none\'">':'')+
+          '<div style="flex:1;min-width:0;">'+
+            '<p style="font-size:13px;color:#5A4030;line-height:1.6;margin:0;">'+esc((s.body||'').slice(0,140))+(s.body&&s.body.length>140?'…':'')+'</p>'+
+            '<div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;">'+
+              '<span style="background:rgba(196,98,45,.1);color:#A04010;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600;letter-spacing:.5px;">'+esc(s.label)+'</span>'+
+              '<span style="background:rgba(0,0,0,.05);color:#7A6050;padding:2px 8px;border-radius:10px;font-size:11px;">Image '+esc(s.imgPos||'left')+'</span>'+
+              (imgSrc?'<span style="background:rgba(37,211,102,.08);color:#1A7A40;padding:2px 8px;border-radius:10px;font-size:11px;">📷 Has image</span>':'<span style="background:rgba(200,150,0,.08);color:#7A5A00;padding:2px 8px;border-radius:10px;font-size:11px;">No image</span>')+
+            '</div>'+
+          '</div>'+
+        '</div>'+
+      '</div>';
+    }
   }).join('');
+}
+
+function editSection(i) {
+  _sectionSnapshots[i] = JSON.parse(JSON.stringify(data.story[i]));
+  _editingSections[i] = true;
+  renderStory();
+}
+
+function cancelSection(i) {
+  if(_sectionSnapshots[i]) data.story[i] = _sectionSnapshots[i];
+  delete _editingSections[i];
+  delete _sectionSnapshots[i];
+  autoSave();
+  renderStory();
+}
+
+function saveSection(i) {
+  // data.story[i] is already up-to-date (onchange handlers mutate it directly)
+  delete _editingSections[i];
+  delete _sectionSnapshots[i];
+  autoSave();
+  _ghSave('data/about.json', data, 'Admin: update story section '+(i+1), null);
+  renderStory();
 }
 
 function renderValues() {
@@ -432,7 +499,7 @@ function renderWeavers() {
           '<input class="fi" id="weaver-photo-'+i+'" value="'+esc(w.photo||'')+'" placeholder="https://ik.imagekit.io/Amayaa2026/weaverprofiles/weaver-1.jpg" onchange="data.weavers['+i+'].photo=this.value;autoSave()" style="flex:1;">'+
           '<button class="btn btn-ghost btn-sm" onclick="uploadWeaverPhoto('+i+')">📁 Upload</button>'+
         '</div>'+
-        (w.photo?'<img src="../'+esc(w.photo)+'" style="margin-top:6px;height:80px;width:80px;object-fit:cover;border-radius:50%;">':'')+
+        (w.photo?'<img src="'+_imgSrc(w.photo)+'" style="margin-top:6px;height:80px;width:80px;object-fit:cover;border-radius:50%;" onerror="this.style.display=\'none\'">':'')+
       '</div>'+
     '</div>';
   }).join('')+'</div>';
@@ -455,7 +522,11 @@ function renderPromise() {
 function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
 function addStorySection(){
-  data.story.push({id:Date.now(),label:'NEW SECTION',heading:'Section Heading',body:'Enter body text here.',imgPos:'left',imgUrl:''});
+  var newEntry = {id:Date.now(),label:'NEW SECTION',heading:'Section Heading',body:'Enter body text here.',imgPos:'left',imgUrl:''};
+  data.story.push(newEntry);
+  var idx = data.story.length - 1;
+  _sectionSnapshots[idx] = JSON.parse(JSON.stringify(newEntry));
+  _editingSections[idx] = true;
   renderStory(); autoSave();
 }
 function addValue(){
@@ -490,9 +561,28 @@ function uploadWeaverPhoto(i){
   }, statusEl);
 }
 
-function removeSection(i){ if(!confirm('Remove this section?'))return; data.story.splice(i,1); renderStory(); autoSave(); }
+function removeSection(i){
+  if(!confirm('Remove this section?'))return;
+  delete _editingSections[i]; delete _sectionSnapshots[i];
+  data.story.splice(i,1);
+  // Shift remaining edit-state indices down by 1
+  var newEdit={}, newSnap={};
+  Object.keys(_editingSections).forEach(function(k){var ki=parseInt(k); if(ki>i){newEdit[ki-1]=true; if(_sectionSnapshots[k])newSnap[ki-1]=_sectionSnapshots[k];}else{newEdit[ki]=true; if(_sectionSnapshots[k])newSnap[ki]=_sectionSnapshots[k];}});
+  _editingSections=newEdit; _sectionSnapshots=newSnap;
+  renderStory(); autoSave();
+}
 function removeItem(key,i){ if(!confirm('Remove?'))return; data[key].splice(i,1); if(key==='values')renderValues(); if(key==='weavers')renderWeavers(); if(key==='promise')renderPromise(); autoSave(); }
-function moveSection(i,dir){ var tmp=data.story[i]; data.story[i]=data.story[i+dir]; data.story[i+dir]=tmp; renderStory(); autoSave(); }
+function moveSection(i,dir){
+  var j=i+dir;
+  // swap edit/snapshot state along with the data
+  var tmpEdit=_editingSections[i], tmpSnap=_sectionSnapshots[i];
+  _editingSections[i]=_editingSections[j]||false; _sectionSnapshots[i]=_sectionSnapshots[j];
+  _editingSections[j]=tmpEdit||false; _sectionSnapshots[j]=tmpSnap;
+  if(!_editingSections[i]){delete _editingSections[i]; delete _sectionSnapshots[i];}
+  if(!_editingSections[j]){delete _editingSections[j]; delete _sectionSnapshots[j];}
+  var tmp=data.story[i]; data.story[i]=data.story[j]; data.story[j]=tmp;
+  renderStory(); autoSave();
+}
 function setImgPos(i,pos){ data.story[i].imgPos=pos; renderStory(); autoSave(); }
 
 function autoSave(){

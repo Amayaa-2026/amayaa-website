@@ -19,3 +19,4 @@ node_modules/
 testing/playwright-report/
 testing/test-results/
 testing/tests/visual.spec.js-snapshots/
+.DS_Store

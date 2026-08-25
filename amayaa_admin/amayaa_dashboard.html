@@ -479,12 +479,14 @@ window._refreshVisitorsFromGC = function(){
   }).then(function(data){
     if(data.error) throw new Error('GoatCounter: '+data.error);
     // Response can be {total:N}, {total_views:N}, or {hits:[{views:N},...]}
-    var count=0;
+    var count=null;
     if(typeof data.total==='number') count=data.total;
     else if(typeof data.total_views==='number') count=data.total_views;
     else if(Array.isArray(data.hits))
       count=data.hits.reduce(function(s,h){return s+(h.views||h.count||0);},0);
-    console.log('[GC] raw response:',data,'→ count:',count);
+    console.log('[GC] raw response:',JSON.stringify(data),'→ count:',count);
+    if(count===null) throw new Error('GoatCounter response shape unknown — see console for raw data');
+    if(count===0) throw new Error('GoatCounter returned 0 — check date range or token permissions');
 
     // Read current settings.json SHA
     return fetch('https://api.github.com/repos/Amayaa-2026/amayaa-website/contents/data/settings.json?ref=main',{
@@ -509,8 +511,10 @@ window._refreshVisitorsFromGC = function(){
       if(btn){ btn.textContent='✅ Updated'; btn.disabled=false; setTimeout(function(){ btn.textContent='🔄 Refresh from GoatCounter'; },3000); }
     });
   }).catch(function(err){
-    if(btn){ btn.textContent='❌ Failed — retry'; btn.disabled=false; }
-    console.error(err);
+    var msg=err.message||String(err);
+    if(btn){ btn.textContent='❌ '+msg; btn.disabled=false; }
+    console.error('[GC refresh error]',err);
+    alert('GoatCounter refresh failed:\n'+msg);
   });
 };
 </script>

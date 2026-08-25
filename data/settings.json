@@ -17,10 +17,10 @@
     "email": "stylewithpolkadots@gmail.com"
   },
   "hours": {
-    "weekdays": "Monday â Saturday",
-    "weekdayHours": "10:00 AM â 8:00 PM",
+    "weekdays": "Monday \u00e2\u0080\u0093 Saturday",
+    "weekdayHours": "10:00 AM \u00e2\u0080\u0093 8:00 PM",
     "sunday": "Sunday",
-    "sundayHours": "11:00 AM â 6:00 PM"
+    "sundayHours": "11:00 AM \u00e2\u0080\u0093 6:00 PM"
   },
   "holidayNotice": "",
   "social": {
@@ -50,12 +50,12 @@
     "auditTrailEnabled": true
   },
   "seo": {
-    "title": "Amayaa by Polka Dots â Handloom Sarees from India's Finest Weavers",
-    "description": "Authentic handloom sarees handpicked from India's finest weaver communities. Banarasi, Kanjivaram, Baluchari, Chanderi and more â delivered to your door from Kolkata.",
+    "title": "Amayaa by Polka Dots \u00e2\u0080\u0094 Handloom Sarees from India's Finest Weavers",
+    "description": "Authentic handloom sarees handpicked from India's finest weaver communities. Banarasi, Kanjivaram, Baluchari, Chanderi and more \u00e2\u0080\u0094 delivered to your door from Kolkata.",
     "keywords": "handloom sarees, Banarasi saree, Kanjivaram silk, Baluchari, Chanderi, Kolkata saree boutique, authentic handloom"
   },
-  "footerCopyright": "2026 Amayaa by Polka Dots Â· All Rights Reserved Â· Kolkata, India",
-  "footerTagline": "Made with â¥ for Indian Handloom",
+  "footerCopyright": "2026 Amayaa by Polka Dots \u00c2\u00b7 All Rights Reserved \u00c2\u00b7 Kolkata, India",
+  "footerTagline": "Made with \u00e2\u0099\u00a5 for Indian Handloom",
   "visitorStripText": "Woven with love for {count} visitors",
   "nav": {
     "links": [
@@ -75,7 +75,7 @@
         "label": "Special Offers",
         "href": "amayaa_offers.html",
         "highlight": true,
-        "icon": "ð"
+        "icon": "\u00f0\u009f\u008e\u0081"
       },
       {
         "label": "Contact",
@@ -149,7 +149,7 @@
     ]
   },
   "siteStats": {
-    "visitorCount": 0,
+    "visitorCount": 81,
     "visitorLabel": "Total Visitors",
     "lastSynced": "2026-08-25"
   }

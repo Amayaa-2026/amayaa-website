@@ -468,16 +468,23 @@ window._refreshVisitorsFromGC = function(){
   var btn=document.getElementById('gc-refresh-btn');
   if(btn){ btn.textContent='⏳ Fetching…'; btn.disabled=true; }
 
-  // GoatCounter API: total hits (all time)
-  fetch('https://amayaa.goatcounter.com/api/v0/stats/total',{
+  // GoatCounter API: total hits — requires start/end date range
+  var today=new Date().toISOString().slice(0,10);
+  fetch('https://amayaa.goatcounter.com/api/v0/stats/total?start=2020-01-01&end='+today,{
     headers:{'Authorization':'Bearer '+gcTok,'Content-Type':'application/json'}
   }).then(function(r){
-    if(r.status===403){localStorage.removeItem('amayaa_gc_token');throw new Error('Bad GC token');}
+    if(r.status===401||r.status===403){localStorage.removeItem('amayaa_gc_token');throw new Error('Bad GC token — re-enter it');}
+    if(!r.ok) throw new Error('GC API returned '+r.status);
     return r.json();
   }).then(function(data){
-    // total is in data.total
-    var count=data.total||0;
-    var today=new Date().toISOString().slice(0,10);
+    if(data.error) throw new Error('GoatCounter: '+data.error);
+    // Response can be {total:N}, {total_views:N}, or {hits:[{views:N},...]}
+    var count=0;
+    if(typeof data.total==='number') count=data.total;
+    else if(typeof data.total_views==='number') count=data.total_views;
+    else if(Array.isArray(data.hits))
+      count=data.hits.reduce(function(s,h){return s+(h.views||h.count||0);},0);
+    console.log('[GC] raw response:',data,'→ count:',count);
 
     // Read current settings.json SHA
     return fetch('https://api.github.com/repos/Amayaa-2026/amayaa-website/contents/data/settings.json?ref=main',{

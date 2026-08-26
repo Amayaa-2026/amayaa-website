@@ -1133,19 +1133,24 @@
     ]
   },
   {
-    "name": "Khaddi Georgette Banarasi Sarees",
+    "id": "AMY-KGB-001",
+    "name": "Khaddi Georgette Banarasi Saree",
     "type": "Banarasi",
-    "region": "Varanasi UP",
-    "fabric": "Georgette Silk",
-    "colour": "Deep Red",
+    "region": "Varanasi, UP",
+    "fabric": "Khaddi Georgette",
+    "colour": "Deep Red & Gold",
     "price": 20000,
+    "originalPrice": null,
     "status": "active",
     "featured": true,
+    "badges": ["new", "featured"],
+    "occasion": ["wedding", "festive", "casual"],
+    "shortDescription": "Khaddi Georgette Banarasi — the lighter cousin of Katan silk. Sheer, fluid fabric with meenakari zari weave. Easier to drape, equally festive.",
+    "tags": ["khaddi", "georgette", "banarasi", "varanasi", "silk", "zari", "wedding", "festive", "silk-mark"],
     "weaveStoryId": "WS-027",
     "careSuggestionId": "CI-SILK",
     "descriptionId": "DESC-031",
     "contentBundleId": "CB-003",
-    "id": "AMY-KGB-001",
     "thumbnail": "https://ik.imagekit.io/Amayaa2026/products/AMY-KGB-001/thumb1.jpg?tr=f-auto,q-85"
   }
 ]

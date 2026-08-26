@@ -339,6 +339,8 @@ function _ghSave(filePath,dat,msg,btnEl){
     .then(function(r){return r.json();})
     .then(function(res){
       if(res.content){
+        /* Cache in localStorage so hard refresh shows data immediately, no CDN delay */
+        try{localStorage.setItem('amayaa_cats_v1',JSON.stringify(dat));}catch(e){}
         if(btnEl){btnEl.textContent='✅ Saved!';setTimeout(function(){btnEl.textContent=orig;btnEl.disabled=false;},2500);}
         else{var t=document.createElement('div');t.style.cssText='position:fixed;top:20px;right:20px;z-index:9999;padding:12px 20px;border-radius:10px;background:#D4F0DD;border:1px solid #1A7A40;color:#1A7A40;font-family:Jost,sans-serif;font-weight:600;font-size:14px;';t.textContent='✅ Saved to GitHub!';document.body.appendChild(t);setTimeout(function(){t.remove();},3000);}
       }else{throw new Error(res.message||'Write failed');}
@@ -528,35 +530,48 @@ function saveCategories(){
   _ghSave('data/categories.json', _cats, 'Admin: update categories', btn);
 }
 
-/* ── Init: fetch categories.json (always from GitHub API to bypass CDN cache) ── */
+/* ── Init: load categories.json with localStorage-first strategy ── */
 document.addEventListener('DOMContentLoaded', function(){
-  function _loadFallback(){
-    fetch('../data/categories.json?_='+Date.now())
-      .then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json();})
-      .then(function(data){ _cats = data; _renderAll(); })
-      .catch(function(e){
-        console.warn('Could not load categories.json:',e);
+  /* Step 1: show localStorage cache immediately so hard refresh reflects last save */
+  try{
+    var cached=localStorage.getItem('amayaa_cats_v1');
+    if(cached){ _cats=JSON.parse(cached); _renderAll(); }
+  }catch(e){}
+
+  /* Step 2: refresh from authoritative source in background */
+  function _fromGitHub(){
+    var tok=_ghTok();
+    if(!tok) return Promise.reject(new Error('no token'));
+    return fetch('https://api.github.com/repos/'+GH_REPO+'/contents/data/categories.json?ref='+GH_BRANCH,{headers:_ghHdrs()})
+      .then(function(r){return r.json();})
+      .then(function(d){
+        if(!d.content) throw new Error('no content');
+        return JSON.parse(_b64ToUtf8(d.content));
+      });
+  }
+  function _fromLocal(){
+    return fetch('../data/categories.json?_='+Date.now())
+      .then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json();});
+  }
+
+  _fromGitHub()
+    .catch(function(){ return _fromLocal(); })
+    .then(function(data){
+      _cats=data;
+      /* Update localStorage so next load gets this version */
+      try{localStorage.setItem('amayaa_cats_v1',JSON.stringify(data));}catch(e){}
+      _renderAll();
+    })
+    .catch(function(e){
+      console.warn('Network load failed:',e);
+      if(!_cats){ /* No cache either — show error */
         var tbodies=['region-tbody','fabric-tbody','occasion-tbody','showonly-tbody'];
         tbodies.forEach(function(id){
           var el=document.getElementById(id);
           if(el)el.innerHTML='<tr><td colspan="4" style="color:#CC3333;font-size:12px;padding:12px;">Failed to load — '+_escHtml(e.message)+'</td></tr>';
         });
-      });
-  }
-  /* Prefer GitHub API (returns live committed data, no CDN delay) if token present */
-  var tok = _ghTok();
-  if(tok){
-    fetch('https://api.github.com/repos/'+GH_REPO+'/contents/data/categories.json?ref='+GH_BRANCH,{headers:_ghHdrs()})
-      .then(function(r){return r.json();})
-      .then(function(d){
-        if(!d.content) throw new Error('No content field');
-        _cats = JSON.parse(_b64ToUtf8(d.content));
-        _renderAll();
-      })
-      .catch(function(e){ console.warn('GitHub API load failed, using local:',e); _loadFallback(); });
-  } else {
-    _loadFallback();
-  }
+      }
+    });
 });
 </script>
 <script data-goatcounter="https://amayaa.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>

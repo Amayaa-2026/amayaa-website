@@ -24,34 +24,174 @@
       "mobTitle": "Region / Weave / Name",
       "type": "chips",
       "items": [
-        { "label": "Banarasi",    "origin": "Varanasi, UP",          "weave": "Banarasi Silk",         "count": 2 },
-        { "label": "Kanjivaram",  "origin": "Kanchipuram, TN",       "weave": "Kanjivaram Silk",        "count": 2 },
-        { "label": "Baluchari",   "origin": "Bishnupur, WB",         "weave": "Baluchari Silk",         "count": 1 },
-        { "label": "Chanderi",    "origin": "Chanderi, MP",          "weave": "Chanderi Silk-Cotton",   "count": 1 },
-        { "label": "Sambalpuri",  "origin": "Sambalpur, Odisha",     "weave": "Ikat (Bandha)",           "count": 1 },
-        { "label": "Paithani",    "origin": "Paithan, Maharashtra",  "weave": "Paithani Silk",          "count": 1 },
-        { "label": "Pochampally", "origin": "Pochampally, Telangana","weave": "Pochampally Ikat",       "count": 1 },
-        { "label": "Bhagalpuri",  "origin": "Bhagalpur, Bihar",      "weave": "Tussar Silk",            "count": 2 },
-        { "label": "Maheshwari",  "origin": "Maheshwar, MP",         "weave": "Maheshwari Silk-Cotton", "count": 1 },
-        { "label": "Jamdani",     "origin": "Dhaka / WB",            "weave": "Jamdani Muslin",         "count": 2 },
-        { "label": "Tussar",      "origin": "Jharkhand / Bihar",     "weave": "Tussar Silk",            "count": 1 },
-        { "label": "Ikat",        "origin": "Odisha / Andhra",       "weave": "Single/Double Ikat",     "count": 1 },
-        { "label": "Mysore",      "origin": "Mysore, Karnataka",     "weave": "Mysore Crepe Silk",      "count": 1 },
-        { "label": "Tant",        "origin": "West Bengal",           "weave": "Tant Cotton",            "count": 2 },
-        { "label": "Nauvari",     "origin": "Maharashtra",           "weave": "Nauvari Cotton/Silk",    "count": 1 },
-        { "label": "Phulkari",    "origin": "Punjab",                "weave": "Phulkari Embroidery",    "count": 1 },
-        { "label": "Gadwal",      "origin": "Gadwal, Telangana",     "weave": "Gadwal Silk-Cotton",     "count": 1 },
-        { "label": "Kasavu",      "origin": "Kerala",                "weave": "Kasavu Cotton",          "count": 1 },
-        { "label": "Chettinad",   "origin": "Chettinad, TN",         "weave": "Chettinad Cotton",       "count": 1 },
-        { "label": "Kotpad",      "origin": "Kotpad, Odisha",        "weave": "Kotpad Natural Dye",     "count": 1 },
-        { "label": "Bomkai",      "origin": "Bomkai, Odisha",        "weave": "Bomkai Silk-Cotton",     "count": 1 },
-        { "label": "Ilkal",       "origin": "Ilkal, Karnataka",      "weave": "Ilkal Silk-Cotton",      "count": 1 },
-        { "label": "Patola",      "origin": "Patan, Gujarat",        "weave": "Double Ikat Patola",     "count": 1 },
-        { "label": "Bandhani",    "origin": "Rajasthan / Gujarat",   "weave": "Tie-Dye",                "count": 1 },
-        { "label": "Sungudi",     "origin": "Madurai, TN",           "weave": "Sungudi Cotton",         "count": 1 },
-        { "label": "Khadi",       "origin": "Pan-India",             "weave": "Khadi Cotton/Silk",      "count": 1 },
-        { "label": "Muga",        "origin": "Assam",                 "weave": "Muga Silk",              "count": 1 },
-        { "label": "Linen",       "origin": "Pan-India",             "weave": "Linen",                  "count": 1 }
+        {
+          "label": "Banarasi",
+          "origin": "Varanasi, UP",
+          "weave": "Banarasi Silk",
+          "count": 2
+        },
+        {
+          "label": "Kanjivaram",
+          "origin": "Kanchipuram, TN",
+          "weave": "Kanjivaram Silk",
+          "count": 2
+        },
+        {
+          "label": "Baluchari",
+          "origin": "Bishnupur, WB",
+          "weave": "Baluchari Silk",
+          "count": 1
+        },
+        {
+          "label": "Chanderi",
+          "origin": "Chanderi, MP",
+          "weave": "Chanderi Silk-Cotton",
+          "count": 1
+        },
+        {
+          "label": "Sambalpuri",
+          "origin": "Sambalpur, Odisha",
+          "weave": "Ikat (Bandha)",
+          "count": 1
+        },
+        {
+          "label": "Paithani",
+          "origin": "Paithan, Maharashtra",
+          "weave": "Paithani Silk",
+          "count": 1
+        },
+        {
+          "label": "Pochampally",
+          "origin": "Pochampally, Telangana",
+          "weave": "Pochampally Ikat",
+          "count": 1
+        },
+        {
+          "label": "Bhagalpuri",
+          "origin": "Bhagalpur, Bihar",
+          "weave": "Tussar Silk",
+          "count": 2
+        },
+        {
+          "label": "Maheshwari",
+          "origin": "Maheshwar, MP",
+          "weave": "Maheshwari Silk-Cotton",
+          "count": 1
+        },
+        {
+          "label": "Jamdani",
+          "origin": "Dhaka / WB",
+          "weave": "Jamdani Muslin",
+          "count": 2
+        },
+        {
+          "label": "Tussar",
+          "origin": "Jharkhand / Bihar",
+          "weave": "Tussar Silk",
+          "count": 1
+        },
+        {
+          "label": "Ikat",
+          "origin": "Odisha / Andhra",
+          "weave": "Single/Double Ikat",
+          "count": 1
+        },
+        {
+          "label": "Mysore",
+          "origin": "Mysore, Karnataka",
+          "weave": "Mysore Crepe Silk",
+          "count": 1
+        },
+        {
+          "label": "Tant",
+          "origin": "West Bengal",
+          "weave": "Tant Cotton",
+          "count": 2
+        },
+        {
+          "label": "Nauvari",
+          "origin": "Maharashtra",
+          "weave": "Nauvari Cotton/Silk",
+          "count": 1
+        },
+        {
+          "label": "Phulkari",
+          "origin": "Punjab",
+          "weave": "Phulkari Embroidery",
+          "count": 1
+        },
+        {
+          "label": "Gadwal",
+          "origin": "Gadwal, Telangana",
+          "weave": "Gadwal Silk-Cotton",
+          "count": 1
+        },
+        {
+          "label": "Kasavu",
+          "origin": "Kerala",
+          "weave": "Kasavu Cotton",
+          "count": 1
+        },
+        {
+          "label": "Chettinad",
+          "origin": "Chettinad, TN",
+          "weave": "Chettinad Cotton",
+          "count": 1
+        },
+        {
+          "label": "Kotpad",
+          "origin": "Kotpad, Odisha",
+          "weave": "Kotpad Natural Dye",
+          "count": 1
+        },
+        {
+          "label": "Bomkai",
+          "origin": "Bomkai, Odisha",
+          "weave": "Bomkai Silk-Cotton",
+          "count": 1
+        },
+        {
+          "label": "Ilkal",
+          "origin": "Ilkal, Karnataka",
+          "weave": "Ilkal Silk-Cotton",
+          "count": 1
+        },
+        {
+          "label": "Patola",
+          "origin": "Patan, Gujarat",
+          "weave": "Double Ikat Patola",
+          "count": 1
+        },
+        {
+          "label": "Bandhani",
+          "origin": "Rajasthan / Gujarat",
+          "weave": "Tie-Dye",
+          "count": 1
+        },
+        {
+          "label": "Sungudi",
+          "origin": "Madurai, TN",
+          "weave": "Sungudi Cotton",
+          "count": 1
+        },
+        {
+          "label": "Khadi",
+          "origin": "Pan-India",
+          "weave": "Khadi Cotton/Silk",
+          "count": 1
+        },
+        {
+          "label": "Muga",
+          "origin": "Assam",
+          "weave": "Muga Silk",
+          "count": 1
+        },
+        {
+          "label": "Linen",
+          "origin": "Pan-India",
+          "weave": "Linen",
+          "count": 1
+        }
       ]
     },
     {
@@ -79,6 +219,10 @@
         {
           "label": "Muslin",
           "count": 2
+        },
+        {
+          "label": "Georgette",
+          "count": 0
         }
       ]
     },

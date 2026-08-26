@@ -336,11 +336,8 @@ function _ghSave(path, content, msg, doneCb){
           <div class="fg">
             <label>Occasion (select all that apply) *</label>
             <div id="occasionChecks" style="display:flex;gap:14px;flex-wrap:wrap;margin-top:5px;">
-              <label style="display:flex;align-items:center;gap:6px;cursor:pointer;color:#5A4030;font-size:13px;"><input type="checkbox" id="occ-wedding" value="wedding" style="accent-color:#C4622D;width:15px;height:15px;"> Wedding</label>
-              <label style="display:flex;align-items:center;gap:6px;cursor:pointer;color:#5A4030;font-size:13px;"><input type="checkbox" id="occ-festive" value="festive" style="accent-color:#C4622D;width:15px;height:15px;"> Festive</label>
-              <label style="display:flex;align-items:center;gap:6px;cursor:pointer;color:#5A4030;font-size:13px;"><input type="checkbox" id="occ-casual" value="casual" style="accent-color:#C4622D;width:15px;height:15px;"> Casual/Daily</label>
-              <label style="display:flex;align-items:center;gap:6px;cursor:pointer;color:#5A4030;font-size:13px;"><input type="checkbox" id="occ-puja" value="puja" style="accent-color:#C4622D;width:15px;height:15px;"> Puja</label>
-              <label style="display:flex;align-items:center;gap:6px;cursor:pointer;color:#5A4030;font-size:13px;"><input type="checkbox" id="occ-office" value="office" style="accent-color:#C4622D;width:15px;height:15px;"> Office</label>
+              <!-- Populated dynamically from data/categories.json — do not hardcode -->
+              <span style="color:#9A8070;font-size:12px;">Loading…</span>
             </div>
           </div>
 
@@ -701,6 +698,24 @@ function _loadCategories(currentType, currentFabric){
         if(currentFabric && item.label.toLowerCase()===currentFabric.toLowerCase()) opt.selected=true;
         fabEl.appendChild(opt);
       });
+
+      /* Occasion checkboxes — dynamic from categories.json */
+      var occasionFilter = cats.filters.find(function(f){ return f.id==='occasion'; });
+      var occEl = document.getElementById('occasionChecks');
+      if(occEl && occasionFilter){
+        var currentOccasions = [];
+        try {
+          var raw = document.getElementById('occasionChecks').dataset.current;
+          if(raw) currentOccasions = JSON.parse(raw);
+        } catch(e){}
+        occEl.innerHTML = (occasionFilter.items || []).map(function(item){
+          var val = item.value || item.label.toLowerCase();
+          var checked = currentOccasions.some(function(o){ return o.toLowerCase().indexOf(val) > -1 || val.indexOf(o.toLowerCase()) > -1; });
+          return '<label style="display:flex;align-items:center;gap:6px;cursor:pointer;color:#5A4030;font-size:13px;">'
+            + '<input type="checkbox" class="occ-cb" value="'+val+'" style="accent-color:#C4622D;width:15px;height:15px;"'+(checked?' checked':'')+'> '
+            + item.label + '</label>';
+        }).join('');
+      }
     })
     .catch(function(){ console.warn('Could not load categories.json'); });
 }
@@ -1182,11 +1197,14 @@ function _populateForm(d){
   document.getElementById('regionInput').value = d.region || '';
   document.getElementById('colourInput').value = d.colour || '';
 
-  // Occasion
+  // Occasion — store on element for categories fetch to use when building dynamic checkboxes
   var occasions = Array.isArray(d.occasion) ? d.occasion : (d.occasion ? [d.occasion] : []);
-  ['wedding','festive','casual','puja','office'].forEach(function(v){
-    var cb = document.getElementById('occ-'+v);
-    if(cb) cb.checked = occasions.some(function(o){ return o.toLowerCase().indexOf(v)>-1; });
+  var occEl = document.getElementById('occasionChecks');
+  if(occEl) occEl.dataset.current = JSON.stringify(occasions);
+  // Also check any already-rendered checkboxes (handles the dynamic case if categories loaded first)
+  document.querySelectorAll('#occasionChecks .occ-cb').forEach(function(cb){
+    var v = cb.value;
+    cb.checked = occasions.some(function(o){ return o.toLowerCase().indexOf(v) > -1 || v.indexOf(o.toLowerCase()) > -1; });
   });
 
   // Measurements
@@ -1266,9 +1284,8 @@ function _collectFormData(asDraft){
   var fabric = document.getElementById('fabricSelect').value;
   var colour = document.getElementById('colourInput').value.trim();
   var occasions = [];
-  ['wedding','festive','casual','puja','office'].forEach(function(v){
-    var cb = document.getElementById('occ-'+v);
-    if(cb && cb.checked) occasions.push(v);
+  document.querySelectorAll('#occasionChecks .occ-cb').forEach(function(cb){
+    if(cb && cb.checked) occasions.push(cb.value);
   });
 
   var price    = parseFloat(document.getElementById('priceInput').value) || 0;

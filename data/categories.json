@@ -20,8 +20,8 @@
   "filters": [
     {
       "id": "region",
-      "deskTitle": "Weave / Region",
-      "mobTitle": "Region / Weave",
+      "deskTitle": "Weave / Region / Name",
+      "mobTitle": "Region / Weave / Name",
       "type": "chips",
       "items": [
         { "label": "Banarasi",    "origin": "Varanasi, UP",          "weave": "Banarasi Silk",         "count": 2 },
@@ -91,26 +91,31 @@
         {
           "label": "Wedding",
           "deskLabel": "Wedding",
+          "value": "wedding",
           "count": 14
         },
         {
           "label": "Festive",
           "deskLabel": "Festive",
+          "value": "festive",
           "count": 22
         },
         {
-          "label": "Regular",
-          "deskLabel": "Regular",
+          "label": "Casual / Daily",
+          "deskLabel": "Casual",
+          "value": "casual",
           "count": 15
         },
         {
           "label": "Office",
           "deskLabel": "Office",
+          "value": "office",
           "count": 3
         },
         {
           "label": "Puja",
           "deskLabel": "Puja",
+          "value": "puja",
           "count": 16
         }
       ]

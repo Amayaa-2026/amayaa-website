@@ -191,6 +191,12 @@
           "origin": "Pan-India",
           "weave": "Linen",
           "count": 1
+        },
+        {
+          "label": "Gerogette Silk",
+          "origin": "Varanasi, UP",
+          "weave": "Khaddi",
+          "count": 0
         }
       ]
     },

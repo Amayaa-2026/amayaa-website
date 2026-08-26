@@ -528,22 +528,35 @@ function saveCategories(){
   _ghSave('data/categories.json', _cats, 'Admin: update categories', btn);
 }
 
-/* ── Init: fetch categories.json ── */
+/* ── Init: fetch categories.json (always from GitHub API to bypass CDN cache) ── */
 document.addEventListener('DOMContentLoaded', function(){
-  fetch('../data/categories.json?_='+Date.now())
-    .then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json();})
-    .then(function(data){
-      _cats = data;
-      _renderAll();
-    })
-    .catch(function(e){
-      console.warn('Could not load categories.json:',e);
-      var tbodies=['region-tbody','fabric-tbody','occasion-tbody','showonly-tbody'];
-      tbodies.forEach(function(id){
-        var el=document.getElementById(id);
-        if(el)el.innerHTML='<tr><td colspan="4" style="color:#CC3333;font-size:12px;padding:12px;">Failed to load — '+_escHtml(e.message)+'</td></tr>';
+  function _loadFallback(){
+    fetch('../data/categories.json?_='+Date.now())
+      .then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json();})
+      .then(function(data){ _cats = data; _renderAll(); })
+      .catch(function(e){
+        console.warn('Could not load categories.json:',e);
+        var tbodies=['region-tbody','fabric-tbody','occasion-tbody','showonly-tbody'];
+        tbodies.forEach(function(id){
+          var el=document.getElementById(id);
+          if(el)el.innerHTML='<tr><td colspan="4" style="color:#CC3333;font-size:12px;padding:12px;">Failed to load — '+_escHtml(e.message)+'</td></tr>';
+        });
       });
-    });
+  }
+  /* Prefer GitHub API (returns live committed data, no CDN delay) if token present */
+  var tok = _ghTok();
+  if(tok){
+    fetch('https://api.github.com/repos/'+GH_REPO+'/contents/data/categories.json?ref='+GH_BRANCH,{headers:_ghHdrs()})
+      .then(function(r){return r.json();})
+      .then(function(d){
+        if(!d.content) throw new Error('No content field');
+        _cats = JSON.parse(_b64ToUtf8(d.content));
+        _renderAll();
+      })
+      .catch(function(e){ console.warn('GitHub API load failed, using local:',e); _loadFallback(); });
+  } else {
+    _loadFallback();
+  }
 });
 </script>
 <script data-goatcounter="https://amayaa.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>

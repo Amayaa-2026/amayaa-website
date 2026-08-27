@@ -119,7 +119,7 @@
     "colour": "Ivory",
     "price": 4200,
     "originalPrice": null,
-    "status": "active",
+    "status": "sold_out",
     "featured": false,
     "badges": [
       "new",

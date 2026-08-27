@@ -685,10 +685,17 @@ function _loadCategories(currentType, currentFabric){
         var opt=document.createElement('option');
         opt.value = item.label;
         opt.textContent = item.label;
+        opt.dataset.origin = item.origin || '';
         if(currentType && item.label.toLowerCase()===currentType.toLowerCase()) opt.selected=true;
         typeEl.appendChild(opt);
       });
-      typeEl.onchange = updatePreview;
+      typeEl.onchange = function(){
+        /* Auto-fill Region/Origin from categories.json when weave is selected */
+        var sel = typeEl.options[typeEl.selectedIndex];
+        var regionEl = document.getElementById('regionInput');
+        if(sel && sel.dataset.origin) regionEl.value = sel.dataset.origin;
+        updatePreview();
+      };
 
       fabEl.innerHTML = '<option value="">— Select Fabric —</option>';
       (fabricFilter ? fabricFilter.items : []).forEach(function(item){

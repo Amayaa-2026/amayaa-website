@@ -8,7 +8,7 @@
     "colour": "Deep Red with Gold Zari Border",
     "price": 8500,
     "originalPrice": null,
-    "status": "active",
+    "status": "sold_out",
     "featured": false,
     "badges": [
       "new"
@@ -119,7 +119,7 @@
     "colour": "Ivory",
     "price": 4200,
     "originalPrice": null,
-    "status": "active",
+    "status": "sold_out",
     "featured": false,
     "badges": [
       "new",
@@ -1143,10 +1143,27 @@
     "originalPrice": null,
     "status": "active",
     "featured": true,
-    "badges": ["new", "featured"],
-    "occasion": ["wedding", "festive", "casual"],
+    "badges": [
+      "new",
+      "featured"
+    ],
+    "occasion": [
+      "wedding",
+      "festive",
+      "casual"
+    ],
     "shortDescription": "Khaddi Georgette Banarasi — the lighter cousin of Katan silk. Sheer, fluid fabric with meenakari zari weave. Easier to drape, equally festive.",
-    "tags": ["khaddi", "georgette", "banarasi", "varanasi", "silk", "zari", "wedding", "festive", "silk-mark"],
+    "tags": [
+      "khaddi",
+      "georgette",
+      "banarasi",
+      "varanasi",
+      "silk",
+      "zari",
+      "wedding",
+      "festive",
+      "silk-mark"
+    ],
     "weaveStoryId": "WS-027",
     "careSuggestionId": "CI-SILK",
     "descriptionId": "DESC-031",

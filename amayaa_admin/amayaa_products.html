@@ -95,6 +95,7 @@ body{font-family:'Jost',sans-serif;background:linear-gradient(135deg,#E4DFD9 0%,
 .badge-hidden{background:rgba(0,0,0,.06);color:#9A8070;border:1px solid rgba(0,0,0,.1);}
 .badge-new{background:rgba(196,98,45,.12);color:#A04010;border:1px solid rgba(196,98,45,.25);}
 .badge-draft{background:rgba(200,150,0,.1);color:#7A5A00;border:1px solid rgba(200,150,0,.25);}
+.badge-deleted{background:rgba(200,0,0,.08);color:#8B0000;border:1px solid rgba(200,0,0,.2);}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
 .form-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
 .fg{margin-bottom:16px;}
@@ -255,6 +256,7 @@ if(!sessionStorage.getItem('amayaa_admin')){
       <div class="filter-pill" data-filter="hidden">Hidden</div>
       <div class="filter-pill" data-filter="new">New Arrival</div>
       <div class="filter-pill" data-filter="draft" style="color:#7A5A00;border-color:rgba(200,150,0,.35);">📝 Drafts</div>
+      <div class="filter-pill" data-filter="deleted" style="color:#8B0000;border-color:rgba(200,0,0,.2);">🗑 Deleted</div>
     </div>
 
     <!-- SEARCH -->
@@ -324,6 +326,8 @@ if(!sessionStorage.getItem('amayaa_admin')){
 /* ── GitHub API helpers ── */
 var GH_REPO = 'Amayaa-2026/amayaa-website';
 var GH_BRANCH = 'main';
+var _ghSaving = false; /* prevents concurrent SHA conflicts */
+function _escHtml(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function _b64ToUtf8(b64){var raw=atob(b64.replace(/\n/g,''));var bytes=new Uint8Array(raw.length);for(var i=0;i<raw.length;i++)bytes[i]=raw.charCodeAt(i);return new TextDecoder('utf-8',{fatal:false}).decode(bytes);}
 function _utf8ToB64(str){var bytes=new TextEncoder().encode(str);var bin='';for(var i=0;i<bytes.length;i++)bin+=String.fromCharCode(bytes[i]);return btoa(bin);}
 function _ghTok(){return localStorage.getItem('amayaa_gh_token')||'';}
@@ -331,6 +335,7 @@ function _ghHdrs(){return{Authorization:'token '+_ghTok(),Accept:'application/vn
 function _ghSave(filePath,dat,msg,btnEl){
   var tok=_ghTok();
   if(!tok){alert('No GitHub token. Set it in Admin → Settings first.');return;}
+  _ghSaving = true;
   var orig=btnEl?btnEl.textContent:'';
   if(btnEl){btnEl.textContent='Saving…';btnEl.disabled=true;}
   fetch('https://api.github.com/repos/'+GH_REPO+'/contents/'+filePath+'?ref='+GH_BRANCH,{headers:_ghHdrs()})
@@ -341,12 +346,13 @@ function _ghSave(filePath,dat,msg,btnEl){
     })
     .then(function(r){return r.json();})
     .then(function(res){
+      _ghSaving = false;
       if(res.content){
         if(btnEl){btnEl.textContent='✅ Saved!';setTimeout(function(){btnEl.textContent=orig;btnEl.disabled=false;},2500);}
         else{var t=document.createElement('div');t.style.cssText='position:fixed;top:20px;right:20px;z-index:9999;padding:12px 20px;border-radius:10px;background:#D4F0DD;border:1px solid #1A7A40;color:#1A7A40;font-family:Jost,sans-serif;font-weight:600;font-size:14px;';t.textContent='✅ Saved to GitHub!';document.body.appendChild(t);setTimeout(function(){t.remove();},3000);}
       }else{throw new Error(res.message||'Write failed');}
     })
-    .catch(function(e){alert('Save failed: '+(e.message||e));if(btnEl){btnEl.textContent=orig;btnEl.disabled=false;}});
+    .catch(function(e){_ghSaving=false;alert('Save failed: '+(e.message||e));if(btnEl){btnEl.textContent=orig;btnEl.disabled=false;}});
 }
 
 /* ── Product manager ── */
@@ -360,6 +366,7 @@ function _statusBadge(status){
   if(status==='active')   return '<span class="badge badge-active">Active</span>';
   if(status==='sold_out') return '<span class="badge badge-sold">Sold Out</span>';
   if(status==='draft')    return '<span class="badge badge-draft">Draft</span>';
+  if(status==='deleted')  return '<span class="badge badge-deleted">Deleted</span>';
   return '<span class="badge badge-hidden">Hidden</span>';
 }
 
@@ -375,10 +382,15 @@ function _renderTable(){
     var priceHtml=p.originalPrice
       ?'<span style="text-decoration:line-through;color:#B0967E;font-size:11px;">&#8377;'+p.originalPrice.toLocaleString('en-IN')+'</span><br><strong style="color:#C4622D;">&#8377;'+p.price.toLocaleString('en-IN')+'</strong>'
       :'<span style="font-weight:600;color:#1A0A04;">&#8377;'+p.price.toLocaleString('en-IN')+'</span>';
-    var toggleBtn=p.status==='active'
-      ?'<button class="btn btn-danger btn-sm" onclick="_toggleStatus(\''+p.id+'\')">&#128308; Mark Sold</button>'
-      :'<button class="btn btn-success btn-sm" onclick="_toggleStatus(\''+p.id+'\')">&#128994; Mark Active</button>';
-    return '<tr style="cursor:pointer;" onclick="_openQV(\''+p.id+'\')">' 
+    var toggleBtn = p.status==='deleted'
+      ? '<button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();_restoreProduct(\''+p.id+'\')">↩ Restore</button>'
+      : p.status==='active'
+        ? '<button class="btn btn-danger btn-sm" onclick="event.stopPropagation();_toggleStatus(\''+p.id+'\')">&#128308; Mark Sold</button>'
+        : '<button class="btn btn-success btn-sm" onclick="event.stopPropagation();_toggleStatus(\''+p.id+'\')">&#128994; Mark Active</button>';
+    var dupBtn = p.status!=='deleted'
+      ? '<button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();_duplicateProduct(\''+p.id+'\')" title="Duplicate product">&#10697; Dup</button>'
+      : '';
+    return '<tr style="cursor:pointer;" onclick="_openQV(\''+p.id+'\')">'
       +'<td onclick="event.stopPropagation()"><input type="checkbox" class="row-chk" data-id="'+p.id+'" style="accent-color:#C4622D;"></td>'
       +'<td><div style="display:flex;align-items:center;gap:10px;">'
         +(p.thumbnail?'<div class="prod-thumb" style="overflow:hidden;"><img src="'+(p.thumbnail.match(/^https?:\/\//)?p.thumbnail:'../'+p.thumbnail)+'" alt="'+p.name+'" style="width:100%;height:100%;object-fit:cover;display:block;"></div>':'<div class="prod-thumb" style="background:linear-gradient(135deg,#8B1A4A,#C4622D);"></div>')
@@ -388,10 +400,11 @@ function _renderTable(){
       +'<td style="color:#5A4030;">'+(p.fabric||'')+'</td>'
       +'<td>'+priceHtml+'</td>'
       +'<td>'+_statusBadge(p.status)+'</td>'
-      +'<td onclick="event.stopPropagation()"><div style="display:flex;gap:6px;">'
-        +'<a href="amayaa_product_edit.html?id='+encodeURIComponent(p.id)+'" class="btn btn-edit btn-sm" onclick="event.stopPropagation()">&#9998; Edit</a>'
+      +'<td onclick="event.stopPropagation()"><div style="display:flex;gap:6px;flex-wrap:wrap;">'
+        +(p.status!=='deleted'?'<a href="amayaa_product_edit.html?id='+encodeURIComponent(p.id)+'" class="btn btn-edit btn-sm" onclick="event.stopPropagation()">&#9998; Edit</a>':'')
+        +dupBtn
         +toggleBtn
-        +'<button class="btn btn-danger btn-sm" onclick="event.stopPropagation();_deleteProduct(\''+p.id+'\')">&#128465;</button>'
+        +'<button class="btn btn-danger btn-sm" onclick="event.stopPropagation();_trashChoice(\''+p.id+'\')" title="Delete">&#128465;</button>'
       +'</div></td>'
       +'</tr>';
   }).join('');
@@ -414,11 +427,13 @@ function _renderPagination(){
 function _goPage(n){_curPage=n;_renderTable();}
 
 function _updateStats(){
-  var total=_products.length;
+  var deleted=_products.filter(function(p){return p.status==='deleted';}).length;
+  var drafts=_products.filter(function(p){return p.status==='draft';}).length;
+  /* Total excludes deleted and draft per user spec */
+  var total=_products.filter(function(p){return p.status!=='deleted'&&p.status!=='draft';}).length;
   var active=_products.filter(function(p){return p.status==='active';}).length;
   var sold=_products.filter(function(p){return p.status==='sold_out';}).length;
   var hidden=_products.filter(function(p){return p.status==='hidden';}).length;
-  var drafts=_products.filter(function(p){return p.status==='draft';}).length;
   var elT=document.getElementById('stat-total');if(elT)elT.textContent=total;
   var elA=document.getElementById('stat-active');if(elA)elA.textContent=active;
   var elS=document.getElementById('stat-sold');if(elS)elS.textContent=sold;
@@ -426,12 +441,13 @@ function _updateStats(){
   // update pill counts
   document.querySelectorAll('[data-filter]').forEach(function(pill){
     var f=pill.dataset.filter;
-    var cnt=f==='all'?total:f==='active'?active:f==='sold_out'?sold:f==='hidden'?hidden
-      :f==='draft'?drafts
+    var cnt=f==='all'?total
+      :f==='active'?active:f==='sold_out'?sold:f==='hidden'?hidden
+      :f==='draft'?drafts:f==='deleted'?deleted
       :f==='offer'?_products.filter(function(p){return p.badges&&p.badges.indexOf('offer')>-1;}).length
       :f==='new'?_products.filter(function(p){return p.badges&&p.badges.indexOf('new')>-1;}).length:0;
-    pill.textContent=pill.textContent.replace(/\s*\(\d+\)/,'').replace(/^📝\s*/,'');
-    pill.textContent=(f==='draft'?'📝 ':'')+pill.textContent.trim()+' ('+cnt+')';
+    pill.textContent=pill.textContent.replace(/\s*\(\d+\)/,'').replace(/^[📝🗑]\s*/,'');
+    pill.textContent=(f==='draft'?'📝 ':f==='deleted'?'🗑 ':'')+pill.textContent.trim()+' ('+cnt+')';
   });
 }
 
@@ -444,10 +460,12 @@ function _applyFilter(){
 
   _filtered=_products.filter(function(p){
     var mf=true;
-    if(_activeFilter==='active') mf=p.status==='active';
+    if(_activeFilter==='all') mf=p.status!=='deleted'; /* deleted never shown in All */
+    else if(_activeFilter==='active') mf=p.status==='active';
     else if(_activeFilter==='sold_out') mf=p.status==='sold_out';
     else if(_activeFilter==='hidden') mf=p.status==='hidden';
     else if(_activeFilter==='draft') mf=p.status==='draft';
+    else if(_activeFilter==='deleted') mf=p.status==='deleted';
     else if(_activeFilter==='offer') mf=p.badges&&p.badges.indexOf('offer')>-1;
     else if(_activeFilter==='new') mf=p.badges&&p.badges.indexOf('new')>-1;
     var mq=!q||(p.name&&p.name.toLowerCase().indexOf(q)>-1)||(p.type&&p.type.toLowerCase().indexOf(q)>-1)||(p.id&&p.id.toLowerCase().indexOf(q)>-1)||(p.fabric&&p.fabric.toLowerCase().indexOf(q)>-1);
@@ -466,11 +484,60 @@ function _applyFilter(){
 }
 
 function _toggleStatus(id){
+  if(_ghSaving){return;} /* prevent SHA conflict from rapid toggling */
   var p=_products.find(function(x){return x.id===id;});
-  if(!p)return;
+  if(!p||p.status==='deleted')return;
   p.status=p.status==='active'?'sold_out':'active';
   _updateStats();_applyFilter();
   _ghSave('data/products_index.json',_products,'Update status: '+id,null);
+}
+
+function _softDelete(id){
+  if(_ghSaving)return;
+  var p=_products.find(function(x){return x.id===id;});
+  if(!p)return;
+  p.status='deleted';
+  _updateStats();_applyFilter();
+  _ghSave('data/products_index.json',_products,'Admin: soft delete '+id,null);
+}
+
+function _restoreProduct(id){
+  if(_ghSaving)return;
+  var p=_products.find(function(x){return x.id===id;});
+  if(!p)return;
+  p.status='hidden'; /* restore to hidden, not auto-published */
+  _updateStats();_applyFilter();
+  _ghSave('data/products_index.json',_products,'Admin: restore '+id,null);
+}
+
+function _duplicateProduct(id){
+  window.location.href='amayaa_product_edit.html?dup='+encodeURIComponent(id);
+}
+
+function _trashChoice(id){
+  if(_ghSaving)return;
+  var p=_products.find(function(x){return x.id===id;});
+  if(!p)return;
+  if(p.status==='deleted'){
+    /* Already deleted — offer restore or permanent delete */
+    if(confirm('Permanently delete '+id+'? This removes all files from GitHub and cannot be undone.')){_deleteProduct(id);}
+    return;
+  }
+  var modal=document.createElement('div');
+  modal.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9999;display:flex;align-items:center;justify-content:center;';
+  modal.innerHTML='<div style="background:white;border-radius:14px;padding:28px 32px;max-width:380px;width:90%;font-family:Jost,sans-serif;">'
+    +'<div style="font-size:15px;font-weight:700;color:#1A0A04;margin-bottom:5px;">Delete product?</div>'
+    +'<div style="font-size:12px;color:#7A6050;margin-bottom:20px;word-break:break-all;">'+_escHtml(p.name)+'</div>'
+    +'<div style="display:flex;flex-direction:column;gap:10px;">'
+    +'<button id="_sdBtn" style="padding:11px 16px;border-radius:9px;border:none;cursor:pointer;background:rgba(196,98,45,.1);color:#A04010;font-family:Jost,sans-serif;font-size:13px;font-weight:600;text-align:left;">🗑 Move to Trash <span style="font-size:11px;font-weight:400;opacity:.75;">(recoverable · keeps files)</span></button>'
+    +'<button id="_hdBtn" style="padding:11px 16px;border-radius:9px;border:none;cursor:pointer;background:rgba(200,0,0,.08);color:#8B0000;font-family:Jost,sans-serif;font-size:13px;font-weight:600;text-align:left;">💀 Permanently Delete <span style="font-size:11px;font-weight:400;opacity:.75;">(removes all files · cannot undo)</span></button>'
+    +'<button id="_cnBtn" style="padding:8px 16px;border-radius:9px;border:1px solid rgba(0,0,0,.1);cursor:pointer;background:transparent;color:#7A6050;font-family:Jost,sans-serif;font-size:13px;">Cancel</button>'
+    +'</div></div>';
+  document.body.appendChild(modal);
+  modal.querySelector('#_sdBtn').onclick=function(){document.body.removeChild(modal);_softDelete(id);};
+  modal.querySelector('#_hdBtn').onclick=function(){document.body.removeChild(modal);_deleteProduct(id);};
+  modal.querySelector('#_cnBtn').onclick=function(){document.body.removeChild(modal);};
+  modal.onclick=function(e){if(e.target===modal)document.body.removeChild(modal);};
 }
 
 function _ghDeleteFile(filePath, msg){

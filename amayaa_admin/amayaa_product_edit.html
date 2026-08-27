@@ -1194,6 +1194,35 @@ function _loadProductForEdit(id){
     });
 }
 
+function _loadProductForDuplicate(srcId){
+  var status = document.getElementById('saveStatus');
+  status.textContent = 'Loading source product…';
+  fetch('../data/products/'+srcId+'.json?_='+Date.now())
+    .then(function(r){ if(!r.ok)throw new Error('Source not found'); return r.json(); })
+    .then(function(d){
+      status.textContent = '';
+      /* Pre-fill everything from source */
+      _populateForm(d);
+      /* Override: clear images, new SKU, force draft + new + featured */
+      _imageSlots = [null, null, null, null];
+      _renderSlots();
+      document.getElementById('statusSelect').value = 'draft';
+      document.getElementById('isNew').checked = true;
+      document.getElementById('isFeatured').checked = true;
+      document.getElementById('offerToggle').checked = false;
+      toggleOffer();
+      /* Generate a new unique SKU for the same category */
+      _isEdit = false; /* treat as new so SKU regenerates */
+      _genSKU(d.type || '');
+      /* Re-set dirty flag to false so cancel doesn't warn unnecessarily */
+      _isDirty = false;
+    })
+    .catch(function(e){
+      status.textContent = '⚠ Could not load source product';
+      console.error(e);
+    });
+}
+
 function _populateForm(d){
   // SKU
   document.getElementById('skuVal').textContent = d.id || '';
@@ -1508,20 +1537,31 @@ document.addEventListener('DOMContentLoaded', function(){
   var params = new URLSearchParams(window.location.search);
   _editId = params.get('id');
   _isEdit = !!_editId;
+  var _dupId = params.get('dup');
 
   if(_isEdit){
     // Edit mode
     document.getElementById('pageTitle').textContent = 'Edit Product';
     document.getElementById('bcLabel').textContent = _editId;
     document.getElementById('skuBadge').textContent = 'Editing';
-    document.getElementById('skuEditBtn').style.display = 'none'; // can't change SKU when editing
+    document.getElementById('skuEditBtn').style.display = 'none';
     _loadProductForEdit(_editId);
+  } else if(_dupId){
+    // Duplicate mode
+    document.getElementById('pageTitle').textContent = 'Add Duplicate Product';
+    document.getElementById('bcLabel').textContent = 'Add Duplicate Product';
+    /* Show notice banner */
+    var nb=document.createElement('div');
+    nb.style.cssText='background:rgba(196,98,45,.08);border:1px solid rgba(196,98,45,.25);border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:#7A3020;font-family:Jost,sans-serif;';
+    nb.innerHTML='⧉ Duplicating from <strong>'+(_dupId||'')+'</strong> — upload fresh photos before publishing. Saved as Draft automatically.';
+    var pageAlert=document.getElementById('pageAlert');
+    if(pageAlert && pageAlert.parentNode) pageAlert.parentNode.insertBefore(nb, pageAlert.nextSibling);
+    _loadProductForDuplicate(_dupId);
   } else {
     // New product mode — generate SKU after categories load
     _loadCategories('', '');
     _loadContentLibrary().then(function(lib){
       _populateContentSelects(lib, {});
-      // Seed name autocomplete from index
       fetch('../data/products_index.json?_='+Date.now())
         .then(function(r){return r.json();})
         .then(function(products){

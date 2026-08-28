@@ -459,8 +459,8 @@ function _updateStats(){
   // compute per-filter counts
   var _counts={
     all:total, active:active, sold_out:sold, hidden:hidden, draft:drafts, deleted:deleted,
-    offer:_products.filter(function(p){return p.badges&&p.badges.indexOf('offer')>-1;}).length,
-    'new':_products.filter(function(p){return p.badges&&p.badges.indexOf('new')>-1;}).length
+    offer:_products.filter(function(p){return p.status!=='deleted'&&p.badges&&p.badges.indexOf('offer')>-1;}).length,
+    'new':_products.filter(function(p){return p.status!=='deleted'&&p.badges&&p.badges.indexOf('new')>-1;}).length
   };
   // show only pills that have at least one matching product; 'all' always visible
   document.querySelectorAll('[data-filter]').forEach(function(pill){
@@ -491,14 +491,14 @@ function _applyFilter(){
 
   _filtered=_products.filter(function(p){
     var mf=true;
-    if(_activeFilter==='all') mf=p.status!=='deleted'; /* deleted never shown in All */
+    if(_activeFilter==='all') mf=p.status!=='deleted'&&p.status!=='draft'; /* All = active+sold+hidden; Drafts has its own pill */
     else if(_activeFilter==='active') mf=p.status==='active';
     else if(_activeFilter==='sold_out') mf=p.status==='sold_out';
     else if(_activeFilter==='hidden') mf=p.status==='hidden';
     else if(_activeFilter==='draft') mf=p.status==='draft';
     else if(_activeFilter==='deleted') mf=p.status==='deleted';
-    else if(_activeFilter==='offer') mf=p.badges&&p.badges.indexOf('offer')>-1;
-    else if(_activeFilter==='new') mf=p.badges&&p.badges.indexOf('new')>-1;
+    else if(_activeFilter==='offer') mf=p.status!=='deleted'&&p.badges&&p.badges.indexOf('offer')>-1;
+    else if(_activeFilter==='new') mf=p.status!=='deleted'&&p.badges&&p.badges.indexOf('new')>-1;
     var mq=!q||(p.name&&p.name.toLowerCase().indexOf(q)>-1)||(p.type&&p.type.toLowerCase().indexOf(q)>-1)||(p.id&&p.id.toLowerCase().indexOf(q)>-1)||(p.fabric&&p.fabric.toLowerCase().indexOf(q)>-1);
     var mr=!region||(p.type&&p.type===region);
     var mfab=!fabric||(p.fabric&&p.fabric.indexOf(fabric)>-1);

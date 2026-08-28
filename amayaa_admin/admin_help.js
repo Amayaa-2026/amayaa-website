@@ -69,11 +69,13 @@ var HELP = {
 
   products: {
     title: 'Product Manager',
-    overview: 'Full product list with filtering, status management, soft/hard delete, duplication, and quick-view drawer. All changes write to data/products_index.json via GitHub API. One save runs at a time — rapid clicks are safely blocked.',
+    overview: 'Full product list with filtering, status management, soft/hard delete, duplication, and quick-view drawer. All changes write to data/products_index.json via GitHub API. One save runs at a time — rapid clicks are safely blocked. Filter chips and dropdowns are fully data-driven — only values present in your actual products appear.',
     functions: [
-      'Filter by status: All · Active · Sold Out · Hidden · Drafts · 🗑 Deleted',
+      'Filter chips — shown only when products exist in that state (hidden when count = 0)',
+      'Active + Sold Out chips always appear side by side — they are the only two that together equal All',
+      'Type and Fabric dropdowns built dynamically from actual product values — no hardcoded options',
       'Real-time search by name, SKU, or type',
-      'Toggle Active ↔ Sold Out (with concurrency guard)',
+      'Toggle Active ↔ Sold Out — auto-retries on GitHub SHA conflict, no manual retry needed',
       'Soft delete → Move to Trash (recoverable)',
       'Hard delete → Permanently remove product and its JSON file',
       'Restore soft-deleted products (returns as "hidden")',
@@ -83,41 +85,52 @@ var HELP = {
       'Export full list to Excel'
     ],
     fields: [
-      {n:'Filter chips',         d:'All / Active / Sold Out / Hidden / Drafts / 🗑 Deleted — click to switch view.'},
+      {n:'Filter chips',         d:'All / Active / Sold Out / Hidden / Special Offer / New Arrival / 📝 Drafts / 🗑 Deleted. A chip is hidden when zero products are in that state — it reappears automatically when needed.'},
+      {n:'All chip',             d:'Shows active + sold out + hidden products. Drafts and Deleted have their own chips and are excluded from All.'},
+      {n:'Active + Sold Out',    d:'Always adjacent. When their combined count equals All, both show a green outline — meaning no products are hidden.'},
+      {n:'Type dropdown',        d:'Populated from all non-deleted product type values — updates on each page load.'},
+      {n:'Fabric dropdown',      d:'Populated from all non-deleted product fabric values — updates on each page load.'},
       {n:'Search box',           d:'Filters by product name, SKU, or type in real time.'},
-      {n:'🔴 Mark Sold',         d:'Sets status to sold_out. Blocked if a save is in progress.'},
-      {n:'🟢 Mark Active',       d:'Sets status to active.'},
+      {n:'🔴 Mark Sold',         d:'Sets status to sold_out. Auto-retries once if GitHub returns a SHA conflict.'},
+      {n:'🟢 Mark Active',       d:'Sets status to active. Same auto-retry behaviour.'},
       {n:'⧉ Dup',               d:'Opens Add Duplicate Product page pre-filled from this product.'},
       {n:'✏ Edit',              d:'Opens full product edit page.'},
       {n:'🗑 Trash',             d:'Modal: Move to Trash (soft) or Permanently Delete (hard).'},
       {n:'↩ Restore',            d:'Visible on deleted products only — restores to "hidden".'}
     ],
     howto: [
-      {t:'Mark a product sold out',    s:['Click "🔴 Mark Sold" on the row.', 'Wait for save — do not click again while saving.']},
+      {t:'Mark a product sold out',    s:['Click "🔴 Mark Sold" on the row.', 'System saves and auto-retries if there is a GitHub conflict — no need to click again.']},
+      {t:'Filter by type or fabric',   s:['Use the Type or Fabric dropdown — only values from your actual products appear.', 'Combine with a status chip and search for precise results.']},
       {t:'Soft delete a product',      s:['Click 🗑 icon.', 'Select "Move to Trash".', 'Product moves to Deleted filter, hidden from public site.']},
       {t:'Permanently delete',         s:['Click 🗑 icon.', 'Select "Permanently Delete" and confirm.', 'Product JSON deleted — cannot be undone.']},
-      {t:'Restore a deleted product',  s:['Click "🗑 Deleted" chip.', 'Find product.', 'Click "↩ Restore" — status becomes hidden.', 'Open Edit to review and publish.']},
+      {t:'Restore a deleted product',  s:['Click "🗑 Deleted" chip (appears only when deleted products exist).', 'Find product.', 'Click "↩ Restore" — status becomes hidden.', 'Open Edit to review and publish.']},
       {t:'Duplicate a product',        s:['Click "⧉ Dup" on any non-deleted row.', 'Add Duplicate page opens pre-filled.', 'Upload fresh images, adjust, then publish.']}
     ],
     rules: [
-      'Only one GitHub save runs at a time. Rapid status toggles are blocked while saving.',
-      'Deleted + Draft products excluded from Total stat. Their counts appear on their filter chips.',
+      'Only one GitHub save runs at a time (_ghSaving flag). A second rapid toggle is silently blocked until the first completes.',
+      'If GitHub returns a SHA conflict ("is at X but expected Y"), the save auto-retries once after 400ms with a fresh SHA fetch — no user action needed.',
+      'Filter chips are hidden when count = 0 and reappear automatically. This includes Drafts and Deleted.',
+      'All = active + sold_out + hidden. Drafts and Deleted are excluded from All.',
+      'Active + Sold Out chips get a green outline when their combined count equals All (no hidden products in system).',
+      'Type and Fabric dropdowns exclude deleted products — only values from visible/active inventory appear.',
       'Restored products come back as "hidden" — admin must set Active manually.',
       'Hard delete removes the product JSON file AND index entry. Images in ImageKit are NOT deleted.',
       'Duplicate generates a new unique SKU but copies all other fields except images. Starts as Draft.'
     ],
     impacts: [
-      {a:'Mark Sold / Active',    i:'Updates status in products_index.json.',               r:'Yes — toggle again.'},
-      {a:'Soft Delete',           i:'Sets status=deleted. Hidden from public site.',         r:'Yes — Restore.'},
-      {a:'Permanently Delete',    i:'Removes from index + deletes products/[id].json.',      r:'No.'},
-      {a:'Restore',               i:'Sets status=hidden in products_index.json.',            r:'Yes — delete again.'},
-      {a:'Duplicate',             i:'New draft product created. Not public until published.',r:'Yes — delete the duplicate.'}
+      {a:'Mark Sold / Active',    i:'Updates status in products_index.json. Auto-retries on SHA conflict.',  r:'Yes — toggle again.'},
+      {a:'Soft Delete',           i:'Sets status=deleted. Hidden from public site. Deleted chip appears.',   r:'Yes — Restore.'},
+      {a:'Permanently Delete',    i:'Removes from index + deletes products/[id].json.',                      r:'No.'},
+      {a:'Restore',               i:'Sets status=hidden in products_index.json.',                            r:'Yes — delete again.'},
+      {a:'Duplicate',             i:'New draft product created. Not public until published.',                r:'Yes — delete the duplicate.'}
     ],
     troubleshooting: [
-      {p:'Mark Sold does nothing',          f:'A save is in progress. Wait 2–3 seconds and retry.'},
+      {p:'"Save failed" error on toggle',   f:'This should now auto-retry. If it still appears, wait 5 seconds and toggle again — a concurrent admin session may have saved simultaneously.'},
+      {p:'Mark Sold does nothing',          f:'A save is in progress (_ghSaving flag). Wait 2–3 seconds and retry.'},
+      {p:'Drafts or Deleted chip missing',  f:'No products in that state — the chip hides when count is 0. It returns the moment you move a product into that state.'},
+      {p:'Type or Fabric dropdown empty',   f:'All products may be deleted, or products_index.json has no type/fabric fields set. Check product data in Product Edit.'},
       {p:'Product list is empty',           f:'Check GitHub token in Settings. Confirm data/products_index.json exists in repo.'},
-      {p:'Deleted chip shows nothing',      f:'No products soft-deleted yet. Use 🗑 → Move to Trash to soft-delete one.'},
-      {p:'Thumbnails not showing',          f:'Check image path in products_index starts with "images/" (lowercase). File must exist in repo.'}
+      {p:'Thumbnails not showing',          f:'Check image URL in products_index is a valid ImageKit URL. Verify the file was uploaded to IK.'}
     ]
   },
 

@@ -22,6 +22,7 @@
 | **v3.4** | **Aug 17 2026** | **Hero fold bar restructured (trust strip moved to 15vh gap). Blog post reader page. Blog page + admin editor data-driven. Our Story enriched (3rd section, 4 weaver profiles, values). Silk Mark replaces GI Tag sitewide. Trust strip items swapped. Section header typography system added.** |
 | **v3.5** | **Aug 22 2026** | **Our Story UI redesign (horizontal weaver cards, 4-col promise grid, font fixes). 30 product catalogue (18 new sarees, full regional/fabric/occasion diversity). Offers page: dynamic count, sort+filter fully wired, chips+sort on same row. Sarees sort bug fixed. Product drawer GST fine print. Blog content BLG-001–006 fully written with govt source credits.** |
 | **v3.6** | **Aug 22 2026** | **GoatCounter visitor count fix: Homepage #vc and Admin Dashboard "Total Visitors" now read live count from data/settings.json (siteStats.visitorCount). Dashboard "Refresh from GoatCounter" button fetches GoatCounter API (token from localStorage amayaa_gc_token), saves count + lastSynced back to settings.json via GitHub API.** |
+| **v3.8** | **Aug 28 2026** | **Product Manager: SHA conflict auto-retry, data-driven filter chips + dropdowns, audit trail wiring, per-page admin help panel.** |
 | **v3.7** | **Aug 22 2026** | **ImageKit.io CDN integration: All image paths migrated from local images/ to https://ik.imagekit.io/Amayaa2026/ across all data JSONs and HTML. Admin upload flows for banners and blog now use ImageKit Upload API instead of GitHub API. Product Edit now has a working photo upload panel. Shared imagekit.js helper created. ImageKit private key manageable from Admin Settings.** |
 | **v3.8** | **Aug 22 2026** | **Content Library fully populated (6 fabric care templates, 26 weave stories, 30 descriptions). All 30 products wired to library. Occasion "casual/daily" → "regular" sitewide. Product Edit page fully wired to GitHub API. contentRefs denorm (30→1 fetch). Sarees Region/Weave filter: searchable combobox replaces 28 chips. Admin fixes: products index path, delete helper, category usage-check. ImageKit migration completed across remaining admin/public pages. Local images-bkp folder removed from git.** |
 | **v4.0** | **Aug 24 2026** | **Homepage bug fixes: product drawer TDZ crash fixed (\_offerActive declared before use in \_render); Featured badge chip styling added (.b-featured CSS); badge builder now correctly renders all badge types; blog cards link to individual post pages (amayaa\_blog\_post.html?id=); Collection strip links pre-select the matching weave filter on the Sarees page via URL param (\_applyUrlParams). Bulk upload: blouseIncluded + blouseLength added to template + update path; blousePiece auto-computed.** |
@@ -1155,6 +1156,87 @@ All 7 data files migrated — zero local `images/` paths remain:
 1. Go to **Admin → Settings** — paste your ImageKit **private API key** (from imagekit.io → Developer Options → API Keys) in the "ImageKit Private Key" field
 2. Upload images for: first use `amayaa_admin/amayaa_banners.html` or `amayaa_admin/amayaa_blog.html` — the key prompt will appear if not yet saved
 3. For products: open Product Edit → click "Upload Photo" — images go directly to IK `/products/` folder
+
+---
+
+---
+
+## v3.8 · Product Manager Reliability + Admin Intelligence · Aug 28 2026
+
+### v3.8-1 · GitHub Save Reliability — SHA Conflict Fix
+**File:** `amayaa_admin/amayaa_products.html`
+
+Root cause: GitHub Contents API CDN caches GET responses for ~400ms. After a successful PUT (SHA_A→SHA_B), a rapid second GET can return stale SHA_A, causing the next PUT to fail with "is at X but expected Y".
+
+- `_ghSave` rewritten with cache-bust (`&_=Date.now()`) on every SHA GET to bypass CDN stale responses
+- Auto-retry on SHA conflict: waits 400ms, re-fetches fresh SHA, retries PUT once
+- Retry condition catches all GitHub SHA error formats: `"does not match"`, `"is at X"`, `"but expected Y"`
+- `_ghSaving` flag (already present) prevents concurrent saves — now combined with retry for full coverage
+- No user action needed on conflict — save silently succeeds on retry
+
+### v3.8-2 · Audit Trail — Full Wiring Across All Admin Pages
+**Files:** `amayaa_admin/sidebar.js`, all 11 admin HTML pages
+
+- `audit.js` now loaded on every admin page via `sidebar.js` (was only loaded on 2 pages before)
+- `AuditTrail.log()` called at 24 action points across all 11 pages with before/after values where available:
+  - **Products**: status toggle (before/after), soft delete, restore, permanent delete
+  - **Product Edit**: create (new), update (edit), with draft flag
+  - **Categories, Banners, FAQ, Typography, About, Policies, Content Library, Settings**: save actions with summary counts
+  - **Blog**: publish/draft save (new vs edit), delete
+- Audit trail is fire-and-forget — never blocks the main save
+
+### v3.8-3 · Per-Page Admin Help Panel
+**File:** `amayaa_admin/admin_help.js` (new, 800+ lines)
+
+- `ⓘ` button injected into every admin page topbar — zero changes to individual pages
+- Slide-in right panel with 7 collapsible sections: Overview, Functionalities, Field Reference, How-To, Rules & Dependencies, Impact of Changes, Troubleshooting
+- Content written for all 14 admin pages: Dashboard, Products, Product Edit, Categories, Banners, Blog, Settings, Typography, FAQ, Policies, Content Library, Bulk Upload, Audit Trail, About
+- Loaded automatically via `sidebar.js` injection — same pattern as audit.js
+
+### v3.8-4 · Filter Chips — Data-Driven Visibility
+**File:** `amayaa_admin/amayaa_products.html`
+
+- All filter chips now hidden when count = 0; reappear automatically when products enter that state
+- This applies to all chips: Active, Sold Out, Hidden, Special Offer, New Arrival, 📝 Drafts, 🗑 Deleted
+- "All" chip is the only one always visible
+- Auto-resets to "All" if the currently active chip becomes empty (e.g. last deleted product is restored)
+- Fixes: emoji `📝`/`🗑` in chip labels were corrupting on re-render (UTF-16 surrogate pair bug in regex); fixed using `data-base` attribute to avoid regex-stripping emoji
+
+### v3.8-5 · Filter Logic Corrections
+**File:** `amayaa_admin/amayaa_products.html`
+
+- "All" filter now excludes Drafts (was inconsistent — count excluded drafts but display included them). All = active + sold_out + hidden; Drafts has its own chip
+- Special Offer and New Arrival filters now exclude deleted products (previously surfaced deleted products with those badges)
+- Badge pill counts (offer, new) now exclude deleted products — pill hidden if no non-deleted products carry that badge
+
+### v3.8-6 · Dynamic Region and Fabric Dropdowns
+**File:** `amayaa_admin/amayaa_products.html`
+
+- Region (type) and Fabric dropdowns were hardcoded with 6 and 4 static values respectively — none matching actual product data
+- `_buildFilterDropdowns()` now runs on page load: scans all non-deleted products, extracts unique type and fabric values, sorts alphabetically, populates both dropdowns
+- Current values: 26 unique types (Baluchari → Tussar), 13 unique fabrics (Cotton Silk → Tussar Silk)
+- Dropdowns rebuild automatically on each page load — new product types/fabrics appear without any code change
+
+### v3.8-7 · Active + Sold Out Visual Grouping
+**File:** `amayaa_admin/amayaa_products.html`
+
+- Active and Sold Out chips reordered to always appear side by side (previously Special Offer sat between them)
+- When `active + sold_out === all` (no hidden products in system), both chips show a subtle green outline with tooltip "Active + Sold Out = All" — signals they are exhaustive
+- Active + Sold Out are the only two status values that together equal All; other chips (Hidden, Offer, New, Draft, Deleted) are subsets
+
+### v3.8-8 · Branch Sync Strategy
+**Recurring issue:** Admin panel writes commits directly to `origin/main` via GitHub Contents API (every status toggle, audit log entry = 1 commit). Local code changes also target `main`. Branches diverge.
+
+**Standard push workflow going forward:**
+```bash
+cd /Users/debamukh/Downloads/Amayaa_site
+rm -f .git/index.lock .git/HEAD.lock
+git pull --rebase origin main
+git push origin main
+```
+`--rebase` always succeeds cleanly because data files (`data/*.json`) and code files (`amayaa_admin/*.html`, `*.js`) never overlap.
+
+**Long-term fix (planned):** Separate `data` branch for admin API writes; `main` for code only.
 
 ---
 

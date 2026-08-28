@@ -251,9 +251,9 @@ if(!sessionStorage.getItem('amayaa_admin')){
     <div class="filter-row" id="filterPillsRow">
       <div class="filter-pill active" data-filter="all">All</div>
       <div class="filter-pill" data-filter="active">Active</div>
-      <div class="filter-pill" data-filter="offer">Special Offer</div>
       <div class="filter-pill" data-filter="sold_out">Sold Out</div>
       <div class="filter-pill" data-filter="hidden">Hidden</div>
+      <div class="filter-pill" data-filter="offer">Special Offer</div>
       <div class="filter-pill" data-filter="new">New Arrival</div>
       <div class="filter-pill" data-filter="draft" data-base="📝 Drafts" style="color:#7A5A00;border-color:rgba(200,150,0,.35);">📝 Drafts</div>
       <div class="filter-pill" data-filter="deleted" data-base="🗑 Deleted" style="color:#8B0000;border-color:rgba(200,0,0,.2);">🗑 Deleted</div>
@@ -459,6 +459,14 @@ function _updateStats(){
     offer:_products.filter(function(p){return p.status!=='deleted'&&p.badges&&p.badges.indexOf('offer')>-1;}).length,
     'new':_products.filter(function(p){return p.status!=='deleted'&&p.badges&&p.badges.indexOf('new')>-1;}).length
   };
+  // highlight Active+Sold Out when they fully account for All (no hidden products)
+  var exhaustive=(active+sold===total);
+  ['active','sold_out'].forEach(function(f){
+    var p=document.querySelector('[data-filter="'+f+'"]');
+    if(!p)return;
+    if(exhaustive){p.style.outline='1.5px solid rgba(26,122,64,.35)';p.title='Active + Sold Out = All';}
+    else{p.style.outline='';p.title='';}
+  });
   // show only pills that have at least one matching product; 'all' always visible
   document.querySelectorAll('[data-filter]').forEach(function(pill){
     var f=pill.dataset.filter;

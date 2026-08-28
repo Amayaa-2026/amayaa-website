@@ -268,13 +268,10 @@ if(!sessionStorage.getItem('amayaa_admin')){
     <!-- FILTER PILLS ROW 2 -->
     <div class="filter-row" style="margin-bottom:14px;">
       <select id="filterRegion" class="fse" style="width:auto;padding:7px 32px 7px 12px;font-size:11px;">
-        <option value="">All Regions</option>
-        <option>Banarasi</option><option>Kanjivaram</option><option>Baluchari</option>
-        <option>Chanderi</option><option>Sambalpuri</option><option>Paithani</option>
+        <option value="">All Types</option>
       </select>
       <select id="filterFabric" class="fse" style="width:auto;padding:7px 32px 7px 12px;font-size:11px;">
         <option value="">All Fabrics</option>
-        <option>Silk</option><option>Cotton</option><option>Tussar Silk</option><option>Linen</option>
       </select>
       <select id="filterSort" class="fse" style="width:auto;padding:7px 32px 7px 12px;font-size:11px;">
         <option value="newest">Sort: Newest First</option>
@@ -480,6 +477,27 @@ function _updateStats(){
       pill.textContent=base+' ('+cnt+')';
     }
   });
+}
+
+function _buildFilterDropdowns(){
+  /* Populate Region (type) and Fabric dropdowns from actual product data — non-deleted only */
+  var active=_products.filter(function(p){return p.status!=='deleted';});
+  var types=[...new Set(active.map(function(p){return p.type;}).filter(Boolean))].sort();
+  var fabrics=[...new Set(active.map(function(p){return p.fabric;}).filter(Boolean))].sort();
+  function _fill(id,vals,label){
+    var sel=document.getElementById(id);
+    if(!sel)return;
+    var cur=sel.value;
+    sel.innerHTML='<option value="">'+label+'</option>';
+    vals.forEach(function(v){
+      var o=document.createElement('option');
+      o.value=v;o.textContent=v;
+      if(v===cur)o.selected=true;
+      sel.appendChild(o);
+    });
+  }
+  _fill('filterRegion',types,'All Types');
+  _fill('filterFabric',fabrics,'All Fabrics');
 }
 
 function _applyFilter(){
@@ -716,7 +734,7 @@ document.addEventListener('DOMContentLoaded',function(){
   _loadLibrary();
   fetch('../data/products_index.json?_='+Date.now())
     .then(function(r){return r.json();})
-    .then(function(data){_products=Array.isArray(data)?data:[];_updateStats();_applyFilter();})
+    .then(function(data){_products=Array.isArray(data)?data:[];_buildFilterDropdowns();_updateStats();_applyFilter();})
     .catch(function(e){console.error('Failed to load products:',e);});
 
   var searchEl=document.getElementById('prodSearch');

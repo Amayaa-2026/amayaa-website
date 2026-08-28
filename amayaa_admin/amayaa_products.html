@@ -456,16 +456,29 @@ function _updateStats(){
   var elA=document.getElementById('stat-active');if(elA)elA.textContent=active;
   var elS=document.getElementById('stat-sold');if(elS)elS.textContent=sold;
   var elD=document.getElementById('stat-draft');if(elD)elD.textContent=drafts;
-  // update pill counts
+  // compute per-filter counts
+  var _counts={
+    all:total, active:active, sold_out:sold, hidden:hidden, draft:drafts, deleted:deleted,
+    offer:_products.filter(function(p){return p.badges&&p.badges.indexOf('offer')>-1;}).length,
+    'new':_products.filter(function(p){return p.badges&&p.badges.indexOf('new')>-1;}).length
+  };
+  // show only pills that have at least one matching product; 'all' always visible
   document.querySelectorAll('[data-filter]').forEach(function(pill){
     var f=pill.dataset.filter;
-    var cnt=f==='all'?total
-      :f==='active'?active:f==='sold_out'?sold:f==='hidden'?hidden
-      :f==='draft'?drafts:f==='deleted'?deleted
-      :f==='offer'?_products.filter(function(p){return p.badges&&p.badges.indexOf('offer')>-1;}).length
-      :f==='new'?_products.filter(function(p){return p.badges&&p.badges.indexOf('new')>-1;}).length:0;
-    var base=pill.dataset.base||pill.textContent.replace(/\s*\(\d+\)/,'').trim();
-    pill.textContent=base+' ('+cnt+')';
+    var cnt=_counts[f]||0;
+    var visible=(f==='all'||cnt>0);
+    pill.style.display=visible?'':'none';
+    // if the currently active pill is being hidden, reset to 'all'
+    if(!visible&&pill.classList.contains('active')){
+      pill.classList.remove('active');
+      var allPill=document.querySelector('[data-filter="all"]');
+      if(allPill)allPill.classList.add('active');
+      _activeFilter='all';
+    }
+    if(visible){
+      var base=pill.dataset.base||pill.textContent.replace(/\s*\(\d+\)/,'').trim();
+      pill.textContent=base+' ('+cnt+')';
+    }
   });
 }
 

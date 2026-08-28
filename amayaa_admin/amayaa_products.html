@@ -359,7 +359,7 @@ function _ghSave(filePath,dat,msg,btnEl){
     .then(function(sha){return _put(sha);})
     .then(function(res){
       if(res.content){ _onSuccess(); }
-      else if(res.message&&res.message.indexOf('does not match')>-1){
+      else if(res.message&&(res.message.indexOf('does not match')>-1||res.message.indexOf('is at')>-1||res.message.indexOf('but expected')>-1)){
         /* SHA conflict — CDN returned stale SHA; wait 400ms and retry once with fresh GET */
         return new Promise(function(ok){setTimeout(ok,400);})
           .then(function(){return _freshSHA();})

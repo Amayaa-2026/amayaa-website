@@ -454,8 +454,8 @@ function _goPage(n){_curPage=n;_renderTable();}
 function _updateStats(){
   var deleted=_products.filter(function(p){return p.status==='deleted';}).length;
   var drafts=_products.filter(function(p){return p.status==='draft';}).length;
-  /* Total excludes deleted and draft per user spec */
-  var total=_products.filter(function(p){return p.status!=='deleted'&&p.status!=='draft';}).length;
+  /* All = Active + Sold Out only. Hidden, Draft, Deleted each have their own chip. */
+  var total=_products.filter(function(p){return p.status==='active'||p.status==='sold_out';}).length;
   var active=_products.filter(function(p){return p.status==='active';}).length;
   var sold=_products.filter(function(p){return p.status==='sold_out';}).length;
   var hidden=_products.filter(function(p){return p.status==='hidden';}).length;
@@ -527,7 +527,7 @@ function _applyFilter(){
 
   _filtered=_products.filter(function(p){
     var mf=true;
-    if(_activeFilter==='all') mf=p.status!=='deleted'&&p.status!=='draft'; /* All = active+sold+hidden; Drafts has its own pill */
+    if(_activeFilter==='all') mf=p.status==='active'||p.status==='sold_out'; /* All = active+sold only; Hidden/Draft/Deleted each have their own chip */
     else if(_activeFilter==='active') mf=p.status==='active';
     else if(_activeFilter==='sold_out') mf=p.status==='sold_out';
     else if(_activeFilter==='hidden') mf=p.status==='hidden';

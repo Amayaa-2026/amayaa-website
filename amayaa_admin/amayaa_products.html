@@ -338,19 +338,37 @@ function _ghSave(filePath,dat,msg,btnEl){
   _ghSaving = true;
   var orig=btnEl?btnEl.textContent:'';
   if(btnEl){btnEl.textContent='Saving…';btnEl.disabled=true;}
-  fetch('https://api.github.com/repos/'+GH_REPO+'/contents/'+filePath+'?ref='+GH_BRANCH,{headers:_ghHdrs()})
-    .then(function(r){return r.json();})
-    .then(function(ex){
-      if(!ex.sha)throw new Error(ex.message||'No SHA');
-      return fetch('https://api.github.com/repos/'+GH_REPO+'/contents/'+filePath,{method:'PUT',headers:_ghHdrs(),body:JSON.stringify({message:msg,content:_utf8ToB64(JSON.stringify(dat,null,2)),sha:ex.sha,branch:GH_BRANCH})});
-    })
-    .then(function(r){return r.json();})
+
+  /* Fresh SHA fetch — cache-busted with timestamp to bypass GitHub CDN stale responses */
+  function _freshSHA(){
+    return fetch('https://api.github.com/repos/'+GH_REPO+'/contents/'+filePath+'?ref='+GH_BRANCH+'&_='+Date.now(),{headers:_ghHdrs()})
+      .then(function(r){return r.json();})
+      .then(function(ex){if(!ex.sha)throw new Error(ex.message||'No SHA');return ex.sha;});
+  }
+  function _put(sha){
+    return fetch('https://api.github.com/repos/'+GH_REPO+'/contents/'+filePath,{method:'PUT',headers:_ghHdrs(),body:JSON.stringify({message:msg,content:_utf8ToB64(JSON.stringify(dat,null,2)),sha:sha,branch:GH_BRANCH})})
+      .then(function(r){return r.json();});
+  }
+  function _onSuccess(){
+    _ghSaving=false;
+    if(btnEl){btnEl.textContent='✅ Saved!';setTimeout(function(){btnEl.textContent=orig;btnEl.disabled=false;},2500);}
+    else{var t=document.createElement('div');t.style.cssText='position:fixed;top:20px;right:20px;z-index:9999;padding:12px 20px;border-radius:10px;background:#D4F0DD;border:1px solid #1A7A40;color:#1A7A40;font-family:Jost,sans-serif;font-weight:600;font-size:14px;';t.textContent='✅ Saved to GitHub!';document.body.appendChild(t);setTimeout(function(){t.remove();},3000);}
+  }
+
+  _freshSHA()
+    .then(function(sha){return _put(sha);})
     .then(function(res){
-      _ghSaving = false;
-      if(res.content){
-        if(btnEl){btnEl.textContent='✅ Saved!';setTimeout(function(){btnEl.textContent=orig;btnEl.disabled=false;},2500);}
-        else{var t=document.createElement('div');t.style.cssText='position:fixed;top:20px;right:20px;z-index:9999;padding:12px 20px;border-radius:10px;background:#D4F0DD;border:1px solid #1A7A40;color:#1A7A40;font-family:Jost,sans-serif;font-weight:600;font-size:14px;';t.textContent='✅ Saved to GitHub!';document.body.appendChild(t);setTimeout(function(){t.remove();},3000);}
-      }else{throw new Error(res.message||'Write failed');}
+      if(res.content){ _onSuccess(); }
+      else if(res.message&&res.message.indexOf('does not match')>-1){
+        /* SHA conflict — CDN returned stale SHA; wait 400ms and retry once with fresh GET */
+        return new Promise(function(ok){setTimeout(ok,400);})
+          .then(function(){return _freshSHA();})
+          .then(function(sha2){return _put(sha2);})
+          .then(function(res2){
+            if(res2.content){ _onSuccess(); }
+            else{ throw new Error(res2.message||'Write failed after retry'); }
+          });
+      }else{ throw new Error(res.message||'Write failed'); }
     })
     .catch(function(e){_ghSaving=false;alert('Save failed: '+(e.message||e));if(btnEl){btnEl.textContent=orig;btnEl.disabled=false;}});
 }

@@ -348,10 +348,10 @@ function _ghSave(filePath,dat,msg,btnEl){
     .catch(function(e){alert('Save failed: '+(e.message||e));if(btnEl){btnEl.textContent=orig;btnEl.disabled=false;}});
 }
 
-/* ═══ IMAGE URL HELPER — encodes spaces and special chars ═══ */
+/* ═══ IMAGE URL HELPER — absolute URLs returned as-is; relative paths prefixed with ../ ═══ */
 function _imgUrl(path){
   if(!path) return '';
-  // encode each path segment separately to preserve slashes
+  if(/^https?:\/\//i.test(path)) return path; /* already absolute (ImageKit / CDN) */
   return '../' + path.split('/').map(function(seg){ return encodeURIComponent(seg); }).join('/');
 }
 

@@ -255,8 +255,8 @@ if(!sessionStorage.getItem('amayaa_admin')){
       <div class="filter-pill" data-filter="sold_out">Sold Out</div>
       <div class="filter-pill" data-filter="hidden">Hidden</div>
       <div class="filter-pill" data-filter="new">New Arrival</div>
-      <div class="filter-pill" data-filter="draft" style="color:#7A5A00;border-color:rgba(200,150,0,.35);">📝 Drafts</div>
-      <div class="filter-pill" data-filter="deleted" style="color:#8B0000;border-color:rgba(200,0,0,.2);">🗑 Deleted</div>
+      <div class="filter-pill" data-filter="draft" data-base="📝 Drafts" style="color:#7A5A00;border-color:rgba(200,150,0,.35);">📝 Drafts</div>
+      <div class="filter-pill" data-filter="deleted" data-base="🗑 Deleted" style="color:#8B0000;border-color:rgba(200,0,0,.2);">🗑 Deleted</div>
     </div>
 
     <!-- SEARCH -->
@@ -464,8 +464,8 @@ function _updateStats(){
       :f==='draft'?drafts:f==='deleted'?deleted
       :f==='offer'?_products.filter(function(p){return p.badges&&p.badges.indexOf('offer')>-1;}).length
       :f==='new'?_products.filter(function(p){return p.badges&&p.badges.indexOf('new')>-1;}).length:0;
-    pill.textContent=pill.textContent.replace(/\s*\(\d+\)/,'').replace(/^[📝🗑]\s*/,'');
-    pill.textContent=(f==='draft'?'📝 ':f==='deleted'?'🗑 ':'')+pill.textContent.trim()+' ('+cnt+')';
+    var base=pill.dataset.base||pill.textContent.replace(/\s*\(\d+\)/,'').trim();
+    pill.textContent=base+' ('+cnt+')';
   });
 }
 

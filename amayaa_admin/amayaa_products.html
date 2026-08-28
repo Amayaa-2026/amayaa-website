@@ -265,8 +265,8 @@ if(!sessionStorage.getItem('amayaa_admin')){
       <input id="prodSearch" type="text" placeholder="Search by name, SKU, region, fabric...">
     </div>
 
-    <!-- FILTER PILLS ROW 2 -->
-    <div class="filter-row" style="margin-bottom:14px;">
+    <!-- FILTER + BULK ACTIONS ROW -->
+    <div class="filter-row" style="margin-bottom:14px;flex-wrap:wrap;align-items:center;">
       <select id="filterRegion" class="fse" style="width:auto;padding:7px 32px 7px 12px;font-size:11px;">
         <option value="">All Types</option>
       </select>
@@ -279,6 +279,12 @@ if(!sessionStorage.getItem('amayaa_admin')){
         <option value="price-asc">Price Low–High</option>
         <option value="price-desc">Price High–Low</option>
       </select>
+      <div style="width:1px;height:22px;background:rgba(0,0,0,.13);margin:0 6px;flex-shrink:0;"></div>
+      <span style="font-size:11px;color:#B0967E;letter-spacing:.5px;flex-shrink:0;">Bulk:</span>
+      <button class="btn btn-ghost btn-sm" onclick="_bulkStatus('active')" title="Set selected to Active (visible on site)">👁 Show</button>
+      <button class="btn btn-ghost btn-sm" onclick="_bulkStatus('hidden')" title="Set selected to Hidden (off site, kept in system)">🙈 Hide</button>
+      <button class="btn btn-ghost btn-sm" onclick="_bulkBadge('offer')" title="Add Special Offer badge to selected">🎁 Offer</button>
+      <button class="btn btn-danger btn-sm" onclick="_bulkDelete()" title="Delete selected — choose Trash or Permanent">🗑 Delete</button>
     </div>
 
     <!-- PRODUCT TABLE -->
@@ -296,15 +302,8 @@ if(!sessionStorage.getItem('amayaa_admin')){
       </table>
     </div>
 
-    <!-- BULK ACTIONS + PAGINATION -->
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:16px;">
-      <div style="display:flex;gap:8px;align-items:center;">
-        <span style="font-size:12px;color:#9A8070;">Bulk actions:</span>
-        <button class="btn btn-ghost btn-sm" onclick="_bulkStatus('active')">👁 Show Selected</button>
-        <button class="btn btn-ghost btn-sm" onclick="_bulkStatus('hidden')">🙈 Hide Selected</button>
-        <button class="btn btn-ghost btn-sm" onclick="_bulkBadge('offer')">🎁 Mark as Offer</button>
-        <button class="btn btn-danger btn-sm" onclick="_bulkDelete()">🗑 Delete Selected</button>
-      </div>
+    <!-- PAGINATION -->
+    <div style="display:flex;justify-content:center;align-items:center;margin-top:16px;">
       <div class="pag">
         <div class="pag-btn">&#8592;</div>
         <div class="pag-btn active">1</div>
@@ -707,31 +706,70 @@ function _bulkBadge(badge){
 function _bulkDelete(){
   var ids=_selectedIds();
   if(!ids.length){alert('Select at least one product.');return;}
-  if(!confirm('Delete '+ids.length+' product(s)? Removes from index and deletes detail files from GitHub.\n\nYou will be shown which ImageKit images to delete manually. Cannot be undone.'))return;
-  var fetches=ids.map(function(id){
-    return fetch('https://api.github.com/repos/'+GH_REPO+'/contents/data/products/'+id+'.json?ref='+GH_BRANCH,{headers:_ghHdrs()})
-      .then(function(r){return r.ok?r.json():null;})
-      .then(function(f){
-        if(!f||!f.content)return{id:id,photos:[]};
-        try{
-          var d=JSON.parse(atob(f.content.replace(/\n/g,'')));
-          var ph=(d.photos||[]).concat(d.imageThumbs||[]);
-          if(d.thumbnail)ph.push(d.thumbnail);
-          ph=ph.filter(function(u,i,a){return u&&a.indexOf(u)===i;});
-          return{id:id,photos:ph};
-        }catch(_){return{id:id,photos:[]};}
-      })
-      .catch(function(){return{id:id,photos:[]};});
-  });
-  Promise.all(fetches).then(function(results){
-    _products=_products.filter(function(p){return ids.indexOf(p.id)<0;});
-    _updateStats();_applyFilter();
-    _ghSave('data/products_index.json',_products,'Bulk delete '+ids.length+' products (index)',null);
-    results.forEach(function(r){
-      _ghDeleteFile('data/products/'+r.id+'.json','Admin: delete product detail '+r.id);
+  if(_ghSaving){alert('A save is in progress. Please wait.');return;}
+
+  var n=ids.length;
+  var modal=document.createElement('div');
+  modal.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9999;display:flex;align-items:center;justify-content:center;';
+  modal.innerHTML='<div style="background:white;border-radius:14px;padding:28px 32px;max-width:400px;width:90%;font-family:Jost,sans-serif;">'
+    +'<div style="font-size:15px;font-weight:700;color:#1A0A04;margin-bottom:5px;">Delete '+n+' product'+(n>1?'s':'')+'?</div>'
+    +'<div style="font-size:12px;color:#7A6050;margin-bottom:20px;">'+ids.map(function(id){return '<code style="font-size:10px;background:#f5f0eb;padding:1px 4px;border-radius:3px;">'+id+'</code>';}).join(' ')+'</div>'
+    +'<div style="display:flex;flex-direction:column;gap:10px;">'
+    +'<button id="_bsdBtn" style="padding:11px 16px;border-radius:9px;border:none;cursor:pointer;background:rgba(196,98,45,.1);color:#A04010;font-family:Jost,sans-serif;font-size:13px;font-weight:600;text-align:left;">🗑 Move to Trash <span style="font-size:11px;font-weight:400;opacity:.75;">(recoverable · keeps files)</span></button>'
+    +'<button id="_bhdBtn" style="padding:11px 16px;border-radius:9px;border:none;cursor:pointer;background:rgba(200,0,0,.08);color:#8B0000;font-family:Jost,sans-serif;font-size:13px;font-weight:600;text-align:left;">💀 Permanently Delete <span style="font-size:11px;font-weight:400;opacity:.75;">(removes all files · cannot undo)</span></button>'
+    +'<button id="_bcnBtn" style="padding:8px 16px;border-radius:9px;border:1px solid rgba(0,0,0,.1);cursor:pointer;background:transparent;color:#7A6050;font-family:Jost,sans-serif;font-size:13px;">Cancel</button>'
+    +'</div></div>';
+  document.body.appendChild(modal);
+  modal.onclick=function(e){if(e.target===modal)document.body.removeChild(modal);};
+
+  /* Cancel */
+  modal.querySelector('#_bcnBtn').onclick=function(){document.body.removeChild(modal);};
+
+  /* Move to Trash — sets status=deleted for all, one save */
+  modal.querySelector('#_bsdBtn').onclick=function(){
+    document.body.removeChild(modal);
+    if(_ghSaving){alert('A save is in progress. Please wait.');return;}
+    ids.forEach(function(id){
+      var p=_products.find(function(x){return x.id===id;});
+      if(!p)return;
+      var prev=p.status;
+      p.status='deleted';
+      AuditTrail.log({action:'update',entity:'product',entityId:id,summary:'Bulk: Moved to Trash',changes:[{field:'status',before:prev,after:'deleted'}]});
     });
-    _showIkCleanup(results);
-  });
+    _updateStats();_applyFilter();
+    _ghSave('data/products_index.json',_products,'Bulk: Move to Trash ('+n+' products)',null);
+  };
+
+  /* Permanently Delete — second confirm, then fetch+delete all detail files */
+  modal.querySelector('#_bhdBtn').onclick=function(){
+    document.body.removeChild(modal);
+    if(!confirm('Permanently delete '+n+' product'+(n>1?'s':'')+' and their detail files from GitHub? This cannot be undone.\n\nYou will be shown which ImageKit images to delete manually.'))return;
+    var fetches=ids.map(function(id){
+      return fetch('https://api.github.com/repos/'+GH_REPO+'/contents/data/products/'+id+'.json?ref='+GH_BRANCH,{headers:_ghHdrs()})
+        .then(function(r){return r.ok?r.json():null;})
+        .then(function(f){
+          if(!f||!f.content)return{id:id,photos:[]};
+          try{
+            var d=JSON.parse(atob(f.content.replace(/\n/g,'')));
+            var ph=(d.photos||[]).concat(d.imageThumbs||[]);
+            if(d.thumbnail)ph.push(d.thumbnail);
+            ph=ph.filter(function(u,i,a){return u&&a.indexOf(u)===i;});
+            return{id:id,photos:ph};
+          }catch(_){return{id:id,photos:[]};}
+        })
+        .catch(function(){return{id:id,photos:[]};});
+    });
+    Promise.all(fetches).then(function(results){
+      _products=_products.filter(function(p){return ids.indexOf(p.id)<0;});
+      _updateStats();_applyFilter();
+      _ghSave('data/products_index.json',_products,'Bulk permanent delete '+n+' products (index)',null);
+      results.forEach(function(r){
+        _ghDeleteFile('data/products/'+r.id+'.json','Admin: delete product detail '+r.id);
+        AuditTrail.log({action:'delete',entity:'product',entityId:r.id,summary:'Bulk: permanently deleted'});
+      });
+      _showIkCleanup(results);
+    });
+  };
 }
 
 function _csvUpload(){

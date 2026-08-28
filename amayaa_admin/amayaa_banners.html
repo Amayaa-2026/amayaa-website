@@ -555,6 +555,7 @@ function saveBanners(){
   _collectForm();
   var btn = document.getElementById('btn-save');
   _ghSave('data/banners.json', _banners, 'Admin: update banners ('+_banners.length+' slides)', btn);
+  AuditTrail.log({action:'update',entity:'banner',entityId:'banners',summary:'Banners saved ('+_banners.length+' slides)'});
 }
 
 /* ═══ INIT ═══ */

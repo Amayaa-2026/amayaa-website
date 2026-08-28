@@ -487,18 +487,22 @@ function _toggleStatus(id){
   if(_ghSaving){return;} /* prevent SHA conflict from rapid toggling */
   var p=_products.find(function(x){return x.id===id;});
   if(!p||p.status==='deleted')return;
+  var prevStatus=p.status;
   p.status=p.status==='active'?'sold_out':'active';
   _updateStats();_applyFilter();
   _ghSave('data/products_index.json',_products,'Update status: '+id,null);
+  AuditTrail.log({action:'update',entity:'product',entityId:id,summary:'Status changed: '+prevStatus+' → '+p.status,changes:[{field:'status',before:prevStatus,after:p.status}]});
 }
 
 function _softDelete(id){
   if(_ghSaving)return;
   var p=_products.find(function(x){return x.id===id;});
   if(!p)return;
+  var prevStatus=p.status;
   p.status='deleted';
   _updateStats();_applyFilter();
   _ghSave('data/products_index.json',_products,'Admin: soft delete '+id,null);
+  AuditTrail.log({action:'update',entity:'product',entityId:id,summary:'Moved to Trash',changes:[{field:'status',before:prevStatus,after:'deleted'}]});
 }
 
 function _restoreProduct(id){
@@ -508,6 +512,7 @@ function _restoreProduct(id){
   p.status='hidden'; /* restore to hidden, not auto-published */
   _updateStats();_applyFilter();
   _ghSave('data/products_index.json',_products,'Admin: restore '+id,null);
+  AuditTrail.log({action:'update',entity:'product',entityId:id,summary:'Restored from Trash',changes:[{field:'status',before:'deleted',after:'hidden'}]});
 }
 
 function _duplicateProduct(id){
@@ -611,6 +616,7 @@ function _deleteProduct(id){
       _ghSave('data/products_index.json',_products,'Admin: delete product '+id+' from index',null);
       _ghDeleteFile('data/products/'+id+'.json','Admin: delete product detail '+id);
       _showIkCleanup([{id:id, photos:photos}]);
+      AuditTrail.log({action:'delete',entity:'product',entityId:id,summary:'Permanently deleted product and detail file'});
     });
 }
 

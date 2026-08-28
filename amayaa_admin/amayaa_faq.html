@@ -565,6 +565,7 @@ function deleteGroup(groupId) {
 function saveChanges() {
   var btn = document.querySelector('.topbar-actions .btn-primary');
   _ghSave('data/faq.json', _data, 'Admin: update FAQ content', btn);
+  AuditTrail.log({action:'update',entity:'faq',entityId:'faq',summary:'FAQ content saved'});
 }
 </script>
 <script src="sidebar.js"></script>

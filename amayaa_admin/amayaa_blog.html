@@ -401,9 +401,11 @@ function _editPost(idx){
 function _deletePost(idx){
   var p=_blogData[idx];
   if(!p||!confirm('Delete "'+p.title+'"? This cannot be undone.'))return;
+  var deletedId=p.id||p.title;
   _blogData.splice(idx,1);
   _renderTable();
   _ghSave('data/blog.json',_blogData,'Admin: delete blog post',null);
+  AuditTrail.log({action:'delete',entity:'blog',entityId:deletedId,summary:'Blog post deleted: '+deletedId});
 }
 
 /* ── Publish / Draft ── */
@@ -442,10 +444,15 @@ function _publishPost(published){
   if(editIdx>=0&&editIdx<_blogData.length){_blogData[editIdx]=post;}
   else{_blogData.push(post);}
   _renderTable();
+  var _postId = post.id || post.slug || title;
+  var _wasNew = !(editIdx>=0&&editIdx<_blogData.length-1);
   _ghSave('data/blog.json',_blogData,
     published?'Admin: publish "'+title+'"':'Admin: draft "'+title+'"',
     btn,
-    function(){ document.getElementById('blogForm').style.display='none'; _clearForm(); }
+    function(){
+      document.getElementById('blogForm').style.display='none'; _clearForm();
+      AuditTrail.log({action:_wasNew?'create':'update',entity:'blog',entityId:_postId,summary:(published?'Published':'Saved as draft')+': '+title,changes:[{field:'published',before:'',after:String(published)}]});
+    }
   );
 }
 

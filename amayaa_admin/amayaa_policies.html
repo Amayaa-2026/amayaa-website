@@ -450,6 +450,7 @@ function toggleEditSection(idx) {
     setTimeout(function(){ ind.classList.remove('show'); }, 2500);
 
     _ghSave('data/policies.json', _data, 'Admin: update Policies — ' + sec.title, null);
+    AuditTrail.log({action:'update',entity:'policy',entityId:sec.title,summary:'Policy section saved: '+sec.title});
   }
 }
 
@@ -464,6 +465,7 @@ function saveAll() {
   }
   var btn = document.querySelector('.topbar-actions .btn-primary');
   _ghSave('data/policies.json', _data, 'Admin: update Policies content', btn);
+  AuditTrail.log({action:'update',entity:'policy',entityId:'policies',summary:'All policies saved'});
 }
 </script>
 <script src="sidebar.js"></script>

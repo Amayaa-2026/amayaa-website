@@ -528,6 +528,7 @@ function addItem(filterId){
 function saveCategories(){
   var btn = document.querySelector('.topbar-actions .btn-primary');
   _ghSave('data/categories.json', _cats, 'Admin: update categories', btn);
+  AuditTrail.log({action:'update',entity:'category',entityId:'categories',summary:'Categories saved ('+(_cats.filters||[]).length+' fabric, '+(_cats.regions||[]).length+' weave, '+(_cats.occasions||[]).length+' occasion)'});
 }
 
 /* ── Init: load categories.json with localStorage-first strategy ── */

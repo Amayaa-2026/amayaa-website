@@ -454,6 +454,7 @@ function saveEntry(){
     renderEntryList();
     renderDetailPanel();
     showAlert('Saved successfully.','success');
+    AuditTrail.log({action:'update',entity:'content_library',entityId:entry.id,summary:'Content entry saved: '+entry.id+' ('+(_currentType||'')+')'});
   });
 }
 
@@ -490,6 +491,7 @@ function deleteEntry(){
       renderEntryList();
       renderDetailPanel();
       showAlert('Entry deleted.','success');
+      AuditTrail.log({action:'delete',entity:'content_library',entityId:eid,summary:'Content entry deleted: '+eid});
     });
   });
 }
@@ -642,6 +644,7 @@ function saveBundle(){
     renderBundleList();
     renderBundlePanel();
     showAlert('Bundle saved.','success');
+    AuditTrail.log({action:'update',entity:'content_library',entityId:bundle.id,summary:'Content bundle saved: '+bundle.id});
   });
 }
 
@@ -662,6 +665,7 @@ function deleteBundle(){
       renderBundleList();
       renderBundlePanel();
       showAlert('Bundle deleted.','success');
+      AuditTrail.log({action:'delete',entity:'content_library',entityId:bid,summary:'Content bundle deleted: '+bid});
     });
   });
 }

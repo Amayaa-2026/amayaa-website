@@ -932,6 +932,7 @@ function _write(cardId) {
     btn.textContent = '✏ Edit'; btn.className = 'btn btn-edit btn-sm'; btn.disabled = false;
     si.textContent = '✅ Saved — live in ~30s';
     setTimeout(function () { si.classList.remove('show'); }, 5000);
+    AuditTrail.log({action:'update',entity:'settings',entityId:cardId,summary:'Settings card saved: '+cardId});
   })
   .catch(function () {
     btn.textContent = '💾 Save'; btn.disabled = false;

@@ -59,6 +59,13 @@ if(document.readyState==='loading'){
 }else{inject();}
 })();
 
+// Load audit trail helper on every admin page
+(function(){
+  var s=document.createElement('script');
+  s.src='audit.js';
+  document.head.appendChild(s);
+})();
+
 // Load admin help system on every admin page
 (function(){
   var s=document.createElement('script');

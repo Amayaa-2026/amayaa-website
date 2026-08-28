@@ -459,6 +459,7 @@ function saveSection(i) {
   delete _sectionSnapshots[i];
   autoSave();
   _ghSave('data/about.json', data, 'Admin: update story section '+(i+1), null);
+  AuditTrail.log({action:'update',entity:'about',entityId:'section-'+(i+1),summary:'Our Story section '+(i+1)+' saved'});
   renderStory();
 }
 
@@ -585,6 +586,7 @@ function autoSave(){
 function saveAll(){
   var btn = document.querySelector('.topbar-actions .btn-primary');
   _ghSave('data/about.json', data, 'Admin: update About page', btn);
+  AuditTrail.log({action:'update',entity:'about',entityId:'about',summary:'Our Story page saved'});
 }
 
 

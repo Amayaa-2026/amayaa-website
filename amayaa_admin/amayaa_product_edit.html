@@ -1434,6 +1434,7 @@ function _validateProduct(data){
 <!-- ── Save to GitHub ── -->
 <script>
 function _saveProduct(asDraft){
+  var _wasEdit = _isEdit; /* capture before possible mutation in success handler */
   var data = _collectFormData(asDraft);
   var errors = _validateProduct(data);
   if(errors.length){
@@ -1499,6 +1500,7 @@ function _saveProduct(asDraft){
           st.className = 'ok';
           st2.textContent = asDraft ? '✅ Draft saved!' : '✅ Published!';
           _isDirty = false; // clear guard after successful save
+          AuditTrail.log({action:_wasEdit?'update':'create',entity:'product',entityId:data.id,summary:(_wasEdit?'Updated':'Created')+': '+data.detail.name+(asDraft?' (draft)':''),changes:[{field:'status',before:'',after:data.detail.status},{field:'price',before:'',after:data.detail.price}]});
           // Switch to edit mode if new
           if(!_isEdit){ _isEdit=true; _editId=data.id; }
           // Update breadcrumb

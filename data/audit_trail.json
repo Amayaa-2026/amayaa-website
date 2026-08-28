@@ -1,10 +1,24 @@
 [
   {
+    "ts": "2026-08-28T06:32:13.023Z",
+    "action": "update",
+    "entity": "product",
+    "entityId": "AMY-BAN-001",
+    "summary": "Status changed: sold_out → active",
+    "changes": [
+      {
+        "field": "status",
+        "before": "sold_out",
+        "after": "active"
+      }
+    ]
+  },
+  {
     "ts": "2026-08-28T06:17:08.993Z",
     "action": "update",
     "entity": "product",
     "entityId": "AMY-BAN-001",
-    "summary": "Status changed: active → sold_out",
+    "summary": "Status changed: active â sold_out",
     "changes": [
       {
         "field": "status",
@@ -18,7 +32,7 @@
     "action": "update",
     "entity": "product",
     "entityId": "AMY-BAN-001",
-    "summary": "Status changed: active â sold_out",
+    "summary": "Status changed: active Ã¢ÂÂ sold_out",
     "changes": [
       {
         "field": "status",

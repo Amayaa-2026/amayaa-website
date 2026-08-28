@@ -1,6 +1,6 @@
 [
   {
-    "ts": "2026-08-28T08:06:42.264Z",
+    "ts": "2026-08-28T08:08:07.758Z",
     "action": "update",
     "entity": "product",
     "entityId": "AMY-CHA-001",
@@ -14,10 +14,10 @@
     ]
   },
   {
-    "ts": "2026-08-28T08:05:47.893Z",
+    "ts": "2026-08-28T08:06:42.264Z",
     "action": "update",
     "entity": "product",
-    "entityId": "AMY-BAN-001",
+    "entityId": "AMY-CHA-001",
     "summary": "Status changed: sold_out â active",
     "changes": [
       {
@@ -28,7 +28,7 @@
     ]
   },
   {
-    "ts": "2026-08-28T06:32:13.023Z",
+    "ts": "2026-08-28T08:05:47.893Z",
     "action": "update",
     "entity": "product",
     "entityId": "AMY-BAN-001",
@@ -42,11 +42,25 @@
     ]
   },
   {
+    "ts": "2026-08-28T06:32:13.023Z",
+    "action": "update",
+    "entity": "product",
+    "entityId": "AMY-BAN-001",
+    "summary": "Status changed: sold_out ÃÂ¢ÃÂÃÂ active",
+    "changes": [
+      {
+        "field": "status",
+        "before": "sold_out",
+        "after": "active"
+      }
+    ]
+  },
+  {
     "ts": "2026-08-28T06:17:08.993Z",
     "action": "update",
     "entity": "product",
     "entityId": "AMY-BAN-001",
-    "summary": "Status changed: active ÃÂ¢ÃÂÃÂ sold_out",
+    "summary": "Status changed: active ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ sold_out",
     "changes": [
       {
         "field": "status",
@@ -60,7 +74,7 @@
     "action": "update",
     "entity": "product",
     "entityId": "AMY-BAN-001",
-    "summary": "Status changed: active ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ sold_out",
+    "summary": "Status changed: active ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ sold_out",
     "changes": [
       {
         "field": "status",

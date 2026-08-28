@@ -403,14 +403,22 @@ function _renderTable(){
       : p.status==='active'
         ? '<button class="btn btn-danger btn-sm" onclick="event.stopPropagation();_toggleStatus(\''+p.id+'\')">&#128308; Mark Sold</button>'
         : '<button class="btn btn-success btn-sm" onclick="event.stopPropagation();_toggleStatus(\''+p.id+'\')">&#128994; Mark Active</button>';
+    /* Hide button: visible on active and sold_out rows only */
+    var hideBtn = (p.status==='active'||p.status==='sold_out')
+      ? '<button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();_hideProduct(\''+p.id+'\')" title="Hide from public site">&#128584; Hide</button>'
+      : '';
     var dupBtn = p.status!=='deleted'
       ? '<button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();_duplicateProduct(\''+p.id+'\')" title="Duplicate product">&#10697; Dup</button>'
+      : '';
+    /* Pending offer marker */
+    var pendingTag = p.pendingOffer
+      ? '<span style="margin-left:6px;font-size:10px;background:#FFF3CC;color:#8B5E00;border:1px solid #E8C87A;border-radius:4px;padding:1px 5px;font-weight:500;vertical-align:middle;">&#127873; Set Price</span>'
       : '';
     return '<tr style="cursor:pointer;" onclick="_openQV(\''+p.id+'\')">'
       +'<td onclick="event.stopPropagation()"><input type="checkbox" class="row-chk" data-id="'+p.id+'" style="accent-color:#C4622D;"></td>'
       +'<td><div style="display:flex;align-items:center;gap:10px;">'
         +(p.thumbnail?'<div class="prod-thumb" style="overflow:hidden;"><img src="'+(p.thumbnail.match(/^https?:\/\//)?p.thumbnail:'../'+p.thumbnail)+'" alt="'+p.name+'" style="width:100%;height:100%;object-fit:cover;display:block;"></div>':'<div class="prod-thumb" style="background:linear-gradient(135deg,#8B1A4A,#C4622D);"></div>')
-        +'<div><div style="font-weight:600;color:#1A0A04;font-size:13px;">'+p.name+'</div><div style="font-size:11px;color:#9A8070;">'+p.id+'</div></div>'
+        +'<div><div style="font-weight:600;color:#1A0A04;font-size:13px;">'+p.name+pendingTag+'</div><div style="font-size:11px;color:#9A8070;">'+p.id+'</div></div>'
       +'</div></td>'
       +'<td style="color:#5A4030;">'+(p.type||'')+'</td>'
       +'<td style="color:#5A4030;">'+(p.fabric||'')+'</td>'
@@ -420,6 +428,7 @@ function _renderTable(){
         +(p.status!=='deleted'?'<a href="amayaa_product_edit.html?id='+encodeURIComponent(p.id)+'" class="btn btn-edit btn-sm" onclick="event.stopPropagation()">&#9998; Edit</a>':'')
         +dupBtn
         +toggleBtn
+        +hideBtn
         +'<button class="btn btn-danger btn-sm" onclick="event.stopPropagation();_trashChoice(\''+p.id+'\')" title="Delete">&#128465;</button>'
       +'</div></td>'
       +'</tr>';
@@ -547,9 +556,22 @@ function _toggleStatus(id){
   if(!p||p.status==='deleted')return;
   var prevStatus=p.status;
   p.status=p.status==='active'?'sold_out':'active';
+  /* Clear pendingOffer flag when a draft offer product is published */
+  if(p.pendingOffer&&p.status==='active'){delete p.pendingOffer;}
   _updateStats();_applyFilter();
   _ghSave('data/products_index.json',_products,'Update status: '+id,null);
   AuditTrail.log({action:'update',entity:'product',entityId:id,summary:'Status changed: '+prevStatus+' → '+p.status,changes:[{field:'status',before:prevStatus,after:p.status}]});
+}
+
+function _hideProduct(id){
+  if(_ghSaving)return;
+  var p=_products.find(function(x){return x.id===id;});
+  if(!p||p.status==='deleted'||p.status==='draft')return;
+  var prevStatus=p.status;
+  p.status='hidden';
+  _updateStats();_applyFilter();
+  _ghSave('data/products_index.json',_products,'Admin: hide product '+id,null);
+  AuditTrail.log({action:'update',entity:'product',entityId:id,summary:'Hid from public site',changes:[{field:'status',before:prevStatus,after:'hidden'}]});
 }
 
 function _softDelete(id){
@@ -694,9 +716,41 @@ function _bulkStatus(newStatus){
   _ghSave('data/products_index.json',_products,'Bulk status → '+newStatus,null);
 }
 
+function _clearSelection(){
+  document.querySelectorAll('.row-chk').forEach(function(c){c.checked=false;});
+  var ca=document.getElementById('chkAll');if(ca)ca.checked=false;
+}
+
 function _bulkBadge(badge){
   var ids=_selectedIds();
   if(!ids.length){alert('Select at least one product.');return;}
+  if(_ghSaving){alert('A save is in progress. Please wait.');return;}
+
+  /* Offer → move to draft with pendingOffer marker */
+  if(badge==='offer'){
+    var n=ids.length;
+    ids.forEach(function(id){
+      var p=_products.find(function(x){return x.id===id;});
+      if(!p)return;
+      var prev=p.status;
+      p.status='draft';
+      p.pendingOffer=true;
+      p.badges=p.badges||[];
+      if(p.badges.indexOf('offer')<0)p.badges.push('offer');
+      AuditTrail.log({action:'update',entity:'product',entityId:id,summary:'Moved to Drafts for offer pricing',changes:[{field:'status',before:prev,after:'draft'},{field:'pendingOffer',before:false,after:true}]});
+    });
+    _clearSelection();
+    _updateStats();_applyFilter();
+    _ghSave('data/products_index.json',_products,'Bulk: Mark as offer draft ('+n+' products)',null);
+    /* Amber toast */
+    var toast=document.createElement('div');
+    toast.style.cssText='position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:#FFF3CC;color:#8B5E00;border:1.5px solid #E8C87A;border-radius:10px;padding:12px 22px;font-size:13px;font-weight:600;z-index:9999;box-shadow:0 4px 16px rgba(0,0,0,.12);max-width:420px;text-align:center;';
+    toast.textContent='🎁 '+n+' product'+(n>1?'s':'')+' moved to Drafts — set offer price for each, then publish.';
+    document.body.appendChild(toast);
+    setTimeout(function(){if(toast.parentNode)toast.parentNode.removeChild(toast);},4500);
+    return;
+  }
+
   ids.forEach(function(id){
     var p=_products.find(function(x){return x.id===id;});
     if(p){p.badges=p.badges||[];if(p.badges.indexOf(badge)<0)p.badges.push(badge);}
@@ -722,10 +776,11 @@ function _bulkDelete(){
     +'<button id="_bcnBtn" style="padding:8px 16px;border-radius:9px;border:1px solid rgba(0,0,0,.1);cursor:pointer;background:transparent;color:#7A6050;font-family:Jost,sans-serif;font-size:13px;">Cancel</button>'
     +'</div></div>';
   document.body.appendChild(modal);
-  modal.onclick=function(e){if(e.target===modal)document.body.removeChild(modal);};
+  function _closeAndDeselect(){document.body.removeChild(modal);_clearSelection();}
+  modal.onclick=function(e){if(e.target===modal)_closeAndDeselect();};
 
-  /* Cancel */
-  modal.querySelector('#_bcnBtn').onclick=function(){document.body.removeChild(modal);};
+  /* Cancel — also deselects all rows */
+  modal.querySelector('#_bcnBtn').onclick=_closeAndDeselect;
 
   /* Move to Trash — sets status=deleted for all, one save */
   modal.querySelector('#_bsdBtn').onclick=function(){

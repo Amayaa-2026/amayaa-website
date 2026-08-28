@@ -58,3 +58,10 @@ if(document.readyState==='loading'){
   document.addEventListener('DOMContentLoaded',inject);
 }else{inject();}
 })();
+
+// Load admin help system on every admin page
+(function(){
+  var s=document.createElement('script');
+  s.src='admin_help.js';
+  document.head.appendChild(s);
+})();

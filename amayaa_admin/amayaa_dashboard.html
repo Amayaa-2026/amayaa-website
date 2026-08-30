@@ -215,14 +215,14 @@ if(!sessionStorage.getItem('amayaa_admin')){
   <div class="topbar">
     <div><div class="topbar-title">Dashboard</div><div class="topbar-sub">Welcome back · Last login: Today, 10:24 AM</div></div>
     <div class="topbar-actions">
-      <a href="/index.html" class="btn btn-ghost" target="_blank">🌐 View Website</a>
+      <a id="btn-view-site" href="https://amayaabypolkadots.in" class="btn btn-ghost" target="_blank" title="Checking site health…">🌐 View Website</a>
       <a href="amayaa_product_edit.html" class="btn btn-primary">+ Add Product</a>
     </div>
   </div>
   <div class="content">
     <div class="stats-grid">
       <div class="stat s1"><div class="stat-val" id="dash-products">547</div><div class="stat-label">Total Products</div><div class="stat-sub" id="dash-active">12 hidden · 8 sold out</div></div>
-      <div class="stat s2"><div class="stat-val" id="dash-posts">6</div><div class="stat-label">Blog Posts</div><div class="stat-sub">5 published · 1 draft</div></div>
+      <div class="stat s2"><div class="stat-val" id="dash-posts">—</div><div class="stat-label">Blog Posts</div><div class="stat-sub" id="dash-posts-sub">Loading…</div></div>
       <div class="stat s3"><div class="stat-val" id="dash-visitors">—</div><div class="stat-label">Total Views</div><div class="stat-sub" id="dash-visitors-sub">Loading…</div><button id="gc-refresh-btn" onclick="_refreshVisitorsFromGC()" style="margin-top:8px;font-size:10px;padding:3px 8px;border:1px solid rgba(196,98,45,.3);background:rgba(196,98,45,.07);color:#C4622D;border-radius:6px;cursor:pointer;font-family:inherit;letter-spacing:.3px;">🔄 Refresh from GoatCounter</button></div>
       <div class="stat s4"><div class="stat-val">38</div><div class="stat-label">WA Enquiries</div><div class="stat-sub">This month via website</div></div>
     </div>
@@ -291,15 +291,6 @@ if(!sessionStorage.getItem('amayaa_admin')){
         </table>
       </div>
     </div>
-    <div class="card">
-      <div class="card-header"><div class="card-title">System Status</div></div>
-      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;">
-        <div style="text-align:center;padding:14px;background:rgba(37,211,102,.06);border-radius:10px;border:1px solid rgba(37,211,102,.15);"><div style="font-size:18px;margin-bottom:5px;">✅</div><div style="font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#1A7A40;font-weight:600;">Website Live</div><div style="font-size:11px;color:#9A8070;margin-top:3px;">amayaa.in</div></div>
-        <div style="text-align:center;padding:14px;background:rgba(37,211,102,.06);border-radius:10px;border:1px solid rgba(37,211,102,.15);"><div style="font-size:18px;margin-bottom:5px;">🔒</div><div style="font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#1A7A40;font-weight:600;">SSL Active</div><div style="font-size:11px;color:#9A8070;margin-top:3px;">https secure</div></div>
-        <div style="text-align:center;padding:14px;background:rgba(37,211,102,.06);border-radius:10px;border:1px solid rgba(37,211,102,.15);"><div style="font-size:18px;margin-bottom:5px;">📬</div><div style="font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#1A7A40;font-weight:600;">Form Active</div><div style="font-size:11px;color:#9A8070;margin-top:3px;">Formspree.io</div></div>
-        <div style="text-align:center;padding:14px;background:rgba(196,98,45,.06);border-radius:10px;border:1px solid rgba(196,98,45,.15);"><div style="font-size:18px;margin-bottom:5px;">📊</div><div style="font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#A04010;font-weight:600;">Analytics</div><div style="font-size:11px;color:#9A8070;margin-top:3px;">Connect GoatCounter</div></div>
-      </div>
-    </div>
   </div>
 </div>
 <script data-goatcounter="https://amayaa.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
@@ -324,9 +315,27 @@ document.addEventListener('DOMContentLoaded', function() {
     .then(function(r){ return r.json(); })
     .then(function(posts) {
       var published = posts.filter(function(p){ return p.published; }).length;
-      var el = document.getElementById('dash-posts');
-      if(el) el.textContent = published;
+      var drafts    = posts.filter(function(p){ return !p.published; }).length;
+      var el  = document.getElementById('dash-posts');
+      var sub = document.getElementById('dash-posts-sub');
+      if(el)  el.textContent  = posts.length;
+      if(sub) sub.textContent = published + ' published' + (drafts > 0 ? ' · ' + drafts + ' draft' : '');
     }).catch(function(){});
+
+  // Site health check — colours the View Website button green/red
+  (function(){
+    var btn = document.getElementById('btn-view-site');
+    if(!btn) return;
+    fetch('https://amayaabypolkadots.in', {mode:'no-cors', cache:'no-store'})
+      .then(function(){
+        btn.style.cssText += ';background:rgba(37,211,102,.15)!important;color:#1A7A40!important;border-color:rgba(37,211,102,.45)!important;';
+        btn.title = '✅ Site is live — amayaabypolkadots.in';
+      })
+      .catch(function(e){
+        btn.style.cssText += ';background:rgba(200,0,0,.1)!important;color:#8B0000!important;border-color:rgba(200,0,0,.35)!important;';
+        btn.title = '❌ Site unreachable: ' + (e.message || 'Network error');
+      });
+  })();
 
   // Recent products table
   fetch('../data/products_index.json')

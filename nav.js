@@ -253,3 +253,23 @@ window._amayaaNavSearch = function(query) {
     _run();
   }
 }());
+
+
+/* ── WhatsApp click tracking via GoatCounter ──────────────────────────────────
+ * Intercepts every wa.me link click on the page (float button, hero CTA,
+ * inline links) and fires a GoatCounter custom event with path "wa-click".
+ * Safe no-op if GoatCounter script hasn't loaded or is blocked.
+ */
+(function(){
+  document.addEventListener('click', function(e){
+    var t = e.target, a = null;
+    while(t){ if(t.tagName==='A'){a=t;break;} t=t.parentNode; }
+    if(a && typeof a.href==='string' && a.href.indexOf('wa.me')>-1){
+      try{
+        if(window.goatcounter && typeof window.goatcounter.count==='function'){
+          window.goatcounter.count({path:'wa-click',title:'WhatsApp Enquiry',event:true});
+        }
+      }catch(_){}
+    }
+  }, true /* capture phase — fires before any other click handlers */);
+}());

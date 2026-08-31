@@ -420,8 +420,15 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
 }
 .section-promo-video .sec-lbl{color:#C4622D;letter-spacing:2.5px;}
 .section-promo-video .sec-ttl{color:white;}
-.pv-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;margin-top:32px;}
-@media(max-width:768px){.pv-grid{grid-template-columns:1fr;gap:28px;}}
+.pv-slide{display:none;}
+.pv-slide.pv-active{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:flex-start;}
+@media(max-width:768px){.pv-slide.pv-active{grid-template-columns:1fr;gap:28px;}}
+.pv-nav-row{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:32px;}
+.pv-dots{display:flex;gap:8px;align-items:center;}
+.pv-dot{width:8px;height:8px;border-radius:4px;background:rgba(255,255,255,.3);cursor:pointer;border:none;padding:0;transition:all .25s;}
+.pv-dot.pv-active{width:24px;background:#C4622D;}
+.pv-arrow{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.2);color:rgba(255,255,255,.65);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.pv-arrow:hover{background:rgba(255,255,255,.16);color:white;}
 .pv-thumb-wrap{position:relative;aspect-ratio:16/9;border-radius:14px;overflow:hidden;cursor:pointer;box-shadow:0 16px 48px rgba(0,0,0,.45);transition:transform .25s;}
 .pv-thumb-wrap:hover{transform:scale(1.02);}
 .pv-thumb-bg{position:absolute;inset:0;background:linear-gradient(135deg,#2A0A1A 0%,#8B1A4A 50%,#C4622D 100%);opacity:.65;}
@@ -664,37 +671,25 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
   <a href="amayaa_sarees.html" class="va">View All Sarees <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
 </div>
 
-<!-- PROMO VIDEO — driven by settings.json promoVideo block -->
+<!-- PROMO VIDEO — driven by settings.json promoVideo.videos[] (up to 3) -->
 <div class="section-promo-video" id="promo-video-section" style="display:none">
 <div class="page">
-  <p class="sec-lbl" id="pv-eyebrow-lbl">Behind the Weave</p>
-  <div class="pv-grid">
-    <div class="pv-thumb-wrap" id="pv-thumb" onclick="PV.open()">
-      <div class="pv-thumb-bg"></div>
-      <img class="pv-thumb-poster" id="pv-poster" src="" alt="" style="display:none">
-      <div class="pv-play-ring">
-        <div class="pv-play-circle">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="#1A0A04"><polygon points="6,3 20,12 6,21"/></svg>
-        </div>
-      </div>
-    </div>
-    <div class="pv-info">
-      <div class="pv-eyebrow" id="pv-eyebrow-tag">Behind the Weave</div>
-      <div class="pv-title" id="pv-title-lbl">The Craft Behind Every Thread</div>
-      <div class="pv-desc" id="pv-desc-lbl">A glimpse into the looms, the hands, and the generations of craft that make every Amayaa saree extraordinary.</div>
-      <div class="pv-cta-btn" onclick="PV.open()">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10,8 16,12 10,16" fill="currentColor" stroke="none"/></svg>
-        <span id="pv-cta-lbl">Watch — 2 min</span>
-      </div>
-    </div>
+  <div class="pv-carousel" id="pv-carousel"></div>
+  <div class="pv-nav-row" id="pv-nav-row" style="display:none">
+    <button class="pv-arrow" id="pv-prev" aria-label="Previous video">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    <div class="pv-dots" id="pv-dots"></div>
+    <button class="pv-arrow" id="pv-next" aria-label="Next video">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+    </button>
   </div>
 </div>
-<!-- lightbox -->
 <div class="pv-lb" id="pv-lb" onclick="if(event.target===this)PV.close()">
   <div class="pv-lb-inner">
     <div class="pv-lb-bar">
-      <span id="pv-lb-title">The Craft Behind Every Thread</span>
-      <button class="pv-lb-close" onclick="PV.close()">✕</button>
+      <span id="pv-lb-title"></span>
+      <button class="pv-lb-close" onclick="PV.close()">&#x2715;</button>
     </div>
     <div class="pv-lb-media" id="pv-lb-media"></div>
   </div>
@@ -846,57 +841,111 @@ function slowScrollTo(t){var e=document.getElementById(t);if(!e)return;var s=win
     .catch(function(){});
 }());
 
-/* ── PROMO VIDEO ── */
+/* ── PROMO VIDEO — carousel (up to 3 videos) ── */
 (function(){
   var PV = window.PV = {};
-  var _url = '';
+  var _vids = [];
+  var _cur = 0;
+
+  function _esc(t){ return String(t||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
   function _embed(url, autoplay){
     var yt = url.match(/(?:youtu\.be\/|v=|embed\/)([A-Za-z0-9_-]{11})/);
     if(yt) return '<iframe width="100%" height="100%" src="https://www.youtube.com/embed/'+yt[1]+(autoplay?'?autoplay=1&rel=0':'?rel=0')+'" frameborder="0" allowfullscreen allow="autoplay;encrypted-media"></iframe>';
     var vm = url.match(/vimeo\.com\/(\d+)/);
     if(vm) return '<iframe width="100%" height="100%" src="https://player.vimeo.com/video/'+vm[1]+(autoplay?'?autoplay=1':'')+'" frameborder="0" allowfullscreen allow="autoplay"></iframe>';
-    return '<video controls'+(autoplay?' autoplay':'')+' style="width:100%;height:100%;background:#000;display:block"><source src="'+url+'" type="video/mp4"></video>';
+    return '<video controls'+(autoplay?' autoplay':'')+' style="width:100%;height:100%;background:#000;display:block"><source src="'+_esc(url)+'" type="video/mp4"></video>';
   }
 
-  PV.open = function(){
-    if(!_url) return;
-    document.getElementById('pv-lb-media').innerHTML = _embed(_url, true);
-    document.getElementById('pv-lb').style.display = 'flex';
-    document.body.style.overflow = 'hidden';
-  };
-  PV.close = function(){
-    document.getElementById('pv-lb').style.display = 'none';
-    document.getElementById('pv-lb-media').innerHTML = '';
-    document.body.style.overflow = '';
-  };
-  document.addEventListener('keydown', function(e){ if(e.key==='Escape') PV.close(); });
+  function _poster(v){
+    if(v.posterUrl) return v.posterUrl;
+    var yt = (v.videoUrl||'').match(/(?:youtu\.be\/|v=|embed\/)([A-Za-z0-9_-]{11})/);
+    return yt ? 'https://img.youtube.com/vi/'+yt[1]+'/maxresdefault.jpg' : '';
+  }
 
-  fetch('data/settings.json?_='+Date.now(), {cache:'no-store'})
-    .then(function(r){ return r.json(); })
+  var _playIco = '<svg width="22" height="22" viewBox="0 0 24 24" fill="#1A0A04"><polygon points="6,3 20,12 6,21"/></svg>';
+  var _ctaIco  = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10,8 16,12 10,16" fill="currentColor" stroke="none"/></svg>';
+
+  function _buildSlides(){
+    var car = document.getElementById('pv-carousel'); if(!car) return;
+    car.innerHTML = '';
+    _vids.forEach(function(v, i){
+      var p = _poster(v);
+      var s = document.createElement('div');
+      s.className = 'pv-slide'+(i===0?' pv-active':'');
+      s.innerHTML =
+        '<div class="pv-thumb-wrap" onclick="PV.open('+i+')">'+
+          '<div class="pv-thumb-bg"></div>'+
+          (p?'<img class="pv-thumb-poster" src="'+_esc(p)+'" alt="">':'')+
+          '<div class="pv-play-ring"><div class="pv-play-circle">'+_playIco+'</div></div>'+
+        '</div>'+
+        '<div class="pv-info">'+
+          (v.eyebrow    ?'<div class="pv-eyebrow">'+_esc(v.eyebrow)+'</div>':'')+
+          (v.title      ?'<div class="pv-title">'+_esc(v.title)+'</div>':'')+
+          (v.description?'<div class="pv-desc">'+_esc(v.description)+'</div>':'')+
+          '<div class="pv-cta-btn" onclick="PV.open('+i+')">'+_ctaIco+
+            '<span>'+_esc(v.ctaLabel||'Watch')+'</span></div>'+
+        '</div>';
+      car.appendChild(s);
+    });
+    if(_vids.length > 1){
+      var nr=document.getElementById('pv-nav-row'), dc=document.getElementById('pv-dots');
+      if(nr) nr.style.display='flex';
+      if(dc){
+        dc.innerHTML='';
+        _vids.forEach(function(_,i){
+          var d=document.createElement('button');
+          d.className='pv-dot'+(i===0?' pv-active':'');
+          d.setAttribute('aria-label','Video '+(i+1));
+          d.onclick=function(){PV.goTo(i);};
+          dc.appendChild(d);
+        });
+      }
+      var pp=document.getElementById('pv-prev'), pn=document.getElementById('pv-next');
+      if(pp) pp.onclick=function(){PV.prev();};
+      if(pn) pn.onclick=function(){PV.next();};
+    }
+  }
+
+  function _goTo(idx){
+    _cur=(idx+_vids.length)%_vids.length;
+    document.querySelectorAll('.pv-slide').forEach(function(s,i){s.classList.toggle('pv-active',i===_cur);});
+    document.querySelectorAll('.pv-dot').forEach(function(d,i){d.classList.toggle('pv-active',i===_cur);});
+  }
+
+  PV.goTo=function(i){_goTo(i);};
+  PV.prev=function(){_goTo(_cur-1);};
+  PV.next=function(){_goTo(_cur+1);};
+
+  PV.open=function(idx){
+    if(idx===undefined)idx=_cur;
+    var v=_vids[idx]; if(!v||!v.videoUrl) return;
+    document.getElementById('pv-lb-media').innerHTML=_embed(v.videoUrl,true);
+    document.getElementById('pv-lb-title').textContent=v.title||'';
+    document.getElementById('pv-lb').style.display='flex';
+    document.body.style.overflow='hidden';
+  };
+  PV.close=function(){
+    document.getElementById('pv-lb').style.display='none';
+    document.getElementById('pv-lb-media').innerHTML='';
+    document.body.style.overflow='';
+  };
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')PV.close();});
+
+  fetch('data/settings.json?_='+Date.now(),{cache:'no-store'})
+    .then(function(r){return r.json();})
     .then(function(s){
-      var pv = s.promoVideo;
-      if(!pv || !pv.enabled || !pv.videoUrl) return;
-      _url = pv.videoUrl;
-      var sec = document.getElementById('promo-video-section');
-      if(sec) sec.style.display = '';
-      var $ = function(id){ return document.getElementById(id); };
-      if(pv.eyebrow){
-        if($('pv-eyebrow-lbl')) $('pv-eyebrow-lbl').textContent = pv.eyebrow;
-        if($('pv-eyebrow-tag')) $('pv-eyebrow-tag').textContent = pv.eyebrow;
+      var pv=s.promoVideo; if(!pv||!pv.enabled) return;
+      /* Support both videos[] (new) and flat fields (legacy) */
+      if(pv.videos&&pv.videos.length){
+        _vids=pv.videos.filter(function(v){return v&&v.videoUrl;});
+      } else if(pv.videoUrl){
+        _vids=[{videoUrl:pv.videoUrl,posterUrl:pv.posterUrl||'',title:pv.title||'',
+                eyebrow:pv.eyebrow||'',description:pv.description||'',ctaLabel:pv.ctaLabel||'Watch'}];
       }
-      if(pv.title){
-        if($('pv-title-lbl')) $('pv-title-lbl').textContent = pv.title;
-        if($('pv-lb-title')) $('pv-lb-title').textContent = pv.title;
-      }
-      if(pv.ctaLabel && $('pv-cta-lbl')) $('pv-cta-lbl').textContent = pv.ctaLabel;
-      /* poster: explicit OR auto-fetch from YouTube */
-      var poster = pv.posterUrl;
-      if(!poster){
-        var ytm = _url.match(/(?:youtu\.be\/|v=|embed\/)([A-Za-z0-9_-]{11})/);
-        if(ytm) poster = 'https://img.youtube.com/vi/'+ytm[1]+'/maxresdefault.jpg';
-      }
-      if(poster){ var pi=$('pv-poster'); if(pi){pi.src=poster;pi.style.display='';} }
+      if(!_vids.length) return;
+      document.getElementById('promo-video-section').style.display='';
+      _buildSlides();
     })
     .catch(function(){});
 }());

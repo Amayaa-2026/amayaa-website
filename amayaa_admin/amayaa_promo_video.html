@@ -45,12 +45,12 @@ body{font-family:'Jost',sans-serif;background:linear-gradient(135deg,#E4DFD9 0%,
 @media(max-width:900px){.two-col{grid-template-columns:1fr;}}
 
 /* ── FORM ELEMENTS ── */
-.field{margin-bottom:16px;}
-.field label{display:block;font-size:11px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:#8B6E5A;margin-bottom:6px;}
-.field input,.field textarea,.field select{width:100%;padding:10px 13px;border:1px solid rgba(196,98,45,.22);border-radius:8px;font-family:'Jost',sans-serif;font-size:13.5px;color:#1A1208;background:rgba(255,255,255,.8);transition:border-color .15s;}
+.field{margin-bottom:14px;}
+.field label{display:block;font-size:11px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:#8B6E5A;margin-bottom:5px;}
+.field input,.field textarea,.field select{width:100%;padding:9px 12px;border:1px solid rgba(196,98,45,.22);border-radius:8px;font-family:'Jost',sans-serif;font-size:13.5px;color:#1A1208;background:rgba(255,255,255,.8);transition:border-color .15s;}
 .field input:focus,.field textarea:focus{outline:none;border-color:#C4622D;box-shadow:0 0 0 3px rgba(196,98,45,.08);}
-.field textarea{resize:vertical;min-height:72px;line-height:1.5;}
-.field-hint{font-size:11px;color:#A08070;margin-top:5px;line-height:1.5;}
+.field textarea{resize:vertical;min-height:64px;line-height:1.5;}
+.field-hint{font-size:11px;color:#A08070;margin-top:4px;line-height:1.5;}
 
 /* ── TOGGLE ── */
 .toggle-wrap{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:rgba(255,255,255,.6);border:1px solid rgba(196,98,45,.18);border-radius:10px;margin-bottom:20px;}
@@ -63,31 +63,13 @@ body{font-family:'Jost',sans-serif;background:linear-gradient(135deg,#E4DFD9 0%,
 input:checked+.toggle-slider{background:#C4622D;}
 input:checked+.toggle-slider::before{transform:translateX(22px);}
 
-/* ── TYPE SELECTOR ── */
-.type-pills{display:flex;gap:8px;margin-bottom:16px;}
-.type-pill{flex:1;padding:8px 12px;border:1.5px solid rgba(196,98,45,.22);border-radius:8px;cursor:pointer;text-align:center;font-size:12px;font-weight:500;color:#8B6E5A;background:rgba(255,255,255,.5);transition:all .15s;}
-.type-pill.active{border-color:#C4622D;background:rgba(196,98,45,.08);color:#C4622D;}
-.type-pill .tp-icon{font-size:18px;display:block;margin-bottom:3px;}
-
-/* ── PREVIEW PANEL ── */
-.preview-panel{background:#1A0A04;border-radius:12px;overflow:hidden;aspect-ratio:16/9;position:relative;cursor:pointer;display:flex;align-items:center;justify-content:center;}
-.preview-panel .pv-bg{position:absolute;inset:0;background:linear-gradient(135deg,#2A0A1A 0%,#8B1A4A 50%,#C4622D 100%);opacity:.6;}
-.preview-panel .pv-poster-img{position:absolute;inset:0;object-fit:cover;width:100%;height:100%;opacity:.55;}
-.preview-panel .pv-play-btn{position:relative;z-index:2;width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,.92);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 24px rgba(0,0,0,.3);transition:transform .2s;}
-.preview-panel:hover .pv-play-btn{transform:scale(1.08);}
-.preview-panel .pv-play-btn svg{margin-left:4px;}
-.preview-meta{margin-top:14px;}
-.preview-eyebrow{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#C4622D;margin-bottom:4px;}
-.preview-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:#2A0A1A;line-height:1.3;margin-bottom:8px;}
-.preview-cta{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:#C4622D;font-weight:500;}
-
 /* ── STATUS / BADGE ── */
 .status-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600;letter-spacing:.5px;}
 .badge-live{background:rgba(37,211,102,.12);color:#1A7A40;border:1px solid rgba(37,211,102,.3);}
 .badge-off{background:rgba(180,50,0,.08);color:#8B3A00;border:1px solid rgba(180,50,0,.2);}
 
-/* ── URL TYPE DETECTION INDICATOR ── */
-.url-type-hint{display:inline-flex;align-items:center;gap:5px;font-size:11px;padding:3px 8px;border-radius:4px;margin-top:5px;font-weight:500;}
+/* ── URL TYPE DETECTION ── */
+.url-type-hint{display:inline-flex;align-items:center;gap:5px;font-size:11px;padding:3px 8px;border-radius:4px;margin-top:4px;font-weight:500;}
 .uht-yt{background:#fff0f0;color:#C00000;}
 .uht-vm{background:#f0f4ff;color:#1B3A8B;}
 .uht-mp4{background:#f0fff4;color:#1A7A40;}
@@ -104,15 +86,31 @@ input:checked+.toggle-slider::before{transform:translateX(22px);}
 .btn-ghost:hover{background:rgba(26,10,4,.05);}
 .btn-sm{padding:6px 13px;font-size:12px;}
 
-/* ── SECTION PREVIEW (homepage mockup) ── */
-.homepage-mock{background:#F2ECFA;border-radius:10px;padding:28px 24px;margin-top:4px;border:1px solid rgba(106,58,138,.12);}
-.mock-eyebrow{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#C4622D;margin-bottom:4px;}
-.mock-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:#2A0A1A;margin-bottom:16px;line-height:1.3;}
-.mock-video-thumb{border-radius:10px;overflow:hidden;aspect-ratio:16/9;position:relative;background:#1A0A04;display:flex;align-items:center;justify-content:center;cursor:pointer;}
-.mock-vbg{position:absolute;inset:0;background:linear-gradient(135deg,#2A0A1A,#8B1A4A,#1A0A04);opacity:.7;}
-.mock-poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none;}
-.mock-play{position:relative;z-index:2;width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.9);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(0,0,0,.25);}
-.mock-cta{margin-top:12px;display:inline-flex;align-items:center;gap:5px;font-size:12px;color:#C4622D;font-weight:500;letter-spacing:.5px;}
+/* ── SLOT CARDS ── */
+.slot-card{background:rgba(255,255,255,.75);border:1.5px solid rgba(196,98,45,.14);border-radius:12px;overflow:hidden;margin-bottom:12px;transition:border-color .15s,box-shadow .15s;}
+.slot-card.active{border-color:#C4622D;box-shadow:0 0 0 2px rgba(196,98,45,.1);}
+.slot-header{display:flex;align-items:center;gap:10px;padding:12px 16px;background:rgba(255,255,255,.5);cursor:pointer;user-select:none;}
+.slot-num{width:22px;height:22px;border-radius:50%;background:#C4622D;color:white;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.slot-lbl{flex:1;font-size:13px;font-weight:500;color:#2A0A1A;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.slot-remove{background:none;border:1px solid rgba(180,50,0,.2);border-radius:6px;padding:3px 9px;font-size:11px;font-weight:500;color:#8B3A00;cursor:pointer;transition:all .15s;flex-shrink:0;}
+.slot-remove:hover{background:rgba(196,98,45,.08);border-color:#C4622D;color:#C4622D;}
+.slot-body{padding:16px;border-top:1px solid rgba(196,98,45,.08);}
+.add-slot-btn{width:100%;padding:10px;border:1.5px dashed rgba(196,98,45,.3);border-radius:10px;background:rgba(196,98,45,.03);color:#C4622D;font-family:'Jost',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .15s;}
+.add-slot-btn:hover:not(:disabled){background:rgba(196,98,45,.07);border-color:#C4622D;}
+.add-slot-btn:disabled{opacity:.4;cursor:not-allowed;}
+
+/* ── PREVIEW PANEL ── */
+.preview-panel{background:#1A0A04;border-radius:12px;overflow:hidden;aspect-ratio:16/9;position:relative;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.preview-panel .pv-bg{position:absolute;inset:0;background:linear-gradient(135deg,#2A0A1A 0%,#8B1A4A 50%,#C4622D 100%);opacity:.6;}
+.preview-panel .pv-poster-img{position:absolute;inset:0;object-fit:cover;width:100%;height:100%;opacity:.55;}
+.preview-panel .pv-play-btn{position:relative;z-index:2;width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,.92);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 24px rgba(0,0,0,.3);transition:transform .2s;}
+.preview-panel:hover .pv-play-btn{transform:scale(1.08);}
+.preview-meta{margin-top:14px;}
+.preview-eyebrow{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#C4622D;margin-bottom:4px;}
+.preview-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:#2A0A1A;line-height:1.3;margin-bottom:6px;}
+.preview-desc{font-size:12px;color:#6A4A38;line-height:1.6;margin-bottom:8px;}
+.preview-cta{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:#C4622D;font-weight:500;}
+.slide-count{font-size:11px;color:#8B6E5A;background:rgba(196,98,45,.08);border-radius:4px;padding:2px 7px;border:1px solid rgba(196,98,45,.15);}
 </style>
 </head>
 <body>
@@ -122,31 +120,30 @@ input:checked+.toggle-slider::before{transform:translateX(22px);}
   <!-- TOP BAR -->
   <div class="topbar">
     <div class="topbar-left">
-      <div class="topbar-title">🎬 Promo Video</div>
-      <div class="topbar-sub">Homepage video section · Content</div>
+      <div class="topbar-title">&#127916; Promo Video</div>
+      <div class="topbar-sub">Homepage video section &middot; Content</div>
     </div>
     <div class="topbar-right">
-      <span class="status-badge badge-off" id="status-badge">● Off</span>
-      <button class="btn btn-ghost btn-sm" onclick="_load()">↺ Reload</button>
-      <button class="btn btn-primary" id="btn-save" onclick="_save()">💾 Save</button>
+      <span class="slide-count" id="slide-count">1 video</span>
+      <span class="status-badge badge-off" id="status-badge">&#9679; Off</span>
+      <button class="btn btn-ghost btn-sm" onclick="_load()">&#8635; Reload</button>
+      <button class="btn btn-primary" id="btn-save" onclick="_save()">&#128190; Save</button>
     </div>
   </div>
 
   <div class="page-body">
     <div class="alert-info">
-      💡 When <strong>enabled</strong>, a video section appears on the homepage between New Arrivals and Blog. Use a YouTube link, Vimeo link, or a direct MP4 URL (e.g. from ImageKit). Set it to <strong>Off</strong> when there's no active promo — the section disappears completely with no code push needed.
+      &#128161; When <strong>enabled</strong>, this section appears between New Arrivals and Blog. You can add up to <strong>3 videos</strong> — they display as a carousel with dots and arrows. Use YouTube, Vimeo, or a direct MP4 from ImageKit. Set <strong>Off</strong> between campaigns — the section disappears completely with no code push needed.
     </div>
 
     <div class="two-col">
 
-      <!-- LEFT — FORM -->
+      <!-- LEFT — SLOTS -->
       <div>
-
-        <!-- Enable toggle -->
         <div class="toggle-wrap">
           <div>
             <div class="toggle-label">Show promo video on homepage</div>
-            <div class="toggle-sub">Toggle off between campaigns — section hides instantly</div>
+            <div class="toggle-sub">Toggle off between campaigns — hides instantly</div>
           </div>
           <label class="toggle-switch">
             <input type="checkbox" id="pv-enabled" onchange="_updateBadge()">
@@ -157,47 +154,15 @@ input:checked+.toggle-slider::before{transform:translateX(22px);}
         <div class="card">
           <div class="card-header">
             <div>
-              <div class="card-title">Video Source</div>
-              <div class="card-sub">YouTube · Vimeo · or direct MP4 from ImageKit</div>
+              <div class="card-title">Video Slots</div>
+              <div class="card-sub">Up to 3 videos &mdash; shown as a carousel on the homepage</div>
             </div>
           </div>
           <div class="card-body">
-            <div class="field">
-              <label>Video URL</label>
-              <input type="url" id="pv-url" placeholder="https://youtu.be/… or https://ik.imagekit.io/…/promo.mp4" oninput="_detectType()">
-              <div id="url-type-hint" class="url-type-hint uht-unknown" style="display:none"></div>
-              <div class="field-hint">Paste a YouTube share link, Vimeo URL, or a direct .mp4 URL. The embed type is detected automatically.</div>
-            </div>
-            <div class="field" id="poster-field">
-              <label>Poster / Thumbnail URL <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:10px;">(optional for YouTube — auto-fetched)</span></label>
-              <input type="url" id="pv-poster" placeholder="https://ik.imagekit.io/Amayaa2026/promo-thumbnail.jpg" oninput="_updateMock()">
-              <div class="field-hint">Shown before the user hits play. For YouTube, leave blank — it uses the video thumbnail automatically.</div>
-            </div>
+            <div id="slots-wrap"></div>
+            <button class="add-slot-btn" id="add-slot-btn" onclick="_addSlot()">+ Add Video (max 3)</button>
           </div>
         </div>
-
-        <div class="card">
-          <div class="card-header">
-            <div class="card-title">Section Text</div>
-          </div>
-          <div class="card-body">
-            <div class="field">
-              <label>Eyebrow label</label>
-              <input type="text" id="pv-eyebrow" placeholder="Behind the Weave" maxlength="40" oninput="_updateMock()">
-              <div class="field-hint">Small uppercase text above the title (e.g. "Our Story" or "Behind the Weave").</div>
-            </div>
-            <div class="field">
-              <label>Section title</label>
-              <input type="text" id="pv-title" placeholder="The Craft Behind Every Thread" maxlength="80" oninput="_updateMock()">
-            </div>
-            <div class="field">
-              <label>CTA label</label>
-              <input type="text" id="pv-cta" placeholder="Watch — 2 min" maxlength="30" oninput="_updateMock()">
-              <div class="field-hint">Text on the play link below the thumbnail (e.g. "Watch — 2 min").</div>
-            </div>
-          </div>
-        </div>
-
       </div>
 
       <!-- RIGHT — PREVIEW -->
@@ -205,27 +170,28 @@ input:checked+.toggle-slider::before{transform:translateX(22px);}
         <div class="card">
           <div class="card-header">
             <div>
-              <div class="card-title">Homepage Preview</div>
-              <div class="card-sub">How the section will appear between New Arrivals and Blog</div>
+              <div class="card-title">Preview</div>
+              <div class="card-sub">Shows the active slot (click a slot header to switch)</div>
             </div>
           </div>
           <div class="card-body">
-            <div class="homepage-mock">
-              <div class="mock-eyebrow" id="mock-eyebrow">Behind the Weave</div>
-              <div class="mock-title" id="mock-title">The Craft Behind Every Thread</div>
-              <div class="mock-video-thumb" onclick="_previewPlay()">
-                <div class="mock-vbg"></div>
-                <img class="mock-poster" id="mock-poster" src="" alt="">
-                <div class="mock-play">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="#1A0A04"><polygon points="5,3 19,12 5,21"/></svg>
-                </div>
-              </div>
-              <div class="mock-cta">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#C4622D" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polygon points="10,8 16,12 10,16" fill="#C4622D" stroke="none"/></svg>
-                <span id="mock-cta">Watch — 2 min</span>
+            <div class="preview-panel" onclick="_previewPlay()">
+              <div class="pv-bg"></div>
+              <img class="pv-poster-img" id="mock-poster" src="" alt="" style="display:none">
+              <div class="pv-play-btn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="#1A0A04"><polygon points="5,3 19,12 5,21"/></svg>
               </div>
             </div>
-            <p style="font-size:11px;color:#A08070;margin-top:10px;text-align:center;">Click the thumbnail above to test your video link</p>
+            <div class="preview-meta">
+              <div class="preview-eyebrow" id="mock-eyebrow">Behind the Weave</div>
+              <div class="preview-title" id="mock-title">The Craft Behind Every Thread</div>
+              <div class="preview-desc" id="mock-desc">A glimpse into the looms, the hands, and the generations of craft that make every Amayaa saree extraordinary.</div>
+              <div class="preview-cta">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#C4622D" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polygon points="10,8 16,12 10,16" fill="#C4622D" stroke="none"/></svg>
+                <span id="mock-cta">Watch &mdash; 2 min</span>
+              </div>
+            </div>
+            <p style="font-size:11px;color:#A08070;margin-top:10px;text-align:center;">Click the thumbnail to test your video link</p>
           </div>
         </div>
 
@@ -234,21 +200,20 @@ input:checked+.toggle-slider::before{transform:translateX(22px);}
           <div class="card-body">
             <table style="width:100%;border-collapse:collapse;font-size:12px;">
               <tr style="border-bottom:1px solid rgba(196,98,45,.1);">
-                <td style="padding:8px 4px;font-weight:600;color:#C4622D;">YouTube</td>
-                <td style="padding:8px 4px;color:#5A3820;">youtu.be/… or youtube.com/watch?v=…<br>Auto-fetches thumbnail. No hosting needed.</td>
+                <td style="padding:8px 4px;font-weight:600;color:#C00000;">YouTube</td>
+                <td style="padding:8px 4px;color:#5A3820;">youtu.be/&hellip; or youtube.com/watch?v=&hellip;<br>Auto-fetches thumbnail. No hosting needed.</td>
               </tr>
               <tr style="border-bottom:1px solid rgba(196,98,45,.1);">
                 <td style="padding:8px 4px;font-weight:600;color:#1B3A8B;">Vimeo</td>
-                <td style="padding:8px 4px;color:#5A3820;">vimeo.com/123456<br>Clean player, no branding. Upload at vimeo.com.</td>
+                <td style="padding:8px 4px;color:#5A3820;">vimeo.com/123456<br>Clean player, no branding.</td>
               </tr>
               <tr>
                 <td style="padding:8px 4px;font-weight:600;color:#1A7A40;">Direct MP4</td>
-                <td style="padding:8px 4px;color:#5A3820;">ik.imagekit.io/…/promo.mp4<br>Upload to ImageKit. Target 30–60 MB at 1080p.</td>
+                <td style="padding:8px 4px;color:#5A3820;">ik.imagekit.io/&hellip;/promo.mp4<br>Upload to ImageKit. Target 30&ndash;60 MB at 1080p.</td>
               </tr>
             </table>
           </div>
         </div>
-
       </div>
     </div>
   </div>
@@ -259,7 +224,7 @@ input:checked+.toggle-slider::before{transform:translateX(22px);}
   <div style="background:#1A0A04;border-radius:12px;width:min(840px,90vw);overflow:hidden;box-shadow:0 24px 64px rgba(0,0,0,.6);">
     <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.08);">
       <span id="lb-title" style="font-family:'Cormorant Garamond',serif;font-size:16px;color:rgba(255,255,255,.8);"></span>
-      <button onclick="_closeLb()" style="background:none;border:none;color:rgba(255,255,255,.5);font-size:22px;cursor:pointer;line-height:1;">✕</button>
+      <button onclick="_closeLb()" style="background:none;border:none;color:rgba(255,255,255,.5);font-size:22px;cursor:pointer;line-height:1;">&#x2715;</button>
     </div>
     <div id="lb-media" style="aspect-ratio:16/9;background:#000;"></div>
   </div>
@@ -268,182 +233,287 @@ input:checked+.toggle-slider::before{transform:translateX(22px);}
 <script src="sidebar.js"></script>
 <script src="audit.js"></script>
 <script>
-var _ghTok=function(){return localStorage.getItem('amayaa_gh_token')||'';};
-var _data={};
+var _ghTok = function(){ return localStorage.getItem('amayaa_gh_token') || ''; };
+var _data = {};
+var _slots = [];   /* [{videoUrl,posterUrl,eyebrow,title,description,ctaLabel}] */
+var _activeSlot = 0;
 
-/* ── DETECT URL TYPE ── */
-function _detectType(){
-  var url=document.getElementById('pv-url').value.trim();
-  var hint=document.getElementById('url-type-hint');
-  if(!url){hint.style.display='none';_updateMock();return;}
-  hint.style.display='inline-flex';
-  if(/youtu\.be|youtube\.com/i.test(url)){
-    hint.className='url-type-hint uht-yt';
-    hint.textContent='▶ YouTube — embed will use YouTube player';
-  } else if(/vimeo\.com/i.test(url)){
-    hint.className='url-type-hint uht-vm';
-    hint.textContent='▶ Vimeo — embed will use Vimeo player';
-  } else if(/\.mp4(\?|$)/i.test(url)||/ik\.imagekit\.io/i.test(url)){
-    hint.className='url-type-hint uht-mp4';
-    hint.textContent='▶ Direct MP4 — native video player, no third-party';
-  } else {
-    hint.className='url-type-hint uht-unknown';
-    hint.textContent='⚠ Unrecognised format — check URL';
-  }
+/* ── HELPERS ── */
+function _esc(t){ return String(t||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+function _defSlot(){
+  return {videoUrl:'',posterUrl:'',eyebrow:'Behind the Weave',
+          title:'The Craft Behind Every Thread',
+          description:'A glimpse into the looms, the hands, and the generations of craft that make every Amayaa saree extraordinary.',
+          ctaLabel:'Watch — 2 min'};
+}
+
+/* ── SLOT RENDERING ── */
+function _slotFields(i, s){
+  return [
+    '<div class="field">',
+      '<label>Video URL</label>',
+      '<input type="url" id="pv-url-'+i+'" value="'+_esc(s.videoUrl||'')+'"',
+        ' placeholder="https://youtu.be/… or direct .mp4"',
+        ' oninput="_onUrlChange('+i+')" onblur="_syncSlot('+i+')">',
+      '<div id="url-hint-'+i+'" class="url-type-hint" style="display:none"></div>',
+      '<p class="field-hint">YouTube, Vimeo, or ImageKit MP4 &mdash; embed type detected automatically.</p>',
+    '</div>',
+    '<div class="field">',
+      '<label>Poster / Thumbnail <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:10px;">(optional &mdash; YouTube auto-fetched)</span></label>',
+      '<input type="url" id="pv-poster-'+i+'" value="'+_esc(s.posterUrl||'')+'"',
+        ' placeholder="https://ik.imagekit.io/…/thumb.jpg" oninput="_syncSlot('+i+')">',
+    '</div>',
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">',
+      '<div class="field" style="margin-bottom:0">',
+        '<label>Eyebrow</label>',
+        '<input type="text" id="pv-eyebrow-'+i+'" value="'+_esc(s.eyebrow||'')+'"',
+          ' maxlength="40" placeholder="Behind the Weave" oninput="_syncSlot('+i+')">',
+      '</div>',
+      '<div class="field" style="margin-bottom:0">',
+        '<label>CTA label</label>',
+        '<input type="text" id="pv-cta-'+i+'" value="'+_esc(s.ctaLabel||'')+'"',
+          ' maxlength="30" placeholder="Watch — 2 min" oninput="_syncSlot('+i+')">',
+      '</div>',
+    '</div>',
+    '<div class="field" style="margin-top:10px">',
+      '<label>Title</label>',
+      '<input type="text" id="pv-title-'+i+'" value="'+_esc(s.title||'')+'"',
+        ' maxlength="80" placeholder="The Craft Behind Every Thread" oninput="_syncSlot('+i+')">',
+    '</div>',
+    '<div class="field">',
+      '<label>Description</label>',
+      '<textarea id="pv-desc-'+i+'" maxlength="220"',
+        ' placeholder="A short description shown below the title…"',
+        ' oninput="_syncSlot('+i+')">'+_esc(s.description||'')+'</textarea>',
+    '</div>',
+  ].join('');
+}
+
+function _renderSlots(){
+  var wrap = document.getElementById('slots-wrap');
+  wrap.innerHTML = '';
+  _slots.forEach(function(s, i){
+    var lbl = s.eyebrow || s.title || 'Untitled';
+    var card = document.createElement('div');
+    card.className = 'slot-card' + (i === _activeSlot ? ' active' : '');
+    card.id = 'slot-card-' + i;
+    card.innerHTML =
+      '<div class="slot-header" onclick="_setActive(' + i + ')">' +
+        '<div class="slot-num">' + (i + 1) + '</div>' +
+        '<div class="slot-lbl">Video ' + (i + 1) + ': ' + _esc(lbl) + '</div>' +
+        (_slots.length > 1 ?
+          '<button class="slot-remove" onclick="event.stopPropagation();_removeSlot(' + i + ')">Remove</button>' : '') +
+      '</div>' +
+      '<div class="slot-body">' + _slotFields(i, s) + '</div>';
+    wrap.appendChild(card);
+    /* detect URL hint on load */
+    if(s.videoUrl) setTimeout(function(){ _detectHint(i, s.videoUrl); }, 0);
+  });
+  var ab = document.getElementById('add-slot-btn');
+  if(ab) ab.disabled = _slots.length >= 3;
+  var sc = document.getElementById('slide-count');
+  if(sc) sc.textContent = _slots.length + ' video' + (_slots.length !== 1 ? 's' : '');
   _updateMock();
 }
 
-/* ── UPDATE PREVIEW MOCK ── */
+function _setActive(i){
+  _activeSlot = i;
+  document.querySelectorAll('.slot-card').forEach(function(c, j){ c.classList.toggle('active', j === i); });
+  _updateMock();
+}
+
+function _syncSlot(i){
+  if(!_slots[i]) return;
+  var g = function(id){ var el = document.getElementById(id); return el ? el.value : ''; };
+  _slots[i].videoUrl    = g('pv-url-'+i).trim();
+  _slots[i].posterUrl   = g('pv-poster-'+i).trim();
+  _slots[i].eyebrow     = g('pv-eyebrow-'+i);
+  _slots[i].title       = g('pv-title-'+i);
+  _slots[i].description = g('pv-desc-'+i);
+  _slots[i].ctaLabel    = g('pv-cta-'+i);
+  /* update slot label */
+  var lbl = document.querySelector('#slot-card-' + i + ' .slot-lbl');
+  if(lbl) lbl.textContent = 'Video ' + (i+1) + ': ' + (_slots[i].eyebrow || _slots[i].title || 'Untitled');
+  if(i === _activeSlot) _updateMock();
+}
+
+function _detectHint(i, url){
+  var hint = document.getElementById('url-hint-' + i); if(!hint) return;
+  if(!url){ hint.style.display = 'none'; return; }
+  hint.style.display = 'inline-flex';
+  if(/youtu\.be|youtube\.com/i.test(url)){ hint.className='url-type-hint uht-yt'; hint.textContent='▶ YouTube'; }
+  else if(/vimeo\.com/i.test(url))       { hint.className='url-type-hint uht-vm'; hint.textContent='▶ Vimeo'; }
+  else if(/\.mp4(\?|$)/i.test(url)||/ik\.imagekit\.io/i.test(url)){ hint.className='url-type-hint uht-mp4'; hint.textContent='▶ Direct MP4'; }
+  else { hint.className='url-type-hint uht-unknown'; hint.textContent='⚠ Unrecognised format'; }
+}
+
+function _onUrlChange(i){
+  _syncSlot(i);
+  _detectHint(i, (document.getElementById('pv-url-'+i)||{}).value || '');
+}
+
+function _addSlot(){
+  if(_slots.length >= 3) return;
+  _slots.push(_defSlot());
+  _activeSlot = _slots.length - 1;
+  _renderSlots();
+}
+
+function _removeSlot(i){
+  if(_slots.length <= 1) return;
+  _slots.splice(i, 1);
+  if(_activeSlot >= _slots.length) _activeSlot = _slots.length - 1;
+  _renderSlots();
+}
+
+/* ── PREVIEW MOCK ── */
 function _updateMock(){
-  var eyebrow=document.getElementById('pv-eyebrow').value||'Behind the Weave';
-  var title=document.getElementById('pv-title').value||'The Craft Behind Every Thread';
-  var cta=document.getElementById('pv-cta').value||'Watch — 2 min';
-  var poster=document.getElementById('pv-poster').value.trim();
-  var url=document.getElementById('pv-url').value.trim();
-  document.getElementById('mock-eyebrow').textContent=eyebrow;
-  document.getElementById('mock-title').textContent=title;
-  document.getElementById('mock-cta').textContent=cta;
-  document.getElementById('lb-title').textContent=title;
-  var mp=document.getElementById('mock-poster');
-  if(poster){mp.src=poster;mp.style.display='';}
-  else if(/youtu\.be|youtube\.com/i.test(url)){
-    var m=url.match(/(?:youtu\.be\/|v=)([A-Za-z0-9_-]{11})/);
-    if(m){mp.src='https://img.youtube.com/vi/'+m[1]+'/maxresdefault.jpg';mp.style.display='';}
-    else mp.style.display='none';
-  } else {mp.src='';mp.style.display='none';}
+  var s = _slots[_activeSlot] || {};
+  var url = s.videoUrl || '';
+  document.getElementById('mock-eyebrow').textContent = s.eyebrow || 'Behind the Weave';
+  document.getElementById('mock-title').textContent   = s.title   || 'The Craft Behind Every Thread';
+  document.getElementById('mock-desc').textContent    = s.description || '';
+  document.getElementById('mock-cta').textContent     = s.ctaLabel || 'Watch — 2 min';
+  document.getElementById('lb-title').textContent     = s.title || '';
+  var mp = document.getElementById('mock-poster');
+  var poster = s.posterUrl;
+  if(!poster && /youtu\.be|youtube\.com/i.test(url)){
+    var m = url.match(/(?:youtu\.be\/|v=)([A-Za-z0-9_-]{11})/);
+    if(m) poster = 'https://img.youtube.com/vi/' + m[1] + '/maxresdefault.jpg';
+  }
+  if(poster){ mp.src = poster; mp.style.display = ''; }
+  else { mp.src = ''; mp.style.display = 'none'; }
 }
 
-/* ── BADGE ── */
 function _updateBadge(){
-  var on=document.getElementById('pv-enabled').checked;
-  var b=document.getElementById('status-badge');
-  b.textContent=on?'● Live':'● Off';
-  b.className='status-badge '+(on?'badge-live':'badge-off');
-}
-
-/* ── EMBED HELPER ── */
-function _embedHtml(url){
-  var yt=url.match(/(?:youtu\.be\/|v=|embed\/)([A-Za-z0-9_-]{11})/);
-  if(yt)return '<iframe width="100%" height="100%" src="https://www.youtube.com/embed/'+yt[1]+'?autoplay=1&rel=0" frameborder="0" allowfullscreen allow="autoplay; encrypted-media"></iframe>';
-  var vm=url.match(/vimeo\.com\/(\d+)/);
-  if(vm)return '<iframe width="100%" height="100%" src="https://player.vimeo.com/video/'+vm[1]+'?autoplay=1" frameborder="0" allowfullscreen allow="autoplay"></iframe>';
-  return '<video controls autoplay style="width:100%;height:100%;background:#000;display:block"><source src="'+url+'" type="video/mp4"></video>';
+  var on = document.getElementById('pv-enabled').checked;
+  var b = document.getElementById('status-badge');
+  b.textContent = on ? '● Live' : '● Off';
+  b.className = 'status-badge ' + (on ? 'badge-live' : 'badge-off');
 }
 
 /* ── PREVIEW PLAY ── */
+function _embedHtml(url){
+  var yt = url.match(/(?:youtu\.be\/|v=|embed\/)([A-Za-z0-9_-]{11})/);
+  if(yt) return '<iframe width="100%" height="100%" src="https://www.youtube.com/embed/'+yt[1]+'?autoplay=1&rel=0" frameborder="0" allowfullscreen allow="autoplay; encrypted-media"></iframe>';
+  var vm = url.match(/vimeo\.com\/(\d+)/);
+  if(vm) return '<iframe width="100%" height="100%" src="https://player.vimeo.com/video/'+vm[1]+'?autoplay=1" frameborder="0" allowfullscreen allow="autoplay"></iframe>';
+  return '<video controls autoplay style="width:100%;height:100%;background:#000;display:block"><source src="'+url+'" type="video/mp4"></video>';
+}
 function _previewPlay(){
-  var url=document.getElementById('pv-url').value.trim();
-  if(!url){alert('Enter a video URL first.');return;}
-  document.getElementById('lb-media').innerHTML=_embedHtml(url);
-  document.getElementById('pv-lb').style.display='flex';
+  var s = _slots[_activeSlot] || {};
+  if(!s.videoUrl){ alert('Enter a video URL in slot ' + (_activeSlot + 1) + ' first.'); return; }
+  document.getElementById('lb-media').innerHTML = _embedHtml(s.videoUrl);
+  document.getElementById('pv-lb').style.display = 'flex';
 }
 function _closeLb(){
-  document.getElementById('pv-lb').style.display='none';
-  document.getElementById('lb-media').innerHTML='';
+  document.getElementById('pv-lb').style.display = 'none';
+  document.getElementById('lb-media').innerHTML = '';
+}
+document.addEventListener('keydown', function(e){ if(e.key === 'Escape') _closeLb(); });
+
+/* ── POPULATE FROM DATA ── */
+function _populate(s){
+  var pv = s.promoVideo || {};
+  document.getElementById('pv-enabled').checked = !!pv.enabled;
+  _data._full = s;
+  /* Support both new videos[] and old flat format */
+  if(pv.videos && pv.videos.length){
+    _slots = pv.videos.map(function(v){
+      return {videoUrl:v.videoUrl||'', posterUrl:v.posterUrl||'',
+              eyebrow:v.eyebrow||'', title:v.title||'',
+              description:v.description||'', ctaLabel:v.ctaLabel||''};
+    });
+  } else {
+    _slots = [{videoUrl:pv.videoUrl||'', posterUrl:pv.posterUrl||'',
+               eyebrow:pv.eyebrow||'Behind the Weave',
+               title:pv.title||'The Craft Behind Every Thread',
+               description:pv.description||'',
+               ctaLabel:pv.ctaLabel||'Watch — 2 min'}];
+  }
+  _activeSlot = 0;
+  _updateBadge();
+  _renderSlots();
 }
 
 /* ── LOAD ── */
 function _load(){
-  var tok=_ghTok();
-  fetch('https://api.github.com/repos/Amayaa-2026/amayaa-website/contents/data/settings.json',{
-    headers:{'Authorization':'token '+tok,'Accept':'application/vnd.github.v3+json'}
-  })
-  .then(function(r){return r.json();})
+  var tok = _ghTok();
+  var headers = {'Accept':'application/vnd.github.v3+json'};
+  if(tok) headers['Authorization'] = 'token ' + tok;
+  fetch('https://api.github.com/repos/Amayaa-2026/amayaa-website/contents/data/settings.json', {headers: headers})
+  .then(function(r){ return r.json(); })
   .then(function(d){
-    _data._sha=d.sha;
-    var s=(function(_b){var _u=new Uint8Array(_b.length);for(var _i=0;_i<_b.length;_i++)_u[_i]=_b.charCodeAt(_i);return JSON.parse(new TextDecoder().decode(_u));})(atob(d.content.replace(/\n/g,'')));
-    var pv=s.promoVideo||{};
-    document.getElementById('pv-enabled').checked=!!pv.enabled;
-    document.getElementById('pv-url').value=pv.videoUrl||'';
-    document.getElementById('pv-poster').value=pv.posterUrl||'';
-    document.getElementById('pv-eyebrow').value=pv.eyebrow||'Behind the Weave';
-    document.getElementById('pv-title').value=pv.title||'The Craft Behind Every Thread';
-    document.getElementById('pv-cta').value=pv.ctaLabel||'Watch — 2 min';
-    _data._full=s;
-    _updateBadge();
-    _detectType();
-    _updateMock();
+    _data._sha = d.sha;
+    var s = (function(_b){
+      var _u = new Uint8Array(_b.length);
+      for(var _i = 0; _i < _b.length; _i++) _u[_i] = _b.charCodeAt(_i);
+      return JSON.parse(new TextDecoder().decode(_u));
+    })(atob(d.content.replace(/\s/g, '')));
+    _populate(s);
   })
-  .catch(function(e){
-    // Fallback: try fetch without token (no private data)
-    fetch('../data/settings.json?_='+Date.now(),{cache:'no-store'})
-      .then(function(r){return r.json();})
-      .then(function(s){
-        var pv=s.promoVideo||{};
-        document.getElementById('pv-enabled').checked=!!pv.enabled;
-        document.getElementById('pv-url').value=pv.videoUrl||'';
-        document.getElementById('pv-poster').value=pv.posterUrl||'';
-        document.getElementById('pv-eyebrow').value=pv.eyebrow||'Behind the Weave';
-        document.getElementById('pv-title').value=pv.title||'The Craft Behind Every Thread';
-        document.getElementById('pv-cta').value=pv.ctaLabel||'Watch — 2 min';
-        _data._full=s;
-        _updateBadge();_detectType();_updateMock();
-      }).catch(function(){});
+  .catch(function(){
+    fetch('../data/settings.json?_=' + Date.now(), {cache:'no-store'})
+      .then(function(r){ return r.json(); })
+      .then(function(s){ _populate(s); })
+      .catch(function(){});
   });
 }
 
 /* ── SAVE ── */
 function _save(){
-  var tok=_ghTok();
-  if(!tok){alert('GitHub token not set. Go to Admin → Site Settings → GitHub Token.');return;}
-  var btn=document.getElementById('btn-save');
-  var orig=btn.textContent;
-  btn.textContent='Saving…';btn.disabled=true;
+  var tok = _ghTok();
+  if(!tok){ alert('GitHub token not set. Go to Admin → Site Settings → GitHub Token.'); return; }
+  var btn = document.getElementById('btn-save');
+  var orig = btn.textContent;
+  btn.textContent = 'Saving…'; btn.disabled = true;
 
-  var pv={
-    enabled:document.getElementById('pv-enabled').checked,
-    videoUrl:document.getElementById('pv-url').value.trim(),
-    posterUrl:document.getElementById('pv-poster').value.trim(),
-    title:document.getElementById('pv-title').value.trim()||'The Craft Behind Every Thread',
-    eyebrow:document.getElementById('pv-eyebrow').value.trim()||'Behind the Weave',
-    sectionLabel:'Watch',
-    ctaLabel:document.getElementById('pv-cta').value.trim()||'Watch — 2 min'
+  /* Collect latest values from form */
+  _slots.forEach(function(_, i){ _syncSlot(i); });
+
+  var pv = {
+    enabled: document.getElementById('pv-enabled').checked,
+    videos: _slots.filter(function(s){ return s.videoUrl; }).map(function(s){
+      return {videoUrl:s.videoUrl, posterUrl:s.posterUrl, eyebrow:s.eyebrow,
+              title:s.title, description:s.description, ctaLabel:s.ctaLabel};
+    })
   };
 
-  // GET current SHA if we don't have it
   function _doSave(sha){
-    var full=Object.assign({},_data._full||{});
-    full.promoVideo=pv;
-    var body=JSON.stringify({
-      message:'Admin: update promo video settings',
-      content:btoa(JSON.stringify(full,null,2).replace(/[-￿]/g,function(c){return'\\u'+('0000'+c.charCodeAt(0).toString(16)).slice(-4);})),
-      sha:sha
-    });
-    fetch('https://api.github.com/repos/Amayaa-2026/amayaa-website/contents/data/settings.json',{
-      method:'PUT',
-      headers:{'Authorization':'token '+tok,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},
-      body:body
+    var full = Object.assign({}, _data._full || {});
+    full.promoVideo = pv;
+    var encoded = btoa(JSON.stringify(full, null, 2).replace(/[-￿]/g, function(c){
+      return '\\u' + ('0000' + c.charCodeAt(0).toString(16)).slice(-4);
+    }));
+    var body = JSON.stringify({message: 'Admin: update promo video (' + pv.videos.length + ' video' + (pv.videos.length !== 1 ? 's' : '') + ')', content: encoded, sha: sha});
+    fetch('https://api.github.com/repos/Amayaa-2026/amayaa-website/contents/data/settings.json', {
+      method: 'PUT',
+      headers: {'Authorization':'token '+tok, 'Accept':'application/vnd.github.v3+json', 'Content-Type':'application/json'},
+      body: body
     })
-    .then(function(r){
-      if(!r.ok)return r.json().then(function(e){throw new Error(e.message||r.status);});
-      return r.json();
-    })
+    .then(function(r){ if(!r.ok) return r.json().then(function(e){ throw new Error(e.message || r.status); }); return r.json(); })
     .then(function(d){
-      _data._sha=d.content.sha;
-      _data._full=JSON.parse(JSON.stringify(_data._full||{}));
-      _data._full.promoVideo=pv;
-      btn.textContent='✅ Saved!';
-      setTimeout(function(){btn.textContent=orig;btn.disabled=false;},2500);
+      _data._sha = d.content.sha;
+      _data._full = JSON.parse(JSON.stringify(_data._full || {}));
+      _data._full.promoVideo = pv;
+      btn.textContent = '✅ Saved!';
+      setTimeout(function(){ btn.textContent = orig; btn.disabled = false; }, 2500);
       _updateBadge();
-      if(typeof AuditTrail!=='undefined')AuditTrail.log({action:'update',entity:'settings',entityId:'promoVideo',summary:'Promo video settings updated',changes:[{field:'enabled',before:null,after:pv.enabled},{field:'videoUrl',before:null,after:pv.videoUrl}]});
+      if(typeof AuditTrail !== 'undefined') AuditTrail.log({action:'update', entity:'settings', entityId:'promoVideo', summary:'Promo video updated (' + pv.videos.length + ' video' + (pv.videos.length !== 1 ? 's' : '') + ', enabled=' + pv.enabled + ')', changes:[{field:'enabled', before:null, after:pv.enabled}, {field:'videoCount', before:null, after:pv.videos.length}]});
     })
-    .catch(function(e){
-      alert('Save failed: '+e.message);
-      btn.textContent=orig;btn.disabled=false;
-    });
+    .catch(function(e){ alert('Save failed: ' + e.message); btn.textContent = orig; btn.disabled = false; });
   }
 
-  if(_data._sha){_doSave(_data._sha);}
-  else{
-    fetch('https://api.github.com/repos/Amayaa-2026/amayaa-website/contents/data/settings.json',{
-      headers:{'Authorization':'token '+tok,'Accept':'application/vnd.github.v3+json'}
-    })
-    .then(function(r){return r.json();})
-    .then(function(d){_data._sha=d.sha;_doSave(d.sha);})
-    .catch(function(e){alert('Could not fetch file SHA: '+e.message);btn.textContent=orig;btn.disabled=false;});
+  if(_data._sha){ _doSave(_data._sha); }
+  else {
+    fetch('https://api.github.com/repos/Amayaa-2026/amayaa-website/contents/data/settings.json', {headers:{'Authorization':'token '+tok,'Accept':'application/vnd.github.v3+json'}})
+    .then(function(r){ return r.json(); })
+    .then(function(d){ _data._sha = d.sha; _doSave(d.sha); })
+    .catch(function(e){ alert('Could not fetch SHA: ' + e.message); btn.textContent = orig; btn.disabled = false; });
   }
 }
 
-document.addEventListener('DOMContentLoaded',_load);
+document.addEventListener('DOMContentLoaded', _load);
 </script>
 </body></html>

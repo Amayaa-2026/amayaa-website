@@ -155,11 +155,15 @@
   },
   "promoVideo": {
     "enabled": true,
-    "videoUrl": "https://www.youtube.com/watch?v=dkkpstL4Tic",
-    "posterUrl": "",
-    "title": "The Craft Behind Every Thread",
-    "eyebrow": "Behind the Weave",
-    "sectionLabel": "Watch",
-    "ctaLabel": "Watch \u2014 2 min"
+    "videos": [
+      {
+        "videoUrl": "https://www.youtube.com/watch?v=dkkpstL4Tic",
+        "posterUrl": "",
+        "title": "The Craft Behind Every Thread",
+        "eyebrow": "Behind the Weave",
+        "description": "A glimpse into the looms, the hands, and the generations of craft that make every Amayaa saree extraordinary.",
+        "ctaLabel": "Watch \u2014 2 min"
+      }
+    ]
   }
 }

@@ -86,18 +86,12 @@ input:checked+.toggle-slider::before{transform:translateX(22px);}
 .btn-ghost:hover{background:rgba(26,10,4,.05);}
 .btn-sm{padding:6px 13px;font-size:12px;}
 
-/* ── SLOT CARDS ── */
-.slot-card{background:rgba(255,255,255,.75);border:1.5px solid rgba(196,98,45,.14);border-radius:12px;overflow:hidden;margin-bottom:12px;transition:border-color .15s,box-shadow .15s;}
-.slot-card.active{border-color:#C4622D;box-shadow:0 0 0 2px rgba(196,98,45,.1);}
-.slot-header{display:flex;align-items:center;gap:10px;padding:12px 16px;background:rgba(255,255,255,.5);cursor:pointer;user-select:none;}
-.slot-num{width:22px;height:22px;border-radius:50%;background:#C4622D;color:white;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.slot-lbl{flex:1;font-size:13px;font-weight:500;color:#2A0A1A;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.slot-remove{background:none;border:1px solid rgba(180,50,0,.2);border-radius:6px;padding:3px 9px;font-size:11px;font-weight:500;color:#8B3A00;cursor:pointer;transition:all .15s;flex-shrink:0;}
-.slot-remove:hover{background:rgba(196,98,45,.08);border-color:#C4622D;color:#C4622D;}
-.slot-body{padding:16px;border-top:1px solid rgba(196,98,45,.08);}
-.add-slot-btn{width:100%;padding:10px;border:1.5px dashed rgba(196,98,45,.3);border-radius:10px;background:rgba(196,98,45,.03);color:#C4622D;font-family:'Jost',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .15s;}
-.add-slot-btn:hover:not(:disabled){background:rgba(196,98,45,.07);border-color:#C4622D;}
-.add-slot-btn:disabled{opacity:.4;cursor:not-allowed;}
+/* ── SLOT TABS ── */
+.slot-tabs{display:flex;align-items:center;gap:0;padding:0 16px;border-bottom:1px solid rgba(196,98,45,.12);background:rgba(255,255,255,.3);}
+.slot-tab{padding:10px 18px;font-family:'Jost',sans-serif;font-size:13px;font-weight:500;color:#8B6E5A;background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;transition:all .18s;margin-bottom:-1px;}
+.slot-tab:hover{color:#2A0A1A;}
+.slot-tab.active{color:#C4622D;border-bottom-color:#C4622D;font-weight:600;}
+.slot-fields{padding:20px;}
 
 /* ── PREVIEW PANEL ── */
 .preview-panel{background:#1A0A04;border-radius:12px;overflow:hidden;aspect-ratio:16/9;position:relative;cursor:pointer;display:flex;align-items:center;justify-content:center;}
@@ -155,13 +149,12 @@ input:checked+.toggle-slider::before{transform:translateX(22px);}
           <div class="card-header">
             <div>
               <div class="card-title">Video Slots</div>
-              <div class="card-sub">Up to 3 videos &mdash; shown as a carousel on the homepage</div>
+              <div class="card-sub">Up to 3 videos &mdash; carousel on the homepage</div>
             </div>
+            <div id="slot-actions" style="display:flex;gap:6px;align-items:center;"></div>
           </div>
-          <div class="card-body">
-            <div id="slots-wrap"></div>
-            <button class="add-slot-btn" id="add-slot-btn" onclick="_addSlot()">+ Add Video (max 3)</button>
-          </div>
+          <div class="slot-tabs" id="slot-tabs"></div>
+          <div class="slot-fields" id="slot-fields"></div>
         </div>
       </div>
 
@@ -249,97 +242,110 @@ function _defSlot(){
 }
 
 /* ── SLOT RENDERING ── */
-function _slotFields(i, s){
+function _slotFields(s){
   return [
     '<div class="field">',
       '<label>Video URL</label>',
-      '<input type="url" id="pv-url-'+i+'" value="'+_esc(s.videoUrl||'')+'"',
+      '<input type="url" id="pv-url" value="'+_esc(s.videoUrl||'')+'"',
         ' placeholder="https://youtu.be/… or direct .mp4"',
-        ' oninput="_onUrlChange('+i+')" onblur="_syncSlot('+i+')">',
-      '<div id="url-hint-'+i+'" class="url-type-hint" style="display:none"></div>',
+        ' oninput="_onUrlChange()" onblur="_syncSlot()">',
+      '<div id="url-hint" class="url-type-hint" style="display:none"></div>',
       '<p class="field-hint">YouTube, Vimeo, or ImageKit MP4 &mdash; embed type detected automatically.</p>',
     '</div>',
     '<div class="field">',
       '<label>Poster / Thumbnail <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:10px;">(optional &mdash; YouTube auto-fetched)</span></label>',
-      '<input type="url" id="pv-poster-'+i+'" value="'+_esc(s.posterUrl||'')+'"',
-        ' placeholder="https://ik.imagekit.io/…/thumb.jpg" oninput="_syncSlot('+i+')">',
+      '<input type="url" id="pv-poster" value="'+_esc(s.posterUrl||'')+'"',
+        ' placeholder="https://ik.imagekit.io/…/thumb.jpg" oninput="_syncSlot()">',
     '</div>',
     '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">',
       '<div class="field" style="margin-bottom:0">',
         '<label>Eyebrow</label>',
-        '<input type="text" id="pv-eyebrow-'+i+'" value="'+_esc(s.eyebrow||'')+'"',
-          ' maxlength="40" placeholder="Behind the Weave" oninput="_syncSlot('+i+')">',
+        '<input type="text" id="pv-eyebrow" value="'+_esc(s.eyebrow||'')+'"',
+          ' maxlength="40" placeholder="Behind the Weave" oninput="_syncSlot()">',
       '</div>',
       '<div class="field" style="margin-bottom:0">',
         '<label>CTA label</label>',
-        '<input type="text" id="pv-cta-'+i+'" value="'+_esc(s.ctaLabel||'')+'"',
-          ' maxlength="30" placeholder="Watch — 2 min" oninput="_syncSlot('+i+')">',
+        '<input type="text" id="pv-cta" value="'+_esc(s.ctaLabel||'')+'"',
+          ' maxlength="30" placeholder="Watch — 2 min" oninput="_syncSlot()">',
       '</div>',
     '</div>',
     '<div class="field" style="margin-top:10px">',
       '<label>Title</label>',
-      '<input type="text" id="pv-title-'+i+'" value="'+_esc(s.title||'')+'"',
-        ' maxlength="80" placeholder="The Craft Behind Every Thread" oninput="_syncSlot('+i+')">',
+      '<input type="text" id="pv-title" value="'+_esc(s.title||'')+'"',
+        ' maxlength="80" placeholder="The Craft Behind Every Thread" oninput="_syncSlot()">',
     '</div>',
     '<div class="field">',
       '<label>Description</label>',
-      '<textarea id="pv-desc-'+i+'" maxlength="220"',
+      '<textarea id="pv-desc" maxlength="220"',
         ' placeholder="A short description shown below the title…"',
-        ' oninput="_syncSlot('+i+')">'+_esc(s.description||'')+'</textarea>',
+        ' oninput="_syncSlot()">'+_esc(s.description||'')+'</textarea>',
     '</div>',
   ].join('');
 }
 
 function _renderSlots(){
-  var wrap = document.getElementById('slots-wrap');
-  wrap.innerHTML = '';
-  _slots.forEach(function(s, i){
-    var lbl = s.eyebrow || s.title || 'Untitled';
-    var card = document.createElement('div');
-    card.className = 'slot-card' + (i === _activeSlot ? ' active' : '');
-    card.id = 'slot-card-' + i;
-    card.innerHTML =
-      '<div class="slot-header" onclick="_setActive(' + i + ')">' +
-        '<div class="slot-num">' + (i + 1) + '</div>' +
-        '<div class="slot-lbl">Video ' + (i + 1) + ': ' + _esc(lbl) + '</div>' +
-        (_slots.length > 1 ?
-          '<button class="slot-remove" onclick="event.stopPropagation();_removeSlot(' + i + ')">Remove</button>' : '') +
-      '</div>' +
-      '<div class="slot-body">' + _slotFields(i, s) + '</div>';
-    wrap.appendChild(card);
-    /* detect URL hint on load */
-    if(s.videoUrl) setTimeout(function(){ _detectHint(i, s.videoUrl); }, 0);
+  /* Tabs */
+  var tabs = document.getElementById('slot-tabs');
+  tabs.innerHTML = '';
+  _slots.forEach(function(_, i){
+    var btn = document.createElement('button');
+    btn.className = 'slot-tab' + (i === _activeSlot ? ' active' : '');
+    btn.textContent = 'Video ' + (i + 1);
+    btn.onclick = function(){ _setActive(i); };
+    tabs.appendChild(btn);
   });
-  var ab = document.getElementById('add-slot-btn');
-  if(ab) ab.disabled = _slots.length >= 3;
+
+  /* Header actions */
+  var actions = document.getElementById('slot-actions');
+  actions.innerHTML = '';
+  if(_slots.length < 3){
+    var addBtn = document.createElement('button');
+    addBtn.className = 'btn btn-primary btn-sm';
+    addBtn.innerHTML = '+ Add Video';
+    addBtn.onclick = _addSlot;
+    actions.appendChild(addBtn);
+  }
+  if(_slots.length > 1){
+    var rmBtn = document.createElement('button');
+    rmBtn.className = 'btn btn-ghost btn-sm';
+    rmBtn.textContent = 'Remove';
+    rmBtn.onclick = function(){ _removeSlot(_activeSlot); };
+    actions.appendChild(rmBtn);
+  }
+
+  /* Fields for active slot */
+  var sf = document.getElementById('slot-fields');
+  sf.innerHTML = _slotFields(_slots[_activeSlot] || {});
+  var url = (_slots[_activeSlot] || {}).videoUrl || '';
+  if(url) _detectHint(url);
+
+  /* Slide count badge */
   var sc = document.getElementById('slide-count');
   if(sc) sc.textContent = _slots.length + ' video' + (_slots.length !== 1 ? 's' : '');
+
   _updateMock();
 }
 
 function _setActive(i){
+  _syncSlot();           /* save current before switching */
   _activeSlot = i;
-  document.querySelectorAll('.slot-card').forEach(function(c, j){ c.classList.toggle('active', j === i); });
+  _renderSlots();
+}
+
+function _syncSlot(){
+  if(!_slots[_activeSlot]) return;
+  var g = function(id){ var el = document.getElementById(id); return el ? el.value : ''; };
+  _slots[_activeSlot].videoUrl    = g('pv-url').trim();
+  _slots[_activeSlot].posterUrl   = g('pv-poster').trim();
+  _slots[_activeSlot].eyebrow     = g('pv-eyebrow');
+  _slots[_activeSlot].title       = g('pv-title');
+  _slots[_activeSlot].description = g('pv-desc');
+  _slots[_activeSlot].ctaLabel    = g('pv-cta');
   _updateMock();
 }
 
-function _syncSlot(i){
-  if(!_slots[i]) return;
-  var g = function(id){ var el = document.getElementById(id); return el ? el.value : ''; };
-  _slots[i].videoUrl    = g('pv-url-'+i).trim();
-  _slots[i].posterUrl   = g('pv-poster-'+i).trim();
-  _slots[i].eyebrow     = g('pv-eyebrow-'+i);
-  _slots[i].title       = g('pv-title-'+i);
-  _slots[i].description = g('pv-desc-'+i);
-  _slots[i].ctaLabel    = g('pv-cta-'+i);
-  /* update slot label */
-  var lbl = document.querySelector('#slot-card-' + i + ' .slot-lbl');
-  if(lbl) lbl.textContent = 'Video ' + (i+1) + ': ' + (_slots[i].eyebrow || _slots[i].title || 'Untitled');
-  if(i === _activeSlot) _updateMock();
-}
-
-function _detectHint(i, url){
-  var hint = document.getElementById('url-hint-' + i); if(!hint) return;
+function _detectHint(url){
+  var hint = document.getElementById('url-hint'); if(!hint) return;
   if(!url){ hint.style.display = 'none'; return; }
   hint.style.display = 'inline-flex';
   if(/youtu\.be|youtube\.com/i.test(url)){ hint.className='url-type-hint uht-yt'; hint.textContent='▶ YouTube'; }
@@ -348,13 +354,14 @@ function _detectHint(i, url){
   else { hint.className='url-type-hint uht-unknown'; hint.textContent='⚠ Unrecognised format'; }
 }
 
-function _onUrlChange(i){
-  _syncSlot(i);
-  _detectHint(i, (document.getElementById('pv-url-'+i)||{}).value || '');
+function _onUrlChange(){
+  _syncSlot();
+  _detectHint((document.getElementById('pv-url')||{}).value || '');
 }
 
 function _addSlot(){
   if(_slots.length >= 3) return;
+  _syncSlot();
   _slots.push(_defSlot());
   _activeSlot = _slots.length - 1;
   _renderSlots();
@@ -470,7 +477,7 @@ function _save(){
   btn.textContent = 'Saving…'; btn.disabled = true;
 
   /* Collect latest values from form */
-  _slots.forEach(function(_, i){ _syncSlot(i); });
+  _syncSlot();
 
   var pv = {
     enabled: document.getElementById('pv-enabled').checked,

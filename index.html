@@ -416,40 +416,42 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
 /* ── PROMO VIDEO SECTION ── */
 .section-promo-video{
   background:linear-gradient(160deg,#1A0A04 0%,#2A0A1A 40%,#0A0010 100%);
-  padding:72px 0;
+  padding:52px 0 60px;
 }
-.section-promo-video .sec-lbl{color:#C4622D;letter-spacing:2.5px;}
-.section-promo-video .sec-ttl{color:white;}
+.pv-section-eyebrow{text-align:center;font-size:11px;letter-spacing:3.5px;text-transform:uppercase;color:#C4622D;font-weight:600;margin-bottom:28px;min-height:1em;}
 .pv-slide{display:none;}
-.pv-slide.pv-active{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:flex-start;}
-@media(max-width:768px){.pv-slide.pv-active{grid-template-columns:1fr;gap:28px;}}
-.pv-nav-row{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:32px;}
+.pv-slide.pv-active{display:grid;grid-template-columns:3fr 2fr;gap:44px;align-items:center;}
+@media(max-width:768px){.pv-slide.pv-active{grid-template-columns:1fr;gap:24px;}}
+.pv-nav-row{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:28px;}
 .pv-dots{display:flex;gap:8px;align-items:center;}
 .pv-dot{width:8px;height:8px;border-radius:4px;background:rgba(255,255,255,.3);cursor:pointer;border:none;padding:0;transition:all .25s;}
 .pv-dot.pv-active{width:24px;background:#C4622D;}
 .pv-arrow{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.2);color:rgba(255,255,255,.65);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;}
 .pv-arrow:hover{background:rgba(255,255,255,.16);color:white;}
-.pv-thumb-wrap{position:relative;aspect-ratio:16/9;border-radius:14px;overflow:hidden;cursor:pointer;box-shadow:0 16px 48px rgba(0,0,0,.45);transition:transform .25s;}
-.pv-thumb-wrap:hover{transform:scale(1.02);}
+.pv-thumb-wrap{position:relative;aspect-ratio:16/9;border-radius:14px;overflow:hidden;cursor:pointer;box-shadow:0 20px 56px rgba(0,0,0,.55);}
 .pv-thumb-bg{position:absolute;inset:0;background:linear-gradient(135deg,#2A0A1A 0%,#8B1A4A 50%,#C4622D 100%);opacity:.65;}
 .pv-thumb-poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
-.pv-play-ring{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
-.pv-play-circle{width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,.92);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 28px rgba(0,0,0,.35);transition:transform .2s,box-shadow .2s;}
-.pv-thumb-wrap:hover .pv-play-circle{transform:scale(1.1);box-shadow:0 8px 36px rgba(0,0,0,.45);}
-.pv-info{color:white;}
-.pv-info .pv-eyebrow{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#C4622D;margin-bottom:10px;}
-.pv-info .pv-title{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;line-height:1.25;color:white;margin-bottom:16px;}
-.pv-info .pv-desc{font-size:14px;line-height:1.75;color:rgba(255,255,255,.6);margin-bottom:24px;}
-.pv-cta-btn{display:inline-flex;align-items:center;gap:10px;padding:12px 22px;border:1.5px solid rgba(255,255,255,.3);border-radius:40px;color:rgba(255,255,255,.85);font-size:13px;font-weight:500;letter-spacing:.5px;cursor:pointer;background:rgba(255,255,255,.06);transition:all .2s;}
+.pv-play-ring{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;transition:opacity .2s;}
+.pv-thumb-wrap:hover .pv-play-ring{opacity:.85;}
+.pv-play-circle{width:68px;height:68px;border-radius:50%;background:rgba(255,255,255,.94);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 28px rgba(0,0,0,.4);transition:transform .2s;}
+.pv-thumb-wrap:hover .pv-play-circle{transform:scale(1.08);}
+/* Expand to fullscreen button */
+.pv-expand-btn{position:absolute;top:10px;right:10px;z-index:6;width:32px;height:32px;border-radius:7px;background:rgba(0,0,0,.6);border:1px solid rgba(255,255,255,.22);color:white;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .18s,background .15s;}
+.pv-thumb-wrap:hover .pv-expand-btn,.pv-expand-btn.always{opacity:1;}
+.pv-expand-btn:hover{background:rgba(0,0,0,.85);}
+.pv-info{color:white;display:flex;flex-direction:column;justify-content:center;}
+.pv-info .pv-title{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:300;line-height:1.28;color:white;margin-bottom:14px;}
+.pv-info .pv-desc{font-size:14px;line-height:1.8;color:rgba(255,255,255,.6);margin-bottom:26px;}
+.pv-cta-btn{display:inline-flex;align-items:center;gap:10px;padding:12px 22px;border:1.5px solid rgba(255,255,255,.3);border-radius:40px;color:rgba(255,255,255,.85);font-size:13px;font-weight:500;letter-spacing:.5px;cursor:pointer;background:rgba(255,255,255,.06);transition:all .2s;align-self:flex-start;}
 .pv-cta-btn:hover{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.5);}
 /* Lightbox */
 .pv-lb{display:none;position:fixed;inset:0;background:rgba(5,0,10,.92);z-index:9999;align-items:center;justify-content:center;}
-.pv-lb-inner{background:#0A0010;border-radius:14px;width:min(860px,92vw);overflow:hidden;box-shadow:0 32px 80px rgba(0,0,0,.7);}
+.pv-lb-inner{background:#0A0010;border-radius:14px;width:min(920px,94vw);overflow:hidden;box-shadow:0 32px 80px rgba(0,0,0,.7);}
 .pv-lb-bar{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid rgba(255,255,255,.07);}
 .pv-lb-bar span{font-family:'Cormorant Garamond',serif;font-size:17px;color:rgba(255,255,255,.75);letter-spacing:.3px;}
 .pv-lb-close{background:none;border:none;color:rgba(255,255,255,.45);font-size:24px;cursor:pointer;line-height:1;padding:0 4px;transition:color .15s;}
 .pv-lb-close:hover{color:rgba(255,255,255,.8);}
-.pv-lb-media{aspect-ratio:16/9;background:#000;}
+.pv-lb-media{aspect-ratio:16/9;background:#000;position:relative;}
 
 
 </style>
@@ -674,6 +676,7 @@ body{font-family:'Jost',sans-serif;background:#E4EEE0;color:#1A1208;font-size:15
 <!-- PROMO VIDEO — driven by settings.json promoVideo.videos[] (up to 3) -->
 <div class="section-promo-video" id="promo-video-section" style="display:none">
 <div class="page">
+  <div class="pv-section-eyebrow" id="pv-section-eyebrow"></div>
   <div class="pv-carousel" id="pv-carousel"></div>
   <div class="pv-nav-row" id="pv-nav-row" style="display:none">
     <button class="pv-arrow" id="pv-prev" aria-label="Previous video">
@@ -841,7 +844,7 @@ function slowScrollTo(t){var e=document.getElementById(t);if(!e)return;var s=win
     .catch(function(){});
 }());
 
-/* ── PROMO VIDEO — carousel (up to 3 videos) ── */
+/* ── PROMO VIDEO — inline player + expand lightbox (up to 3 videos) ── */
 (function(){
   var PV = window.PV = {};
   var _vids = [];
@@ -849,12 +852,13 @@ function slowScrollTo(t){var e=document.getElementById(t);if(!e)return;var s=win
 
   function _esc(t){ return String(t||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
-  function _embed(url, autoplay){
+  /* Lightbox embed (floats in fixed container, no sizing needed) */
+  function _embed(url){
     var yt = url.match(/(?:youtu\.be\/|v=|embed\/)([A-Za-z0-9_-]{11})/);
-    if(yt) return '<iframe width="100%" height="100%" src="https://www.youtube.com/embed/'+yt[1]+(autoplay?'?autoplay=1&rel=0':'?rel=0')+'" frameborder="0" allowfullscreen allow="autoplay;encrypted-media"></iframe>';
+    if(yt) return '<iframe style="position:absolute;inset:0;width:100%;height:100%;border:none;" src="https://www.youtube.com/embed/'+yt[1]+'?autoplay=1&rel=0" allowfullscreen allow="autoplay;encrypted-media"></iframe>';
     var vm = url.match(/vimeo\.com\/(\d+)/);
-    if(vm) return '<iframe width="100%" height="100%" src="https://player.vimeo.com/video/'+vm[1]+(autoplay?'?autoplay=1':'')+'" frameborder="0" allowfullscreen allow="autoplay"></iframe>';
-    return '<video controls'+(autoplay?' autoplay':'')+' style="width:100%;height:100%;background:#000;display:block"><source src="'+_esc(url)+'" type="video/mp4"></video>';
+    if(vm) return '<iframe style="position:absolute;inset:0;width:100%;height:100%;border:none;" src="https://player.vimeo.com/video/'+vm[1]+'?autoplay=1" allowfullscreen allow="autoplay"></iframe>';
+    return '<video controls autoplay style="position:absolute;inset:0;width:100%;height:100%;background:#000;display:block"><source src="'+_esc(url)+'" type="video/mp4"></video>';
   }
 
   function _poster(v){
@@ -863,31 +867,35 @@ function slowScrollTo(t){var e=document.getElementById(t);if(!e)return;var s=win
     return yt ? 'https://img.youtube.com/vi/'+yt[1]+'/maxresdefault.jpg' : '';
   }
 
-  var _playIco = '<svg width="22" height="22" viewBox="0 0 24 24" fill="#1A0A04"><polygon points="6,3 20,12 6,21"/></svg>';
-  var _ctaIco  = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10,8 16,12 10,16" fill="currentColor" stroke="none"/></svg>';
+  var _playIco   = '<svg width="24" height="24" viewBox="0 0 24 24" fill="#1A0A04"><polygon points="6,3 20,12 6,21"/></svg>';
+  var _ctaIco    = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10,8 16,12 10,16" fill="currentColor" stroke="none"/></svg>';
+  var _expandIco = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>';
+
+  function _thumbHtml(i){
+    var v = _vids[i]; var p = _poster(v);
+    return '<div class="pv-thumb-bg"></div>'+
+      (p?'<img class="pv-thumb-poster" src="'+_esc(p)+'" alt="">':'')+
+      '<div class="pv-play-ring" onclick="PV.playInline('+i+')"><div class="pv-play-circle">'+_playIco+'</div></div>'+
+      '<button class="pv-expand-btn" onclick="event.stopPropagation();PV.open('+i+')" title="Expand">'+_expandIco+'</button>';
+  }
 
   function _buildSlides(){
     var car = document.getElementById('pv-carousel'); if(!car) return;
     car.innerHTML = '';
     _vids.forEach(function(v, i){
-      var p = _poster(v);
       var s = document.createElement('div');
       s.className = 'pv-slide'+(i===0?' pv-active':'');
       s.innerHTML =
-        '<div class="pv-thumb-wrap" onclick="PV.open('+i+')">'+
-          '<div class="pv-thumb-bg"></div>'+
-          (p?'<img class="pv-thumb-poster" src="'+_esc(p)+'" alt="">':'')+
-          '<div class="pv-play-ring"><div class="pv-play-circle">'+_playIco+'</div></div>'+
-        '</div>'+
+        '<div class="pv-thumb-wrap" id="pv-thumb-'+i+'">'+_thumbHtml(i)+'</div>'+
         '<div class="pv-info">'+
-          (v.eyebrow    ?'<div class="pv-eyebrow">'+_esc(v.eyebrow)+'</div>':'')+
           (v.title      ?'<div class="pv-title">'+_esc(v.title)+'</div>':'')+
           (v.description?'<div class="pv-desc">'+_esc(v.description)+'</div>':'')+
-          '<div class="pv-cta-btn" onclick="PV.open('+i+')">'+_ctaIco+
+          '<div class="pv-cta-btn" onclick="PV.playInline('+i+')">'+_ctaIco+
             '<span>'+_esc(v.ctaLabel||'Watch')+'</span></div>'+
         '</div>';
       car.appendChild(s);
     });
+    _setEyebrow(0);
     if(_vids.length > 1){
       var nr=document.getElementById('pv-nav-row'), dc=document.getElementById('pv-dots');
       if(nr) nr.style.display='flex';
@@ -907,20 +915,45 @@ function slowScrollTo(t){var e=document.getElementById(t);if(!e)return;var s=win
     }
   }
 
+  function _setEyebrow(idx){
+    var el=document.getElementById('pv-section-eyebrow');
+    if(el) el.textContent=(_vids[idx]||{}).eyebrow||'';
+  }
+
+  /* Restore thumbnail to poster+play state (stops inline video) */
+  function _resetThumb(idx){
+    var th=document.getElementById('pv-thumb-'+idx); if(!th) return;
+    th.style.cursor='pointer';
+    th.innerHTML=_thumbHtml(idx);
+  }
+
   function _goTo(idx){
+    _resetThumb(_cur);                         /* stop any inline video */
     _cur=(idx+_vids.length)%_vids.length;
     document.querySelectorAll('.pv-slide').forEach(function(s,i){s.classList.toggle('pv-active',i===_cur);});
     document.querySelectorAll('.pv-dot').forEach(function(d,i){d.classList.toggle('pv-active',i===_cur);});
+    _setEyebrow(_cur);
   }
 
   PV.goTo=function(i){_goTo(i);};
   PV.prev=function(){_goTo(_cur-1);};
   PV.next=function(){_goTo(_cur+1);};
 
-  PV.open=function(idx){
-    if(idx===undefined)idx=_cur;
+  /* Play video inside the thumbnail frame — no lightbox */
+  PV.playInline=function(idx){
+    if(idx===undefined) idx=_cur;
     var v=_vids[idx]; if(!v||!v.videoUrl) return;
-    document.getElementById('pv-lb-media').innerHTML=_embed(v.videoUrl,true);
+    var th=document.getElementById('pv-thumb-'+idx); if(!th) return;
+    th.style.cursor='default';
+    th.innerHTML=_embed(v.videoUrl)+
+      '<button class="pv-expand-btn always" onclick="event.stopPropagation();PV.open('+idx+')" title="Fullscreen">'+_expandIco+'</button>';
+  };
+
+  /* Open enlarged lightbox (always freshly loads video) */
+  PV.open=function(idx){
+    if(idx===undefined) idx=_cur;
+    var v=_vids[idx]; if(!v||!v.videoUrl) return;
+    document.getElementById('pv-lb-media').innerHTML=_embed(v.videoUrl);
     document.getElementById('pv-lb-title').textContent=v.title||'';
     document.getElementById('pv-lb').style.display='flex';
     document.body.style.overflow='hidden';
@@ -936,7 +969,6 @@ function slowScrollTo(t){var e=document.getElementById(t);if(!e)return;var s=win
     .then(function(r){return r.json();})
     .then(function(s){
       var pv=s.promoVideo; if(!pv||!pv.enabled) return;
-      /* Support both videos[] (new) and flat fields (legacy) */
       if(pv.videos&&pv.videos.length){
         _vids=pv.videos.filter(function(v){return v&&v.videoUrl;});
       } else if(pv.videoUrl){

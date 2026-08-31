@@ -381,7 +381,7 @@ function _loadActivity(){
     headers:{'Authorization':'Bearer '+tok,'Accept':'application/vnd.github+json'}
   }).then(function(r){return r.json();}).then(function(f){
     try{
-      var s=JSON.parse(atob(f.content.replace(/\s/g,'')));
+      var s=(function(_b){var _u=new Uint8Array(_b.length);for(var _i=0;_i<_b.length;_i++)_u[_i]=_b.charCodeAt(_i);return JSON.parse(new TextDecoder().decode(_u));})(atob(f.content.replace(/\s/g,'')));
       if(!s.siteControls||!s.siteControls.auditTrailEnabled){
         document.getElementById('activity-placeholder').style.display='block';
         return;
@@ -394,7 +394,7 @@ function _loadActivity(){
       headers:{'Authorization':'Bearer '+tok,'Accept':'application/vnd.github+json'}
     }).then(function(r){return r.json();}).then(function(f){
       var trail=[];
-      try{trail=JSON.parse(atob(f.content.replace(/\s/g,'')));}catch(e){}
+      try{trail=(function(_b){var _u=new Uint8Array(_b.length);for(var _i=0;_i<_b.length;_i++)_u[_i]=_b.charCodeAt(_i);return JSON.parse(new TextDecoder().decode(_u));})(atob(f.content.replace(/\s/g,'')));}catch(e){}
       if(!Array.isArray(trail))trail=[];
 
       // Filter by period
@@ -450,7 +450,7 @@ function _loadActivity(){
   fetch('https://api.github.com/repos/Amayaa-2026/amayaa-website/contents/data/settings.json?ref=main',{
     headers:{'Authorization':'Bearer '+tok,'Accept':'application/vnd.github+json'}
   }).then(function(r){return r.json();}).then(function(f){
-    var s=JSON.parse(atob(f.content.replace(/\s/g,'')));
+    var s=(function(_b){var _u=new Uint8Array(_b.length);for(var _i=0;_i<_b.length;_i++)_u[_i]=_b.charCodeAt(_i);return JSON.parse(new TextDecoder().decode(_u));})(atob(f.content.replace(/\s/g,'')));
     var stats=s.siteStats||{};
     var el=document.getElementById('dash-visitors');
     var sub=document.getElementById('dash-visitors-sub');
@@ -474,7 +474,7 @@ function _loadActivity(){
     fetch('https://api.github.com/repos/Amayaa-2026/amayaa-website/contents/data/settings.json?ref=main',{
       headers:{'Authorization':'Bearer '+ghTok,'Accept':'application/vnd.github+json'}
     }).then(function(r){return r.json();}).then(function(f){
-      var s=JSON.parse(atob(f.content.replace(/\s/g,'')));
+      var s=(function(_b){var _u=new Uint8Array(_b.length);for(var _i=0;_i<_b.length;_i++)_u[_i]=_b.charCodeAt(_i);return JSON.parse(new TextDecoder().decode(_u));})(atob(f.content.replace(/\s/g,'')));
       var c=(s.siteStats||{}).waClickCount;
       if(el)  el.textContent  = c!=null ? Number(c).toLocaleString('en-IN') : '—';
       if(sub) sub.textContent = c!=null ? 'Cached · via GoatCounter' : 'Not yet synced';
@@ -504,7 +504,7 @@ function _loadActivity(){
     fetch('https://api.github.com/repos/Amayaa-2026/amayaa-website/contents/data/settings.json?ref=main',{
       headers:{'Authorization':'Bearer '+ghTok,'Accept':'application/vnd.github+json'}
     }).then(function(r){return r.json();}).then(function(f){
-      var s=JSON.parse(atob(f.content.replace(/\s/g,'')));
+      var s=(function(_b){var _u=new Uint8Array(_b.length);for(var _i=0;_i<_b.length;_i++)_u[_i]=_b.charCodeAt(_i);return JSON.parse(new TextDecoder().decode(_u));})(atob(f.content.replace(/\s/g,'')));
       s.siteStats=s.siteStats||{};
       s.siteStats.waClickCount=count;
       s.siteStats.waLastSynced=today;
@@ -567,7 +567,7 @@ window._refreshVisitorsFromGC = function(){
       s.siteStats=s.siteStats||{};
       s.siteStats.visitorCount=count;
       s.siteStats.lastSynced=today;
-      var encoded=btoa(unescape(encodeURIComponent(JSON.stringify(s,null,2))));
+      var encoded=btoa(JSON.stringify(s,null,2).replace(/[-￿]/g,function(c){return'\\u'+('0000'+c.charCodeAt(0).toString(16)).slice(-4);}));
       return fetch('https://api.github.com/repos/Amayaa-2026/amayaa-website/contents/data/settings.json',{
         method:'PUT',
         headers:{'Authorization':'Bearer '+ghTok,'Accept':'application/vnd.github+json','Content-Type':'application/json'},

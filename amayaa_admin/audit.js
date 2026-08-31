@@ -77,7 +77,7 @@ var AuditTrail = (function() {
     // Check settings first
     return _ghGet(SETTINGS_PATH).then(function(settingsFile) {
       var settings = null;
-      try { settings = JSON.parse(atob(settingsFile.content.replace(/\s/g,''))); } catch(e) {}
+      try { settings = (function(_b){var _u=new Uint8Array(_b.length);for(var _i=0;_i<_b.length;_i++)_u[_i]=_b.charCodeAt(_i);return JSON.parse(new TextDecoder().decode(_u));})(atob(settingsFile.content.replace(/\s/g,''))); } catch(e) {}
       if (!settings || !settings.siteControls || !settings.siteControls.auditTrailEnabled) {
         return; // audit trail disabled — silent no-op
       }
@@ -95,7 +95,7 @@ var AuditTrail = (function() {
       // Read current trail
       return _ghGet(TRAIL_PATH).then(function(trailFile) {
         var trail = [];
-        try { trail = JSON.parse(atob(trailFile.content.replace(/\s/g,''))); } catch(e) {}
+        try { trail = (function(_b){var _u=new Uint8Array(_b.length);for(var _i=0;_i<_b.length;_i++)_u[_i]=_b.charCodeAt(_i);return JSON.parse(new TextDecoder().decode(_u));})(atob(trailFile.content.replace(/\s/g,''))); } catch(e) {}
         if (!Array.isArray(trail)) trail = [];
 
         // Prepend new record (newest first), cap at 500 entries to keep file size manageable
@@ -117,7 +117,7 @@ var AuditTrail = (function() {
    */
   function read() {
     return _ghGet(TRAIL_PATH).then(function(f) {
-      try { return JSON.parse(atob(f.content.replace(/\s/g,''))); } catch(e) { return []; }
+      try { return (function(_b){var _u=new Uint8Array(_b.length);for(var _i=0;_i<_b.length;_i++)_u[_i]=_b.charCodeAt(_i);return JSON.parse(new TextDecoder().decode(_u));})(atob(f.content.replace(/\s/g,''))); } catch(e) { return []; }
     }).catch(function() { return []; });
   }
 

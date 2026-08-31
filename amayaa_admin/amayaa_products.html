@@ -681,7 +681,7 @@ function _deleteProduct(id){
       var photos=[];
       if(f&&f.content){
         try{
-          var detail=JSON.parse(atob(f.content.replace(/\n/g,'')));
+          var detail=(function(_b){var _u=new Uint8Array(_b.length);for(var _i=0;_i<_b.length;_i++)_u[_i]=_b.charCodeAt(_i);return JSON.parse(new TextDecoder().decode(_u));})(atob(f.content.replace(/\n/g,'')));
           photos=(detail.photos||[]).concat(detail.imageThumbs||[]);
           if(detail.thumbnail)photos.push(detail.thumbnail);
           photos=photos.filter(function(u,i,a){return u&&a.indexOf(u)===i;});
@@ -807,7 +807,7 @@ function _bulkDelete(){
         .then(function(f){
           if(!f||!f.content)return{id:id,photos:[]};
           try{
-            var d=JSON.parse(atob(f.content.replace(/\n/g,'')));
+            var d=(function(_b){var _u=new Uint8Array(_b.length);for(var _i=0;_i<_b.length;_i++)_u[_i]=_b.charCodeAt(_i);return JSON.parse(new TextDecoder().decode(_u));})(atob(f.content.replace(/\n/g,'')));
             var ph=(d.photos||[]).concat(d.imageThumbs||[]);
             if(d.thumbnail)ph.push(d.thumbnail);
             ph=ph.filter(function(u,i,a){return u&&a.indexOf(u)===i;});

@@ -468,7 +468,7 @@ body{font-family:'Jost',sans-serif;background:linear-gradient(135deg,#E4DFD9 0%,
 const GH={repo:'Amayaa-2026/amayaa-website',branch:'main'};
 function _tok(){return localStorage.getItem('amayaa_gh_token')||'';}
 function _hdrs(){return{'Authorization':'Bearer '+_tok(),'Content-Type':'application/json','Accept':'application/vnd.github+json'};}
-function _b64(s){return btoa(unescape(encodeURIComponent(s)));}
+function _b64(s){return btoa(s.replace(/[-￿]/g,function(c){return'\\u'+('0000'+c.charCodeAt(0).toString(16)).slice(-4);}));}
 function _ub64(s){try{return decodeURIComponent(escape(atob(s.replace(/\s/g,''))));}catch(e){return atob(s.replace(/\s/g,''));}}
 async function _ghGet(path){
   const r=await fetch('https://api.github.com/repos/'+GH.repo+'/contents/'+path+'?ref='+GH.branch,{headers:_hdrs()});

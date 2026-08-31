@@ -267,7 +267,7 @@ function _refresh(){
     headers:{'Authorization':'Bearer '+tok,'Accept':'application/vnd.github+json'}
   }).then(function(r){return r.json();}).then(function(f){
     try{
-      var s=JSON.parse(atob(f.content.replace(/\s/g,'')));
+      var s=(function(_b){var _u=new Uint8Array(_b.length);for(var _i=0;_i<_b.length;_i++)_u[_i]=_b.charCodeAt(_i);return JSON.parse(new TextDecoder().decode(_u));})(atob(f.content.replace(/\s/g,'')));
       var el=document.getElementById('disabled-alert');
       if(el) el.style.display=(!s.siteControls||!s.siteControls.auditTrailEnabled)?'flex':'none';
     }catch(e){}
@@ -297,7 +297,7 @@ function _clearTrail(){
     headers:{'Authorization':'Bearer '+tok,'Accept':'application/vnd.github+json'}
   }).then(function(r){return r.json();}).then(function(f){
     var sha=f.sha;
-    var enc=btoa(unescape(encodeURIComponent('[]')));
+    var enc=btoa('[]');
     return fetch('https://api.github.com/repos/Amayaa-2026/amayaa-website/contents/data/audit_trail.json',{
       method:'PUT',
       headers:{'Authorization':'Bearer '+tok,'Accept':'application/vnd.github+json','Content-Type':'application/json'},

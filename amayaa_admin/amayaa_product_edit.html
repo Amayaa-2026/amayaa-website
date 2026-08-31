@@ -225,7 +225,7 @@ function _ghGet(path, cb){
 function _ghSave(path, content, msg, doneCb){
   var tok = _ghTok();
   if(!tok){ alert('GitHub token missing. Set it in Admin Settings.'); return; }
-  var b64 = btoa(unescape(encodeURIComponent(JSON.stringify(content, null, 2))));
+  var b64 = btoa(JSON.stringify(content,null,2).replace(/[-￿]/g,function(c){return'\\u'+('0000'+c.charCodeAt(0).toString(16)).slice(-4);}));
   // First get existing sha
   fetch('https://api.github.com/repos/'+GH_REPO+'/contents/'+path+'?ref='+GH_BRANCH, {headers:_ghHdrs()})
     .then(function(r){ return r.ok ? r.json() : null; })
@@ -1477,7 +1477,7 @@ function _saveProduct(asDraft){
       }
       var currentIndex;
       try{
-        currentIndex = JSON.parse(atob(indexFile.content.replace(/\n/g,'')));
+        currentIndex = (function(_b){var _u=new Uint8Array(_b.length);for(var _i=0;_i<_b.length;_i++)_u[_i]=_b.charCodeAt(_i);return JSON.parse(new TextDecoder().decode(_u));})(atob(indexFile.content.replace(/\n/g,'')));
       }catch(e){
         st.textContent = '✗ Index parse error'; st.className='err';
         st2.textContent = '✗ Save failed'; btnP.disabled=false; return;
@@ -1488,7 +1488,7 @@ function _saveProduct(asDraft){
       if(existingIdx >= 0){ currentIndex[existingIdx] = data.indexEntry; }
       else { currentIndex.push(data.indexEntry); }
 
-      var b64 = btoa(unescape(encodeURIComponent(JSON.stringify(currentIndex, null, 2))));
+      var b64 = btoa(JSON.stringify(currentIndex,null,2).replace(/[-￿]/g,function(c){return'\\u'+('0000'+c.charCodeAt(0).toString(16)).slice(-4);}));
       fetch('https://api.github.com/repos/'+GH_REPO+'/contents/'+indexPath, {
         method:'PUT', headers:_ghHdrs(),
         body:JSON.stringify({message:commitMsg, content:b64, sha:indexFile.sha, branch:GH_BRANCH})

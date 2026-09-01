@@ -154,7 +154,7 @@
     "lastSynced": "2026-09-01"
   },
   "promoVideo": {
-    "enabled": true,
+    "enabled": false,
     "videos": [
       {
         "videoUrl": "https://youtube.com/shorts/ZA_QIuyiueY?si=lHUbInmHArExi4WL",

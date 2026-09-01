@@ -23,7 +23,8 @@ function detectPage(){
     'amayaa_content_library': 'content_library',
     'amayaa_bulk_upload':     'bulk_upload',
     'amayaa_audit':           'audit_trail',
-    'amayaa_about':           'about'
+    'amayaa_about':           'about',
+    'amayaa_promo_video':     'promo_video'
   };
   return map[p] || null;
 }
@@ -607,6 +608,48 @@ var HELP = {
     troubleshooting: [
       {p:'Image not showing on live site', f:'Verify path uses lowercase (images/). Commit image file to repo.'},
       {p:'Changes not live after save',    f:'Wait for GitHub Pages deploy (2–5 min). Hard-refresh (Cmd+Shift+R).'}
+    ]
+  },
+
+  promo_video: {
+    title: 'Promo Video',
+    overview: 'Controls the "Behind the Weave" video section on the homepage, which appears between New Arrivals and Blog. Supports up to 3 videos in a carousel. Toggle it off between campaigns — the section disappears instantly without a code push.',
+    functions: [
+      'Enable / disable the entire section via the On/Off switch',
+      'Add up to 3 video slots (tabs: Video 1, Video 2, Video 3)',
+      'Each slot: video URL, poster image, eyebrow, title, description, CTA label',
+      'Live preview with thumbnail — click to test playback',
+      'Save to settings.json via GitHub API'
+    ],
+    fields: [
+      {n:'Video URL',    d:'YouTube link (youtu.be/… or watch?v=…), Vimeo URL, or direct ImageKit MP4 URL. Embed type is auto-detected.'},
+      {n:'Poster / Thumbnail', d:'Optional still image shown before play. For YouTube, the thumbnail is auto-fetched if this field is left blank.'},
+      {n:'Eyebrow',     d:'Small uppercase label above the title. e.g. "Behind the Weave". Shown centered above the carousel on the public page.'},
+      {n:'Title',       d:'Main heading for the video. Shown in the right info column.'},
+      {n:'Description', d:'Short text (max 220 chars) describing the video. Shown below the title on desktop.'},
+      {n:'CTA Label',   d:'Label on the play button. Default: "Watch — 2 min".'}
+    ],
+    howto: [
+      {t:'Add a second video',        s:['Click "+ Add Video" in the card header.', 'Switch to the Video 2 tab.', 'Fill in the URL and other fields.', 'Click Save.']},
+      {t:'Remove a video slot',       s:['Switch to the slot you want to remove.', 'Click "Remove" in the card header.', 'Click Save.']},
+      {t:'Temporarily hide section',  s:['Toggle "Show promo video on homepage" to Off.', 'Click Save — the section disappears immediately without a code push.']},
+      {t:'Test a video',              s:['Enter the URL.', 'Click the thumbnail in the Preview panel — video plays in a lightbox.']}
+    ],
+    rules: [
+      'Data saved to settings.json — no code push needed to update content or toggle on/off.',
+      'Only videos with a Video URL are saved; empty slots are ignored.',
+      'YouTube thumbnails are auto-fetched. For Vimeo or MP4, add a Poster URL for best appearance.',
+      'The public carousel shows dots and arrows only when more than 1 video is active.'
+    ],
+    impacts: [
+      {a:'Toggle Off',    i:'Section hidden immediately on public homepage.',            r:'Toggle On and Save.'},
+      {a:'Change URL',    i:'Next page load uses new video.',                            r:'Edit and Save.'},
+      {a:'Remove a slot', i:'That video removed from public carousel after Save.',       r:'Add slot again and Save.'}
+    ],
+    troubleshooting: [
+      {p:'Video section not visible on homepage',      f:'Check that the On/Off toggle is enabled and saved. Wait ~60s for GitHub Pages to deploy.'},
+      {p:'Thumbnail not loading',                      f:'For YouTube, ensure the video is public. For MP4/Vimeo, add a Poster URL.'},
+      {p:'Save fails with 401 or 403 error',           f:'GitHub token may be expired. Go to Settings → GitHub Token and re-enter a valid PAT.'}
     ]
   }
 

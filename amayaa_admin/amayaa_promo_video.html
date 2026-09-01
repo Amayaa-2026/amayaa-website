@@ -42,9 +42,9 @@ body{font-family:'Jost',sans-serif;background:linear-gradient(135deg,#E4DFD9 0%,
 
 /* ── TWO-COL LAYOUT ── */
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:stretch;}
-.right-col{display:flex;flex-direction:column;}
-.right-col .card:last-child{margin-top:auto;margin-bottom:0;}
-@media(max-width:900px){.two-col{grid-template-columns:1fr;}}
+.right-col{display:grid;grid-template-rows:auto 1fr;gap:20px;align-content:start;}
+.right-col .card{margin-bottom:0;}
+@media(max-width:900px){.two-col{grid-template-columns:1fr;}.right-col{grid-template-rows:auto auto;}}
 
 /* ── FORM ELEMENTS ── */
 .field{margin-bottom:14px;}

@@ -395,6 +395,7 @@ function _updateMock(){
 function _updateBadge(){
   var on = document.getElementById('pv-enabled').checked;
   var b = document.getElementById('status-badge');
+  if(!b) return;
   b.textContent = on ? '● Live' : '● Off';
   b.className = 'status-badge ' + (on ? 'badge-live' : 'badge-off');
 }
@@ -520,6 +521,10 @@ function _save(){
   }
 }
 
-document.addEventListener('DOMContentLoaded', _load);
+document.addEventListener('DOMContentLoaded', function(){
+  _slots = [_defSlot()];
+  _renderSlots();
+  _load();
+});
 </script>
 </body></html>

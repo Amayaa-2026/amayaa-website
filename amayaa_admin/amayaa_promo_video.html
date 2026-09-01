@@ -166,7 +166,7 @@ input:checked+.toggle-slider::before{transform:translateX(22px);}
         <div class="card">
           <div class="card-header"><div class="card-title">Video Format Guide</div></div>
           <div class="card-body" style="padding:10px 16px;display:flex;flex-direction:column;gap:8px;">
-            <div style="font-size:12px;line-height:1.4;"><span style="font-weight:600;color:#C00000;">YouTube</span> <span style="color:#8B6E5A;">— youtu.be/… · thumbnail auto-fetched</span></div>
+            <div style="font-size:12px;line-height:1.4;"><span style="font-weight:600;color:#C00000;">YouTube</span> <span style="color:#8B6E5A;">— youtu.be/… or /shorts/… · thumbnail auto-fetched</span></div>
             <div style="font-size:12px;line-height:1.4;"><span style="font-weight:600;color:#1B3A8B;">Vimeo</span> <span style="color:#8B6E5A;">— vimeo.com/123456 · clean, no branding</span></div>
             <div style="font-size:12px;line-height:1.4;"><span style="font-weight:600;color:#1A7A40;">Direct MP4</span> <span style="color:#8B6E5A;">— ik.imagekit.io/…/promo.mp4 · 30–60 MB</span></div>
           </div>
@@ -377,7 +377,7 @@ function _updateMock(){
   var mp = document.getElementById('mock-poster');
   var poster = s.posterUrl;
   if(!poster && /youtu\.be|youtube\.com/i.test(url)){
-    var m = url.match(/(?:youtu\.be\/|v=)([A-Za-z0-9_-]{11})/);
+    var m = url.match(/(?:youtu\.be\/|v=|shorts\/)([A-Za-z0-9_-]{11})/);
     if(m) poster = 'https://img.youtube.com/vi/' + m[1] + '/maxresdefault.jpg';
   }
   if(poster){ mp.src = poster; mp.style.display = ''; }
@@ -394,7 +394,7 @@ function _updateBadge(){
 
 /* ── PREVIEW PLAY ── */
 function _embedHtml(url){
-  var yt = url.match(/(?:youtu\.be\/|v=|embed\/)([A-Za-z0-9_-]{11})/);
+  var yt = url.match(/(?:youtu\.be\/|v=|embed\/|shorts\/)([A-Za-z0-9_-]{11})/);
   if(yt) return '<iframe width="100%" height="100%" src="https://www.youtube.com/embed/'+yt[1]+'?autoplay=1&rel=0" frameborder="0" allowfullscreen allow="autoplay; encrypted-media"></iframe>';
   var vm = url.match(/vimeo\.com\/(\d+)/);
   if(vm) return '<iframe width="100%" height="100%" src="https://player.vimeo.com/video/'+vm[1]+'?autoplay=1" frameborder="0" allowfullscreen allow="autoplay"></iframe>';

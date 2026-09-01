@@ -855,7 +855,7 @@ function slowScrollTo(t){var e=document.getElementById(t);if(!e)return;var s=win
 
   /* Lightbox embed (floats in fixed container, no sizing needed) */
   function _embed(url){
-    var yt = url.match(/(?:youtu\.be\/|v=|embed\/)([A-Za-z0-9_-]{11})/);
+    var yt = url.match(/(?:youtu\.be\/|v=|embed\/|shorts\/)([A-Za-z0-9_-]{11})/);
     if(yt) return '<iframe style="position:absolute;inset:0;width:100%;height:100%;border:none;" src="https://www.youtube.com/embed/'+yt[1]+'?autoplay=1&rel=0" allowfullscreen allow="autoplay;encrypted-media"></iframe>';
     var vm = url.match(/vimeo\.com\/(\d+)/);
     if(vm) return '<iframe style="position:absolute;inset:0;width:100%;height:100%;border:none;" src="https://player.vimeo.com/video/'+vm[1]+'?autoplay=1" allowfullscreen allow="autoplay"></iframe>';
@@ -864,7 +864,7 @@ function slowScrollTo(t){var e=document.getElementById(t);if(!e)return;var s=win
 
   function _poster(v){
     if(v.posterUrl) return v.posterUrl;
-    var yt = (v.videoUrl||'').match(/(?:youtu\.be\/|v=|embed\/)([A-Za-z0-9_-]{11})/);
+    var yt = (v.videoUrl||'').match(/(?:youtu\.be\/|v=|embed\/|shorts\/)([A-Za-z0-9_-]{11})/);
     return yt ? 'https://img.youtube.com/vi/'+yt[1]+'/maxresdefault.jpg' : '';
   }
 

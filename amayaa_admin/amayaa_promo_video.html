@@ -41,9 +41,8 @@ body{font-family:'Jost',sans-serif;background:linear-gradient(135deg,#E4DFD9 0%,
 .card-body{padding:20px;}
 
 /* ── TWO-COL LAYOUT ── */
-.two-col{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:end;}
-.right-col{display:flex;flex-direction:column;height:100%;}
-.right-col .card:first-child{flex-shrink:0;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:stretch;}
+.right-col{display:flex;flex-direction:column;}
 .right-col .card:last-child{margin-top:auto;margin-bottom:0;}
 @media(max-width:900px){.two-col{grid-template-columns:1fr;}}
 
